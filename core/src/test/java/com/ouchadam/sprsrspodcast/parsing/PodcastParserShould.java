@@ -21,7 +21,7 @@ public class PodcastParserShould {
     XmlParser<Channel> podcastParser;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         initMocks(this);
         ElementFinderFactory finderFactory = SimpleEasyXmlParser.getElementFinderFactory();
         InstigatorResult <Channel> instigator = new PodcastIntigator(finderFactory.getTypeFinder(new ChannelParser(finderFactory)), mock(ParseFinishWatcher.class));
@@ -29,21 +29,21 @@ public class PodcastParserShould {
     }
 
     @Test
-    public void parse_the_correct_channel_title() throws Exception {
+    public void parse_the_correct_channel_title()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getTitle()).isEqualTo("CNET UK Podcast");
     }
 
     @Test
-    public void parse_the_correct_channel_category() throws Exception {
+    public void parse_the_correct_channel_category()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getCategory()).isEqualTo("Technology");
     }
 
     @Test
-    public void parse_the_correct_channel_image() throws Exception {
+    public void parse_the_correct_channel_image()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         Image image = podcastParser.getResult().getImage();
@@ -55,7 +55,7 @@ public class PodcastParserShould {
     }
 
     @Test
-    public void parse_the_correct_channel_itunes_summary() throws Exception {
+    public void parse_the_correct_channel_itunes_summary()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getSummary()).isEqualTo("\n" +
@@ -68,21 +68,21 @@ public class PodcastParserShould {
     }
 
     @Test
-    public void parse_the_correct_amount_of_feed_items() throws Exception {
+    public void parse_the_correct_amount_of_feed_items()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().itemCount()).isEqualTo(5);
     }
 
     @Test
-    public void parse_the_correct_first_item_title() throws Exception {
+    public void parse_the_correct_first_item_title()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getItems().get(0).getTitle()).isEqualTo("UK government blocks porn in Podcast 349");
     }
 
     @Test
-    public void parse_the_correct_first_item_link() throws Exception {
+    public void parse_the_correct_first_item_link()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getItems().get(0).getLink()).isEqualTo("\n" +
@@ -91,28 +91,28 @@ public class PodcastParserShould {
     }
 
     @Test
-    public void parse_the_correct_first_item_pubDate() throws Exception {
+    public void parse_the_correct_first_item_pubDate()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getItems().get(0).getPubDate()).isEqualTo("Thu, 25 Jul 2013 11:59:02 +0100");
     }
 
     @Test
-    public void parse_the_correct_first_item_audio() throws Exception {
+    public void parse_the_correct_first_item_audio()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getItems().get(0).getAudio().getUrl()).isEqualTo("http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_349.mp3");
     }
 
     @Test
-    public void parse_the_correct_first_item_subtitle() throws Exception {
+    public void parse_the_correct_first_item_subtitle()  {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getItems().get(0).getSubtitle()).isEqualTo("UK government blocks porn in Podcast 349");
     }
 
     @Test
-    public void parse_the_correct_first_item_summary() throws Exception {
+    public void parse_the_correct_first_item_summary() {
         podcastParser.parse(CNET_SMALL.toInputStream());
 
         assertThat(podcastParser.getResult().getItems().get(0).getSummary()).isEqualTo("\n" +
