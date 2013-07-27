@@ -39,4 +39,8 @@ public class Channel {
     public String getSummary() {
         return summary;
     }
+
+    public List<Item> getItems() {
+        return items;
+    }
 }

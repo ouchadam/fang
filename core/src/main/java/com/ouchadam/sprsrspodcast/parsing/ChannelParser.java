@@ -39,7 +39,7 @@ class ChannelParser implements Parser<Channel> {
         categoryFinder = finderFactory.getStringFinder();
         imageFinder = finderFactory.getTypeFinder(new ImageParser(finderFactory));
         summaryFinder = finderFactory.getStringFinder();
-        itemFinder = finderFactory.getListElementFinder(new ItemParser(), parseWatcher);
+        itemFinder = finderFactory.getListElementFinder(new ItemParser(finderFactory), parseWatcher);
     }
 
     private final ParseWatcher<Item> parseWatcher = new ParseWatcher<Item>() {

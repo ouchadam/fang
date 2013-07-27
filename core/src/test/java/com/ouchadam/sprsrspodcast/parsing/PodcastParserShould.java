@@ -74,4 +74,50 @@ public class PodcastParserShould {
         assertThat(podcastParser.getResult().itemCount()).isEqualTo(5);
     }
 
+    @Test
+    public void parse_the_correct_first_item_title() throws Exception {
+        podcastParser.parse(CNET_SMALL.toInputStream());
+
+        assertThat(podcastParser.getResult().getItems().get(0).getTitle()).isEqualTo("UK government blocks porn in Podcast 349");
+    }
+
+    @Test
+    public void parse_the_correct_first_item_link() throws Exception {
+        podcastParser.parse(CNET_SMALL.toInputStream());
+
+        assertThat(podcastParser.getResult().getItems().get(0).getLink()).isEqualTo("\n" +
+                "        http://crave.cnet.co.uk/podcast/uk-government-blocks-porn-in-podcast-349-50011796/\n" +
+                "      ");
+    }
+
+    @Test
+    public void parse_the_correct_first_item_pubDate() throws Exception {
+        podcastParser.parse(CNET_SMALL.toInputStream());
+
+        assertThat(podcastParser.getResult().getItems().get(0).getPubDate()).isEqualTo("Thu, 25 Jul 2013 11:59:02 +0100");
+    }
+
+    @Test
+    public void parse_the_correct_first_item_audio() throws Exception {
+        podcastParser.parse(CNET_SMALL.toInputStream());
+
+        assertThat(podcastParser.getResult().getItems().get(0).getAudio().getUrl()).isEqualTo("http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_349.mp3");
+    }
+
+    @Test
+    public void parse_the_correct_first_item_subtitle() throws Exception {
+        podcastParser.parse(CNET_SMALL.toInputStream());
+
+        assertThat(podcastParser.getResult().getItems().get(0).getSubtitle()).isEqualTo("UK government blocks porn in Podcast 349");
+    }
+
+    @Test
+    public void parse_the_correct_first_item_summary() throws Exception {
+        podcastParser.parse(CNET_SMALL.toInputStream());
+
+        assertThat(podcastParser.getResult().getItems().get(0).getSummary()).isEqualTo("\n" +
+                "        The government wants to block online porn -- but will it work? Down with this sort of thing!\n" +
+                "      ");
+    }
+
 }
