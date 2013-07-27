@@ -8,16 +8,27 @@ buildscript {
     }
 }
 
-//apply plugin: 'android'
-//
-//android {
-//    compileSdkVersion 17
-//    buildToolsVersion "17"
-//
-//    defaultConfig {
-//        versionCode 0
-//        versionName "1.0-SNAPSHOT"
-//        minSdkVersion 14
-//        targetSdkVersion 17
-//    }
-//}
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18"
+
+    defaultConfig {
+        versionCode 0
+        versionName "1.0-SNAPSHOT"
+        minSdkVersion 14
+        targetSdkVersion 18
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['src/main/assets']
+        }
+
+    }
+
+}
