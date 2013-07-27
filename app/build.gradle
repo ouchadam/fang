@@ -8,16 +8,16 @@ buildscript {
     }
 }
 
-apply plugin: 'android'
-
-android {
-    compileSdkVersion 17
-    buildToolsVersion "17"
-
-    defaultConfig {
-        versionCode 0
-        versionName "1.0-SNAPSHOT"
-        minSdkVersion 14
-        targetSdkVersion 17
-    }
-}
+//apply plugin: 'android'
+//
+//android {
+//    compileSdkVersion 17
+//    buildToolsVersion "17"
+//
+//    defaultConfig {
+//        versionCode 0
+//        versionName "1.0-SNAPSHOT"
+//        minSdkVersion 14
+//        targetSdkVersion 17
+//    }
+//}
