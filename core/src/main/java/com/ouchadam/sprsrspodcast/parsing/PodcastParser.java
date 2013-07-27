@@ -4,11 +4,11 @@ import com.novoda.sexp.SimpleEasyXmlParser;
 import com.novoda.sexp.finder.ElementFinder;
 import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseFinishWatcher;
-import com.ouchadam.sprsrspodcast.parsing.domain.channel.Channel;
+import com.ouchadam.sprsrspodcast.domain.channel.Channel;
 
 import java.io.InputStream;
 
-public class PodcastParser {
+public class PodcastParser implements XmlParser<Channel> {
 
     private final InstigatorResult<Channel> instigator;
 
@@ -22,8 +22,14 @@ public class PodcastParser {
         this.instigator = instigator;
     }
 
+    @Override
     public void parse(InputStream inputStream) {
         SimpleEasyXmlParser.parse(inputStream, instigator);
+    }
+
+    @Override
+    public Channel getResult() {
+        return instigator.getResult();
     }
 
 }

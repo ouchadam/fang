@@ -1,16 +1,16 @@
 package com.ouchadam.sprsrspodcast.parsing;
 
+import com.novoda.notils.java.Collections;
 import com.novoda.sax.Element;
 import com.novoda.sax.ElementListener;
 import com.novoda.sexp.finder.ElementFinder;
 import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseWatcher;
 import com.novoda.sexp.parser.Parser;
-import com.ouchadam.sprsrspodcast.parsing.domain.channel.Channel;
-import com.ouchadam.sprsrspodcast.parsing.domain.channel.Image;
-import com.ouchadam.sprsrspodcast.parsing.domain.item.Item;
+import com.ouchadam.sprsrspodcast.domain.channel.Channel;
+import com.ouchadam.sprsrspodcast.domain.channel.Image;
+import com.ouchadam.sprsrspodcast.domain.item.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
@@ -21,11 +21,15 @@ class ChannelParser implements Parser<Channel> {
     private static final String TAG_CATEGORY = "category";
     private static final String TAG_IMAGE = "image";
     private static final String TAG_ITEM = "item";
+    private static final String TAG_SUMMARY = "summary";
+
+    private static final String TAG_NAMESPACE_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd";
 
     private final ElementFinder<String> titleFinder;
     private final ElementFinder<String> categoryFinder;
     private final ElementFinder<Image> imageFinder;
     private final ElementFinder<Item> itemFinder;
+    private final ElementFinder<String> summaryFinder;
 
     private ParseWatcher<Channel> listener;
     private ChannelHolder channelHolder;
@@ -34,6 +38,7 @@ class ChannelParser implements Parser<Channel> {
         titleFinder = finderFactory.getStringFinder();
         categoryFinder = finderFactory.getStringFinder();
         imageFinder = finderFactory.getTypeFinder(new ImageParser(finderFactory));
+        summaryFinder = finderFactory.getStringFinder();
         itemFinder = finderFactory.getListElementFinder(new ItemParser(), parseWatcher);
     }
 
@@ -51,6 +56,7 @@ class ChannelParser implements Parser<Channel> {
         titleFinder.find(element, TAG_TITLE);
         categoryFinder.find(element, TAG_CATEGORY);
         imageFinder.find(element, TAG_IMAGE);
+        summaryFinder.find(element, TAG_NAMESPACE_ITUNES, TAG_SUMMARY);
         itemFinder.find(element, TAG_ITEM);
     }
 
@@ -66,6 +72,7 @@ class ChannelParser implements Parser<Channel> {
             channelHolder.title = titleFinder.getResult();
             channelHolder.category = categoryFinder.getResult();
             channelHolder.image = imageFinder.getResult();
+            channelHolder.summary = summaryFinder.getResult();
             listener.onParsed(channelHolder.asChannel());
         }
     };
@@ -74,10 +81,11 @@ class ChannelParser implements Parser<Channel> {
         String title;
         String category;
         Image image = Image.nullSafe();
-        List<Item> items = new ArrayList<Item>();
+        String summary;
+        List<Item> items = Collections.newArrayList();
 
         Channel asChannel() {
-            return new Channel(title, category, image, items);
+            return new Channel(title, category, image, summary, items);
         }
     }
 

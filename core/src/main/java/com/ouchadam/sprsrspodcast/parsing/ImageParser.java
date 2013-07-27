@@ -6,7 +6,7 @@ import com.novoda.sexp.finder.ElementFinder;
 import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseWatcher;
 import com.novoda.sexp.parser.Parser;
-import com.ouchadam.sprsrspodcast.parsing.domain.channel.Image;
+import com.ouchadam.sprsrspodcast.domain.channel.Image;
 
 import org.xml.sax.Attributes;
 

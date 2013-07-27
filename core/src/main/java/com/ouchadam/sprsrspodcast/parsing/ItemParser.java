@@ -4,7 +4,7 @@ import com.novoda.sax.Element;
 import com.novoda.sax.ElementListener;
 import com.novoda.sexp.parser.ParseWatcher;
 import com.novoda.sexp.parser.Parser;
-import com.ouchadam.sprsrspodcast.parsing.domain.item.Item;
+import com.ouchadam.sprsrspodcast.domain.item.Item;
 
 import org.xml.sax.Attributes;
 

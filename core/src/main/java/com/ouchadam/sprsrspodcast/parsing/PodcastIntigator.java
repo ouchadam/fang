@@ -3,7 +3,7 @@ package com.ouchadam.sprsrspodcast.parsing;
 import com.novoda.sexp.SimpleTagInstigator;
 import com.novoda.sexp.finder.ElementFinder;
 import com.novoda.sexp.parser.ParseFinishWatcher;
-import com.ouchadam.sprsrspodcast.parsing.domain.channel.Channel;
+import com.ouchadam.sprsrspodcast.domain.channel.Channel;
 
 class PodcastIntigator extends SimpleTagInstigator implements InstigatorResult<Channel> {
 
