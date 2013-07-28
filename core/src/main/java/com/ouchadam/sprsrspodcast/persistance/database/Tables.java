@@ -8,7 +8,12 @@ public class Tables {
 
     public enum Item {
         TITLE,
-        PUBDATE;
+        PUBDATE,
+        AUDIO_URL,
+        AUDIO_TYPE,
+        LINK,
+        SUBTITLE,
+        SUMMARY;
     }
 
 }
