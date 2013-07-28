@@ -2,7 +2,6 @@ package com.ouchadam.sprsrspodcast.parsing;
 
 import com.novoda.sexp.SimpleEasyXmlParser;
 import com.novoda.sexp.finder.ElementFinder;
-import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.sprsrspodcast.domain.channel.Channel;
 
@@ -12,9 +11,7 @@ public class PodcastParser implements XmlParser<Channel> {
 
     private final InstigatorResult<Channel> instigator;
 
-    public static PodcastParser newInstance(ParseFinishWatcher parseFinishWatcher) {
-        ElementFinderFactory finderFactory = SimpleEasyXmlParser.getElementFinderFactory();
-        ElementFinder<Channel> channelFinder = finderFactory.getTypeFinder(new ChannelParser(finderFactory));
+    public static PodcastParser newInstance(ElementFinder<Channel> channelFinder, ParseFinishWatcher parseFinishWatcher) {
         return new PodcastParser(new PodcastIntigator(channelFinder, parseFinishWatcher));
     }
 
