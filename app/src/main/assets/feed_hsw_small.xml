@@ -1,0 +1,367 @@
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:podbridge="http://www.podbridge.com/podbridge-ad.dtd" version="2.0">
+  <channel>
+    <atom:link href="" rel="self" type="application/rss+xml" />
+    <title>Stuff You Should Know</title>
+    <link>http://www.howstuffworks.com/</link>
+    <description>
+      Why should you never scare a vulture? How do maps work? Join Josh and Chuck as they explore the Stuff You Should
+      Know about everything from psychology to propellant in this podcast from HowStuffWorks.com.
+    </description>
+    <language>en-us</language>
+    <copyright>Copyright 2011 HowStuffWorks.com</copyright>
+    <lastBuildDate>Thu, 25 Jul 2013 12:34:45 -0400</lastBuildDate>
+    <managingEditor>
+      stuffpodcast@howstuffworks.com (Stuff You Should Know)
+    </managingEditor>
+    <webMaster>
+      stuffpodcast@howstuffworks.com (Stuff You Should Know)
+    </webMaster>
+    <ttl>60</ttl>
+    <category>Society &amp; Culture</category>
+    <image>
+      <title>Stuff You Should Know</title>
+      <url>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg
+      </url>
+      <link>http://www.howstuffworks.com/</link>
+    </image>
+    <itunes:owner>
+      <itunes:email>podcast@howstuffworks.com</itunes:email>
+      <itunes:name>HowStuffWorks.com</itunes:name>
+    </itunes:owner>
+    <itunes:image href="http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg" />
+    <itunes:category text="Society &amp; Culture" />
+    <itunes:category text="Society &amp; Culture" />
+    <itunes:category text="Society &amp; Culture" />
+    <itunes:author>HowStuffWorks.com</itunes:author>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:keywords>
+      how stuff works, howstuffworks, how it works, stuff you should know
+    </itunes:keywords>
+    <itunes:subtitle>Stuff You Should Know</itunes:subtitle>
+    <itunes:summary>
+      Why should you never scare a vulture? How do maps work? Join Josh and Chuck as they explore the Stuff You Should
+      Know about everything from psychology to propellant in this podcast from HowStuffWorks.com.
+    </itunes:summary>
+    <item>
+      <title>How Maps Work</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3
+      </link>
+      <description>
+        Yes, your brain may have just flash-dried from boredom at the thought of learning about maps, but it turns out
+        they are a lot more than just tools for navigation. Maps are two-dimensional representations of how we imagine
+        our world, with imagine being the operative world since every map in existence is riddled with errors.
+      </description>
+      <pubDate>Thu, 25 Jul 2013 12:32:12 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3"
+        length="15158079" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        stuff you should know, josh, chuck, howstuffworks,maps, globes, cartography, online maps, projections, map
+        distortions, map errors, history of mapmaking
+      </itunes:keywords>
+      <itunes:duration>00:41:47</itunes:duration>
+      <itunes:subtitle>
+        Yes, your brain may have just flash-dried from boredom at the thought of learning about maps, but it turns out
+        they are a lot more than just tools for navigation. Maps are two-dimensional representations of how we imagine
+        our world, with imagine being the operative world since every map in existence is riddled with errors.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>Why should you never scare a vulture?</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-23-sysk-vultures.mp3
+      </link>
+      <description>
+        Being ravenous eaters of decaying flesh, vultures have long been shunned by humans. But because of their
+        disgusting habits, vultures provide a much-needed service to the rest of the organisms on Earth, making them the
+        unsung heroes of their ecosystems.
+      </description>
+      <pubDate>Tue, 23 Jul 2013 10:07:23 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-23-sysk-vultures.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-23-sysk-vultures.mp3"
+        length="11863523" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        stuff you should know, josh, chuck, howstuffworks, vultures, vulture vomit, bird of prey, carrion, sky burials
+      </itunes:keywords>
+      <itunes:duration>00:32:38</itunes:duration>
+      <itunes:subtitle>
+        Being ravenous eaters of decaying flesh, vultures have long been shunned by humans. But because of their
+        disgusting habits, vultures provide a much-needed service to the rest of the organisms on Earth, making them the
+        unsung heroes of their ecosystems.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>Who owns an abandoned house?</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-18-sysk-abandoned-house.mp3
+      </link>
+      <description>
+        Ever since the real estate bubble in the U.S. burst in 2008, American cities have had to deal with a substantial
+        uptick in abandoned houses. Faced with hundreds of thousands more than usual, new questions have arisen
+        pertaining to who owns a house the owner has walked away from and just what to do with it.
+      </description>
+      <pubDate>Thu, 18 Jul 2013 10:52:42 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-18-sysk-abandoned-house.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-18-sysk-abandoned-house.mp3"
+        length="11378602" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        stuff you should know, josh, chuck, howstuffworks,abandoned houses, real estate bubble, great recession, code
+        enforcement, foreclosure, community development, Detroit
+      </itunes:keywords>
+      <itunes:duration>00:31:17</itunes:duration>
+      <itunes:subtitle>
+        Ever since the real estate bubble in the U.S. burst in 2008, American cities have had to deal with a substantial
+        uptick in abandoned houses. Faced with hundreds of thousands more than usual, new questions have arisen
+        pertaining to who owns a house the owner has walked away from and just what to do with it.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>How Building Implosions Work</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-16-sysk-building-implosions.mp3
+      </link>
+      <description>
+        When you need to take down a 20-story building, a wrecking ball won't do. Instead, you'll need to turn to the
+        handful of companies in the world that are capable of safely and successfully bringing down a building by
+        blowing it up.
+      </description>
+      <pubDate>Tue, 16 Jul 2013 09:39:36 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-16-sysk-building-implosions.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-16-sysk-building-implosions.mp3"
+        length="13272904" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        howstuffworks, josh, chuck, building implosion, demolition, blasters, dynamite, rdx
+      </itunes:keywords>
+      <itunes:duration>00:36:33</itunes:duration>
+      <itunes:subtitle>
+        When you need to take down a 20-story building, a wrecking ball won't do. Instead, you'll need to turn to the
+        handful of companies in the world that are capable of safely and successfully bringing down a building by
+        blowing it up.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>How Hip-Hop Works</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-11-sysk-hip-hop.mp3
+      </link>
+      <description>
+        Now what you hear is not a test, instead it's Chuck and Josh discussing the cultural history of the Hip-Hop
+        movement. Born out of the South Bronx, by way of Jamaica, Hip-Hop culture grew up suddenly as DJs learned to use
+        two turntables at once. Check out this episode of Stuff You Should Know to learn about the origins and evolution
+        of Hip-Hop.
+      </description>
+      <pubDate>Thu, 11 Jul 2013 14:04:56 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-11-sysk-hip-hop.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-11-sysk-hip-hop.mp3"
+        length="18913761" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        stuff you should know, josh, chuck, howstuffworks, hip-hop, rap, cultural movement, history of hip-hop, origins
+        of hip-hop, four pillars of hip-hop, graffiti, b-boys, Kool Herc, Sugar Hill Gang, breakdancing
+      </itunes:keywords>
+      <itunes:duration>00:52:13</itunes:duration>
+      <itunes:subtitle>
+        Now what you hear is not a test, instead it's Chuck and Josh discussing the cultural history of the Hip-Hop
+        movement. Born out of the South Bronx, by way of Jamaica, Hip-Hop culture grew up suddenly as DJs learned to use
+        two turntables at once. Check out this episode of Stuff You Should Know to learn about the origins and evolution
+        of Hip-Hop.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>10 Medieval Torture Devices</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-09-sysk-10-medieval-torture-devices.mp3
+      </link>
+      <description>
+        Warning: This episode on instruments designed solely to produce extreme human suffering during the Middle Ages
+        in Europe is very graphic in nature. Seriously, if you're squeamish, maybe pass on this one.
+      </description>
+      <pubDate>Tue, 09 Jul 2013 15:12:31 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-09-sysk-10-medieval-torture-devices.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-09-sysk-10-medieval-torture-devices.mp3"
+        length="13100355" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        howstuffworks, josh, chuck, medieval torture devices, torture, the rack, burned at the stack, thumbscrews, iron
+        maiden, pear of anguish, skevington's gyves, scavenger's daughter
+      </itunes:keywords>
+      <itunes:duration>00:36:04</itunes:duration>
+      <itunes:subtitle>
+        Warning: This episode on instruments designed solely to produce extreme human suffering during the Middle Ages
+        in Europe is very graphic in nature. Seriously, if you're squeamish, maybe pass on this one.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>How Miranda Rights Work</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-04-sysk-miranda-rights.mp3
+      </link>
+      <description>
+        Back in 1966, the Supreme Court decided that suspects in criminal cases had the right to be reminded that they
+        didn't have to talk to the fuzz if they didn't want to, as stated in the 5th amendment. Since that ruling,
+        scores of other cases have shaped and defined the ruling that created a staple of police procedural dramas.
+      </description>
+      <pubDate>Thu, 04 Jul 2013 10:04:33 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-04-sysk-miranda-rights.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-04-sysk-miranda-rights.mp3"
+        length="11121710" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        howstuffworks, josh, chuck, miranda rights, right to remain silent, earnesto miranda, miranda stabbed to death,
+        supreme court case, 1966
+      </itunes:keywords>
+      <itunes:duration>00:30:34</itunes:duration>
+      <itunes:subtitle>
+        Back in 1966, the Supreme Court decided that suspects in criminal cases had the right to be reminded that they
+        didn't have to talk to the fuzz if they didn't want to, as stated in the 5th amendment. Since that ruling,
+        scores of other cases have shaped and defined the ruling that created a staple of police procedural dramas.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>How Pollen Works</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-02-sysk-pollen.mp3
+      </link>
+      <description>
+        For about 375 million years, plants have been using pollen (aka plant sperm) to propagate their species. And the
+        technique has stuck around because it works. Join Chuck and Josh for a cozy look at the ins and outs of plant
+        reproduction.
+      </description>
+      <pubDate>Tue, 02 Jul 2013 09:50:14 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-02-sysk-pollen.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-02-sysk-pollen.mp3"
+        length="10817472" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        howstuffworks, josh, chuck, pollen, gymnosperms, angiosperms, stamen, style, anthers, plant reproduction,
+        pollination, ovule, fruit, flowers
+      </itunes:keywords>
+      <itunes:duration>00:29:43</itunes:duration>
+      <itunes:subtitle>
+        For about 375 million years, plants have been using pollen (aka plant sperm) to propagate their species. And the
+        technique has stuck around because it works. Join Chuck and Josh for a cozy look at the ins and outs of plant
+        reproduction.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>How Burning Man Works</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-27-sysk-burning-man.mp3
+      </link>
+      <description>
+        You've probably heard about Burning Man, it's a week-long party in the middle of a desert made of 50 thousand
+        people living pretty much without rules, pretty much without any exchange of money and often nude and on drugs.
+        Get the background on this social experiment that began in 1986 and has grown in size and scope ever since.
+      </description>
+      <pubDate>Thu, 27 Jun 2013 09:01:54 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-27-sysk-burning-man.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-27-sysk-burning-man.mp3"
+        length="12253642" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        howstuffworks, josh, chuck, burning man, larry harvey, the org, burning man theme, buning man history, art,
+        performance art, drugs
+      </itunes:keywords>
+      <itunes:duration>00:33:43</itunes:duration>
+      <itunes:subtitle>
+        You've probably heard about Burning Man, it's a week-long party in the middle of a desert made of 50 thousand
+        people living pretty much without rules, pretty much without any exchange of money and often nude and on drugs.
+        Get the background on this social experiment that began in 1986 and has grown in size and scope ever since.
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    <item>
+      <title>What's the deal with Rasputin's death?</title>
+      <link>
+        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-25-sysk-rasputin.mp3
+      </link>
+      <description>
+        Grigori Rasputin, the Russian charismatic cleric and political advisor to the ruling Romanovs, is said to have
+        been poisoned, shot, shot again, bludgeoned and drowned. Exactly how did he die and how would such a legend grow
+        around a modern figure?
+      </description>
+      <pubDate>Tue, 25 Jun 2013 09:40:52 -0400</pubDate>
+      <guid>
+        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-25-sysk-rasputin.mp3
+      </guid>
+      <author>
+        stuffpodcast@howstuffworks.com (Stuff You Should Know)
+      </author>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-25-sysk-rasputin.mp3"
+        length="11925277" type="audio/mpeg" />
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>
+        howstuffworks, josh, chuck, grigori rasputin, rasputin, mad monk, Romanoffs, Tsar Nicholas, Anastasia, murder,
+        poisoned, shot, drowned, blugeoned, khrysts, orgies
+      </itunes:keywords>
+      <itunes:duration>00:32:48</itunes:duration>
+      <itunes:subtitle>
+        Grigori Rasputin, the Russian charismatic cleric and political advisor to the ruling Romanovs, is said to have
+        been poisoned, shot, shot again, bludgeoned and drowned. Exactly how did he die and how would such a legend grow
+        around a modern figure?
+      </itunes:subtitle>
+      <itunes:author>HowStuffWorks.com</itunes:author>
+    </item>
+    </channel>
+  </rss>

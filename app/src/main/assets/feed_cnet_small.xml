@@ -1,0 +1,161 @@
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>CNET UK Podcast</title>
+    <link>http://crave.cnet.co.uk/podcast/</link>
+    <atom:link href="http://www.cnet.co.uk/feeds/podcasts/" rel="self" type="application/rss+xml" />
+    <description>CNET UK Podcast</description>
+    <language>en-gb</language>
+    <managingEditor>jason.jenkins@cnet.co.uk (Jason Jenkins)</managingEditor>
+    <copyright>© Copyright 2013 CBS Interactive</copyright>
+    <category>Technology</category>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    <image>
+      <url>http://www.cnet.co.uk/images/rss/logo-cnet.jpg</url>
+      <link>http://crave.cnet.co.uk/podcast/</link>
+      <title>CNET UK Podcast</title>
+      <width>88</width>
+      <height>56</height>
+    </image>
+    <ttl>20</ttl>
+    <pubDate>Sat, 27 Jul 2013 06:06:39 +0100</pubDate>
+    <lastBuildDate>Sat, 27 Jul 2013 06:06:39 +0100</lastBuildDate>
+    <itunes:subtitle>CNET UK Podcast</itunes:subtitle>
+    <itunes:summary>
+      Britain's best technology podcast is beamed to your auditory sensors every Friday afternoon direct from CNET UK.
+      The honey-toned team give you everything you need to know about the week's hottest tech news, the most
+      Crave-worthy new gadgets and answer your best questions and funniest comments. There's a special feature every
+      week, in which we tackle a burning tech topic in more detail, and lots more fun besides. Subscribe now, and let us
+      know what you think!
+    </itunes:summary>
+    <itunes:author>CNET UK</itunes:author>
+    <itunes:image href="http://www.cnet.co.uk/i/c/p/cnet-uk-podcast.jpg" />
+    <itunes:owner>
+      <itunes:name>CNET UK</itunes:name>
+      <itunes:email>podcast@cnet.co.uk</itunes:email>
+    </itunes:owner>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:keywords>
+      cnet uk, crave, mobile phones, technology, gadgets, electronics, games, apple, cent uk, carve
+    </itunes:keywords>
+    <itunes:category text="Technology">
+      <itunes:category text="Gadgets" />
+      <itunes:category text="Tech News" />
+    </itunes:category>
+    <item>
+      <author>podcast@cnet.co.uk (CNET UK)</author>
+      <title>UK government blocks porn in Podcast 349</title>
+      <link>
+        http://crave.cnet.co.uk/podcast/uk-government-blocks-porn-in-podcast-349-50011796/
+      </link>
+      <pubDate>Thu, 25 Jul 2013 11:59:02 +0100</pubDate>
+      <enclosure
+        url="http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_349.mp3"
+        type="audio/mpeg" />
+      <guid isPermaLink="false">cnetuk/podcast/50011796</guid>
+      <itunes:author>Luke Westaway, Andrew Hoyle, Rich Trenholm</itunes:author>
+      <itunes:duration>00:37:38</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:image href="http://cdn-static.cnet.co.uk/i/c/blg/cat/podcasting/cp349.jpg" />
+      <itunes:keywords />
+      <itunes:subtitle>UK government blocks porn in Podcast 349</itunes:subtitle>
+      <itunes:summary>
+        The government wants to block online porn -- but will it work? Down with this sort of thing!
+      </itunes:summary>
+    </item>
+    <item>
+      <author>podcast@cnet.co.uk (CNET UK)</author>
+      <title>
+        New BBC HD channels and the future of TV in Podcast 348
+      </title>
+      <link>
+        http://crave.cnet.co.uk/podcast/new-bbc-hd-channels-and-the-future-of-tv-in-podcast-348-50011743/
+      </link>
+      <pubDate>Thu, 18 Jul 2013 12:07:02 +0100</pubDate>
+      <enclosure
+        url="http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_348.mp3"
+        type="audio/mpeg" />
+      <guid isPermaLink="false">cnetuk/podcast/50011743</guid>
+      <itunes:author>Jason Jenkins, Andrew Hoyle, Rich Trenholm</itunes:author>
+      <itunes:duration>00:42:50</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:image href="http://cdn-static.cnet.co.uk/i/c/blg/cat/podcasting/cp348.jpg" />
+      <itunes:keywords />
+      <itunes:subtitle>
+        New BBC HD channels and the future of TV in Podcast 348
+      </itunes:subtitle>
+      <itunes:summary>
+        As the BBC goes HD, Netflix reinvents the TV series, and BT and Sky square off, what's the future of television
+        -- and is Apple in it?
+      </itunes:summary>
+    </item>
+    <item>
+      <author>podcast@cnet.co.uk (CNET UK)</author>
+      <title>
+        Hail to the app! The App Store turns 5 in Podcast 347
+      </title>
+      <link>
+        http://crave.cnet.co.uk/podcast/hail-to-the-app-the-app-store-turns-5-in-podcast-347-50011697/
+      </link>
+      <pubDate>Fri, 12 Jul 2013 12:30:09 +0100</pubDate>
+      <enclosure
+        url="http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_347.mp3"
+        type="audio/mpeg" />
+      <guid isPermaLink="false">cnetuk/podcast/50011697</guid>
+      <itunes:author>Luke Westaway, Andrew Hoyle, Rich Trenholm</itunes:author>
+      <itunes:duration>00:36:14</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:image href="http://cdn-static.cnet.co.uk/i/c/blg/cat/podcasting/cp347.jpg" />
+      <itunes:keywords />
+      <itunes:subtitle>
+        Hail to the app! The App Store turns 5 in Podcast 347
+      </itunes:subtitle>
+      <itunes:summary>
+        The App Store is 5 years old, so we app-laud the best apps around -- plus the Nokia Lumia 1020 and the week's
+        technology news.
+      </itunes:summary>
+    </item>
+    <item>
+      <author>podcast@cnet.co.uk (CNET UK)</author>
+      <title>Free stuff for your phone in Podcast 346</title>
+      <link>
+        http://crave.cnet.co.uk/podcast/free-stuff-for-your-phone-in-podcast-346-50011642/
+      </link>
+      <pubDate>Thu, 04 Jul 2013 12:05:07 +0100</pubDate>
+      <enclosure
+        url="http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_346.mp3"
+        type="audio/mpeg" />
+      <guid isPermaLink="false">cnetuk/podcast/50011642</guid>
+      <itunes:author>Luke Westaway, Andrew Hoyle, Rich Trenholm</itunes:author>
+      <itunes:duration>00:37:43</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:image href="http://cdn-static.cnet.co.uk/i/c/blg/cat/podcasting/cp346.jpg" />
+      <itunes:keywords />
+      <itunes:subtitle>Free stuff for your phone in Podcast 346</itunes:subtitle>
+      <itunes:summary>
+        Bag free stuff from your phone network as we explore the world of extras, bolt-ons and Freebeez in Podcast 346.
+      </itunes:summary>
+    </item>
+    <item>
+      <author>podcast@cnet.co.uk (CNET UK)</author>
+      <title>Is the iWatch the new iPad, we ask in Podcast 345</title>
+      <link>
+        http://crave.cnet.co.uk/podcast/is-the-iwatch-the-new-ipad-we-ask-in-podcast-345-50011581/
+      </link>
+      <pubDate>Thu, 27 Jun 2013 16:05:10 +0100</pubDate>
+      <enclosure
+        url="http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_345.mp3"
+        type="audio/mpeg" />
+      <guid isPermaLink="false">cnetuk/podcast/50011581</guid>
+      <itunes:author>Luke Westaway, Andrew Hoyle, Rich Trenholm</itunes:author>
+      <itunes:duration>00:34:27</itunes:duration>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:image href="http://cdn-static.cnet.co.uk/i/c/blg/cat/podcasting/cp345.jpg" />
+      <itunes:keywords />
+      <itunes:subtitle>Is the iWatch the new iPad, we ask in Podcast 345</itunes:subtitle>
+      <itunes:summary>
+        With Apple's iWatch rumoured and the Sony Xperia SmartWatch 2 unveiled this week, is the smart watch the new
+        iPad?
+      </itunes:summary>
+    </item>
+  </channel>
+</rss>

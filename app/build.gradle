@@ -12,6 +12,7 @@ apply plugin: 'android'
 dependencies {
     compile project(':core')
     compile 'com.novoda:sqliteprovider-core:1.0.0'
+    compile 'com.novoda.notils:android:1.0'
 }
 
 android {

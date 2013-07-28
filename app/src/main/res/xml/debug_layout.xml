@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory android:title="Debug">
+
+    <Preference
+      android:key="persist_local_data"
+      android:title="Persist some data!" />
+
+    <Preference
+      android:key="delete_tables"
+      android:title="Drop some tables!" />
+
+  </PreferenceCategory>
+
+</PreferenceScreen>
