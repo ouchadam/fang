@@ -20,6 +20,9 @@ public class ItemMarshallerShould {
     @Mock
     ContentProviderOperationValues operationValues;
 
+    @Mock
+    OperationWrapper operationWrapper;
+
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     Item item;
 
@@ -32,9 +35,15 @@ public class ItemMarshallerShould {
     }
 
     private ItemMarshaller createItemMarshall(String channelTitle) {
-        OperationWrapper operationWrapper = mock(OperationWrapper.class);
         when(operationWrapper.newInsert(any(Uris.class))).thenReturn(operationValues);
         return new ItemMarshaller(operationWrapper, channelTitle);
+    }
+
+    @Test
+    public void use_the_correct_uri() throws Exception {
+        itemMarshaller.marshall(item);
+
+        verify(operationWrapper).newInsert(Uris.ITEM);
     }
 
     @Test

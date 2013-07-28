@@ -12,7 +12,6 @@ import org.mockito.Answers;
 import org.mockito.Mock;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -22,6 +21,9 @@ public class ChannelMarshallerShould {
     @Mock
     ContentProviderOperationValues operationValues;
 
+    @Mock
+    OperationWrapper operationWrapper;
+
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     Channel channel;
 
@@ -30,9 +32,15 @@ public class ChannelMarshallerShould {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        OperationWrapper operationWrapper = mock(OperationWrapper.class);
         when(operationWrapper.newInsert(any(Uris.class))).thenReturn(operationValues);
         channelMarshaller = new ChannelMarshaller(operationWrapper);
+    }
+
+    @Test
+    public void use_the_correct_uri() throws Exception {
+        channelMarshaller.marshall(channel);
+
+        verify(operationWrapper).newInsert(Uris.CHANNEL);
     }
 
     @Test

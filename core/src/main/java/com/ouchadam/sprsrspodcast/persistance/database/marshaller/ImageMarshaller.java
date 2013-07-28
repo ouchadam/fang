@@ -9,7 +9,7 @@ import com.ouchadam.sprsrspodcast.persistance.database.bridge.OperationWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageMarshaller extends BaseMarshaller<Image>{
+public class ImageMarshaller extends BaseMarshaller<Image> {
 
     private final String channelTitle;
     private List<ContentProviderOperationValues> operations;

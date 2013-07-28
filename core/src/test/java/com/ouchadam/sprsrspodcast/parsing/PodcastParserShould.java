@@ -41,8 +41,7 @@ public class PodcastParserShould {
     @Before
     public void setUp()  {
         initMocks(this);
-        ElementFinderFactory finderFactory = SimpleEasyXmlParser.getElementFinderFactory();
-        InstigatorResult <Channel> instigator = new PodcastIntigator(finderFactory.getTypeFinder(new ChannelParser(finderFactory)), mock(ParseFinishWatcher.class));
+        InstigatorResult <Channel> instigator = new PodcastIntigator(ChannelFinder.newInstance(), mock(ParseFinishWatcher.class));
         podcastParser = new PodcastParser(instigator);
     }
 
