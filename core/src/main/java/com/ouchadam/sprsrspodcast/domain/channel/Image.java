@@ -47,11 +47,11 @@ public class Image {
 
         Image image = (Image) o;
 
-        if (height != image.height) return false;
-        if (width != image.width) return false;
+        if (height != null ? !height.equals(image.height) : image.height != null) return false;
         if (link != null ? !link.equals(image.link) : image.link != null) return false;
         if (title != null ? !title.equals(image.title) : image.title != null) return false;
         if (url != null ? !url.equals(image.url) : image.url != null) return false;
+        if (width != null ? !width.equals(image.width) : image.width != null) return false;
 
         return true;
     }
@@ -61,8 +61,8 @@ public class Image {
         int result = url != null ? url.hashCode() : 0;
         result = 31 * result + (link != null ? link.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + width;
-        result = 31 * result + height;
+        result = 31 * result + (width != null ? width.hashCode() : 0);
+        result = 31 * result + (height != null ? height.hashCode() : 0);
         return result;
     }
 }
