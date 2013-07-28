@@ -12,10 +12,13 @@ import java.util.List;
 
 public class ItemMarshaller extends BaseMarshaller<Item>  {
 
+    private final String channel;
+
     private List<ContentProviderOperationValues> operations;
 
-    public ItemMarshaller(OperationWrapper operationWrapper) {
+    public ItemMarshaller(OperationWrapper operationWrapper, String channel) {
         super(operationWrapper);
+        this.channel = channel;
     }
 
     @Override
@@ -27,6 +30,7 @@ public class ItemMarshaller extends BaseMarshaller<Item>  {
 
     private void insertItem(Item item) {
         ContentProviderOperationValues itemBuilder = newInsertFor(Uris.ITEM);
+        itemBuilder.withValue(Tables.Item.CHANNEL.name(), channel);
         itemBuilder.withValue(Tables.Item.TITLE.name(), item.getTitle());
         itemBuilder.withValue(Tables.Item.PUBDATE.name(), item.getPubDate());
         itemBuilder.withValue(Tables.Item.LINK.name(), item.getLink());

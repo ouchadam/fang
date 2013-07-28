@@ -23,12 +23,28 @@ public class ItemMarshallerShould {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     Item item;
 
-    StubItemMarshaller itemMarshaller;
+    ItemMarshaller itemMarshaller;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        itemMarshaller = new StubItemMarshaller();
+        itemMarshaller = createItemMarshall("");
+    }
+
+    private ItemMarshaller createItemMarshall(String channelTitle) {
+        OperationWrapper operationWrapper = mock(OperationWrapper.class);
+        when(operationWrapper.newInsert(any(Uris.class))).thenReturn(operationValues);
+        return new ItemMarshaller(operationWrapper, channelTitle);
+    }
+
+    @Test
+    public void add_the_channel_to_the_operation_list() throws Exception {
+        String channel = "channel";
+
+        itemMarshaller = createItemMarshall(channel);
+        itemMarshaller.marshall(item);
+
+        verify(operationValues).withValue(Tables.Item.CHANNEL.name(), channel);
     }
 
     @Test
@@ -90,17 +106,6 @@ public class ItemMarshallerShould {
 
         verify(operationValues).withValue(Tables.Item.AUDIO_URL.name(), audio.getUrl());
         verify(operationValues).withValue(Tables.Item.AUDIO_TYPE.name(), audio.getType());
-    }
-
-    private class StubItemMarshaller extends ItemMarshaller {
-        public StubItemMarshaller() {
-            super(mock(OperationWrapper.class));
-        }
-
-        @Override
-        protected ContentProviderOperationValues newInsertFor(Uris uris) {
-            return operationValues;
-        }
     }
 
 }

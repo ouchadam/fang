@@ -7,11 +7,8 @@ import com.ouchadam.sprsrspodcast.domain.item.Item;
 import com.ouchadam.sprsrspodcast.persistance.ContentProviderOperationExecutable;
 import com.ouchadam.sprsrspodcast.persistance.OperationWrapperImpl;
 import com.ouchadam.sprsrspodcast.persistance.Persister;
-import com.ouchadam.sprsrspodcast.persistance.database.bridge.ContentProviderOperationValues;
+import com.ouchadam.sprsrspodcast.persistance.database.marshaller.BaseMarshaller;
 import com.ouchadam.sprsrspodcast.persistance.database.marshaller.ItemMarshaller;
-import com.ouchadam.sprsrspodcast.persistance.database.marshaller.Marshaller;
-
-import java.util.List;
 
 public class MyActivity extends Activity {
 
@@ -22,8 +19,8 @@ public class MyActivity extends Activity {
         new Persister<Item>(getExecutor(), getItemMarshaller());
     }
 
-    private Marshaller<Item, List<ContentProviderOperationValues>> getItemMarshaller() {
-        return new ItemMarshaller(new OperationWrapperImpl());
+    private BaseMarshaller<Item> getItemMarshaller() {
+        return new ItemMarshaller(new OperationWrapperImpl(), channel);
     }
 
     private ContentProviderOperationExecutable getExecutor() {
