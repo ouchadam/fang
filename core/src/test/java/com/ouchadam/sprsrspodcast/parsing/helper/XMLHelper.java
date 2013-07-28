@@ -1,4 +1,4 @@
-package com.ouchadam.sprsrspodcast;
+package com.ouchadam.sprsrspodcast.parsing.helper;
 
 import java.io.*;
 import java.net.URL;
@@ -6,27 +6,37 @@ import java.net.URL;
 public class XMLHelper {
 
     public enum XmlResource {
-        CNET_SMALL("feed_cnet_small.xml");
+        CNET_SMALL("feed_cnet_small.xml", new cnet_small()),
+        HSW_SMALL("feed_hsw_small.xml", new hsw_small());
 
-        final String fileName;
+        private final String fileName;
+        private final XmlValues xmlValues;
 
-        XmlResource(String fileName) {
+        XmlResource(String fileName, XmlValues xmlValues) {
+
             this.fileName = fileName;
+            this.xmlValues = xmlValues;
         }
     }
 
     public static XML get(XmlResource xml) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(xml.fileName);
         File file = new File(url.getPath());
-        return new XML(file);
+        return new XML(file, xml.xmlValues);
     }
 
     public static class XML {
 
         private final File file;
+        private final XmlValues xmlValues;
 
-        public XML(File file) {
+        public XML(File file, XmlValues xmlValues) {
             this.file = file;
+            this.xmlValues = xmlValues;
+        }
+
+        public XmlValues values() {
+            return xmlValues;
         }
 
         public InputStream toInputStream() {

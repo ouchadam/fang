@@ -3,9 +3,8 @@ package com.ouchadam.sprsrspodcast.parsing;
 import com.novoda.sexp.SimpleEasyXmlParser;
 import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseFinishWatcher;
-import com.ouchadam.sprsrspodcast.XMLHelper;
 import com.ouchadam.sprsrspodcast.domain.channel.Channel;
-import com.ouchadam.sprsrspodcast.domain.channel.Image;
+import com.ouchadam.sprsrspodcast.parsing.helper.XMLHelper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class PodcastParserShould {
 
-    static final XMLHelper.XML CNET_SMALL = XMLHelper.get(XMLHelper.XmlResource.CNET_SMALL);
+    static final XMLHelper.XML XML = XMLHelper.get(XMLHelper.XmlResource.HSW_SMALL);
 
     XmlParser<Channel> podcastParser;
 
@@ -30,94 +29,79 @@ public class PodcastParserShould {
 
     @Test
     public void parse_the_correct_channel_title()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getTitle()).isEqualTo("CNET UK Podcast");
+        assertThat(podcastParser.getResult().getTitle()).isEqualTo(XML.values().channelTitle());
     }
 
     @Test
     public void parse_the_correct_channel_category()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getCategory()).isEqualTo("Technology");
+        assertThat(podcastParser.getResult().getCategory()).isEqualTo(XML.values().channelCategory());
     }
 
     @Test
     public void parse_the_correct_channel_image()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        Image image = podcastParser.getResult().getImage();
-        assertThat(image.getUrl()).isEqualTo("http://www.cnet.co.uk/images/rss/logo-cnet.jpg");
-        assertThat(image.getLink()).isEqualTo("http://crave.cnet.co.uk/podcast/");
-        assertThat(image.getTitle()).isEqualTo("CNET UK Podcast");
-        assertThat(image.getWidth()).isEqualTo(88);
-        assertThat(image.getHeight()).isEqualTo(56);
+        assertThat(podcastParser.getResult().getImage()).isEqualTo(XML.values().channelImage());
     }
 
     @Test
     public void parse_the_correct_channel_itunes_summary()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getSummary()).isEqualTo("\n" +
-                "      Britain's best technology podcast is beamed to your auditory sensors every Friday afternoon direct from CNET UK.\n" +
-                "      The honey-toned team give you everything you need to know about the week's hottest tech news, the most\n" +
-                "      Crave-worthy new gadgets and answer your best questions and funniest comments. There's a special feature every\n" +
-                "      week, in which we tackle a burning tech topic in more detail, and lots more fun besides. Subscribe now, and let us\n" +
-                "      know what you think!\n" +
-                "    ");
+        assertThat(podcastParser.getResult().getSummary()).isEqualTo(XML.values().channelSummary());
     }
 
     @Test
     public void parse_the_correct_amount_of_feed_items()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().itemCount()).isEqualTo(5);
+        assertThat(podcastParser.getResult().itemCount()).isEqualTo(XML.values().itemCount());
     }
 
     @Test
     public void parse_the_correct_first_item_title()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getItems().get(0).getTitle()).isEqualTo("UK government blocks porn in Podcast 349");
+        assertThat(podcastParser.getResult().getItems().get(0).getTitle()).isEqualTo(XML.values().firstItemTitle());
     }
 
     @Test
     public void parse_the_correct_first_item_link()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getItems().get(0).getLink()).isEqualTo("\n" +
-                "        http://crave.cnet.co.uk/podcast/uk-government-blocks-porn-in-podcast-349-50011796/\n" +
-                "      ");
+        assertThat(podcastParser.getResult().getItems().get(0).getLink()).isEqualTo(XML.values().firstItemLink());
     }
 
     @Test
     public void parse_the_correct_first_item_pubDate()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getItems().get(0).getPubDate()).isEqualTo("Thu, 25 Jul 2013 11:59:02 +0100");
+        assertThat(podcastParser.getResult().getItems().get(0).getPubDate()).isEqualTo(XML.values().firstItemPubDate());
     }
 
     @Test
     public void parse_the_correct_first_item_audio()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getItems().get(0).getAudio().getUrl()).isEqualTo("http://www.podtrac.com/pts/redirect.mp3?http://cdn-media.cbsinteractive.co.uk/cnetcouk/podcasts/crave/cnetuk_podcast_349.mp3");
+        assertThat(podcastParser.getResult().getItems().get(0).getAudio()).isEqualTo(XML.values().firstItemAudio());
     }
 
     @Test
     public void parse_the_correct_first_item_subtitle()  {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getItems().get(0).getSubtitle()).isEqualTo("UK government blocks porn in Podcast 349");
+        assertThat(podcastParser.getResult().getItems().get(0).getSubtitle()).isEqualTo(XML.values().firstItemSubtitle());
     }
 
     @Test
     public void parse_the_correct_first_item_summary() {
-        podcastParser.parse(CNET_SMALL.toInputStream());
+        podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getItems().get(0).getSummary()).isEqualTo("\n" +
-                "        The government wants to block online porn -- but will it work? Down with this sort of thing!\n" +
-                "      ");
+        assertThat(podcastParser.getResult().getItems().get(0).getSummary()).isEqualTo(XML.values().firstItemSummary());
     }
 
 }

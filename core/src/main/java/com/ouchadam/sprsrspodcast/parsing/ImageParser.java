@@ -57,8 +57,8 @@ class ImageParser implements Parser<Image> {
             imageHolder.url = urlFinder.getResult();
             imageHolder.link = linkFinder.getResult();
             imageHolder.title = titleFinder.getResult();
-            imageHolder.width = widthFinder.getResult();
-            imageHolder.height = heightFinder.getResult();
+            imageHolder.setWidth(widthFinder.getResult());
+            imageHolder.setHeight(heightFinder.getResult());
 
             listener.onParsed(imageHolder.asImage());
         }
@@ -69,11 +69,23 @@ class ImageParser implements Parser<Image> {
         String url;
         String link;
         String title;
-        int width;
-        int height;
+        Integer width;
+        Integer height;
 
         Image asImage() {
             return new Image(url, link, title, width, height);
+        }
+
+        void setWidth(Integer width) {
+            this.width = validateInteger(width);
+        }
+
+        void setHeight(Integer height) {
+            this.height = validateInteger(height);
+        }
+
+        private Integer validateInteger(Integer integer) {
+            return integer == null ? 0 : integer;
         }
 
     }
