@@ -1,23 +1,42 @@
 package com.ouchadam.sprsrspodcast.parsing;
 
+import com.novoda.notils.java.Collections;
 import com.novoda.sexp.SimpleEasyXmlParser;
 import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.sprsrspodcast.domain.channel.Channel;
 import com.ouchadam.sprsrspodcast.parsing.helper.XMLHelper;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(Parameterized.class)
 public class PodcastParserShould {
 
-    static final XMLHelper.XML XML = XMLHelper.get(XMLHelper.XmlResource.HSW_SMALL);
+    final XMLHelper.XML XML;
 
     XmlParser<Channel> podcastParser;
+
+    public PodcastParserShould(XMLHelper.XML XML) {
+        this.XML = XML;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        List<Object[]> xmls = Collections.newArrayList();
+        xmls.add(new Object[] {XMLHelper.get(XMLHelper.XmlResource.CNET_SMALL) });
+        xmls.add(new Object[] {XMLHelper.get(XMLHelper.XmlResource.HSW_SMALL) });
+        return xmls;
+    }
 
     @Before
     public void setUp()  {
