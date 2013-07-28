@@ -18,6 +18,19 @@ public class DatabaseCleaner {
         this.executor = executor;
     }
 
+    public boolean deleteTestData() {
+        return delete(Uris.CHANNEL, Uris.ITEM, Uris.IMAGE);
+    }
+
+    private boolean delete(Uris... uris) {
+        List<ContentProviderOperation> operations = Collections.newArrayList();
+        for (Uris uri : uris) {
+            ContentProviderOperation operation = newDelete(FangProvider.getUri(uri)).build();
+            operations.add(operation);
+        }
+        return execute(operations);
+    }
+
     public void deleteAllTables() {
         List<ContentProviderOperation> operations = Collections.newArrayList();
         for (Uris uri : Uris.values()) {

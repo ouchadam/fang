@@ -16,6 +16,7 @@ public class DebugActivity extends BasePreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         addPreferencesFromXml(R.xml.debug_layout);
         setPreferenceListener("persist_local_data", persistData);
         setPreferenceListener("delete_tables", deleteData);
@@ -24,6 +25,7 @@ public class DebugActivity extends BasePreferenceActivity {
     private final Preference.OnPreferenceClickListener persistData = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
+            new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteTestData();
             ParseHelper parseHelper = new ParseHelper(onParseFinishedListener);
             parseHelper.parse(DebugActivity.this, "feed_cnet_small.xml");
             parseHelper.parse(DebugActivity.this, "feed_hsw_small.xml");

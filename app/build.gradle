@@ -13,6 +13,7 @@ dependencies {
     compile project(':core')
     compile 'com.novoda:sqliteprovider-core:1.0.0'
     compile 'com.novoda.notils:android:1.0'
+    compile 'com.novoda:typewriter:0.0.3-SNAPSHOT'
 }
 
 android {
