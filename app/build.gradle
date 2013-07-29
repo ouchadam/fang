@@ -16,6 +16,7 @@ dependencies {
     compile 'com.novoda:typewriter:0.0.3-SNAPSHOT'
     compile 'com.google.android:support-v4:r13.1'
     compile 'com.squareup.picasso:picasso:1.0.1'
+    compile 'com.github.frankiesardo:icepick:1.2'
 }
 
 android {
