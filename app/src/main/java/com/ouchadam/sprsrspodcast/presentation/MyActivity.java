@@ -1,15 +1,13 @@
 package com.ouchadam.sprsrspodcast.presentation;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ouchadam.sprsrspodcast.R;
 import com.ouchadam.sprsrspodcast.debug.DebugActivity;
 
-public class MyActivity extends FragmentActivity {
+public class MyActivity extends DrawerActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -23,12 +21,6 @@ public class MyActivity extends FragmentActivity {
             startActivity(new Intent(this, DebugActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
     }
 
 }

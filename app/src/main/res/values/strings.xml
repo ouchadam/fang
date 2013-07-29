@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">sprsrspodcast</string>
+  <string name="drawer_open">open drawer</string>
+  <string name="drawer_close">close drawer</string>
 </resources>
