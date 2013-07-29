@@ -13,4 +13,5 @@ public class FangProvider extends SQLiteContentProviderImpl {
     public static Uri getUri(Uris uris) {
         return AUTHORITY.buildUpon().appendPath(uris.name()).build();
     }
+
 }

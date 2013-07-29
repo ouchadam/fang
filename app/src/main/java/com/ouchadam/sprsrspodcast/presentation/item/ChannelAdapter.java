@@ -1,45 +1,26 @@
-package com.ouchadam.sprsrspodcast.presentation;
+package com.ouchadam.sprsrspodcast.presentation.item;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.novoda.notils.android.Views;
 import com.ouchadam.sprsrspodcast.R;
-import com.ouchadam.sprsrspodcast.domain.item.Item;
+import com.ouchadam.sprsrspodcast.domain.channel.Channel;
+import com.ouchadam.sprsrspodcast.domain.channel.Image;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ChannelAdapter extends TypedListAdapter<Channel> {
 
-public class ItemAdapter extends BaseAdapter {
-
-    private List<Item> items = new ArrayList<Item>();
+    private final Context context;
     private final LayoutInflater layoutInflater;
 
-    public ItemAdapter(LayoutInflater layoutInflater) {
+    public ChannelAdapter(Context context, LayoutInflater layoutInflater) {
+        this.context = context;
         this.layoutInflater = layoutInflater;
-    }
-
-    public void updateData(List<Item> data) {
-        items = data;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getCount() {
-        return items.size();
-    }
-
-    @Override
-    public Item getItem(int position) {
-        return items.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return items.get(position).hashCode();
     }
 
     @Override
@@ -53,7 +34,7 @@ public class ItemAdapter extends BaseAdapter {
         }
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        Item item = getItem(position);
+        Channel item = getItem(position);
 
         updateViewPosition(viewHolder, position);
         updateViewHolder(viewHolder, item);
@@ -61,7 +42,7 @@ public class ItemAdapter extends BaseAdapter {
     }
 
     private View createAdapterView(LayoutInflater inflater, int position, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.item_adapter, parent, false);
+        View view = inflater.inflate(R.layout.channel_adapter, parent, false);
         initView(view, position);
         return view;
     }
@@ -72,7 +53,8 @@ public class ItemAdapter extends BaseAdapter {
 
     private ViewHolder createViewHolder(View view, int position) {
         ViewHolder holder = new ViewHolder();
-        holder.title = Views.findById(view, R.id.text);
+        holder.title = Views.findById(view, R.id.channel_text);
+        holder.image = Views.findById(view, R.id.channel_image);
         holder.position = position;
         return holder;
     }
@@ -81,16 +63,22 @@ public class ItemAdapter extends BaseAdapter {
         viewHolder.position = position;
     }
 
-    private void updateViewHolder(ViewHolder holder, Item item) {
-        setHolderText(holder, item);
+    private void updateViewHolder(ViewHolder holder, Channel channel) {
+        setHolderText(holder, channel);
+        setHolderImage(holder, channel.getImage());
     }
 
-    private void setHolderText(ViewHolder holder, Item item) {
-        holder.title.setText(item.getTitle());
+    private void setHolderText(ViewHolder holder, Channel channel) {
+        holder.title.setText(channel.getTitle());
+    }
+
+    private void setHolderImage(ViewHolder holder, Image image) {
+        Picasso.with(context).load(image.getUrl()).into(holder.image);
     }
 
     static class ViewHolder {
         TextView title;
+        ImageView image;
         int position;
     }
 

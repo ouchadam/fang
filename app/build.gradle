@@ -15,6 +15,7 @@ dependencies {
     compile 'com.novoda.notils:android:1.0'
     compile 'com.novoda:typewriter:0.0.3-SNAPSHOT'
     compile 'com.google.android:support-v4:r13.1'
+    compile 'com.squareup.picasso:picasso:1.0.1'
 }
 
 android {
@@ -27,7 +28,6 @@ android {
         minSdkVersion 14
         targetSdkVersion 18
     }
-
 
 }
 

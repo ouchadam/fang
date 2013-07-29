@@ -1,4 +1,4 @@
-package com.ouchadam.sprsrspodcast.presentation;
+package com.ouchadam.sprsrspodcast.presentation.drawer;
 
 public interface DrawerManipulator {
     void close();

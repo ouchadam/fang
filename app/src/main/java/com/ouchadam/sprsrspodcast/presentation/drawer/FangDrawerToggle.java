@@ -1,4 +1,4 @@
-package com.ouchadam.sprsrspodcast.presentation;
+package com.ouchadam.sprsrspodcast.presentation.drawer;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.novoda.notils.android.ClassCaster;
 import com.ouchadam.sprsrspodcast.R;
+import com.ouchadam.sprsrspodcast.presentation.drawer.ActionBarRefresher;
 
 public class FangDrawerToggle extends ActionBarDrawerToggle {
 

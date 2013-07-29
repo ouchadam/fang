@@ -1,4 +1,4 @@
-package com.ouchadam.sprsrspodcast.presentation;
+package com.ouchadam.sprsrspodcast.presentation.controller;
 
 import android.content.Intent;
 import android.view.Menu;

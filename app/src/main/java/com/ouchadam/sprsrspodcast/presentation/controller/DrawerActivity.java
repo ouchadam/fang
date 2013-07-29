@@ -1,4 +1,4 @@
-package com.ouchadam.sprsrspodcast.presentation;
+package com.ouchadam.sprsrspodcast.presentation.controller;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
 import com.ouchadam.sprsrspodcast.R;
+import com.ouchadam.sprsrspodcast.presentation.drawer.ActionBarRefresher;
+import com.ouchadam.sprsrspodcast.presentation.drawer.DrawerNavigator;
+import com.ouchadam.sprsrspodcast.presentation.drawer.FangDrawer;
 
 public abstract class DrawerActivity extends FragmentActivity implements ActionBarRefresher {
 

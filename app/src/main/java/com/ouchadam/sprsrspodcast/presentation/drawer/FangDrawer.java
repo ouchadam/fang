@@ -1,4 +1,4 @@
-package com.ouchadam.sprsrspodcast.presentation;
+package com.ouchadam.sprsrspodcast.presentation.drawer;
 
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
