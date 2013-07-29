@@ -1,9 +1,9 @@
 package com.ouchadam.sprsrspodcast.presentation;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +74,7 @@ public class ItemList extends Fragment implements DataUpdater.DataUpdatedListene
     }
 
     private void updateAdapter(List<Item> data) {
-        if (data != null && !data.isEmpty()) {
-            adapter.updateData(data);
-        }
+        adapter.updateData(data);
     }
 
 }

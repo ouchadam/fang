@@ -14,6 +14,7 @@ dependencies {
     compile 'com.novoda:sqliteprovider-core:1.0.0'
     compile 'com.novoda.notils:android:1.0'
     compile 'com.novoda:typewriter:0.0.3-SNAPSHOT'
+    compile 'com.google.android:support-v4:r13.1'
 }
 
 android {
