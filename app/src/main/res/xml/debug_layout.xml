@@ -4,12 +4,16 @@
   <PreferenceCategory android:title="Debug">
 
     <Preference
-      android:key="persist_local_data"
-      android:title="Persist some data!" />
+        android:key="persist_local_data"
+        android:title="Persist some data!"/>
 
     <Preference
-      android:key="delete_tables"
-      android:title="Drop some tables!" />
+        android:key="delete_tables"
+        android:title="Drop some tables!"/>
+
+    <Preference
+        android:key="add_to_playlist"
+        android:title="Add to playlist"/>
 
   </PreferenceCategory>
 

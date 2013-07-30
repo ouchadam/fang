@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.item.ChannelFragment;
 import com.ouchadam.fang.presentation.item.LatestFragment;
+import com.ouchadam.fang.presentation.item.PlaylistFragment;
 
 public class DrawerNavigator implements OnDrawItemClickListener {
 
@@ -39,11 +40,31 @@ public class DrawerNavigator implements OnDrawItemClickListener {
         }
 
         public static DrawerItem get(int position) {
-            if (position == 0) {
+            return Fragments.values()[position].get();
+        }
+    }
+
+    enum Fragments {
+        LATEST {
+            @Override
+            DrawerItem get() {
                 return new DrawerItem(new LatestFragment(), "Latest");
             }
-            return new DrawerItem(new ChannelFragment(), "Channels");
-        }
+        },
+        CHANNELS {
+            @Override
+            DrawerItem get() {
+                return new DrawerItem(new ChannelFragment(), "Channels");
+            }
+        },
+        PLAYLIST {
+            @Override
+            DrawerItem get() {
+                return new DrawerItem(new PlaylistFragment(), "Playlist");
+            }
+        };
+
+        abstract DrawerItem get();
 
     }
 

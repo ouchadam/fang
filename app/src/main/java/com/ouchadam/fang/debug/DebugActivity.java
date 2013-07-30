@@ -3,13 +3,10 @@ package com.ouchadam.fang.debug;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.widget.Toast;
-
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.PlaylistItem;
 import com.ouchadam.fang.domain.channel.Channel;
-import com.ouchadam.fang.persistance.BasePreferenceActivity;
-import com.ouchadam.fang.persistance.ChannelPersister;
-import com.ouchadam.fang.persistance.ContentProviderOperationExecutable;
-import com.ouchadam.fang.persistance.DatabaseCleaner;
+import com.ouchadam.fang.persistance.*;
 
 public class DebugActivity extends BasePreferenceActivity {
 
@@ -20,6 +17,7 @@ public class DebugActivity extends BasePreferenceActivity {
         addPreferencesFromXml(R.xml.debug_layout);
         setPreferenceListener("persist_local_data", persistData);
         setPreferenceListener("delete_tables", deleteData);
+        setPreferenceListener("add_to_playlist", addToPlaylist);
     }
 
     private final Preference.OnPreferenceClickListener persistData = new Preference.OnPreferenceClickListener() {
@@ -44,9 +42,20 @@ public class DebugActivity extends BasePreferenceActivity {
     private final Preference.OnPreferenceClickListener deleteData = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteAllTables();
+            new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteTestData();
             Toast.makeText(DebugActivity.this, "Deevon dropped the tables!!!", Toast.LENGTH_SHORT).show();
             return false;
         }
     };
+
+    private final Preference.OnPreferenceClickListener addToPlaylist = new Preference.OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            PlaylistItem playlistItem = new PlaylistItem(1);
+            new AddToPlaylistPersister(getContentResolver()).persist(playlistItem);
+            Toast.makeText(DebugActivity.this, "Added to playlist", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    };
+
 }

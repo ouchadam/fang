@@ -22,6 +22,7 @@ public class Tables {
     }
 
     public enum Item {
+        _id,
         CHANNEL,
         TITLE,
         PUBDATE,
@@ -31,5 +32,10 @@ public class Tables {
         SUBTITLE,
         SUMMARY;
     }
+
+    public enum Playlist {
+        ITEM_ID;
+    }
+
 
 }

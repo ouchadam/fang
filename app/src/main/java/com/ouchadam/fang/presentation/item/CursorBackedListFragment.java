@@ -18,8 +18,18 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public abstract class CursorBackedListFragment<T> extends Fragment implements DataUpdater.DataUpdatedListener<T> {
 
-    private DataUpdater<T> dataUpdater;
     private TypedListAdapter<T> adapter;
+    private DataQueryer<T> dataQueryer;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        dataQueryer = new DataQueryer<T>(activity, getQueryValues(), getMarshaller(), getLoaderManager(), this);
+    }
+
+    protected abstract Query getQueryValues();
+
+    protected abstract CursorMarshaller<T> getMarshaller();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,22 +53,10 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     protected abstract TypedListAdapter<T> getAdapter();
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        queryForData();
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        dataQueryer.queryForData();
     }
-
-    private void queryForData() {
-        if (dataUpdater != null) {
-            dataUpdater.stopWatchingData();
-        }
-        dataUpdater = new DataUpdater<T>(getActivity(), getQueryValues(), getMarshaller(), this, getLoaderManager());
-        dataUpdater.startWatchingData();
-    }
-
-    protected abstract Query getQueryValues();
-
-    protected abstract CursorMarshaller<T> getMarshaller();
 
     @Override
     public void onDataUpdated(List<T> data) {

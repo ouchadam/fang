@@ -19,7 +19,7 @@ public class DatabaseCleaner {
     }
 
     public boolean deleteTestData() {
-        return delete(Uris.CHANNEL, Uris.ITEM, Uris.IMAGE);
+        return delete(Uris.CHANNEL, Uris.ITEM, Uris.IMAGE, Uris.PLAYLIST);
     }
 
     private boolean delete(Uris... uris) {
@@ -29,14 +29,6 @@ public class DatabaseCleaner {
             operations.add(operation);
         }
         return execute(operations);
-    }
-
-    public void deleteAllTables() {
-        List<ContentProviderOperation> operations = Collections.newArrayList();
-        for (Uris uri : Uris.values()) {
-            operations.add(newDelete(FangProvider.getUri(uri)).build());
-        }
-        execute(operations);
     }
 
     private boolean execute(List<ContentProviderOperation> contentProviderOperations) {
