@@ -12,8 +12,6 @@ import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-import java.util.List;
-
 public class PlaylistFragment extends CursorBackedListFragment<Item> {
 
     @Override

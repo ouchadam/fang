@@ -1,12 +1,17 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
+import android.widget.AdapterView;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.PlaylistItem;
 import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
@@ -14,7 +19,7 @@ import com.ouchadam.fang.persistance.database.Uris;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-public class LatestFragment extends CursorBackedListFragment<Item> {
+public class LatestFragment extends CursorBackedListFragment<Item> implements OnItemClickListener<Item> {
 
     @Override
     protected AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container) {
@@ -41,9 +46,21 @@ public class LatestFragment extends CursorBackedListFragment<Item> {
             @Override
             public Item marshall(Cursor cursor) {
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.TITLE.name()));
-                return new Item(title, "", "", null, "", "");
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Item._id.name()));
+                return new Item(title, "", "", null, "", "", id);
             }
         };
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(TypedListAdapter<Item> adapter, int position) {
+        Item item = adapter.getItem(position);
+        new AddToPlaylistPersister(getActivity().getContentResolver()).persist(PlaylistItem.from(item));
+    }
 }

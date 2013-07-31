@@ -6,12 +6,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.TextView;
 import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.android.Fragments;
+import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.presentation.item.LatestFragment;
+import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 public class MyActivity extends DrawerActivity {
 
@@ -35,12 +39,14 @@ public class MyActivity extends DrawerActivity {
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         Bundles.restoreInstanceState(this, savedInstanceState);
-        Log.e("!!!!", "title oncreate : " + activityTitle);
-        getActionBar().setTitle(activityTitle == null ? "" : activityTitle);
+        if (activityTitle != null) {
+            getActionBar().setTitle(activityTitle);
+        }
         invalidateOptionsMenu();
         if (hasEmptyContent()) {
             showDefaultFragment();
         }
+
     }
 
     private boolean hasEmptyContent() {
@@ -57,10 +63,7 @@ public class MyActivity extends DrawerActivity {
     public void onSaveInstanceState(Bundle outState) {
         if (getActionBar().getTitle() != null) {
             activityTitle = getActionBar().getTitle().toString();
-        } else {
-            activityTitle = "is null";
         }
-        Log.e("!!!!", "title onsave : " + activityTitle);
         Bundles.saveInstanceState(this, outState);
         super.onSaveInstanceState(outState);
     }

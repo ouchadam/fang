@@ -20,6 +20,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     private TypedListAdapter<T> adapter;
     private DataQueryer<T> dataQueryer;
+    private OnItemClickListener<T> onItemClickListener;
 
     @Override
     public void onAttach(Activity activity) {
@@ -36,16 +37,21 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         AbsListView root = getRootLayout(inflater, container);
         adapter = getAdapter();
         root.setAdapter(adapter);
-        root.setOnItemClickListener(getItemClickListener());
+        root.setOnItemClickListener(innerItemClickListener);
         return root;
     }
 
-    protected AdapterView.OnItemClickListener getItemClickListener() {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private final AdapterView.OnItemClickListener innerItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(adapter, position);
             }
-        };
+        }
+    };
+
+    protected void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     protected abstract AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container);

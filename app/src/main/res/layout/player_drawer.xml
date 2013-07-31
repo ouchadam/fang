@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:addStatesFromChildren="true">
+
+  <RelativeLayout
+      android:id="@+id/player_top_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true">
+
+    <TextView
+        android:id="@+id/test_id"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Test"
+        android:layout_alignParentLeft="true"
+        android:textSize="30sp"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="play"
+        android:textSize="30sp"/>
+
+  </RelativeLayout>
+
+  <SeekBar
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:max="100"
+      android:progress="50"
+      android:clickable="true"
+      android:layout_above="@+id/player_bottom_bar"/>
+
+  <RelativeLayout
+      android:id="@id/player_bottom_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true">
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="play"
+        android:textSize="30sp"/>
+
+  </RelativeLayout>
+
+</RelativeLayout>
