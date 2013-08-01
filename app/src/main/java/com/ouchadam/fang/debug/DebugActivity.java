@@ -3,6 +3,7 @@ package com.ouchadam.fang.debug;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.widget.Toast;
+import com.ouchadam.bookkeeper.BookKeeper;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.PlaylistItem;
 import com.ouchadam.fang.domain.channel.Channel;

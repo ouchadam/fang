@@ -8,8 +8,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import android.widget.AdapterView;
+import com.ouchadam.bookkeeper.BookKeeper;
+import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
+import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.PlaylistItem;
+import com.ouchadam.fang.domain.item.Audio;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -47,7 +51,13 @@ public class LatestFragment extends CursorBackedListFragment<Item> implements On
             public Item marshall(Cursor cursor) {
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.TITLE.name()));
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Item._id.name()));
-                return new Item(title, "", "", null, "", "", id);
+
+                String audioType = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.AUDIO_TYPE.name()));
+                String audioUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.AUDIO_URL.name()));
+
+                Audio audio = new Audio(audioUrl, audioType);
+
+                return new Item(title, "", "", audio, "", "", id);
             }
         };
     }
@@ -62,5 +72,6 @@ public class LatestFragment extends CursorBackedListFragment<Item> implements On
     public void onItemClick(TypedListAdapter<Item> adapter, int position) {
         Item item = adapter.getItem(position);
         new AddToPlaylistPersister(getActivity().getContentResolver()).persist(PlaylistItem.from(item));
+        new BookKeeper(getActivity()).keep(ItemDownload.from(item), new NotificationWatcher(getActivity()));
     }
 }
