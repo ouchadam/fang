@@ -18,7 +18,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.presentation.item.LatestFragment;
 
-public class MyActivity extends DrawerActivity implements Downloader {
+public class MyActivity extends FangActivity implements Downloader {
 
     @Icicle
     public String activityTitle;

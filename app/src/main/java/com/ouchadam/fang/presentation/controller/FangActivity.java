@@ -4,17 +4,21 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
+import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-public abstract class DrawerActivity extends FragmentActivity implements ActionBarRefresher {
+public class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelExposer {
 
     private FangDrawer fangDrawer;
+    private SlidingPanelController slidingPanelController;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -28,6 +32,8 @@ public abstract class DrawerActivity extends FragmentActivity implements ActionB
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer);
+        SlidingUpPanelLayout slidingPanel = Views.findById(this, R.id.sliding_layout);
+        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), new SlidingPanelViewManipulator(slidingPanel));
         String[] strings = new String[]{"Latest", "Channels", "Playlist"};
         initDrawer(strings);
         onFangCreate(savedInstanceState);
@@ -70,4 +76,8 @@ public abstract class DrawerActivity extends FragmentActivity implements ActionB
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void setData(int itemColumnId) {
+        slidingPanelController.setData(itemColumnId);
+    }
 }

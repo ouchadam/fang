@@ -13,7 +13,7 @@
       android:layout_alignParentTop="true">
 
     <TextView
-        android:id="@+id/test_id"
+        android:id="@+id/bar_title"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="Test"
@@ -21,6 +21,7 @@
         android:textSize="30sp"/>
 
     <Button
+        android:id="@+id/top_bar_play"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"

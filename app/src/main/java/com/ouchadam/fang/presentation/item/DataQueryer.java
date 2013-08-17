@@ -32,4 +32,10 @@ public class DataQueryer<T> {
         dataUpdater.startWatchingData();
     }
 
+    public void stop() {
+        if (dataUpdater != null) {
+            dataUpdater.stopWatchingData();
+        }
+    }
+
 }

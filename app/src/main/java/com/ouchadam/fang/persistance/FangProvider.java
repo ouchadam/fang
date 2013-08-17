@@ -10,8 +10,8 @@ public class FangProvider extends SQLiteContentProviderImpl {
 
     public static final Uri AUTHORITY = Uri.parse("content://com.ouchadam.fang/");
 
-    public static Uri getUri(Uris uris) {
-        return AUTHORITY.buildUpon().appendPath(uris.name()).build();
+    public static Uri getUri(Uris uri) {
+        return AUTHORITY.buildUpon().appendPath(uri.name()).build();
     }
 
 }

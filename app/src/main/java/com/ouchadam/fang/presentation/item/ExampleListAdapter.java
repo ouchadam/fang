@@ -32,9 +32,6 @@ public class ExampleListAdapter extends TypedListAdapter<Item> implements ListIt
         if (stage == ListItemProgress.Stage.IDLE) {
             viewHolder.textView.setText(getItem(position).getTitle());
         }
-
-        Log.e("!!!", "has for : " + position + " : " + getItem(position).hashCode());
-
         return view;
     }
 

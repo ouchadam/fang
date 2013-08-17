@@ -23,6 +23,7 @@ import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 
+import com.ouchadam.fang.presentation.controller.ItemMarshaller;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<Item> implements OnItemClickListener<Item> {
@@ -56,20 +57,7 @@ public class LatestFragment extends CursorBackedListFragment<Item> implements On
     }
 
     private CursorMarshaller<Item> getItemMarshaller() {
-        return new CursorMarshaller<Item>() {
-            @Override
-            public Item marshall(Cursor cursor) {
-                String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.TITLE.name()));
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Item._id.name()));
-
-                String audioType = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.AUDIO_TYPE.name()));
-                String audioUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.AUDIO_URL.name()));
-
-                Audio audio = new Audio(audioUrl, audioType);
-
-                return new Item(title, "", "", audio, "", "", id);
-            }
-        };
+        return new ItemMarshaller();
     }
 
     @Override
