@@ -49,7 +49,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
     };
 
     private void initialiseViews(final LocalItem item) {
-        slidingPanelViewManipulator.setBarText(item.getItem().getTitle());
+        slidingPanelViewManipulator.fromItem(item.getItem());
         slidingPanelViewManipulator.setMediaClickedListener(new SlidingPanelViewManipulator.OnMediaClickedListener() {
             @Override
             public void onMediaClicked(SlidingPanelViewManipulator.MediaPressed mediaPressed) {

@@ -454,6 +454,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
         final float x = ev.getX();
         final float y = ev.getY();
 
+        mDragHelper.shouldInterceptTouchEvent(ev);
+
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
                 dragging = false;
@@ -560,7 +562,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (getChildCount() < 2) {
             return;
         }
-        mDragHelper.abort();
         View slidingPane = getChildAt(1);
         slidingPane.setVisibility(View.VISIBLE);
         requestLayout();

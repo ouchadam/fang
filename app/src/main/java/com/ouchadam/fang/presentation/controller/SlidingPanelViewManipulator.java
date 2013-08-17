@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 class SlidingPanelViewManipulator {
@@ -19,12 +20,12 @@ class SlidingPanelViewManipulator {
         PAUSE;
 
     }
-    public interface OnMediaClickedListener {
 
+    public interface OnMediaClickedListener {
         void onMediaClicked(MediaPressed mediaPressed);
+
     }
     private OnMediaClickedListener mediaClickedListener;
-
     SlidingPanelViewManipulator(SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher) {
         this.panelLayout = panelLayout;
         this.seekBar = seekBar;
@@ -53,17 +54,30 @@ class SlidingPanelViewManipulator {
         }
     };
 
-    public void setBarText(CharSequence text) {
-        TextView barTitle = Views.findById(panelLayout, R.id.bar_title);
-        barTitle.setText(text);
-    }
-
     public void setSeekProgress(int percent) {
         seekBar.setProgress(percent);
     }
 
     public void expand() {
         panelLayout.expandPane();
+    }
+
+    public void fromItem(Item item) {
+        setBarText(item.getTitle());
+        setDescription(item.getSummary());
+    }
+
+    private void setBarText(CharSequence text) {
+        setTextViewText(text, R.id.bar_title);
+    }
+
+    private void setDescription(CharSequence summary) {
+        setTextViewText(summary, R.id.item_description);
+    }
+
+    private void setTextViewText(CharSequence text, int viewId) {
+        TextView textView = Views.findById(panelLayout, viewId);
+        textView.setText(text);
     }
 
 }
