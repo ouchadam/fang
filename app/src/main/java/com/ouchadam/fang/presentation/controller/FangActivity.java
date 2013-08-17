@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
@@ -16,7 +17,7 @@ import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-public class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelExposer {
+public class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
@@ -32,12 +33,13 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
 
         SlidingUpPanelLayout slidingPanel = Views.findById(this, R.id.sliding_layout);
         SeekBar seekBar = Views.findById(this, R.id.seek_bar);
         ViewSwitcher mediaSwitcher = Views.findById(this, R.id.media_switcher);
-        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(slidingPanel, seekBar, mediaSwitcher);
+        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel, seekBar, mediaSwitcher);
         slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), slidingPanelViewManipulator);
 
         String[] strings = new String[]{"Latest", "Channels", "Playlist"};
@@ -85,6 +87,21 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     @Override
     public void setData(int itemColumnId) {
         slidingPanelController.setData(itemColumnId);
+    }
+
+    @Override
+    public boolean isActionBarShowing() {
+        return getActionBar().isShowing();
+    }
+
+    @Override
+    public void hideActionBar() {
+        getActionBar().hide();
+    }
+
+    @Override
+    public void showActionBar() {
+        getActionBar().show();
     }
 
     @Override

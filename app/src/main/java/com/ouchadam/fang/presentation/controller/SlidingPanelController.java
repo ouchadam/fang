@@ -5,11 +5,12 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
+import android.view.View;
 import com.ouchadam.fang.domain.LocalItem;
 
 import java.io.IOException;
 
-public class SlidingPanelController implements SlidingPanelExposer {
+public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnPanelChangeListener {
 
     private final Context context;
     private final LoaderManager loaderManager;
@@ -23,6 +24,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;
         podcastPlayer = new PodcastPlayer(new MediaPlayer(), slidingPanelViewManipulator);
+        slidingPanelViewManipulator.setOnPanelExpandListener(this);
     }
 
     @Override
@@ -89,5 +91,15 @@ public class SlidingPanelController implements SlidingPanelExposer {
 
     public boolean isShowing() {
         return slidingPanelViewManipulator.isShowing();
+    }
+
+    @Override
+    public void onPanelExpanded(View panel) {
+        // TODO switch views, maybe this shouldnt be here
+    }
+
+    @Override
+    public void onPanelCollapsed(View panel) {
+        // TODO switch views, maybe this shouldnt be here
     }
 }

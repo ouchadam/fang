@@ -19,14 +19,25 @@
 
   </com.ouchadam.fang.view.SlidingUpPanelLayout>
 
-  <ListView
-      android:id="@+id/left_drawer"
+  <RelativeLayout
       android:layout_width="240dp"
       android:layout_height="match_parent"
-      android:layout_gravity="start"
-      android:choiceMode="singleChoice"
-      android:divider="@android:color/transparent"
-      android:dividerHeight="0dp"
-      android:background="@android:color/white"/>
+      android:layout_gravity="start">
+
+    <include
+        android:id="@+id/dummy_action_bar"
+        layout="@layout/blank_action_bar"/>
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/dummy_action_bar"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="@android:color/white"/>
+
+  </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

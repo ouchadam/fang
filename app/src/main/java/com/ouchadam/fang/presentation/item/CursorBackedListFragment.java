@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import com.novoda.notils.android.Views;
+import com.ouchadam.fang.R;
 import com.ouchadam.fang.persistance.DataUpdater;
 import com.ouchadam.fang.persistance.Query;
 
@@ -34,10 +36,11 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        AbsListView root = getRootLayout(inflater, container);
+        View root = getRootLayout(inflater, container);
         adapter = createAdapter();
-        root.setAdapter(adapter);
-        root.setOnItemClickListener(innerItemClickListener);
+        AbsListView absListView = Views.findById(root, R.id.list);
+        absListView.setAdapter(adapter);
+        absListView.setOnItemClickListener(innerItemClickListener);
         return root;
     }
 
@@ -54,7 +57,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         this.onItemClickListener = onItemClickListener;
     }
 
-    protected abstract AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container);
+    protected abstract View getRootLayout(LayoutInflater inflater, ViewGroup container);
 
     protected abstract TypedListAdapter<T> createAdapter();
 

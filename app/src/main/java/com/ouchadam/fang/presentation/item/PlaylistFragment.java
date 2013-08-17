@@ -37,8 +37,8 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
     }
 
     @Override
-    protected AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container) {
-        return (AbsListView) inflater.inflate(R.layout.fragment_item_list, container, false);
+    protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_item_list, container, false);
     }
 
     @Override

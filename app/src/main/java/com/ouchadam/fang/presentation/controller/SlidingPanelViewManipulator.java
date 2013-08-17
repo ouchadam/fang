@@ -11,6 +11,7 @@ import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 class SlidingPanelViewManipulator {
 
+    private ActionBarManipulator actionBarManipulator;
     private final SlidingUpPanelLayout panelLayout;
     private final SeekBar seekBar;
     private final ViewSwitcher viewSwitcher;
@@ -31,17 +32,32 @@ class SlidingPanelViewManipulator {
 
     private OnMediaClickListener mediaClickedListener;
 
-    SlidingPanelViewManipulator(SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher) {
+    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher) {
+        this.actionBarManipulator = actionBarManipulator;
         this.panelLayout = panelLayout;
         this.seekBar = seekBar;
         this.viewSwitcher = viewSwitcher;
+    }
+
+    public interface ActionBarManipulator {
+        boolean isActionBarShowing();
+        void hideActionBar();
+        void showActionBar();
     }
 
     public void setOnPanelExpandListener(final OnPanelChangeListener onPanelExpandListener) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                // ignore
+                if (slideOffset < 0.2) {
+                    if (actionBarManipulator.isActionBarShowing()) {
+                        actionBarManipulator.hideActionBar();
+                    }
+                } else {
+                    if (!actionBarManipulator.isActionBarShowing()) {
+                        actionBarManipulator.showActionBar();
+                    }
+                }
             }
 
             @Override
