@@ -23,16 +23,19 @@ import com.ouchadam.fang.persistance.database.Uris;
 
 import com.ouchadam.fang.presentation.controller.ChannelItemMarshaller;
 import com.ouchadam.fang.presentation.controller.ItemMarshaller;
+import com.ouchadam.fang.presentation.controller.SlidingPanelExposer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<ChannelItem> implements OnItemClickListener<ChannelItem> {
 
     private Downloader downloader;
+    private SlidingPanelExposer panelController;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         downloader = ClassCaster.toListener(activity);
+        panelController = ClassCaster.toListener(activity);
     }
 
     @Override
@@ -63,7 +66,9 @@ public class LatestFragment extends CursorBackedListFragment<ChannelItem> implem
     @Override
     public void onItemClick(TypedListAdapter<ChannelItem> adapter, int position, long itemId) {
         ChannelItem item = adapter.getItem(position);
-        downloadItem(item.getItem(), itemId);
+        panelController.setData(item.getItem().getId());
+        panelController.show();
+//        downloadItem(item.getItem(), itemId);
     }
 
     private void downloadItem(Item item, long itemId) {

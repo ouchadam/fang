@@ -40,7 +40,7 @@ class ItemQueryer implements DataUpdater.DataUpdatedListener<LocalItem> {
 
     public Query getQueryValues() {
         return new Query.Builder().
-                withUri(FangProvider.getUri(Uris.PLAYLIST_ITEM)).
+                withUri(FangProvider.getUri(Uris.ITEM_WITH_IMAGE)).
                 withSelection(Tables.Item._id.name() + "=?").
                 withSelectionArgs(new String[]{String.valueOf(itemColumnId)}).build();
     }

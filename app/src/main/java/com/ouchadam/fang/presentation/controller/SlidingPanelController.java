@@ -36,6 +36,11 @@ public class SlidingPanelController implements SlidingPanelExposer {
         itemQueryer.query();
     }
 
+    @Override
+    public void show() {
+        slidingPanelViewManipulator.expand();
+    }
+
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
         public void onItem(LocalItem item) {

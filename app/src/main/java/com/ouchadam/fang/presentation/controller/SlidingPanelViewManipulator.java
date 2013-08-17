@@ -14,16 +14,15 @@ class SlidingPanelViewManipulator {
     private final SeekBar seekBar;
     private final ViewSwitcher viewSwitcher;
 
-
     public enum MediaPressed {
         PLAY,
         PAUSE;
-    }
 
+    }
     public interface OnMediaClickedListener {
+
         void onMediaClicked(MediaPressed mediaPressed);
     }
-
     private OnMediaClickedListener mediaClickedListener;
 
     SlidingPanelViewManipulator(SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher) {
@@ -61,6 +60,10 @@ class SlidingPanelViewManipulator {
 
     public void setSeekProgress(int percent) {
         seekBar.setProgress(percent);
+    }
+
+    public void expand() {
+        panelLayout.expandPane();
     }
 
 }

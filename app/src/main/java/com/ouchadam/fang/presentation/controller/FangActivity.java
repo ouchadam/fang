@@ -86,4 +86,9 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     public void setData(int itemColumnId) {
         slidingPanelController.setData(itemColumnId);
     }
+
+    @Override
+    public void show() {
+        slidingPanelController.show();
+    }
 }

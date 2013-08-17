@@ -11,8 +11,8 @@ public class LocalItemMarshaller implements CursorMarshaller<LocalItem> {
     @Override
     public LocalItem marshall(Cursor cursor) {
         Item item = new ItemMarshaller().marshall(cursor);
-        long downloadId = cursor.getLong(cursor.getColumnIndexOrThrow(Tables.Playlist.DOWNLOAD_ID.name()));
-        return new LocalItem(item, downloadId);
+//        long downloadId = cursor.getLong(cursor.getColumnIndexOrThrow(Tables.Playlist.DOWNLOAD_ID.name()));
+        return new LocalItem(item, 0l);
     }
 
 }

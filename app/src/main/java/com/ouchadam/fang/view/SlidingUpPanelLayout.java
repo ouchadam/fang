@@ -93,11 +93,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * A panel view is locked into internal scrolling or another condition that
      * is preventing a drag.
      */
-    private boolean mIsUnableToDrag;
-
-    private float mInitialMotionX;
     private float mInitialMotionY;
-    private boolean mDragViewHit;
 
     private PanelSlideListener mPanelSlideListener;
 
@@ -120,13 +116,16 @@ public class SlidingUpPanelLayout extends ViewGroup {
     public interface PanelSlideListener {
         /**
          * Called when a sliding pane's position changes.
-         * @param panel The child view that was moved
+         *
+         * @param panel       The child view that was moved
          * @param slideOffset The new offset of this sliding pane within its range, from 0-1
          */
         public void onPanelSlide(View panel, float slideOffset);
+
         /**
          * Called when a sliding pane becomes slid completely collapsed. The pane may or may not
          * be interactive at this point depending on if it's shown or hidden
+         *
          * @param panel The child view that was slid to an collapsed position, revealing other panes
          */
         public void onPanelCollapsed(View panel);
@@ -134,6 +133,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         /**
          * Called when a sliding pane becomes slid completely expanded. The pane is now guaranteed
          * to be interactive. It may now obscure other views in the layout.
+         *
          * @param panel The child view that was slid to a expanded position
          */
         public void onPanelExpanded(View panel);
@@ -147,9 +147,11 @@ public class SlidingUpPanelLayout extends ViewGroup {
         @Override
         public void onPanelSlide(View panel, float slideOffset) {
         }
+
         @Override
         public void onPanelCollapsed(View panel) {
         }
+
         @Override
         public void onPanelExpanded(View panel) {
         }
@@ -220,7 +222,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     /**
      * Set the shadow for the sliding panel
-     *
      */
     public void setShadowDrawable(Drawable drawable) {
         mShadowDrawable = drawable;
@@ -456,7 +457,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
                 dragging = false;
-                mInitialMotionX = x;
                 mInitialMotionY = y;
 
                 return false;
@@ -560,6 +560,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (getChildCount() < 2) {
             return;
         }
+        mDragHelper.abort();
         View slidingPane = getChildAt(1);
         slidingPane.setVisibility(View.VISIBLE);
         requestLayout();
@@ -615,7 +616,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * Smoothly animate mDraggingPane to the target X position within its range.
      *
      * @param slideOffset position to animate to
-     * @param velocity initial velocity in case of fling, or 0.
+     * @param velocity    initial velocity in case of fling, or 0.
      */
     boolean smoothSlideTo(float slideOffset, int velocity) {
         if (!mCanSlide) {
@@ -772,7 +773,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
-        private static final int[] ATTRS = new int[] {
+        private static final int[] ATTRS = new int[]{
                 android.R.attr.layout_weight
         };
 

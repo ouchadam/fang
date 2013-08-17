@@ -44,6 +44,13 @@
 
   </RelativeLayout>
 
+  <TextView
+      android:id="@+id/item_description"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_centerInParent="true"
+      android:textSize="18sp"/>
+
   <SeekBar
       android:id="@+id/seek_bar"
       android:layout_height="wrap_content"
