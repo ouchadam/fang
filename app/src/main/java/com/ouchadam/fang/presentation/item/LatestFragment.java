@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-import android.widget.AdapterView;
-import com.ouchadam.bookkeeper.BookKeeper;
+import com.novoda.notils.android.ClassCaster;
+import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.R;
@@ -25,13 +27,21 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<Item> implements OnItemClickListener<Item> {
 
+    private Downloader downloader;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        downloader = ClassCaster.toListener(activity);
+    }
+
     @Override
     protected AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container) {
         return (AbsListView) inflater.inflate(R.layout.fragment_item_list, container, false);
     }
 
     @Override
-    protected TypedListAdapter<Item> getAdapter() {
+    protected TypedListAdapter<Item> createAdapter() {
         return new ItemAdapter(LayoutInflater.from(getActivity()));
     }
 
@@ -69,9 +79,13 @@ public class LatestFragment extends CursorBackedListFragment<Item> implements On
     }
 
     @Override
-    public void onItemClick(TypedListAdapter<Item> adapter, int position) {
+    public void onItemClick(TypedListAdapter<Item> adapter, int position, long itemId) {
         Item item = adapter.getItem(position);
         new AddToPlaylistPersister(getActivity().getContentResolver()).persist(PlaylistItem.from(item));
-        new BookKeeper(getActivity()).keep(ItemDownload.from(item), new NotificationWatcher(getActivity()));
+
+        ItemDownload downloadable = ItemDownload.from(item);
+        DownloadId downloadId = downloader.keep(downloadable);
+        downloader.store(downloadId, itemId);
+        downloader.watch(downloadId, new NotificationWatcher(getActivity(), downloadable, downloadId));
     }
 }

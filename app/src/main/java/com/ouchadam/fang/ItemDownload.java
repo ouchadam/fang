@@ -1,12 +1,8 @@
 package com.ouchadam.fang;
 
-import android.os.Environment;
-import com.ouchadam.bookkeeper.Downloadable;
+import android.net.Uri;
+import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.fang.domain.item.Item;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class ItemDownload implements Downloadable {
 
@@ -17,7 +13,7 @@ public class ItemDownload implements Downloadable {
         return new ItemDownload(item.getTitle(), item.getAudio().getUrl());
     }
 
-    public ItemDownload(String title, String url) {
+    ItemDownload(String title, String url) {
         this.title = title;
         this.url = url;
     }
@@ -28,30 +24,18 @@ public class ItemDownload implements Downloadable {
     }
 
     @Override
-    public File file() {
-        return createFile(title());
-    }
-
-    private File createFile(String filename) {
-        File SDCardRoot = Environment.getExternalStorageDirectory();
-        File file = new File(SDCardRoot, filename);
-        if (file.exists()) {
-            file.delete();
-        }
-        return file;
+    public String description() {
+        return title + " description";
     }
 
     @Override
-    public URL url() {
-        return getUrl();
+    public String fileName() {
+        return title;
     }
 
-    private URL getUrl() {
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Bad url");
-        }
+    @Override
+    public Uri url() {
+        return Uri.parse(url);
     }
+
 }

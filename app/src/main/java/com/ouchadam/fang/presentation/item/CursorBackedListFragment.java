@@ -35,7 +35,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AbsListView root = getRootLayout(inflater, container);
-        adapter = getAdapter();
+        adapter = createAdapter();
         root.setAdapter(adapter);
         root.setOnItemClickListener(innerItemClickListener);
         return root;
@@ -43,9 +43,9 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     private final AdapterView.OnItemClickListener innerItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long itemId) {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(adapter, position);
+                onItemClickListener.onItemClick(adapter, position, itemId);
             }
         }
     };
@@ -56,7 +56,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     protected abstract AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container);
 
-    protected abstract TypedListAdapter<T> getAdapter();
+    protected abstract TypedListAdapter<T> createAdapter();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -71,6 +71,10 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     private void updateAdapter(List<T> data) {
         adapter.updateData(data);
+    }
+
+    protected TypedListAdapter<T> getAdapter() {
+        return adapter;
     }
 
 }

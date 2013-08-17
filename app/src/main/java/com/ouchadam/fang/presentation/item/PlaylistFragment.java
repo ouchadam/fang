@@ -1,9 +1,13 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import com.novoda.notils.android.ClassCaster;
+import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -12,7 +16,16 @@ import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
+import java.util.List;
+
 public class PlaylistFragment extends CursorBackedListFragment<Item> {
+
+    private Downloader downloader;
+    private boolean hasRestored;
+
+    public PlaylistFragment() {
+        this.hasRestored = false;
+    }
 
     @Override
     protected AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container) {
@@ -20,8 +33,8 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> {
     }
 
     @Override
-    protected TypedListAdapter<Item> getAdapter() {
-        return new ItemAdapter(LayoutInflater.from(getActivity()));
+    protected TypedListAdapter<Item> createAdapter() {
+        return new ExampleListAdapter(LayoutInflater.from(getActivity()));
     }
 
     @Override
@@ -42,6 +55,21 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> {
                 return new Item(title, "", "", null, "", "");
             }
         };
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        downloader = ClassCaster.toListener(activity);
+    }
+
+    @Override
+    public void onDataUpdated(List<Item> data) {
+        super.onDataUpdated(data);
+        if (!data.isEmpty() && !hasRestored) {
+            downloader.restore(new LazyListItemWatcher((ListItemWatcher.ItemWatcher) getAdapter()));
+            hasRestored = true;
+        }
     }
 
 }

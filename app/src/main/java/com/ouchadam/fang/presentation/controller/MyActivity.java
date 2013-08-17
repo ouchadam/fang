@@ -2,35 +2,27 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import android.view.View;
-import android.widget.TextView;
 import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.android.Fragments;
-import com.novoda.notils.android.Views;
-import com.ouchadam.bookkeeper.BookKeeper;
-import com.ouchadam.bookkeeper.DownloadWatcher;
-import com.ouchadam.bookkeeper.Downloadable;
-import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
+import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.RestoreableBookKeeper;
+import com.ouchadam.bookkeeper.delegate.IdManager;
+import com.ouchadam.bookkeeper.domain.DownloadId;
+import com.ouchadam.bookkeeper.domain.Downloadable;
+import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
+import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.presentation.item.LatestFragment;
-import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-import java.io.File;
-import java.net.URL;
-
-public class MyActivity extends DrawerActivity {
+public class MyActivity extends DrawerActivity implements Downloader {
 
     @Icicle
     public String activityTitle;
-    private BookKeeper bookKeeper;
-
-    private Downloadable downloadable;
+    private RestoreableBookKeeper bookKeeper;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,30 +48,7 @@ public class MyActivity extends DrawerActivity {
         if (hasEmptyContent()) {
             showDefaultFragment();
         }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         initBookKeeper();
-    }
-
-    private void initBookKeeper() {
-        bookKeeper = new BookKeeper(this);
-        if (bookKeeper.serviceIsRunning() && hasDownload()) {
-            bookKeeper.attachWatchers(downloadable, getWatchers());
-        }
-    }
-
-    private boolean hasDownload() {
-        return downloadable != null;
-    }
-
-    private DownloadWatcher[] getWatchers() {
-        DownloadWatcher[] downloadWatchers = new DownloadWatcher[3];
-        downloadWatchers[0] = new NotificationWatcher(this);
-        return downloadWatchers;
     }
 
     private boolean hasEmptyContent() {
@@ -90,6 +59,36 @@ public class MyActivity extends DrawerActivity {
         getActionBar().setTitle("Latest");
         invalidateOptionsMenu();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new LatestFragment()).commit();
+    }
+
+    private void initBookKeeper() {
+        bookKeeper = RestoreableBookKeeper.newInstance(this);
+    }
+
+    @Override
+    public DownloadId keep(Downloadable from) {
+        return bookKeeper.keep(from);
+    }
+
+    @Override
+    public void restore(final LazyWatcher lazyWatcher) {
+        bookKeeper.restore(new IdManager.BookKeeperRestorer() {
+            @Override
+            public void onRestore(DownloadId downloadId, long itemId) {
+                DownloadWatcher downloadWatcher = lazyWatcher.create(downloadId, itemId);
+                bookKeeper.watch(downloadId, downloadWatcher);
+            }
+        });
+    }
+
+    @Override
+    public void watch(DownloadId downloadId, DownloadWatcher... downloadWatchers) {
+        bookKeeper.watch(downloadId, downloadWatchers);
+    }
+
+    @Override
+    public void store(DownloadId downloadId, long itemId) {
+        bookKeeper.store(downloadId, itemId);
     }
 
     @Override

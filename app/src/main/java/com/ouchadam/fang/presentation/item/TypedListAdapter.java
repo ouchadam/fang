@@ -1,11 +1,11 @@
 package com.ouchadam.fang.presentation.item;
 
-import android.widget.BaseAdapter;
+import com.ouchadam.bookkeeper.watcher.adapter.TypedBaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TypedListAdapter<T> extends BaseAdapter {
+public abstract class TypedListAdapter<T> extends TypedBaseAdapter<T> {
 
     private List<T> data = new ArrayList<T>();
 

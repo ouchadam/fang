@@ -23,7 +23,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> {
     }
 
     @Override
-    protected TypedListAdapter<Channel> getAdapter() {
+    protected TypedListAdapter<Channel> createAdapter() {
         return new ChannelAdapter(getActivity(), LayoutInflater.from(getActivity()));
     }
 
