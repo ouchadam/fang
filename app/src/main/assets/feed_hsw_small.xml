@@ -1,8 +1,9 @@
 <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
-  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:podbridge="http://www.podbridge.com/podbridge-ad.dtd" version="2.0">
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:podbridge="http://www.podbridge.com/podbridge-ad.dtd" version="2.0">
   <channel>
-    <atom:link href="" rel="self" type="application/rss+xml" />
+    <atom:link href="" rel="self" type="application/rss+xml"/>
     <title>Stuff You Should Know</title>
     <link>http://www.howstuffworks.com/</link>
     <description>
@@ -31,10 +32,10 @@
       <itunes:email>podcast@howstuffworks.com</itunes:email>
       <itunes:name>HowStuffWorks.com</itunes:name>
     </itunes:owner>
-    <itunes:image href="http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg" />
-    <itunes:category text="Society &amp; Culture" />
-    <itunes:category text="Society &amp; Culture" />
-    <itunes:category text="Society &amp; Culture" />
+    <itunes:image href="http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg"/>
+    <itunes:category text="Society &amp; Culture"/>
+    <itunes:category text="Society &amp; Culture"/>
+    <itunes:category text="Society &amp; Culture"/>
     <itunes:author>HowStuffWorks.com</itunes:author>
     <itunes:explicit>no</itunes:explicit>
     <itunes:keywords>
@@ -62,8 +63,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3"
-        length="15158079" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3"
+          length="15158079" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         stuff you should know, josh, chuck, howstuffworks,maps, globes, cartography, online maps, projections, map
@@ -94,8 +96,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-23-sysk-vultures.mp3"
-        length="11863523" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-23-sysk-vultures.mp3"
+          length="11863523" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         stuff you should know, josh, chuck, howstuffworks, vultures, vulture vomit, bird of prey, carrion, sky burials
@@ -125,8 +128,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-18-sysk-abandoned-house.mp3"
-        length="11378602" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-18-sysk-abandoned-house.mp3"
+          length="11378602" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         stuff you should know, josh, chuck, howstuffworks,abandoned houses, real estate bubble, great recession, code
@@ -157,8 +161,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-16-sysk-building-implosions.mp3"
-        length="13272904" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-16-sysk-building-implosions.mp3"
+          length="13272904" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         howstuffworks, josh, chuck, building implosion, demolition, blasters, dynamite, rdx
@@ -189,8 +194,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-11-sysk-hip-hop.mp3"
-        length="18913761" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-11-sysk-hip-hop.mp3"
+          length="18913761" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         stuff you should know, josh, chuck, howstuffworks, hip-hop, rap, cultural movement, history of hip-hop, origins
@@ -221,8 +227,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-09-sysk-10-medieval-torture-devices.mp3"
-        length="13100355" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-09-sysk-10-medieval-torture-devices.mp3"
+          length="13100355" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         howstuffworks, josh, chuck, medieval torture devices, torture, the rack, burned at the stack, thumbscrews, iron
@@ -252,8 +259,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-04-sysk-miranda-rights.mp3"
-        length="11121710" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-04-sysk-miranda-rights.mp3"
+          length="11121710" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         howstuffworks, josh, chuck, miranda rights, right to remain silent, earnesto miranda, miranda stabbed to death,
@@ -284,8 +292,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-02-sysk-pollen.mp3"
-        length="10817472" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-02-sysk-pollen.mp3"
+          length="10817472" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         howstuffworks, josh, chuck, pollen, gymnosperms, angiosperms, stamen, style, anthers, plant reproduction,
@@ -305,9 +314,7 @@
         http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-27-sysk-burning-man.mp3
       </link>
       <description>
-        You've probably heard about Burning Man, it's a week-long party in the middle of a desert made of 50 thousand
-        people living pretty much without rules, pretty much without any exchange of money and often nude and on drugs.
-        Get the background on this social experiment that began in 1986 and has grown in size and scope ever since.
+        You've probably heard about Burning Man, it's a week-long party in the middle of a desert made of 50 thousand people living pretty much without rules, pretty much without any exchange of money and often nude and on drugs. Get the background on this social experiment that began in 1986 and has grown in size and scope ever since.
       </description>
       <pubDate>Thu, 27 Jun 2013 09:01:54 -0400</pubDate>
       <guid>
@@ -316,8 +323,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-27-sysk-burning-man.mp3"
-        length="12253642" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-27-sysk-burning-man.mp3"
+          length="12253642" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         howstuffworks, josh, chuck, burning man, larry harvey, the org, burning man theme, buning man history, art,
@@ -348,8 +356,9 @@
       <author>
         stuffpodcast@howstuffworks.com (Stuff You Should Know)
       </author>
-      <enclosure url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-25-sysk-rasputin.mp3"
-        length="11925277" type="audio/mpeg" />
+      <enclosure
+          url="http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-06-25-sysk-rasputin.mp3"
+          length="11925277" type="audio/mpeg"/>
       <itunes:explicit>no</itunes:explicit>
       <itunes:keywords>
         howstuffworks, josh, chuck, grigori rasputin, rasputin, mad monk, Romanoffs, Tsar Nicholas, Anastasia, murder,
@@ -363,5 +372,5 @@
       </itunes:subtitle>
       <itunes:author>HowStuffWorks.com</itunes:author>
     </item>
-    </channel>
-  </rss>
+  </channel>
+</rss>

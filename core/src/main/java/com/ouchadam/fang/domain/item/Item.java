@@ -47,7 +47,21 @@ public class Item {
     }
 
     public String getSummary() {
-        return summary;
+        if (!has(summary) && has(subtitle)) {
+            return removeWhitespace(subtitle);
+        } else {
+            return removeWhitespace(summary);
+        }
+    }
+
+    private String removeWhitespace(String input) {
+        String output = input.replaceAll("\n","");
+        output = output.replaceAll("\t","");
+        return output.trim();
+    }
+
+    private boolean has(String text) {
+        return text != null && text.length() != 0;
     }
 
     public int getId() {

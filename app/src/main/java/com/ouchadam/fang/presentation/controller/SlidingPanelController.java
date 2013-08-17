@@ -5,8 +5,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
-import android.view.View;
-import android.widget.Toast;
 import com.ouchadam.fang.domain.LocalItem;
 
 import java.io.IOException;
@@ -50,7 +48,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
 
     private void initialiseViews(final LocalItem item) {
         slidingPanelViewManipulator.fromItem(item.getItem());
-        slidingPanelViewManipulator.setMediaClickedListener(new SlidingPanelViewManipulator.OnMediaClickedListener() {
+        slidingPanelViewManipulator.setMediaClickedListener(new SlidingPanelViewManipulator.OnMediaClickListener() {
             @Override
             public void onMediaClicked(SlidingPanelViewManipulator.MediaPressed mediaPressed) {
                 if (mediaPressed == SlidingPanelViewManipulator.MediaPressed.PLAY) {
@@ -85,4 +83,11 @@ public class SlidingPanelController implements SlidingPanelExposer {
         }
     }
 
+    public void close() {
+        slidingPanelViewManipulator.close();
+    }
+
+    public boolean isShowing() {
+        return slidingPanelViewManipulator.isShowing();
+    }
 }

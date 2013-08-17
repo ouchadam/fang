@@ -18,26 +18,49 @@ class SlidingPanelViewManipulator {
     public enum MediaPressed {
         PLAY,
         PAUSE;
-
     }
 
-    public interface OnMediaClickedListener {
+    public interface OnMediaClickListener {
         void onMediaClicked(MediaPressed mediaPressed);
-
     }
-    private OnMediaClickedListener mediaClickedListener;
+
+    public interface OnPanelChangeListener {
+        void onPanelExpanded(View panel);
+        void onPanelCollapsed(View panel);
+    }
+
+    private OnMediaClickListener mediaClickedListener;
+
     SlidingPanelViewManipulator(SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher) {
         this.panelLayout = panelLayout;
         this.seekBar = seekBar;
         this.viewSwitcher = viewSwitcher;
     }
 
-    public void setMediaClickedListener(OnMediaClickedListener mediaClickedListener) {
+    public void setOnPanelExpandListener(final OnPanelChangeListener onPanelExpandListener) {
+        panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                // ignore
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                onPanelExpandListener.onPanelCollapsed(panel);
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                onPanelExpandListener.onPanelExpanded(panel);
+            }
+        });
+    }
+
+    public void setMediaClickedListener(OnMediaClickListener mediaClickedListener) {
         this.mediaClickedListener = mediaClickedListener;
         panelLayout.findViewById(R.id.top_bar_play).setOnClickListener(onPlayClicked);
         panelLayout.findViewById(R.id.top_bar_pause).setOnClickListener(onPauseClicked);
     }
-
     private final View.OnClickListener onPlayClicked = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -78,6 +101,14 @@ class SlidingPanelViewManipulator {
     private void setTextViewText(CharSequence text, int viewId) {
         TextView textView = Views.findById(panelLayout, viewId);
         textView.setText(text);
+    }
+
+    public void close() {
+        panelLayout.collapsePane();
+    }
+
+    public boolean isShowing() {
+        return panelLayout.isExpanded();
     }
 
 }

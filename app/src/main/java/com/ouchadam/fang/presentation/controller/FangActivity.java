@@ -91,4 +91,13 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     public void show() {
         slidingPanelController.show();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (slidingPanelController.isShowing()) {
+            slidingPanelController.close();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

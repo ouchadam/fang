@@ -11,11 +11,13 @@ public class ItemMarshaller implements CursorMarshaller<Item> {
     @Override
     public Item marshall(Cursor cursor) {
         String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.TITLE.name()));
+        String summary = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.SUMMARY.name()));
+        String subtitle = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.SUBTITLE.name()));
         int columnId = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Item._id.name()));
 
         Audio audio = createAudio(cursor);
 
-        return new Item(title, "", "", audio, "", "", columnId);
+        return new Item(title, "", "", audio, subtitle, summary, columnId);
     }
 
     private Audio createAudio(Cursor cursor) {
