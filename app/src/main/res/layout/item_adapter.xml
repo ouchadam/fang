@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-  android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/card_background">
 
-  <TextView
-    android:id="@+id/text"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      android:layout_toLeftOf="@+id/channel_image"
+      android:layout_centerVertical="true">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/channel_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:textColor="@android:color/darker_gray"
+        android:layout_below="@id/text"/>
+
+  </RelativeLayout>
+
+  <ImageView
+      android:id="@id/channel_image"
+      android:layout_width="110dp"
+      android:layout_height="100dp"
+      android:scaleType="centerCrop"
+      android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

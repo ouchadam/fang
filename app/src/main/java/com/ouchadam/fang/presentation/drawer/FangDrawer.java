@@ -24,7 +24,7 @@ public class FangDrawer implements DrawerManipulator {
         DrawerLayout drawerLayout = Views.findById(activity, R.id.drawer_layout);
         ListView drawerList = Views.findById(activity, R.id.left_drawer);
 
-        FangDrawerToggle drawerToggle = new FangDrawerToggle(activity, drawerLayout, "Drawer");
+        FangDrawerToggle drawerToggle = new FangDrawerToggle(activity, drawerLayout, "Fang");
         drawerLayout.setDrawerListener(drawerToggle);
 
         return new FangDrawer(drawerLayout, drawerList, drawerToggle);

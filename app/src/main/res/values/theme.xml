@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="FangTheme" parent="@android:style/Theme.Holo.Light">
+    <item name="android:actionBarStyle">@style/FangActionBar</item>
+  </style>
+
+  <style name="FangActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <item name="android:background">#089983</item>
+    <item name="android:titleTextStyle">@style/FangTextStyle</item>
+  </style>
+
+  <style name="FangTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    <item name="android:textColor">@android:color/white</item>
+  </style>
+
+</resources>

@@ -1,20 +1,26 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.item.ChannelItem;
 import com.ouchadam.fang.domain.item.Item;
+import com.squareup.picasso.Picasso;
 
-public class ItemAdapter extends TypedListAdapter<Item> {
+public class ItemAdapter extends TypedListAdapter<ChannelItem> {
 
     private final LayoutInflater layoutInflater;
+    private final Context context;
 
-    public ItemAdapter(LayoutInflater layoutInflater) {
+    public ItemAdapter(LayoutInflater layoutInflater, Context context) {
         this.layoutInflater = layoutInflater;
+        this.context = context;
     }
 
     @Override
@@ -28,7 +34,7 @@ public class ItemAdapter extends TypedListAdapter<Item> {
         }
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        Item item = getItem(position);
+        ChannelItem item = getItem(position);
 
         updateViewPosition(viewHolder, position);
         updateViewHolder(viewHolder, item);
@@ -48,6 +54,8 @@ public class ItemAdapter extends TypedListAdapter<Item> {
     private ViewHolder createViewHolder(View view, int position) {
         ViewHolder holder = new ViewHolder();
         holder.title = Views.findById(view, R.id.text);
+        holder.channelTitle = Views.findById(view, R.id.channel_title);
+        holder.channelImage = Views.findById(view, R.id.channel_image);
         holder.position = position;
         return holder;
     }
@@ -56,16 +64,26 @@ public class ItemAdapter extends TypedListAdapter<Item> {
         viewHolder.position = position;
     }
 
-    private void updateViewHolder(ViewHolder holder, Item item) {
+    private void updateViewHolder(ViewHolder holder, ChannelItem item) {
         setHolderText(holder, item);
+        setHolderImage(holder, item.getImageUrl());
     }
 
-    private void setHolderText(ViewHolder holder, Item item) {
-        holder.title.setText(item.getTitle());
+    private void setHolderImage(ViewHolder holder, String imageUrl) {
+        if (holder.channelImage != null) {
+            Picasso.with(context).load(imageUrl).resize(200, 200).centerCrop().into(holder.channelImage);
+        }
+    }
+
+    private void setHolderText(ViewHolder holder, ChannelItem item) {
+        holder.title.setText(item.getItem().getTitle());
+        holder.channelTitle.setText(item.getChannelTitle());
     }
 
     static class ViewHolder {
         TextView title;
+        TextView channelTitle;
+        ImageView channelImage;
         int position;
     }
 

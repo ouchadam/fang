@@ -14,16 +14,18 @@ import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.ItemToPlaylist;
+import com.ouchadam.fang.domain.item.ChannelItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Uris;
 
+import com.ouchadam.fang.presentation.controller.ChannelItemMarshaller;
 import com.ouchadam.fang.presentation.controller.ItemMarshaller;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-public class LatestFragment extends CursorBackedListFragment<Item> implements OnItemClickListener<Item> {
+public class LatestFragment extends CursorBackedListFragment<ChannelItem> implements OnItemClickListener<ChannelItem> {
 
     private Downloader downloader;
 
@@ -39,34 +41,29 @@ public class LatestFragment extends CursorBackedListFragment<Item> implements On
     }
 
     @Override
-    protected TypedListAdapter<Item> createAdapter() {
-        return new ItemAdapter(LayoutInflater.from(getActivity()));
+    protected TypedListAdapter<ChannelItem> createAdapter() {
+        return new ItemAdapter(LayoutInflater.from(getActivity()), getActivity());
     }
 
     @Override
     protected Query getQueryValues() {
-        return new Query.Builder().withUri(FangProvider.getUri(Uris.ITEM)).build();
+        return new Query.Builder().withUri(FangProvider.getUri(Uris.ITEM_WITH_IMAGE)).build();
     }
 
     @Override
-    protected CursorMarshaller<Item> getMarshaller() {
-        return getItemMarshaller();
+    protected CursorMarshaller<ChannelItem> getMarshaller() {
+        return new ChannelItemMarshaller();
     }
 
-    private CursorMarshaller<Item> getItemMarshaller() {
-        return new ItemMarshaller();
-    }
-
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setOnItemClickListener(this);
     }
 
     @Override
-    public void onItemClick(TypedListAdapter<Item> adapter, int position, long itemId) {
-        Item item = adapter.getItem(position);
-        downloadItem(item, itemId);
+    public void onItemClick(TypedListAdapter<ChannelItem> adapter, int position, long itemId) {
+        ChannelItem item = adapter.getItem(position);
+        downloadItem(item.getItem(), itemId);
     }
 
     private void downloadItem(Item item, long itemId) {
