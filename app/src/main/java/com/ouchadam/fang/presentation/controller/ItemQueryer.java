@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.content.Context;
 import android.support.v4.app.LoaderManager;
+import com.ouchadam.fang.domain.LocalItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.DataUpdater;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -13,32 +14,28 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 import java.util.List;
 
-class ItemQueryer implements DataUpdater.DataUpdatedListener<Item> {
+class ItemQueryer implements DataUpdater.DataUpdatedListener<LocalItem> {
 
     private final int itemColumnId;
     private final OnItemListener onItemListener;
-    private final DataQueryer<Item> itemQueryer;
+    private final DataQueryer<LocalItem> itemQueryer;
 
     interface OnItemListener {
-        void onItem(Item item);
+        void onItem(LocalItem item);
     }
 
     public ItemQueryer(Context context, int itemColumnId, LoaderManager loaderManager, OnItemListener onItemListener) {
         this.itemColumnId = itemColumnId;
         this.onItemListener = onItemListener;
-        this.itemQueryer = new DataQueryer<Item>(context, getQueryValues(), getMarshaller(), loaderManager, this);
+        this.itemQueryer = new DataQueryer<LocalItem>(context, getQueryValues(), getMarshaller(), loaderManager, this);
     }
 
     public void query() {
         itemQueryer.queryForData();
     }
 
-    private CursorMarshaller<Item> getMarshaller() {
-        return getItemMarshaller();
-    }
-
-    private CursorMarshaller<Item> getItemMarshaller() {
-        return new ItemMarshaller();
+    private CursorMarshaller<LocalItem> getMarshaller() {
+        return new LocalItemMarshaller();
     }
 
     public Query getQueryValues() {
@@ -49,7 +46,7 @@ class ItemQueryer implements DataUpdater.DataUpdatedListener<Item> {
     }
 
     @Override
-    public void onDataUpdated(List<Item> data) {
+    public void onDataUpdated(List<LocalItem> data) {
         if (!data.isEmpty() && data.size() == 1) {
             onItemListener.onItem(data.get(0));
         }

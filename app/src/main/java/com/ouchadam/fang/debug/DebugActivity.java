@@ -3,9 +3,8 @@ package com.ouchadam.fang.debug;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.widget.Toast;
-import com.ouchadam.bookkeeper.BookKeeper;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.domain.PlaylistItem;
+import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.persistance.*;
 
@@ -52,8 +51,8 @@ public class DebugActivity extends BasePreferenceActivity {
     private final Preference.OnPreferenceClickListener addToPlaylist = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            PlaylistItem playlistItem = new PlaylistItem(1);
-            new AddToPlaylistPersister(getContentResolver()).persist(playlistItem);
+            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L);
+            new AddToPlaylistPersister(getContentResolver()).persist(itemToPlaylist);
             Toast.makeText(DebugActivity.this, "Added to playlist", Toast.LENGTH_SHORT).show();
             return false;
         }

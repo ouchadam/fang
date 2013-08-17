@@ -20,21 +20,36 @@
         android:layout_alignParentLeft="true"
         android:textSize="30sp"/>
 
+    <ViewSwitcher
+        android:id="@+id/media_switcher"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true">
+
     <Button
         android:id="@+id/top_bar_play"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
         android:text="play"
         android:textSize="30sp"/>
+
+      <Button
+          android:id="@+id/top_bar_pause"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="pause"
+          android:textSize="30sp"/>
+
+    </ViewSwitcher>
 
   </RelativeLayout>
 
   <SeekBar
+      android:id="@+id/seek_bar"
       android:layout_height="wrap_content"
       android:layout_width="match_parent"
       android:max="100"
-      android:progress="50"
+      android:progress="0"
       android:clickable="true"
       android:layout_above="@+id/player_bottom_bar"/>
 

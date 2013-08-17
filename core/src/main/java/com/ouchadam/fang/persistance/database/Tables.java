@@ -34,7 +34,9 @@ public class Tables {
     }
 
     public enum Playlist {
-        ITEM_ID;
+        ITEM_ID,
+        DOWNLOADED,
+        DOWNLOAD_ID;
     }
 
 

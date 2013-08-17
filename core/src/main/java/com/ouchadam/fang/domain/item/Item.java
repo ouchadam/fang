@@ -78,7 +78,7 @@ public class Item {
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        return result;
+        return title != null ? title.hashCode() : 0;
     }
+
 }

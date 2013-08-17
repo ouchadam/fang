@@ -1,7 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,11 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.domain.PlaylistItem;
-import com.ouchadam.fang.domain.item.Audio;
+import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
-import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 
 import com.ouchadam.fang.presentation.controller.ItemMarshaller;
@@ -69,11 +66,16 @@ public class LatestFragment extends CursorBackedListFragment<Item> implements On
     @Override
     public void onItemClick(TypedListAdapter<Item> adapter, int position, long itemId) {
         Item item = adapter.getItem(position);
-        new AddToPlaylistPersister(getActivity().getContentResolver()).persist(PlaylistItem.from(item));
+        downloadItem(item, itemId);
+    }
 
+    private void downloadItem(Item item, long itemId) {
         ItemDownload downloadable = ItemDownload.from(item);
         DownloadId downloadId = downloader.keep(downloadable);
         downloader.store(downloadId, itemId);
+
+        new AddToPlaylistPersister(getActivity().getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value()));
         downloader.watch(downloadId, new NotificationWatcher(getActivity(), downloadable, downloadId));
     }
+
 }

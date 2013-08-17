@@ -1,7 +1,7 @@
 package com.ouchadam.fang.persistance;
 
 import android.content.ContentResolver;
-import com.ouchadam.fang.domain.PlaylistItem;
+import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.persistance.database.Executable;
 import com.ouchadam.fang.persistance.database.marshaller.BaseMarshaller;
 import com.ouchadam.fang.persistance.database.marshaller.PlaylistMarshaller;
@@ -14,15 +14,15 @@ public class AddToPlaylistPersister {
         this.contentResolver = contentResolver;
     }
 
-    public void persist(PlaylistItem playlistItem) {
+    public void persist(ItemToPlaylist itemToPlaylist) {
         try {
-            new Persister<PlaylistItem>(getExecutor(), getMarshaller()).persist(playlistItem);
+            new Persister<ItemToPlaylist>(getExecutor(), getMarshaller()).persist(itemToPlaylist);
         } catch (Executable.ExecutionFailure executionFailure) {
             executionFailure.printStackTrace();
         }
     }
 
-    private BaseMarshaller<PlaylistItem> getMarshaller() {
+    private BaseMarshaller<ItemToPlaylist> getMarshaller() {
         return new PlaylistMarshaller(new OperationWrapperImpl());
     }
 

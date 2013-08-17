@@ -4,10 +4,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import android.widget.SeekBar;
+import android.widget.ViewSwitcher;
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
@@ -32,8 +33,13 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer);
+
         SlidingUpPanelLayout slidingPanel = Views.findById(this, R.id.sliding_layout);
-        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), new SlidingPanelViewManipulator(slidingPanel));
+        SeekBar seekBar = Views.findById(this, R.id.seek_bar);
+        ViewSwitcher mediaSwitcher = Views.findById(this, R.id.media_switcher);
+        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(slidingPanel, seekBar, mediaSwitcher);
+        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), slidingPanelViewManipulator);
+
         String[] strings = new String[]{"Latest", "Channels", "Playlist"};
         initDrawer(strings);
         onFangCreate(savedInstanceState);

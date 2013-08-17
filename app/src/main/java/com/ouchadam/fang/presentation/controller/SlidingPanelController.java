@@ -1,16 +1,22 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.view.View;
 import android.widget.Toast;
-import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.domain.LocalItem;
+
+import java.io.IOException;
 
 public class SlidingPanelController implements SlidingPanelExposer {
 
     private final Context context;
     private final LoaderManager loaderManager;
     private final SlidingPanelViewManipulator slidingPanelViewManipulator;
+    private final PodcastPlayer podcastPlayer;
 
     private ItemQueryer itemQueryer;
 
@@ -18,6 +24,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
         this.context = context;
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;
+        podcastPlayer = new PodcastPlayer(new MediaPlayer(), slidingPanelViewManipulator);
     }
 
     @Override
@@ -31,20 +38,46 @@ public class SlidingPanelController implements SlidingPanelExposer {
 
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
-        public void onItem(Item item) {
+        public void onItem(LocalItem item) {
             initialiseViews(item);
         }
     };
 
-    private void initialiseViews(Item item) {
-        slidingPanelViewManipulator.setBarText(item.getTitle());
-        slidingPanelViewManipulator.setTopBarPlayClicked(new View.OnClickListener() {
+    private void initialiseViews(final LocalItem item) {
+        slidingPanelViewManipulator.setBarText(item.getItem().getTitle());
+        slidingPanelViewManipulator.setMediaClickedListener(new SlidingPanelViewManipulator.OnMediaClickedListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Play", Toast.LENGTH_SHORT).show();
+            public void onMediaClicked(SlidingPanelViewManipulator.MediaPressed mediaPressed) {
+                if (mediaPressed == SlidingPanelViewManipulator.MediaPressed.PLAY) {
+                    playItem(item);
+                } else {
+                    pause();
+                }
             }
         });
     }
 
+    private void pause() {
+        podcastPlayer.pause();
+    }
+
+    private void playItem(LocalItem localItem) {
+        if (!podcastPlayer.isPaused()) {
+            setSource(localItem);
+        }
+        podcastPlayer.play();
+    }
+
+    private void setSource(LocalItem localItem) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri itemUri = downloadManager.getUriForDownloadedFile(localItem.getDownloadId());
+
+        try {
+            podcastPlayer.setSource(context, itemUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("couldn't find : " + itemUri);
+        }
+    }
 
 }

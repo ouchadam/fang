@@ -12,6 +12,7 @@ import com.ouchadam.bookkeeper.RestoreableBookKeeper;
 import com.ouchadam.bookkeeper.delegate.IdManager;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
+import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.fang.R;
@@ -93,7 +94,7 @@ public class MyActivity extends FangActivity implements Downloader {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (getActionBar().getTitle() != null) {
+        if (getActionBar() != null && getActionBar().getTitle() != null) {
             activityTitle = getActionBar().getTitle().toString();
         }
         Bundles.saveInstanceState(this, outState);

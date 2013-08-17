@@ -1,7 +1,9 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,10 +84,8 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
 
     @Override
     public void onItemClick(TypedListAdapter<Item> adapter, int position, long itemId) {
-        // TODO update sliding bar
         // TODO play by default?
         Item item = adapter.getItem(position);
-        Log.e("!!!", "onItemClick id : " + item.getId());
         panelController.setData(item.getId());
     }
 
