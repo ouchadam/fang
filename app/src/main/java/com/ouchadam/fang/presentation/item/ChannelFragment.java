@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation.item;
 
 import android.database.Cursor;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
@@ -18,8 +19,8 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 public class ChannelFragment extends CursorBackedListFragment<Channel> {
 
     @Override
-    protected AbsListView getRootLayout(LayoutInflater inflater, ViewGroup container) {
-        return (AbsListView) inflater.inflate(R.layout.fragment_channel_list, container, false);
+    protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_channel_list, container, false);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> {
     private static class ChannelSummaryMarshaller implements CursorMarshaller<Channel> {
         @Override
         public Channel marshall(Cursor cursor) {
-            String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Channel.TITLE.name()));
+            String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Channel.CHANNEL_TITLE.name()));
             String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.ChannelImage.URL.name()));
             return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), null, null);
         }

@@ -6,7 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.view.View;
-import com.ouchadam.fang.domain.LocalItem;
+import com.ouchadam.fang.domain.FullItem;
 
 import java.io.IOException;
 
@@ -43,13 +43,13 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
-        public void onItem(LocalItem item) {
+        public void onItem(FullItem item) {
             initialiseViews(item);
         }
     };
 
-    private void initialiseViews(final LocalItem item) {
-        slidingPanelViewManipulator.fromItem(item.getItem());
+    private void initialiseViews(final FullItem item) {
+        slidingPanelViewManipulator.fromItem(item);
         slidingPanelViewManipulator.setMediaClickedListener(new SlidingPanelViewManipulator.OnMediaClickListener() {
             @Override
             public void onMediaClicked(SlidingPanelViewManipulator.MediaPressed mediaPressed) {
@@ -66,16 +66,16 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         podcastPlayer.pause();
     }
 
-    private void playItem(LocalItem localItem) {
+    private void playItem(FullItem fullItem) {
         if (!podcastPlayer.isPaused()) {
-            setSource(localItem);
+            setSource(fullItem);
         }
         podcastPlayer.play();
     }
 
-    private void setSource(LocalItem localItem) {
+    private void setSource(FullItem fullItem) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri itemUri = downloadManager.getUriForDownloadedFile(localItem.getDownloadId());
+        Uri itemUri = downloadManager.getUriForDownloadedFile(fullItem.getDownloadId());
 
         try {
             podcastPlayer.setSource(context, itemUri);

@@ -37,6 +37,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
         setContentView(R.layout.drawer);
 
         SlidingUpPanelLayout slidingPanel = Views.findById(this, R.id.sliding_layout);
+        slidingPanel.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
         SeekBar seekBar = Views.findById(this, R.id.seek_bar);
         ViewSwitcher mediaSwitcher = Views.findById(this, R.id.media_switcher);
         SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel, seekBar, mediaSwitcher);

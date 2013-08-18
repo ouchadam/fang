@@ -6,6 +6,8 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.FullItem;
+import com.ouchadam.fang.domain.item.ChannelItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
@@ -101,13 +103,19 @@ class SlidingPanelViewManipulator {
         panelLayout.expandPane();
     }
 
-    public void fromItem(Item item) {
-        setBarText(item.getTitle());
+    public void fromItem(FullItem fullItem) {
+        Item item = fullItem.getItem();
+        setBarTitle(item.getTitle());
         setDescription(item.getSummary());
+        setBarSubtitle(fullItem.getChannelTitle());
     }
 
-    private void setBarText(CharSequence text) {
+    private void setBarTitle(CharSequence text) {
         setTextViewText(text, R.id.bar_title);
+    }
+
+    private void setBarSubtitle(CharSequence text) {
+        setTextViewText(text, R.id.bar_sub_title);
     }
 
     private void setDescription(CharSequence summary) {

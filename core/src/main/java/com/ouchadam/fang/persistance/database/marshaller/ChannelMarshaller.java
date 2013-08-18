@@ -31,7 +31,7 @@ public class ChannelMarshaller extends BaseMarshaller<Channel> {
 
     private void insertChannel(Channel channel) {
         ContentProviderOperationValues itemBuilder = newInsertFor(Uris.CHANNEL);
-        itemBuilder.withValue(Tables.Channel.TITLE.name(), channel.getTitle());
+        itemBuilder.withValue(Tables.Channel.CHANNEL_TITLE.name(), channel.getTitle());
         itemBuilder.withValue(Tables.Channel.CATEGORY.name(), channel.getCategory());
         itemBuilder.withValue(Tables.Channel.SUMMARY.name(), channel.getSummary());
         operations.add(itemBuilder);

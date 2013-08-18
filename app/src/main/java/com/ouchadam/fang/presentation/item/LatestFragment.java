@@ -50,7 +50,7 @@ public class LatestFragment extends CursorBackedListFragment<ChannelItem> implem
 
     @Override
     protected Query getQueryValues() {
-        return new Query.Builder().withUri(FangProvider.getUri(Uris.ITEM_WITH_IMAGE)).build();
+        return new Query.Builder().withUri(FangProvider.getUri(Uris.FULL_ITEM)).build();
     }
 
     @Override

@@ -9,36 +9,65 @@
   <RelativeLayout
       android:id="@+id/player_top_bar"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentTop="true">
+      android:layout_height="68dp"
+      android:layout_alignParentTop="true"
+      android:background="@drawable/card_background">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_toLeftOf="@+id/media_switcher"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true">
 
     <TextView
         android:id="@+id/bar_title"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="Test"
-        android:layout_alignParentLeft="true"
-        android:textSize="30sp"/>
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/bar_sub_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/bar_title"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:textStyle="italic"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"/>
+
+    </RelativeLayout>
 
     <ViewSwitcher
-        android:id="@+id/media_switcher"
+        android:id="@id/media_switcher"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:paddingRight="24dp"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true">
 
-    <Button
-        android:id="@+id/top_bar_play"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="play"
-        android:textSize="30sp"/>
+      <ImageButton
+          android:id="@+id/top_bar_play"
+          android:layout_height="25dp"
+          android:layout_width="20dp"
+          android:background="@null"
+          android:scaleType="fitXY"
+          android:src="@drawable/play_button"/>
 
-      <Button
+      <ImageButton
           android:id="@+id/top_bar_pause"
-          android:layout_height="wrap_content"
-          android:layout_width="wrap_content"
-          android:text="pause"
-          android:textSize="30sp"/>
+          android:layout_height="25dp"
+          android:layout_width="20dp"
+          android:background="@null"
+          android:scaleType="fitXY"
+          android:src="@drawable/pause_button"/>
 
     </ViewSwitcher>
 

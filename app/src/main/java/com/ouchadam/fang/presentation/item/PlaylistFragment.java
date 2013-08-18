@@ -48,7 +48,7 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
 
     @Override
     protected Query getQueryValues() {
-        return new Query.Builder().withUri(FangProvider.getUri(Uris.PLAYLIST_ITEM)).build();
+        return new Query.Builder().withUri(FangProvider.getUri(Uris.FULL_ITEM)).build();
     }
 
     @Override

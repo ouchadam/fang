@@ -15,6 +15,7 @@ import com.ouchadam.fang.R;
 public class FangDrawer implements DrawerManipulator {
 
     private final DrawerLayout drawerLayout;
+    private View drawerParent;
     private final ListView drawerList;
     private final FangDrawerToggle drawerToggle;
 
@@ -23,15 +24,17 @@ public class FangDrawer implements DrawerManipulator {
     public static FangDrawer newInstance(FragmentActivity activity) {
         DrawerLayout drawerLayout = Views.findById(activity, R.id.drawer_layout);
         ListView drawerList = Views.findById(activity, R.id.left_drawer);
+        View drawerParent = Views.findById(activity, R.id.drawer_content);
 
         FangDrawerToggle drawerToggle = new FangDrawerToggle(activity, drawerLayout, "Fang");
         drawerLayout.setDrawerListener(drawerToggle);
 
-        return new FangDrawer(drawerLayout, drawerList, drawerToggle);
+        return new FangDrawer(drawerLayout, drawerParent, drawerList, drawerToggle);
     }
 
-    FangDrawer(DrawerLayout drawerLayout, ListView drawerList, FangDrawerToggle drawerToggle) {
+    FangDrawer(DrawerLayout drawerLayout, View drawerParent, ListView drawerList, FangDrawerToggle drawerToggle) {
         this.drawerLayout = drawerLayout;
+        this.drawerParent = drawerParent;
         this.drawerList = drawerList;
         this.drawerToggle = drawerToggle;
     }
@@ -54,7 +57,7 @@ public class FangDrawer implements DrawerManipulator {
 
     @Override
     public void close() {
-        drawerLayout.closeDrawer(drawerList);
+        drawerLayout.closeDrawer(drawerParent);
     }
 
     @Override
