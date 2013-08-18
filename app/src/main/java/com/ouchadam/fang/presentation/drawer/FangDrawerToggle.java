@@ -29,7 +29,7 @@ public class FangDrawerToggle extends ActionBarDrawerToggle {
     }
 
     @Override
-    public void onDrawerClosed(View view) { 
+    public void onDrawerClosed(View view) {
         actionBar.setTitle(activityTitle);
         refreshActionBar();
     }

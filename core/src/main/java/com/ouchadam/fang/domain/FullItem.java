@@ -1,5 +1,6 @@
 package com.ouchadam.fang.domain;
 
+import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.domain.item.Item;
 
@@ -42,4 +43,5 @@ public class FullItem {
     public boolean isDownloaded() {
         return isDownloaded;
     }
+
 }

@@ -54,6 +54,7 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
         holder.title = Views.findById(view, R.id.text);
         holder.channelTitle = Views.findById(view, R.id.channel_title);
         holder.channelImage = Views.findById(view, R.id.channel_image);
+        holder.itemTime = Views.findById(view, R.id.item_time);
         holder.position = position;
         return holder;
     }
@@ -76,6 +77,7 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     private void setHolderText(ViewHolder holder, FullItem item) {
         holder.title.setText(item.getItem().getTitle());
         holder.channelTitle.setText(item.getChannelTitle());
+        holder.itemTime.setText(item.getItem().getPubDate().getTimeAgo());
     }
 
     @Override
@@ -86,6 +88,7 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     static class ViewHolder {
         TextView title;
         TextView channelTitle;
+        TextView itemTime;
         ImageView channelImage;
         int position;
     }

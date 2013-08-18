@@ -6,6 +6,7 @@ import com.novoda.sexp.finder.ElementFinder;
 import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseWatcher;
 import com.novoda.sexp.parser.Parser;
+import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.item.Audio;
 import com.ouchadam.fang.domain.item.Item;
 
@@ -83,7 +84,7 @@ class ItemParser implements Parser<Item> {
         private String summary;
 
         Item asItem() {
-            return new Item(title, link, pubDate, audio, subtitle, summary);
+            return new Item(title, link, new FangCalendar(pubDate), audio, subtitle, summary);
         }
     }
 
