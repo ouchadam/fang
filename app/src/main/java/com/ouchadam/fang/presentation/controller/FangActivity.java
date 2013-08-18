@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-
 import android.widget.SeekBar;
 import android.widget.ViewSwitcher;
 import com.novoda.notils.android.Views;
@@ -17,7 +16,7 @@ import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-public class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer {
+public class FangActivity extends BookKeeperActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
@@ -41,7 +40,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
         SeekBar seekBar = Views.findById(this, R.id.seek_bar);
         ViewSwitcher mediaSwitcher = Views.findById(this, R.id.media_switcher);
         SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel, seekBar, mediaSwitcher);
-        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), slidingPanelViewManipulator);
+        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator);
 
         String[] strings = new String[]{"Latest", "Channels", "Playlist"};
         initDrawer(strings);
@@ -86,8 +85,8 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     }
 
     @Override
-    public void setData(int itemColumnId) {
-        slidingPanelController.setData(itemColumnId);
+    public void setData(long itemId) {
+        slidingPanelController.setData(itemId);
     }
 
     @Override

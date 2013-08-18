@@ -5,28 +5,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-
 import com.novoda.notils.android.ClassCaster;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
-import com.ouchadam.fang.domain.item.ChannelItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Uris;
-
-import com.ouchadam.fang.presentation.controller.ChannelItemMarshaller;
-import com.ouchadam.fang.presentation.controller.ItemMarshaller;
+import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 import com.ouchadam.fang.presentation.controller.SlidingPanelExposer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-public class LatestFragment extends CursorBackedListFragment<ChannelItem> implements OnItemClickListener<ChannelItem> {
+public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
     private Downloader downloader;
     private SlidingPanelExposer panelController;
@@ -44,7 +40,7 @@ public class LatestFragment extends CursorBackedListFragment<ChannelItem> implem
     }
 
     @Override
-    protected TypedListAdapter<ChannelItem> createAdapter() {
+    protected TypedListAdapter<FullItem> createAdapter() {
         return new ItemAdapter(LayoutInflater.from(getActivity()), getActivity());
     }
 
@@ -54,8 +50,8 @@ public class LatestFragment extends CursorBackedListFragment<ChannelItem> implem
     }
 
     @Override
-    protected CursorMarshaller<ChannelItem> getMarshaller() {
-        return new ChannelItemMarshaller();
+    protected CursorMarshaller<FullItem> getMarshaller() {
+        return new FullItemMarshaller();
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -64,20 +60,13 @@ public class LatestFragment extends CursorBackedListFragment<ChannelItem> implem
     }
 
     @Override
-    public void onItemClick(TypedListAdapter<ChannelItem> adapter, int position, long itemId) {
-        ChannelItem item = adapter.getItem(position);
-        panelController.setData(item.getItem().getId());
+    public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
+        panelController.setData(itemId);
         panelController.show();
 //        downloadItem(item.getItem(), itemId);
     }
 
-    private void downloadItem(Item item, long itemId) {
-        ItemDownload downloadable = ItemDownload.from(item);
-        DownloadId downloadId = downloader.keep(downloadable);
-        downloader.store(downloadId, itemId);
 
-        new AddToPlaylistPersister(getActivity().getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value()));
-        downloader.watch(downloadId, new NotificationWatcher(getActivity(), downloadable, downloadId));
-    }
+
 
 }

@@ -6,12 +6,20 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.view.View;
+import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.domain.DownloadId;
+import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
+import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.domain.FullItem;
+import com.ouchadam.fang.domain.ItemToPlaylist;
+import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 
 import java.io.IOException;
 
-public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnPanelChangeListener {
+public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnPanelChangeListener, SlidingPanelViewManipulator.OnDownloadClickListener {
 
+    private final Downloader downloader;
     private final Context context;
     private final LoaderManager loaderManager;
     private final SlidingPanelViewManipulator slidingPanelViewManipulator;
@@ -19,20 +27,22 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     private ItemQueryer itemQueryer;
 
-    public SlidingPanelController(Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator) {
+    public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator) {
+        this.downloader = downloader;
         this.context = context;
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;
         podcastPlayer = new PodcastPlayer(new MediaPlayer(), slidingPanelViewManipulator);
         slidingPanelViewManipulator.setOnPanelExpandListener(this);
+        slidingPanelViewManipulator.setOnDownloadClickedListener(this);
     }
 
     @Override
-    public void setData(int itemColumnId) {
+    public void setData(long itemId) {
         if (itemQueryer != null) {
             itemQueryer.stop();
         }
-        itemQueryer = new ItemQueryer(context, itemColumnId, loaderManager, onItem);
+        itemQueryer = new ItemQueryer(context, itemId, loaderManager, onItem);
         itemQueryer.query();
     }
 
@@ -102,4 +112,19 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     public void onPanelCollapsed(View panel) {
         // TODO switch views, maybe this shouldnt be here
     }
+
+    @Override
+    public void onDownloadClicked(FullItem fullItem) {
+        downloadItem(fullItem.getItem(), fullItem.getItemId());
+    }
+
+    private void downloadItem(Item item, long itemId) {
+        ItemDownload downloadable = ItemDownload.from(item);
+        DownloadId downloadId = downloader.keep(downloadable);
+        downloader.store(downloadId, itemId);
+
+        new AddToPlaylistPersister(context.getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value()));
+        downloader.watch(downloadId, new NotificationWatcher(context, downloadable, downloadId));
+    }
+
 }

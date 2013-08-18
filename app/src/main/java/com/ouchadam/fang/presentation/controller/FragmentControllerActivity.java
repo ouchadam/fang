@@ -19,11 +19,10 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.presentation.item.LatestFragment;
 
-public class MyActivity extends FangActivity implements Downloader {
+public class FragmentControllerActivity extends FangActivity {
 
     @Icicle
     public String activityTitle;
-    private RestoreableBookKeeper bookKeeper;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,7 +48,6 @@ public class MyActivity extends FangActivity implements Downloader {
         if (hasEmptyContent()) {
             showDefaultFragment();
         }
-        initBookKeeper();
     }
 
     private boolean hasEmptyContent() {
@@ -60,36 +58,6 @@ public class MyActivity extends FangActivity implements Downloader {
         getActionBar().setTitle("Latest");
         invalidateOptionsMenu();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new LatestFragment()).commit();
-    }
-
-    private void initBookKeeper() {
-        bookKeeper = RestoreableBookKeeper.newInstance(this);
-    }
-
-    @Override
-    public DownloadId keep(Downloadable from) {
-        return bookKeeper.keep(from);
-    }
-
-    @Override
-    public void restore(final LazyWatcher lazyWatcher) {
-        bookKeeper.restore(new IdManager.BookKeeperRestorer() {
-            @Override
-            public void onRestore(DownloadId downloadId, long itemId) {
-                DownloadWatcher downloadWatcher = lazyWatcher.create(downloadId, itemId);
-                bookKeeper.watch(downloadId, downloadWatcher);
-            }
-        });
-    }
-
-    @Override
-    public void watch(DownloadId downloadId, DownloadWatcher... downloadWatchers) {
-        bookKeeper.watch(downloadId, downloadWatchers);
-    }
-
-    @Override
-    public void store(DownloadId downloadId, long itemId) {
-        bookKeeper.store(downloadId, itemId);
     }
 
     @Override

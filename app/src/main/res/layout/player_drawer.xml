@@ -14,11 +14,13 @@
       android:background="@drawable/card_background">
 
     <RelativeLayout
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_toLeftOf="@+id/media_switcher"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentLeft="true"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp">
 
     <TextView
         android:id="@+id/bar_title"
@@ -26,8 +28,7 @@
         android:layout_width="match_parent"
         android:maxLines="1"
         android:ellipsize="end"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"
+
         android:textSize="14sp"/>
 
     <TextView
@@ -37,8 +38,6 @@
         android:layout_below="@id/bar_title"
         android:maxLines="1"
         android:ellipsize="end"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"
         android:textStyle="italic"
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"/>
@@ -79,6 +78,15 @@
       android:layout_width="match_parent"
       android:layout_centerInParent="true"
       android:textSize="18sp"/>
+
+  <Button
+      android:id="@+id/download"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_below="@id/item_description"
+      android:text="Download"
+      android:textSize="14sp"/>
+
 
   <SeekBar
       android:id="@+id/seek_bar"

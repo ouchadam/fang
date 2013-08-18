@@ -7,16 +7,17 @@ import android.widget.ViewSwitcher;
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.item.ChannelItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 class SlidingPanelViewManipulator {
 
-    private ActionBarManipulator actionBarManipulator;
+    private final ActionBarManipulator actionBarManipulator;
     private final SlidingUpPanelLayout panelLayout;
     private final SeekBar seekBar;
     private final ViewSwitcher viewSwitcher;
+
+    private FullItem fullItem;
 
     public enum MediaPressed {
         PLAY,
@@ -25,6 +26,10 @@ class SlidingPanelViewManipulator {
 
     public interface OnMediaClickListener {
         void onMediaClicked(MediaPressed mediaPressed);
+    }
+
+    public interface OnDownloadClickListener {
+        void onDownloadClicked(FullItem fullItem);
     }
 
     public interface OnPanelChangeListener {
@@ -74,6 +79,15 @@ class SlidingPanelViewManipulator {
         });
     }
 
+    public void setOnDownloadClickedListener(final OnDownloadClickListener onDownloadClickedListener) {
+        Views.findById(panelLayout, R.id.download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onDownloadClickedListener.onDownloadClicked(fullItem);
+            }
+        });
+    }
+
     public void setMediaClickedListener(OnMediaClickListener mediaClickedListener) {
         this.mediaClickedListener = mediaClickedListener;
         panelLayout.findViewById(R.id.top_bar_play).setOnClickListener(onPlayClicked);
@@ -104,6 +118,7 @@ class SlidingPanelViewManipulator {
     }
 
     public void fromItem(FullItem fullItem) {
+        this.fullItem = fullItem;
         Item item = fullItem.getItem();
         setBarTitle(item.getTitle());
         setDescription(item.getSummary());

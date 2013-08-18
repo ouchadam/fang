@@ -15,7 +15,7 @@ import java.util.List;
 
 class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
 
-    private final int itemColumnId;
+    private final long itemId;
     private final OnItemListener onItemListener;
     private final DataQueryer<FullItem> itemQueryer;
 
@@ -23,8 +23,8 @@ class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
         void onItem(FullItem item);
     }
 
-    public ItemQueryer(Context context, int itemColumnId, LoaderManager loaderManager, OnItemListener onItemListener) {
-        this.itemColumnId = itemColumnId;
+    public ItemQueryer(Context context, long itemId, LoaderManager loaderManager, OnItemListener onItemListener) {
+        this.itemId = itemId;
         this.onItemListener = onItemListener;
         this.itemQueryer = new DataQueryer<FullItem>(context, getQueryValues(), getMarshaller(), loaderManager, this);
     }
@@ -41,7 +41,7 @@ class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
         return new Query.Builder().
                 withUri(FangProvider.getUri(Uris.FULL_ITEM)).
                 withSelection(Tables.Item._id.name() + "=?").
-                withSelectionArgs(new String[]{String.valueOf(itemColumnId)}).build();
+                withSelectionArgs(new String[]{String.valueOf(itemId)}).build();
     }
 
     @Override

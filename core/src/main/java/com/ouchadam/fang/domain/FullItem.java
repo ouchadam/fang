@@ -28,4 +28,12 @@ public class FullItem {
     public long getDownloadId() {
         return downloadId;
     }
+
+    public String getImageUrl() {
+        return image.getUrl();
+    }
+
+    public long getItemId() {
+        return item.getId();
+    }
 }

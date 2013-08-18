@@ -39,5 +39,4 @@ public class Tables {
         DOWNLOAD_ID;
     }
 
-
 }

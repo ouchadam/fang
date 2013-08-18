@@ -64,7 +64,7 @@ public class Item {
         return text != null && text.length() != 0;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

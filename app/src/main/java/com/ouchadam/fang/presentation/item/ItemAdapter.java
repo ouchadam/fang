@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.domain.item.ChannelItem;
-import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.domain.FullItem;
 import com.squareup.picasso.Picasso;
 
-public class ItemAdapter extends TypedListAdapter<ChannelItem> {
+public class ItemAdapter extends TypedListAdapter<FullItem> {
 
     private final LayoutInflater layoutInflater;
     private final Context context;
@@ -34,7 +32,7 @@ public class ItemAdapter extends TypedListAdapter<ChannelItem> {
         }
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        ChannelItem item = getItem(position);
+        FullItem item = getItem(position);
 
         updateViewPosition(viewHolder, position);
         updateViewHolder(viewHolder, item);
@@ -64,7 +62,7 @@ public class ItemAdapter extends TypedListAdapter<ChannelItem> {
         viewHolder.position = position;
     }
 
-    private void updateViewHolder(ViewHolder holder, ChannelItem item) {
+    private void updateViewHolder(ViewHolder holder, FullItem item) {
         setHolderText(holder, item);
         setHolderImage(holder, item.getImageUrl());
     }
@@ -75,9 +73,14 @@ public class ItemAdapter extends TypedListAdapter<ChannelItem> {
         }
     }
 
-    private void setHolderText(ViewHolder holder, ChannelItem item) {
+    private void setHolderText(ViewHolder holder, FullItem item) {
         holder.title.setText(item.getItem().getTitle());
         holder.channelTitle.setText(item.getChannelTitle());
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getItem().getId();
     }
 
     static class ViewHolder {
