@@ -17,6 +17,7 @@ import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
+import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 import com.ouchadam.fang.presentation.controller.SlidingPanelExposer;
@@ -46,7 +47,10 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     @Override
     protected Query getQueryValues() {
-        return new Query.Builder().withUri(FangProvider.getUri(Uris.FULL_ITEM)).build();
+        return new Query.Builder()
+                .withUri(FangProvider.getUri(Uris.FULL_ITEM))
+                .withSorter(" CAST (" + Tables.Item.PUBDATE + " AS DECIMAL)" + " DESC")
+                .build();
     }
 
     @Override

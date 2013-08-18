@@ -1,28 +1,20 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.TextView;
 import com.novoda.notils.android.ClassCaster;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
-import com.ouchadam.fang.presentation.controller.ItemMarshaller;
 import com.ouchadam.fang.presentation.controller.SlidingPanelExposer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
@@ -45,7 +37,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
-        return new ExampleListAdapter(LayoutInflater.from(getActivity()));
+        return new PlaylistAdapter(LayoutInflater.from(getActivity()));
     }
 
     @Override

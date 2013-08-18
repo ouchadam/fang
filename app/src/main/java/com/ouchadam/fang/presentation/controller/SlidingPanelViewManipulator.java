@@ -10,12 +10,13 @@ import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-class SlidingPanelViewManipulator {
+class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     private final ActionBarManipulator actionBarManipulator;
     private final SlidingUpPanelLayout panelLayout;
     private final SeekBar seekBar;
-    private final ViewSwitcher viewSwitcher;
+    private final ViewSwitcher topMediaSwitcher;
+    private final ViewSwitcher bottomMediaSwitcher;
 
     private FullItem fullItem;
 
@@ -32,19 +33,15 @@ class SlidingPanelViewManipulator {
         void onDownloadClicked(FullItem fullItem);
     }
 
-    public interface OnPanelChangeListener {
-        void onPanelExpanded(View panel);
-
-        void onPanelCollapsed(View panel);
-    }
-
     private OnMediaClickListener mediaClickedListener;
 
-    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher) {
+    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher, ViewSwitcher bottomMediaSwitcher) {
         this.actionBarManipulator = actionBarManipulator;
         this.panelLayout = panelLayout;
         this.seekBar = seekBar;
-        this.viewSwitcher = viewSwitcher;
+        this.topMediaSwitcher = viewSwitcher;
+        this.bottomMediaSwitcher = bottomMediaSwitcher;
+        setOnPanelExpandListener(this);
     }
 
     public interface ActionBarManipulator {
@@ -55,7 +52,7 @@ class SlidingPanelViewManipulator {
         void showActionBar();
     }
 
-    public void setOnPanelExpandListener(final OnPanelChangeListener onPanelExpandListener) {
+    private void setOnPanelExpandListener(final OnPanelChangeListener onPanelExpandListener) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -93,23 +90,30 @@ class SlidingPanelViewManipulator {
 
     public void setMediaClickedListener(OnMediaClickListener mediaClickedListener) {
         this.mediaClickedListener = mediaClickedListener;
-        panelLayout.findViewById(R.id.top_bar_play).setOnClickListener(onPlayClicked);
-        panelLayout.findViewById(R.id.top_bar_pause).setOnClickListener(onPauseClicked);
+        panelLayout.findViewById(R.id.play_top).setOnClickListener(onPlayClicked);
+        panelLayout.findViewById(R.id.play_bottom).setOnClickListener(onPlayClicked);
+        panelLayout.findViewById(R.id.pause_top).setOnClickListener(onPauseClicked);
+        panelLayout.findViewById(R.id.pause_bottom).setOnClickListener(onPauseClicked);
     }
 
     private final View.OnClickListener onPlayClicked = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             mediaClickedListener.onMediaClicked(MediaPressed.PLAY);
-            viewSwitcher.showNext();
+            mediaNext();
         }
     };
+
+    private void mediaNext() {
+        topMediaSwitcher.showNext();
+        bottomMediaSwitcher.showNext();
+    }
 
     private final View.OnClickListener onPauseClicked = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             mediaClickedListener.onMediaClicked(MediaPressed.PAUSE);
-            viewSwitcher.showNext();
+            mediaNext();
         }
     };
 
@@ -157,6 +161,34 @@ class SlidingPanelViewManipulator {
 
     public boolean isShowing() {
         return panelLayout.isExpanded();
+    }
+
+    @Override
+    public void onPanelExpanded(View panel) {
+        showExpandedViews();
+    }
+
+    private void showExpandedViews() {
+        setTopBarMediaVisibility(View.INVISIBLE);
+        setBottomBarMediaVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPanelCollapsed(View panel) {
+        showCollaspedViews();
+    }
+
+    private void showCollaspedViews() {
+        setTopBarMediaVisibility(View.VISIBLE);
+        setBottomBarMediaVisibility(View.INVISIBLE);
+    }
+
+    private void setTopBarMediaVisibility(int visibility) {
+        Views.findById(panelLayout, R.id.media_switcher).setVisibility(visibility);
+    }
+
+    private void setBottomBarMediaVisibility(int visibility) {
+        Views.findById(panelLayout, R.id.bottom_media_switcher).setVisibility(visibility);
     }
 
 }

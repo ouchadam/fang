@@ -2,7 +2,6 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -39,7 +38,8 @@ public class FangActivity extends BookKeeperActivity implements ActionBarRefresh
         slidingPanel.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
         SeekBar seekBar = Views.findById(this, R.id.seek_bar);
         ViewSwitcher mediaSwitcher = Views.findById(this, R.id.media_switcher);
-        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel, seekBar, mediaSwitcher);
+        ViewSwitcher bottomMediaSwitcher = Views.findById(this, R.id.bottom_media_switcher);
+        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel, seekBar, mediaSwitcher, bottomMediaSwitcher);
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator);
 
         String[] strings = new String[]{"Latest", "Channels", "Playlist"};

@@ -17,7 +17,7 @@ import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 
 import java.io.IOException;
 
-public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnPanelChangeListener, SlidingPanelViewManipulator.OnDownloadClickListener {
+public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnDownloadClickListener {
 
     private final Downloader downloader;
     private final Context context;
@@ -33,7 +33,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;
         podcastPlayer = new PodcastPlayer(new MediaPlayer(), slidingPanelViewManipulator);
-        slidingPanelViewManipulator.setOnPanelExpandListener(this);
         slidingPanelViewManipulator.setOnDownloadClickedListener(this);
     }
 
@@ -101,16 +100,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     public boolean isShowing() {
         return slidingPanelViewManipulator.isShowing();
-    }
-
-    @Override
-    public void onPanelExpanded(View panel) {
-        // TODO switch views, maybe this shouldnt be here
-    }
-
-    @Override
-    public void onPanelCollapsed(View panel) {
-        // TODO switch views, maybe this shouldnt be here
     }
 
     @Override

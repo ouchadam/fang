@@ -5,7 +5,11 @@
 
     <Preference
         android:key="persist_local_data"
-        android:title="Persist some data!"/>
+        android:title="Persist some local data!"/>
+
+    <Preference
+        android:key="persist_live_data"
+        android:title="Fetch and persist some REAL data!"/>
 
     <Preference
         android:key="delete_tables"

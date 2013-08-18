@@ -22,25 +22,24 @@
         android:paddingRight="16dp"
         android:paddingLeft="16dp">
 
-    <TextView
-        android:id="@+id/bar_title"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:maxLines="1"
-        android:ellipsize="end"
+      <TextView
+          android:id="@+id/bar_title"
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:maxLines="1"
+          android:ellipsize="end"
+          android:textSize="14sp"/>
 
-        android:textSize="14sp"/>
-
-    <TextView
-        android:id="@+id/bar_sub_title"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@id/bar_title"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textStyle="italic"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="12sp"/>
+      <TextView
+          android:id="@+id/bar_sub_title"
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:layout_below="@id/bar_title"
+          android:maxLines="1"
+          android:ellipsize="end"
+          android:textStyle="italic"
+          android:textColor="@android:color/darker_gray"
+          android:textSize="12sp"/>
 
     </RelativeLayout>
 
@@ -54,7 +53,7 @@
         android:visibility="invisible">
 
       <ImageButton
-          android:id="@+id/top_bar_play"
+          android:id="@+id/play_top"
           android:layout_height="25dp"
           android:layout_width="20dp"
           android:background="@null"
@@ -62,7 +61,7 @@
           android:src="@drawable/play_button"/>
 
       <ImageButton
-          android:id="@+id/top_bar_pause"
+          android:id="@+id/pause_top"
           android:layout_height="25dp"
           android:layout_width="20dp"
           android:background="@null"
@@ -101,15 +100,35 @@
   <RelativeLayout
       android:id="@id/player_bottom_bar"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true">
+      android:layout_height="68dp"
+      android:layout_alignParentBottom="true"
+      android:background="@drawable/card_background">
 
-    <Button
+    <ViewSwitcher
+        android:id="@+id/bottom_media_switcher"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text="play"
-        android:textSize="30sp"/>
+        android:visibility="invisible">
+
+      <ImageButton
+          android:id="@+id/play_bottom"
+          android:layout_height="25dp"
+          android:layout_width="20dp"
+          android:background="@null"
+          android:scaleType="fitXY"
+          android:src="@drawable/play_button"/>
+
+      <ImageButton
+          android:id="@+id/pause_bottom"
+          android:layout_height="25dp"
+          android:layout_width="20dp"
+          android:background="@null"
+          android:scaleType="fitXY"
+          android:src="@drawable/pause_button"/>
+
+    </ViewSwitcher>
 
   </RelativeLayout>
 

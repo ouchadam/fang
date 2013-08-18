@@ -47,7 +47,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> {
         public Channel marshall(Cursor cursor) {
             String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Channel.CHANNEL_TITLE.name()));
             String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.ChannelImage.URL.name()));
-            return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), null, null);
+            return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), "", null);
         }
     }
 }

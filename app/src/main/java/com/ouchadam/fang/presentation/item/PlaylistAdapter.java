@@ -14,12 +14,12 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 
-public class ExampleListAdapter extends TypedListAdapter<FullItem> implements ListItemWatcher.ItemWatcher {
+public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListItemWatcher.ItemWatcher {
 
     private final LayoutInflater layoutInflater;
     private final ProgressDelegate<ViewHolder> progressDelegate;
 
-    public ExampleListAdapter(LayoutInflater layoutInflater) {
+    public PlaylistAdapter(LayoutInflater layoutInflater) {
         this.layoutInflater = layoutInflater;
         this.progressDelegate = new ItemProgressManager(this);
     }
