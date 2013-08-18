@@ -3,6 +3,7 @@
 
   <style name="FangTheme" parent="@android:style/Theme.Holo.Light">
     <item name="android:actionBarStyle">@style/FangActionBar</item>
+    <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
   </style>
 
   <style name="FangActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">

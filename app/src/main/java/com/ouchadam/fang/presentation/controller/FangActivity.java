@@ -36,10 +36,7 @@ public class FangActivity extends BookKeeperActivity implements ActionBarRefresh
 
         SlidingUpPanelLayout slidingPanel = Views.findById(this, R.id.sliding_layout);
         slidingPanel.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
-        SeekBar seekBar = Views.findById(this, R.id.seek_bar);
-        ViewSwitcher mediaSwitcher = Views.findById(this, R.id.media_switcher);
-        ViewSwitcher bottomMediaSwitcher = Views.findById(this, R.id.bottom_media_switcher);
-        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel, seekBar, mediaSwitcher, bottomMediaSwitcher);
+        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel);
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator);
 
         String[] strings = new String[]{"Latest", "Channels", "Playlist"};

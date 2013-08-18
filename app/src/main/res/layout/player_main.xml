@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/player_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null">
+
+  <TextView
+    android:id="@+id/current_position"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_above="@+id/player_bottom_bar"
+    android:text="0:12"
+    android:padding="14dp"
+    android:layout_marginBottom="30dp"
+    android:textSize="14sp"/>
+
+  <TextView
+    android:id="@+id/total_time"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_above="@id/player_bottom_bar"
+    android:padding="14dp"
+    android:layout_marginBottom="30dp"
+    android:text="5:47"
+    android:layout_alignParentRight="true"
+    android:textSize="14sp"/>
+
+  <SeekBar
+    android:id="@+id/seek_bar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_above="@id/player_bottom_bar"
+    android:fitsSystemWindows="true"
+    android:max="100"
+    android:progress="0"
+    android:clickable="true"/>
+
+  <RelativeLayout
+    android:id="@id/player_bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/card_background">
+
+    <Button
+      android:id="@+id/download"
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:layout_centerInParent="true"
+      android:text="Download"
+      android:textSize="14sp"
+      android:visibility="invisible"/>
+
+    <ViewSwitcher
+      android:id="@+id/bottom_media_switcher"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_centerInParent="true"
+      android:background="@null"
+      android:visibility="invisible">
+
+      <ImageButton
+        android:id="@+id/play_bottom"
+        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/play_button"/>
+
+      <ImageButton
+        android:id="@+id/pause_bottom"
+        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/pause_button"/>
+
+    </ViewSwitcher>
+
+  </RelativeLayout>
+
+</RelativeLayout>

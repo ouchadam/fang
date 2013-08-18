@@ -1,144 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@null">
+
+  <include
+    android:id="@+id/top_bar_container"
+    layout="@layout/player_top_bar" />
 
   <RelativeLayout
-      android:id="@+id/player_top_bar"
-      android:layout_width="match_parent"
-      android:layout_height="68dp"
-      android:layout_alignParentTop="true"
-      android:background="@drawable/card_background">
+    android:id="@+id/content"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_below="@id/top_bar_container"
+    android:clickable="true">
 
-    <RelativeLayout
+    <ScrollView
+      android:id="@+id/item_description_container"
+      android:layout_height="300dp"
+      android:layout_width="match_parent"
+      android:padding="24dp"
+      android:fadingEdge="vertical"
+      android:fadingEdgeLength="40dp"
+      android:requiresFadingEdge="vertical">
+
+      <TextView
+        android:id="@+id/item_description"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_toLeftOf="@+id/media_switcher"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp">
+        android:textSize="18sp" />
 
-      <TextView
-          android:id="@+id/bar_title"
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          android:maxLines="1"
-          android:ellipsize="end"
-          android:textSize="14sp"/>
-
-      <TextView
-          android:id="@+id/bar_sub_title"
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          android:layout_below="@id/bar_title"
-          android:maxLines="1"
-          android:ellipsize="end"
-          android:textStyle="italic"
-          android:textColor="@android:color/darker_gray"
-          android:textSize="12sp"/>
-
-    </RelativeLayout>
-
-    <ViewSwitcher
-        android:id="@id/media_switcher"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:paddingRight="24dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:visibility="invisible">
-
-      <ImageButton
-          android:id="@+id/play_top"
-          android:layout_height="25dp"
-          android:layout_width="20dp"
-          android:background="@null"
-          android:scaleType="fitXY"
-          android:src="@drawable/play_button"/>
-
-      <ImageButton
-          android:id="@+id/pause_top"
-          android:layout_height="25dp"
-          android:layout_width="20dp"
-          android:background="@null"
-          android:scaleType="fitXY"
-          android:src="@drawable/pause_button"/>
-
-    </ViewSwitcher>
+    </ScrollView>
 
   </RelativeLayout>
 
-  <RelativeLayout
-      android:id="@+id/content"
-      android:layout_height="match_parent"
-      android:layout_width="match_parent"
-      android:layout_below="@id/player_top_bar"
-      android:layout_above="@+id/player_bottom_bar"
-      android:clickable="true">
-
-  <TextView
-      android:id="@+id/item_description"
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:layout_centerInParent="true"
-      android:textSize="18sp"/>
-
-  <Button
-      android:id="@+id/download"
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:layout_below="@id/item_description"
-      android:text="Download"
-      android:textSize="14sp"/>
-
-
-  <SeekBar
-      android:id="@+id/seek_bar"
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:max="100"
-      android:progress="0"
-      android:clickable="true"
-      android:layout_alignParentBottom="true"/>
-
-  </RelativeLayout>
-
-  <RelativeLayout
-      android:id="@id/player_bottom_bar"
-      android:layout_width="match_parent"
-      android:layout_height="68dp"
-      android:layout_alignParentBottom="true"
-      android:background="@drawable/card_background">
-
-    <ViewSwitcher
-        android:id="@+id/bottom_media_switcher"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible">
-
-      <ImageButton
-          android:id="@+id/play_bottom"
-          android:layout_height="25dp"
-          android:layout_width="20dp"
-          android:background="@null"
-          android:scaleType="fitXY"
-          android:src="@drawable/play_button"/>
-
-      <ImageButton
-          android:id="@+id/pause_bottom"
-          android:layout_height="25dp"
-          android:layout_width="20dp"
-          android:background="@null"
-          android:scaleType="fitXY"
-          android:src="@drawable/pause_button"/>
-
-    </ViewSwitcher>
-
-  </RelativeLayout>
+  <include
+    layout="@layout/player_main"
+    android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

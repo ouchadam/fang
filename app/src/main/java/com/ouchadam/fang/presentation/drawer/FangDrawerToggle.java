@@ -18,7 +18,7 @@ public class FangDrawerToggle extends ActionBarDrawerToggle {
     private String activityTitle;
 
     public FangDrawerToggle(Activity activity, DrawerLayout drawerLayout, String drawerTitle) {
-        super(activity, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
+        super(activity, drawerLayout, R.drawable.ic_navigation_drawer, R.string.drawer_open, R.string.drawer_close);
         this.drawerTitle = drawerTitle;
         actionBar = activity.getActionBar();
         actionBarRefresher = ClassCaster.toListener(activity);
@@ -29,7 +29,7 @@ public class FangDrawerToggle extends ActionBarDrawerToggle {
     }
 
     @Override
-    public void onDrawerClosed(View view) {
+    public void onDrawerClosed(View view) { 
         actionBar.setTitle(activityTitle);
         refreshActionBar();
     }

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
@@ -17,6 +18,7 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     private final SeekBar seekBar;
     private final ViewSwitcher topMediaSwitcher;
     private final ViewSwitcher bottomMediaSwitcher;
+//    private final ViewSwitcher downloadSwitcher;
 
     private FullItem fullItem;
 
@@ -35,12 +37,13 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     private OnMediaClickListener mediaClickedListener;
 
-    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout, SeekBar seekBar, ViewSwitcher viewSwitcher, ViewSwitcher bottomMediaSwitcher) {
+    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout) {
         this.actionBarManipulator = actionBarManipulator;
         this.panelLayout = panelLayout;
-        this.seekBar = seekBar;
-        this.topMediaSwitcher = viewSwitcher;
-        this.bottomMediaSwitcher = bottomMediaSwitcher;
+        this.seekBar = Views.findById(panelLayout, R.id.seek_bar);
+        this.topMediaSwitcher = Views.findById(panelLayout, R.id.media_switcher);
+        this.bottomMediaSwitcher = Views.findById(panelLayout, R.id.bottom_media_switcher);
+//        this.downloadSwitcher = Views.findById(panelLayout, R.id.bottom_download_media_switcher);
         setOnPanelExpandListener(this);
     }
 
@@ -165,30 +168,43 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     @Override
     public void onPanelExpanded(View panel) {
-        showExpandedViews();
+        syncDownloadState();
+        showExpanded();
     }
 
-    private void showExpandedViews() {
-        setTopBarMediaVisibility(View.INVISIBLE);
-        setBottomBarMediaVisibility(View.VISIBLE);
+    private void syncDownloadState() {
+        if (isDownloaded()) {
+            Views.findById(panelLayout, R.id.download).setVisibility(View.INVISIBLE);
+        } else {
+            Views.findById(panelLayout, R.id.download).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showExpanded() {
+        topMediaSwitcher.setVisibility(View.INVISIBLE);
+        if (isDownloaded()) {
+            bottomMediaSwitcher.setVisibility(View.VISIBLE);
+        } else {
+            bottomMediaSwitcher.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private boolean isDownloaded() {
+        return fullItem != null && fullItem.isDownloaded();
     }
 
     @Override
     public void onPanelCollapsed(View panel) {
-        showCollaspedViews();
+        syncDownloadState();
+        showCollapsed();
     }
 
-    private void showCollaspedViews() {
-        setTopBarMediaVisibility(View.VISIBLE);
-        setBottomBarMediaVisibility(View.INVISIBLE);
-    }
-
-    private void setTopBarMediaVisibility(int visibility) {
-        Views.findById(panelLayout, R.id.media_switcher).setVisibility(visibility);
-    }
-
-    private void setBottomBarMediaVisibility(int visibility) {
-        Views.findById(panelLayout, R.id.bottom_media_switcher).setVisibility(visibility);
+    private void showCollapsed() {
+        if (isDownloaded()) {
+            topMediaSwitcher.setVisibility(View.VISIBLE);
+        } else {
+            topMediaSwitcher.setVisibility(View.INVISIBLE);
+        }
     }
 
 }
