@@ -9,12 +9,14 @@ public class FullItem {
     private final String channelTitle;
     private final Image image;
     private final long downloadId;
+    private final boolean isDownloaded;
 
-    public FullItem(Item item, String channelTitle, Image image, long downloadId) {
+    public FullItem(Item item, String channelTitle, Image image, long downloadId, boolean downloaded) {
         this.item = item;
         this.channelTitle = channelTitle;
         this.image = image;
         this.downloadId = downloadId;
+        isDownloaded = downloaded;
     }
 
     public Item getItem() {
@@ -35,5 +37,9 @@ public class FullItem {
 
     public long getItemId() {
         return item.getId();
+    }
+
+    public boolean isDownloaded() {
+        return isDownloaded;
     }
 }

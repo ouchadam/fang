@@ -11,9 +11,10 @@ import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.bookkeeper.watcher.adapter.ListItemProgress;
 import com.ouchadam.bookkeeper.watcher.adapter.ProgressDelegate;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 
-public class ExampleListAdapter extends TypedListAdapter<Item> implements ListItemWatcher.ItemWatcher {
+public class ExampleListAdapter extends TypedListAdapter<FullItem> implements ListItemWatcher.ItemWatcher {
 
     private final LayoutInflater layoutInflater;
     private final ProgressDelegate<ViewHolder> progressDelegate;
@@ -30,7 +31,7 @@ public class ExampleListAdapter extends TypedListAdapter<Item> implements ListIt
         progressDelegate.handleDownloadProgress(position, viewHolder);
         ListItemProgress.Stage stage = progressDelegate.getStage(position);
         if (stage == ListItemProgress.Stage.IDLE) {
-            viewHolder.textView.setText(getItem(position).getTitle());
+            viewHolder.textView.setText(getItem(position).getItem().getTitle());
         }
         return view;
     }
@@ -70,6 +71,11 @@ public class ExampleListAdapter extends TypedListAdapter<Item> implements ListIt
     @Override
     public void notifyAdapter() {
         notifyDataSetChanged();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getItemId();
     }
 
     public static class ViewHolder {

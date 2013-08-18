@@ -15,18 +15,20 @@ import com.novoda.notils.android.ClassCaster;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 import com.ouchadam.fang.presentation.controller.ItemMarshaller;
 import com.ouchadam.fang.presentation.controller.SlidingPanelExposer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
 import java.util.List;
 
-public class PlaylistFragment extends CursorBackedListFragment<Item> implements OnItemClickListener<Item> {
+public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
     private Downloader downloader;
     private SlidingPanelExposer panelController;
@@ -42,7 +44,7 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
     }
 
     @Override
-    protected TypedListAdapter<Item> createAdapter() {
+    protected TypedListAdapter<FullItem> createAdapter() {
         return new ExampleListAdapter(LayoutInflater.from(getActivity()));
     }
 
@@ -51,17 +53,13 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
         return new Query.Builder()
                 .withUri(FangProvider.getUri(Uris.FULL_ITEM))
                 .withSelection(Tables.Playlist.DOWNLOAD_ID + "!=?")
-                .withSelectionArgs(new String[] { "0" })
+                .withSelectionArgs(new String[]{"0"})
                 .build();
     }
 
     @Override
-    protected CursorMarshaller<Item> getMarshaller() {
-        return getItemMarshaller();
-    }
-
-    private CursorMarshaller<Item> getItemMarshaller() {
-        return new ItemMarshaller();
+    protected CursorMarshaller<FullItem> getMarshaller() {
+        return new FullItemMarshaller();
     }
 
     @Override
@@ -78,7 +76,7 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
     }
 
     @Override
-    public void onDataUpdated(List<Item> data) {
+    public void onDataUpdated(List<FullItem> data) {
         super.onDataUpdated(data);
         if (!data.isEmpty() && !hasRestored) {
             downloader.restore(new LazyListItemWatcher((ListItemWatcher.ItemWatcher) getAdapter()));
@@ -87,10 +85,9 @@ public class PlaylistFragment extends CursorBackedListFragment<Item> implements 
     }
 
     @Override
-    public void onItemClick(TypedListAdapter<Item> adapter, int position, long itemId) {
+    public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
         // TODO play by default?
-        Item item = adapter.getItem(position);
-        panelController.setData(item.getId());
+        panelController.setData(itemId);
     }
 
 }

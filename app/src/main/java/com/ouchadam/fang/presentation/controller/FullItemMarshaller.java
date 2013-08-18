@@ -16,7 +16,8 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
         Image image = new ImageCursorMarshaller().marshall(cursor);
         String channelTitle = cursorUtil.getString(Tables.Channel.CHANNEL_TITLE);
         long downloadId = cursorUtil.getLong(Tables.Playlist.DOWNLOAD_ID);
-        return new FullItem(item, channelTitle, image, downloadId);
+        boolean isDownloaded = cursorUtil.getBoolean(Tables.Playlist.DOWNLOADED);
+        return new FullItem(item, channelTitle, image, downloadId, isDownloaded);
     }
 
     private static class ImageCursorMarshaller implements CursorMarshaller<Image> {
@@ -56,6 +57,9 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
             return cursor.getColumnIndexOrThrow(column.name());
         }
 
+        public boolean getBoolean(Enum column) {
+            return getInt(column) == 1;
+        }
     }
 
 }

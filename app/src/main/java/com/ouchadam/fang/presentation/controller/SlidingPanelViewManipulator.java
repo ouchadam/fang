@@ -34,6 +34,7 @@ class SlidingPanelViewManipulator {
 
     public interface OnPanelChangeListener {
         void onPanelExpanded(View panel);
+
         void onPanelCollapsed(View panel);
     }
 
@@ -48,7 +49,9 @@ class SlidingPanelViewManipulator {
 
     public interface ActionBarManipulator {
         boolean isActionBarShowing();
+
         void hideActionBar();
+
         void showActionBar();
     }
 
@@ -93,6 +96,7 @@ class SlidingPanelViewManipulator {
         panelLayout.findViewById(R.id.top_bar_play).setOnClickListener(onPlayClicked);
         panelLayout.findViewById(R.id.top_bar_pause).setOnClickListener(onPauseClicked);
     }
+
     private final View.OnClickListener onPlayClicked = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -123,6 +127,11 @@ class SlidingPanelViewManipulator {
         setBarTitle(item.getTitle());
         setDescription(item.getSummary());
         setBarSubtitle(fullItem.getChannelTitle());
+        setMediaVisibility(fullItem);
+    }
+
+    private void setMediaVisibility(FullItem fullItem) {
+        Views.findById(panelLayout, R.id.media_switcher).setVisibility(fullItem.isDownloaded() ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void setBarTitle(CharSequence text) {

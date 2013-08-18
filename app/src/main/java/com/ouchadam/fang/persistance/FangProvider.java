@@ -1,5 +1,6 @@
 package com.ouchadam.fang.persistance;
 
+import android.content.ContentValues;
 import android.net.Uri;
 
 import com.ouchadam.fang.persistance.database.Uris;
@@ -12,6 +13,15 @@ public class FangProvider extends SQLiteContentProviderImpl {
 
     public static Uri getUri(Uris uri) {
         return AUTHORITY.buildUpon().appendPath(uri.name()).build();
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        int result = super.update(uri, values, selection, selectionArgs);
+        if (uri.equals(getUri(Uris.PLAYLIST))) {
+            notifyUriChange(getUri(Uris.FULL_ITEM));
+        }
+        return result;
     }
 
 }

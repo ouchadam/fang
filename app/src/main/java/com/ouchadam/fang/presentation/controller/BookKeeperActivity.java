@@ -9,6 +9,7 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
+import com.ouchadam.fang.persistance.DownloadedItemPersister;
 
 public class BookKeeperActivity extends FragmentActivity implements Downloader {
 
@@ -22,6 +23,21 @@ public class BookKeeperActivity extends FragmentActivity implements Downloader {
 
     private void initBookKeeper() {
         bookKeeper = RestoreableBookKeeper.newInstance(this);
+        restore(new LazyDatabaseWatcher(new DownloadedItemPersister(getContentResolver())));
+    }
+
+    private static class LazyDatabaseWatcher implements LazyWatcher {
+
+        private final DownloadedItemPersister persister;
+
+        private LazyDatabaseWatcher(DownloadedItemPersister persister) {
+            this.persister = persister;
+        }
+
+        @Override
+        public DownloadWatcher create(DownloadId downloadId, long itemId) {
+            return new DownloadToDatabaseWatcher(downloadId, persister);
+        }
     }
 
     @Override
@@ -42,7 +58,16 @@ public class BookKeeperActivity extends FragmentActivity implements Downloader {
 
     @Override
     public void watch(DownloadId downloadId, DownloadWatcher... downloadWatchers) {
-        bookKeeper.watch(downloadId, downloadWatchers);
+        DownloadWatcher[] watchers = attachDatabaseWatcher(downloadId, downloadWatchers);
+        bookKeeper.watch(downloadId, watchers);
+    }
+
+    public DownloadWatcher[] attachDatabaseWatcher(DownloadId downloadId, DownloadWatcher[] downloadWatchers) {
+        DownloadToDatabaseWatcher downloadToDatabaseWatcher = new DownloadToDatabaseWatcher(downloadId, new DownloadedItemPersister(getContentResolver()));
+        DownloadWatcher[] newArr = new DownloadWatcher[downloadWatchers.length + 1];
+        System.arraycopy(downloadWatchers, 0, newArr, 0, downloadWatchers.length);
+        newArr[downloadWatchers.length] = downloadToDatabaseWatcher;
+        return newArr;
     }
 
     @Override

@@ -13,6 +13,11 @@ public class OperationWrapperImpl implements OperationWrapper {
         return new BuilderWrapper(ContentProviderOperation.newInsert(FangProvider.getUri(uri)));
     }
 
+    @Override
+    public ContentProviderOperationValues newUpdate(Uris uri) {
+        return new BuilderWrapper(ContentProviderOperation.newUpdate(FangProvider.getUri(uri)));
+    }
+
     public static class BuilderWrapper implements ContentProviderOperationValues {
 
         private final ContentProviderOperation.Builder builder;
@@ -24,6 +29,11 @@ public class OperationWrapperImpl implements OperationWrapper {
         @Override
         public void withValue(String key, Object value) {
             builder.withValue(key, value);
+        }
+
+        @Override
+        public void withSelection(String selection, String[] selectionArgs) {
+            builder.withSelection(selection, selectionArgs);
         }
 
         public ContentProviderOperation build() {
