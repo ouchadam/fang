@@ -3,8 +3,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:addStatesFromChildren="true">
+    android:layout_height="match_parent">
 
   <RelativeLayout
       android:id="@+id/player_top_bar"
@@ -72,6 +71,14 @@
 
   </RelativeLayout>
 
+  <RelativeLayout
+      android:id="@+id/content"
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:layout_below="@id/player_top_bar"
+      android:layout_above="@+id/player_bottom_bar"
+      android:clickable="true">
+
   <TextView
       android:id="@+id/item_description"
       android:layout_height="wrap_content"
@@ -95,7 +102,9 @@
       android:max="100"
       android:progress="0"
       android:clickable="true"
-      android:layout_above="@+id/player_bottom_bar"/>
+      android:layout_alignParentBottom="true"/>
+
+  </RelativeLayout>
 
   <RelativeLayout
       android:id="@id/player_bottom_bar"
