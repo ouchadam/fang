@@ -32,7 +32,7 @@ public class DebugActivity extends BasePreferenceActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteTestData();
-            ParseHelper parseHelper = new ParseHelper(onParseFinishedListener);
+            ParseHelper parseHelper = new ParseHelper(getContentResolver(), onParseFinishedListener);
             parseHelper.parse(DebugActivity.this, "feed_cnet_small.xml");
             parseHelper.parse(DebugActivity.this, "feed_hsw_small.xml");
             return false;
@@ -44,12 +44,13 @@ public class DebugActivity extends BasePreferenceActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteTestData();
-            ParseHelper parseHelper = new ParseHelper(onParseFinishedListener);
+            ParseHelper parseHelper = new ParseHelper(getContentResolver(), onParseFinishedListener);
             parseHelper.parse(
                     "http://www.cnet.co.uk/feeds/podcasts/",
                     "http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss",
                     "http://www.howstuffworks.com/podcasts/stuff-to-blow-your-mind.rss",
-                    "http://feeds.99percentinvisible.org/99percentinvisible"
+                    "http://feeds.99percentinvisible.org/99percentinvisible",
+                    "http://www.giantbomb.com/podcast-xml/giant-bombcast/"
             );
             return false;
         }
@@ -58,7 +59,6 @@ public class DebugActivity extends BasePreferenceActivity {
     private final ParseHelper.OnParseFinishedListener onParseFinishedListener = new ParseHelper.OnParseFinishedListener() {
         @Override
         public void onParseFinished(Channel channel) {
-            new ChannelPersister(getContentResolver()).persist(channel);
             Toast.makeText(DebugActivity.this, "Channel : " + channel.getTitle() + " persisted", Toast.LENGTH_SHORT).show();
         }
     };

@@ -2,6 +2,7 @@ package com.ouchadam.fang;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class FangCalendar extends NovodaCalendar {
 
@@ -11,10 +12,10 @@ public class FangCalendar extends NovodaCalendar {
 
     @Override
     protected DateFormat getDateFormat() {
-        return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzzzz");
+        return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.UK);
     }
 
-    //    <pubDate>Sat, 27 Jul 2013 06:06:39 +0100</pubDate>
-    //    <pubDate>Tue, 23 Jul 2013 10:07:23 -0400</pubDate>
+    //    <pubDate>Tue, 06 Aug 2013 11:12:00 PST</pubDate>
+
 
 }

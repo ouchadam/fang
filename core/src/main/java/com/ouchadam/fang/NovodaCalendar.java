@@ -25,6 +25,7 @@ public abstract class NovodaCalendar implements Serializable, Cloneable {
         try {
             setTime(getDateFormat().parse(date));
         } catch (ParseException ignored) {
+            System.out.println("Couldn't parse : " + date);
             ignored.printStackTrace();
         }
     }

@@ -2,6 +2,7 @@ package com.ouchadam.fang.debug;
 
 import android.app.Activity;
 
+import android.content.ContentResolver;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -9,15 +10,17 @@ import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.parsing.ChannelFinder;
 import com.ouchadam.fang.parsing.PodcastParser;
+import com.ouchadam.fang.persistance.ChannelPersister;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ParseHelper implements ParseFinishWatcher {
+public class ParseHelper {
 
     private final static Handler HANDLER = new Handler(Looper.getMainLooper());
+    private final ContentResolver contentResolver;
     private final OnParseFinishedListener listener;
     private PodcastParser podcastParser;
 
@@ -25,12 +28,13 @@ public class ParseHelper implements ParseFinishWatcher {
         void onParseFinished(Channel channel);
     }
 
-    public ParseHelper(OnParseFinishedListener listener) {
+    public ParseHelper(ContentResolver contentResolver, OnParseFinishedListener listener) {
+        this.contentResolver = contentResolver;
         this.listener = listener;
     }
 
     public void parse(Activity activity, String fileName) {
-        podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), this);
+        podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), parseFinishWatcher);
         try {
             podcastParser.parse(activity.getAssets().open(fileName));
         } catch (IOException e) {
@@ -38,16 +42,39 @@ public class ParseHelper implements ParseFinishWatcher {
         }
     }
 
-    public void parse(final String... urls) {
-        new Thread(new Runnable() {
+    private final ParseFinishWatcher parseFinishWatcher = new ParseFinishWatcher() {
+        @Override
+        public void onFinish() {
+            new ChannelPersister(contentResolver).persist(podcastParser.getResult());
+            onCallback(podcastParser.getResult());
+        }
+    };
+
+    public void parse(String... urls) {
+        for (final String url : urls) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), new ParseFinishWatcher() {
+                        @Override
+                        public void onFinish() {
+                        }
+                    });
+                    podcastParser.parse(getInputStream(url));
+                    new ChannelPersister(contentResolver).persist(podcastParser.getResult());
+                    onCallback(podcastParser.getResult());
+                }
+            }).start();
+        }
+    }
+
+    private synchronized void onCallback(final Channel channel) {
+        HANDLER.post(new Runnable() {
             @Override
             public void run() {
-                for (String url : urls) {
-                    podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), ParseHelper.this);
-                    podcastParser.parse(getInputStream(url));
-                }
+                listener.onParseFinished(channel);
             }
-        }).start();
+        });
     }
 
     private InputStream getInputStream(String url) {
@@ -68,14 +95,4 @@ public class ParseHelper implements ParseFinishWatcher {
         return null;
     }
 
-
-    @Override
-    public void onFinish() {
-        HANDLER.post(new Runnable() {
-            @Override
-            public void run() {
-                listener.onParseFinished(podcastParser.getResult());
-            }
-        });
-    }
 }

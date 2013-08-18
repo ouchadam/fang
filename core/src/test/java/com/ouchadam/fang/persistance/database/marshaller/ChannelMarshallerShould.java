@@ -50,7 +50,7 @@ public class ChannelMarshallerShould {
         when(channel.getTitle()).thenReturn(title);
         channelMarshaller.marshall(channel);
 
-        verify(operationValues).withValue(Tables.Channel.TITLE.name(), title);
+        verify(operationValues).withValue(Tables.Channel.CHANNEL_TITLE.name(), title);
     }
 
     @Test
