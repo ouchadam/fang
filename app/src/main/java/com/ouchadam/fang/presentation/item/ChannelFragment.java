@@ -1,10 +1,10 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.channel.Channel;
@@ -16,11 +16,17 @@ import com.ouchadam.fang.persistance.database.Uris;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-public class ChannelFragment extends CursorBackedListFragment<Channel> {
+public class ChannelFragment extends CursorBackedListFragment<Channel> implements OnItemClickListener<Channel> {
 
     @Override
     protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_channel_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setOnItemClickListener(this);
     }
 
     @Override
@@ -30,16 +36,20 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> {
 
     @Override
     protected Query getQueryValues() {
-        return new Query.Builder().withUri(FangProvider.getUri(Uris.FULL_CHANNEL)).build();
+        return new Query.Builder()
+                .withUri(FangProvider.getUri(Uris.FULL_CHANNEL))
+                .withProjection(new String[] { Tables.Channel.CHANNEL_TITLE.name(), Tables.ChannelImage.URL.name() })
+                .build();
     }
 
     @Override
     protected CursorMarshaller<Channel> getMarshaller() {
-        return getChannelMarshaller();
+        return new ChannelSummaryMarshaller();
     }
 
-    private CursorMarshaller<Channel> getChannelMarshaller() {
-        return new ChannelSummaryMarshaller();
+    @Override
+    public void onItemClick(TypedListAdapter<Channel> adapter, int position, long itemId) {
+        new Navigator(getActivity()).toChannel(adapter.getItem(position).getTitle());
     }
 
     private static class ChannelSummaryMarshaller implements CursorMarshaller<Channel> {

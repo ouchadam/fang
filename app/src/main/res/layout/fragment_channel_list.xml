@@ -3,14 +3,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-  <include
-      android:id="@+id/dummy_action_bar"
-      layout="@layout/blank_action_bar"/>
+  <include android:id="@+id/dummy_action_bar" layout="@layout/blank_action_bar"/>
 
   <GridView
       android:id="@+id/list"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:clipToPadding="false"
+      android:scrollbars="none"
+      android:padding="6dp"
+      android:horizontalSpacing="6dp"
+      android:verticalSpacing="6dp"
       android:layout_below="@id/dummy_action_bar"
       android:numColumns="2"/>
 

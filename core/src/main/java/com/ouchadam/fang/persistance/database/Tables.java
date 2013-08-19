@@ -7,6 +7,7 @@ public class Tables {
     }
 
     public enum Channel {
+        _id,
         CHANNEL_TITLE,
         CATEGORY,
         SUMMARY;

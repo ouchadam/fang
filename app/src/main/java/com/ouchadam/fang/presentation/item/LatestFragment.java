@@ -25,13 +25,11 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
-    private Downloader downloader;
     private SlidingPanelExposer panelController;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        downloader = ClassCaster.toListener(activity);
         panelController = ClassCaster.toListener(activity);
     }
 
@@ -67,10 +65,6 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
         panelController.setData(itemId);
         panelController.show();
-//        downloadItem(item.getItem(), itemId);
     }
-
-
-
 
 }

@@ -65,15 +65,22 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
 
     private void updateViewHolder(ViewHolder holder, Channel channel) {
         setHolderText(holder, channel);
-        setHolderImage(holder, channel.getImage());
+        setHolderImage(holder, channel.getImage().getUrl());
     }
 
     private void setHolderText(ViewHolder holder, Channel channel) {
         holder.title.setText(channel.getTitle());
     }
 
-    private void setHolderImage(ViewHolder holder, Image image) {
-        Picasso.with(context).load(image.getUrl()).into(holder.image);
+    private void setHolderImage(ViewHolder holder, String imageUrl) {
+        if (holder.image != null) {
+            Picasso.with(context).load(imageUrl).fit().into(holder.image);
+        }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getId();
     }
 
     static class ViewHolder {
