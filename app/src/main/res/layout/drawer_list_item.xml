@@ -4,4 +4,8 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:fontFamily="sans-serif-thin"
-  android:textSize="40sp"/>
+  android:textColor="@android:color/darker_gray"
+  android:textSize="40sp"
+  android:paddingTop="12dp"
+  android:paddingBottom="12dp"
+  android:paddingLeft="10dp"/>

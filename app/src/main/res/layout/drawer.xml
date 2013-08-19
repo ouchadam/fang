@@ -35,8 +35,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/dummy_action_bar"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
+        android:dividerHeight="1dp"
         android:background="@android:color/white"/>
 
   </RelativeLayout>

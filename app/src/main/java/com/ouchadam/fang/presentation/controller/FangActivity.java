@@ -22,7 +22,7 @@ import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
 
-public class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer, Downloader {
+public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer, Downloader {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
