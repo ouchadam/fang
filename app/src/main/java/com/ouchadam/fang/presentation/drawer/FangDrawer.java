@@ -15,13 +15,12 @@ import com.ouchadam.fang.R;
 public class FangDrawer implements DrawerManipulator {
 
     private final DrawerLayout drawerLayout;
-    private View drawerParent;
+    private final View drawerParent;
     private final ListView drawerList;
     private final FangDrawerToggle drawerToggle;
+    private final OnDrawItemClickListener onDrawItemClickListener;
 
-    private OnDrawItemClickListener onDrawItemClickListener;
-
-    public static FangDrawer newInstance(FragmentActivity activity) {
+    public static FangDrawer newInstance(FragmentActivity activity, DrawerNavigator drawerNavigator) {
         DrawerLayout drawerLayout = Views.findById(activity, R.id.drawer_layout);
         ListView drawerList = Views.findById(activity, R.id.left_drawer);
         View drawerParent = Views.findById(activity, R.id.drawer_content);
@@ -29,22 +28,19 @@ public class FangDrawer implements DrawerManipulator {
         FangDrawerToggle drawerToggle = new FangDrawerToggle(activity, drawerLayout, "Fang");
         drawerLayout.setDrawerListener(drawerToggle);
 
-        return new FangDrawer(drawerLayout, drawerParent, drawerList, drawerToggle);
+        return new FangDrawer(drawerLayout, drawerParent, drawerList, drawerToggle, drawerNavigator);
     }
 
-    FangDrawer(DrawerLayout drawerLayout, View drawerParent, ListView drawerList, FangDrawerToggle drawerToggle) {
+    FangDrawer(DrawerLayout drawerLayout, View drawerParent, ListView drawerList, FangDrawerToggle drawerToggle, OnDrawItemClickListener onDrawItemClickListener) {
         this.drawerLayout = drawerLayout;
         this.drawerParent = drawerParent;
         this.drawerList = drawerList;
         this.drawerToggle = drawerToggle;
-    }
-
-    public void setAdapter(ListAdapter adapter) {
-        drawerList.setAdapter(adapter);
-    }
-
-    public void setOnDrawItemClickListener(OnDrawItemClickListener onDrawItemClickListener) {
         this.onDrawItemClickListener = onDrawItemClickListener;
+        setOnDrawItemClickListener();
+    }
+
+    private void setOnDrawItemClickListener() {
         drawerList.setOnItemClickListener(drawListClickListener);
     }
 
@@ -54,6 +50,10 @@ public class FangDrawer implements DrawerManipulator {
             onDrawItemClickListener.onDrawItemClick(FangDrawer.this, position);
         }
     };
+
+    public void setAdapter(ListAdapter adapter) {
+        drawerList.setAdapter(adapter);
+    }
 
     @Override
     public void close() {

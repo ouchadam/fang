@@ -1,7 +1,8 @@
 package com.ouchadam.fang.presentation.controller;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.content.ContentResolver;
+import android.content.Context;
+
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.RestoreableBookKeeper;
 import com.ouchadam.bookkeeper.delegate.IdManager;
@@ -11,19 +12,23 @@ import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.fang.persistance.DownloadedItemPersister;
 
-public class BookKeeperActivity extends FragmentActivity implements Downloader {
+public class FangBookKeeer implements Downloader {
 
-    private RestoreableBookKeeper bookKeeper;
+    private final RestoreableBookKeeper bookKeeper;
+    private final ContentResolver contentResolver;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static FangBookKeeer newInstance(Context context) {
+        return new FangBookKeeer(RestoreableBookKeeper.newInstance(context), context.getContentResolver());
+    }
+
+    public FangBookKeeer(RestoreableBookKeeper bookKeeper, ContentResolver contentResolver) {
+        this.bookKeeper = bookKeeper;
+        this.contentResolver = contentResolver;
         initBookKeeper();
     }
 
     private void initBookKeeper() {
-        bookKeeper = RestoreableBookKeeper.newInstance(this);
-        restore(new LazyDatabaseWatcher(new DownloadedItemPersister(getContentResolver())));
+        restore(new LazyDatabaseWatcher(createDownloadItemPersister()));
     }
 
     private static class LazyDatabaseWatcher implements LazyWatcher {
@@ -63,11 +68,15 @@ public class BookKeeperActivity extends FragmentActivity implements Downloader {
     }
 
     public DownloadWatcher[] attachDatabaseWatcher(DownloadId downloadId, DownloadWatcher[] downloadWatchers) {
-        DownloadToDatabaseWatcher downloadToDatabaseWatcher = new DownloadToDatabaseWatcher(downloadId, new DownloadedItemPersister(getContentResolver()));
+        DownloadToDatabaseWatcher downloadToDatabaseWatcher = new DownloadToDatabaseWatcher(downloadId, createDownloadItemPersister());
         DownloadWatcher[] newArr = new DownloadWatcher[downloadWatchers.length + 1];
         System.arraycopy(downloadWatchers, 0, newArr, 0, downloadWatchers.length);
         newArr[downloadWatchers.length] = downloadToDatabaseWatcher;
         return newArr;
+    }
+
+    private DownloadedItemPersister createDownloadItemPersister() {
+        return new DownloadedItemPersister(contentResolver);
     }
 
     @Override

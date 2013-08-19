@@ -1,24 +1,33 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.SeekBar;
-import android.widget.ViewSwitcher;
+
 import com.novoda.notils.android.Views;
+import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.domain.DownloadId;
+import com.ouchadam.bookkeeper.domain.Downloadable;
+import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
+import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
-import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-public class FangActivity extends BookKeeperActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer {
+public class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer, Downloader {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
+    private FangBookKeeer fangBookKeeer;
+    private AudioFocusManager audioFocusManager;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -33,34 +42,43 @@ public class FangActivity extends BookKeeperActivity implements ActionBarRefresh
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
+        fangBookKeeer = FangBookKeeer.newInstance(this);
+        audioFocusManager = new AudioFocusManager((AudioManager) getSystemService(Context.AUDIO_SERVICE));
+        audioFocusManager.requestFocus(this);
 
-        SlidingUpPanelLayout slidingPanel = Views.findById(this, R.id.sliding_layout);
-        slidingPanel.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
-        SlidingPanelViewManipulator slidingPanelViewManipulator = new SlidingPanelViewManipulator(this, slidingPanel);
-        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator);
+        initSlidingPaneController();
 
-        String[] strings = new String[]{"Latest", "Channels", "Playlist"};
-        initDrawer(strings);
+        initDrawer();
         onFangCreate(savedInstanceState);
+    }
+
+    private void initSlidingPaneController() {
+        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, getRoot());
+        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator);
+    }
+
+    private View getRoot() {
+        return Views.findById(this, android.R.id.content);
     }
 
     protected void onFangCreate(Bundle savedInstanceState) {
         // template
     }
 
-    private void initDrawer(String[] strings) {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
+    private void initDrawer() {
+        initActionBar();
         DrawerNavigator drawerNavigator = new DrawerNavigator(getSupportFragmentManager());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, strings);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, drawerNavigator.toArray());
         initDrawer(adapter, drawerNavigator);
     }
 
+    private void initActionBar() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+    }
+
     private void initDrawer(ListAdapter listAdapter, DrawerNavigator drawerNavigator) {
-        fangDrawer = FangDrawer.newInstance(this);
-        fangDrawer.setOnDrawItemClickListener(drawerNavigator);
+        fangDrawer = FangDrawer.newInstance(this, drawerNavigator);
         fangDrawer.setAdapter(listAdapter);
     }
 
@@ -113,5 +131,31 @@ public class FangActivity extends BookKeeperActivity implements ActionBarRefresh
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void watch(DownloadId downloadId, DownloadWatcher... downloadWatchers) {
+        fangBookKeeer.watch(downloadId, downloadWatchers);
+    }
+
+    @Override
+    public void store(DownloadId downloadId, long itemId) {
+        fangBookKeeer.store(downloadId, itemId);
+    }
+
+    @Override
+    public DownloadId keep(Downloadable downloadable) {
+        return fangBookKeeer.keep(downloadable);
+    }
+
+    @Override
+    public void restore(LazyWatcher lazyWatcher) {
+        fangBookKeeer.restore(lazyWatcher);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        audioFocusManager.abandonFocus();
     }
 }

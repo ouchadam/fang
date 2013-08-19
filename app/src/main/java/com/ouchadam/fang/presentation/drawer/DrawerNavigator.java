@@ -29,6 +29,10 @@ public class DrawerNavigator implements OnDrawItemClickListener {
         drawer.close();
     }
 
+    public String[] toArray() {
+        return Fragments.toStringList();
+    }
+
     private static class DrawerItem {
 
         private final Fragment fragment;
@@ -65,6 +69,10 @@ public class DrawerNavigator implements OnDrawItemClickListener {
         };
 
         abstract DrawerItem get();
+
+        static String[] toStringList() {
+            return new String[]{"Latest", "Channels", "Playlist"};
+        }
 
     }
 

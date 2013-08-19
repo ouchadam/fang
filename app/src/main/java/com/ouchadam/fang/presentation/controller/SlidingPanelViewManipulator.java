@@ -18,7 +18,6 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     private final SeekBar seekBar;
     private final ViewSwitcher topMediaSwitcher;
     private final ViewSwitcher bottomMediaSwitcher;
-//    private final ViewSwitcher downloadSwitcher;
 
     private FullItem fullItem;
 
@@ -37,13 +36,18 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     private OnMediaClickListener mediaClickedListener;
 
+    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, View root) {
+        SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
+        slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
+        return new SlidingPanelViewManipulator(actionBarManipulator, slidingPanel);
+    }
+
     SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout) {
         this.actionBarManipulator = actionBarManipulator;
         this.panelLayout = panelLayout;
         this.seekBar = Views.findById(panelLayout, R.id.seek_bar);
         this.topMediaSwitcher = Views.findById(panelLayout, R.id.media_switcher);
         this.bottomMediaSwitcher = Views.findById(panelLayout, R.id.bottom_media_switcher);
-//        this.downloadSwitcher = Views.findById(panelLayout, R.id.bottom_download_media_switcher);
         setOnPanelExpandListener(this);
     }
 
