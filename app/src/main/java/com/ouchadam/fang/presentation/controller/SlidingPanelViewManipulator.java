@@ -21,19 +21,27 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     private FullItem fullItem;
 
+    public void setPlayingState(boolean playing) {
+        if (playing) {
+            if (topMediaSwitcher.getCurrentView().getId() == R.id.play_top) {
+                mediaNext();
+            }
+        }
+    }
+
     public enum MediaPressed {
         PLAY,
         PAUSE;
-    }
 
+    }
     public interface OnMediaClickListener {
+
         void onMediaClicked(MediaPressed mediaPressed);
     }
-
     public interface OnDownloadClickListener {
+
         void onDownloadClicked(FullItem fullItem);
     }
-
     private OnMediaClickListener mediaClickedListener;
 
     public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, View root) {
@@ -52,13 +60,13 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     }
 
     public interface ActionBarManipulator {
-        boolean isActionBarShowing();
 
+        boolean isActionBarShowing();
         void hideActionBar();
 
         void showActionBar();
-    }
 
+    }
     private void setOnPanelExpandListener(final OnPanelChangeListener onPanelExpandListener) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -209,6 +217,10 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
         } else {
             topMediaSwitcher.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public int getSeekProgress() {
+        return seekBar.getProgress();
     }
 
 }

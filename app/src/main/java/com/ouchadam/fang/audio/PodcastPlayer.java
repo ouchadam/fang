@@ -1,24 +1,27 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.audio;
 
 import android.content.Context;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 
+import com.ouchadam.fang.Broadcaster;
+
 import java.io.IOException;
 
-class PodcastPlayer {
+public class PodcastPlayer {
 
     private final MediaPlayer mediaPlayer;
-    private final SlidingPanelViewManipulator viewManipulator;
+    private final Broadcaster<PodcastPosition> positionBroadcaster;
 
     private boolean isPaused = false;
 
     private final Handler seekHandler = new Handler();
 
-    PodcastPlayer(MediaPlayer mediaPlayer, SlidingPanelViewManipulator viewManipulator) {
+    public PodcastPlayer(MediaPlayer mediaPlayer, Broadcaster<PodcastPosition> positionBroadcaster) {
         this.mediaPlayer = mediaPlayer;
-        this.viewManipulator = viewManipulator;
+        this.positionBroadcaster = positionBroadcaster;
     }
 
     public void setSource(Context context, Uri source) throws IOException {
@@ -37,7 +40,7 @@ class PodcastPlayer {
         public void run() {
             float percentCoeff = (float) mediaPlayer.getCurrentPosition() / (float) mediaPlayer.getDuration();
             int percent = (int) (percentCoeff * 100);
-            viewManipulator.setSeekProgress(percent);
+            positionBroadcaster.broadcast(new PodcastPosition(percent));
             if (mediaPlayer.isPlaying()) {
                 scheduleSeekPositionUpdate();
             }
@@ -67,5 +70,9 @@ class PodcastPlayer {
 
     public boolean isPaused() {
         return isPaused;
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
     }
 }

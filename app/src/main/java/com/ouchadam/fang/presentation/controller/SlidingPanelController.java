@@ -2,20 +2,19 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.app.DownloadManager;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
-import android.view.View;
+
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
+import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.ItemDownload;
+import com.ouchadam.fang.audio.PodcastPosition;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
-
-import java.io.IOException;
 
 public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnDownloadClickListener {
 
@@ -23,16 +22,18 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     private final Context context;
     private final LoaderManager loaderManager;
     private final SlidingPanelViewManipulator slidingPanelViewManipulator;
-    private final PodcastPlayer podcastPlayer;
+    private Broadcaster<PlayerEvent> playerBroadcaster;
 
     private ItemQueryer itemQueryer;
 
-    public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator) {
+    private Uri currentSource;
+
+    public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, Broadcaster<PlayerEvent> playerBroadcaster) {
         this.downloader = downloader;
         this.context = context;
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;
-        podcastPlayer = new PodcastPlayer(new MediaPlayer(), slidingPanelViewManipulator);
+        this.playerBroadcaster = playerBroadcaster;
         slidingPanelViewManipulator.setOnDownloadClickedListener(this);
     }
 
@@ -71,27 +72,26 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         });
     }
 
-    private void pause() {
-        podcastPlayer.pause();
-    }
-
-    private void playItem(FullItem fullItem) {
-        if (!podcastPlayer.isPaused()) {
-            setSource(fullItem);
+    private void playItem(FullItem item) {
+        Uri source = getSourceUri(item);
+        if (sourceHasChanged(source)) {
+            currentSource = source;
+            playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(source));
         }
-        podcastPlayer.play();
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(new PodcastPosition(slidingPanelViewManipulator.getSeekProgress())));
     }
 
-    private void setSource(FullItem fullItem) {
+    private boolean sourceHasChanged(Uri uri) {
+        return !uri.equals(currentSource);
+    }
+
+    private Uri getSourceUri(FullItem item) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri itemUri = downloadManager.getUriForDownloadedFile(fullItem.getDownloadId());
+        return downloadManager.getUriForDownloadedFile(item.getDownloadId());
+    }
 
-        try {
-            podcastPlayer.setSource(context, itemUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("couldn't find : " + itemUri);
-        }
+    private void pause() {
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().pause());
     }
 
     public void close() {
@@ -116,4 +116,8 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         downloader.watch(downloadId, new NotificationWatcher(context, downloadable, downloadId));
     }
 
+
+    public void sync(boolean isPlaying) {
+        slidingPanelViewManipulator.setPlayingState(isPlaying);
+    }
 }

@@ -3,20 +3,26 @@ package com.ouchadam.fang.presentation.controller;
 import android.app.Activity;
 import android.media.AudioManager;
 
-class AudioFocusManager implements AudioManager.OnAudioFocusChangeListener {
+public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListener {
 
     private final AudioManager audioManager;
 
-    AudioFocusManager(AudioManager audioManager) {
+
+    public enum FocusResult {
+        DENIED,
+        GRANTED;
+
+        public static FocusResult from(int requestFocusResult) {
+            return requestFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED ? GRANTED : DENIED;
+        }
+    }
+
+    public AudioFocusManager(AudioManager audioManager) {
         this.audioManager = audioManager;
     }
 
-    public void requestFocus(Activity activity) {
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        }
-        // TODO as soon as the app is in the foreground
+    public FocusResult requestFocus() {
+        return FocusResult.from(audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN));
     }
 
     public void abandonFocus() {

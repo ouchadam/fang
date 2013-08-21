@@ -1,6 +1,7 @@
 package com.ouchadam.fang.presentation.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -11,13 +12,17 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import com.novoda.notils.android.AndroidUtils;
 import com.novoda.notils.android.Views;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
+import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.audio.AudioService;
+import com.ouchadam.fang.audio.AudioServiceBinder;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
@@ -27,7 +32,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
     private FangBookKeeer fangBookKeeer;
-    private AudioFocusManager audioFocusManager;
+    private AudioServiceBinder audioServiceBinder;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -43,8 +48,12 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
         fangBookKeeer = FangBookKeeer.newInstance(this);
-        audioFocusManager = new AudioFocusManager((AudioManager) getSystemService(Context.AUDIO_SERVICE));
-        audioFocusManager.requestFocus(this);
+        audioServiceBinder = new AudioServiceBinder(this);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        if (!AndroidUtils.isServiceRunning(AudioService.class, this)) {
+            startService(new Intent(this, AudioService.class));
+        }
 
         initSlidingPaneController();
 
@@ -54,7 +63,8 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, getRoot());
-        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator);
+        Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(this);
+        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventBroadcaster);
     }
 
     private View getRoot() {
@@ -154,8 +164,19 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        audioServiceBinder.bindService(new AudioServiceBinder.OnBindStateSync() {
+            @Override
+            public void onBind(boolean isPlaying) {
+                slidingPanelController.sync(isPlaying);
+            }
+        });
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        audioFocusManager.abandonFocus();
+        audioServiceBinder.unbind();
     }
 }

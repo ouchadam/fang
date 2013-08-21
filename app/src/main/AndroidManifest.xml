@@ -33,6 +33,8 @@
     <activity
       android:name=".presentation.controller.ChannelActivity" />
 
+    <service android:name=".audio.AudioService" />
+
     <!-- PROVIDERS -->
     <provider
         android:name=".persistance.FangProvider"
