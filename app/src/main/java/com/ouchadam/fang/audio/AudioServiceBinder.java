@@ -11,15 +11,15 @@ public class AudioServiceBinder {
     private final Context context;
     private Connection connection;
 
-    public interface OnBindStateSync {
-        void onBind(boolean isPlaying);
+    public interface OnStateSync {
+        void onSync(boolean playing, PodcastPosition position);
     }
 
     public AudioServiceBinder(Context context) {
         this.context = context;
     }
 
-    public void bindService(OnBindStateSync onBindStateSyncListener) {
+    public void bindService(OnStateSync onBindStateSyncListener) {
         if (connection == null) {
             connection = new Connection(onBindStateSyncListener);
         }
@@ -40,17 +40,17 @@ public class AudioServiceBinder {
 
     private static class Connection implements ServiceConnection {
 
-        private final OnBindStateSync listener;
+        private final OnStateSync listener;
         private AudioService audioService;
 
-        private Connection(OnBindStateSync listener) {
+        private Connection(OnStateSync listener) {
             this.listener = listener;
         }
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             audioService = ((AudioService.LocalBinder) binder).getService();
-            listener.onBind(audioService.isPlaying());
+            audioService.setSyncListener(listener);
         }
 
         @Override

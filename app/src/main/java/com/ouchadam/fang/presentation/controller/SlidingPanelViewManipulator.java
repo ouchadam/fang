@@ -7,6 +7,7 @@ import android.widget.ViewSwitcher;
 
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.audio.PodcastPosition;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
@@ -27,6 +28,15 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
                 mediaNext();
             }
         }
+    }
+
+    public int getSeekMax() {
+        return seekBar.getMax();
+    }
+
+    public void setSeekState(PodcastPosition position) {
+        seekBar.setMax(position.getDuration());
+        seekBar.setProgress(position.value());
     }
 
     public enum MediaPressed {

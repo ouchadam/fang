@@ -78,7 +78,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
             currentSource = source;
             playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(source));
         }
-        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(new PodcastPosition(slidingPanelViewManipulator.getSeekProgress())));
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(new PodcastPosition(slidingPanelViewManipulator.getSeekProgress(), slidingPanelViewManipulator.getSeekMax())));
     }
 
     private boolean sourceHasChanged(Uri uri) {
@@ -117,7 +117,8 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
 
-    public void sync(boolean isPlaying) {
+    public void sync(boolean isPlaying, PodcastPosition position) {
         slidingPanelViewManipulator.setPlayingState(isPlaying);
+        slidingPanelViewManipulator.setSeekState(position);
     }
 }

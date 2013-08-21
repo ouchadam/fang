@@ -33,8 +33,6 @@
     android:layout_width="match_parent"
     android:layout_above="@id/player_bottom_bar"
     android:fitsSystemWindows="true"
-    android:max="100"
-    android:progress="0"
     android:clickable="true"/>
 
   <RelativeLayout

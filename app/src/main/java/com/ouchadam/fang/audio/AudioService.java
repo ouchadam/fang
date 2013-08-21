@@ -20,6 +20,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     private AudioFocusManager audioFocusManager;
     private PodcastPlayer podcastPlayer;
     private PlayerEventReceiver playerEventReceiver;
+    private AudioServiceBinder.OnStateSync listener;
 
     public AudioService() {
         binder = new LocalBinder();
@@ -50,14 +51,20 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         return START_STICKY;
     }
 
-    @Override
-    public void onPlay(PodcastPosition position) {
-        play();
+    public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
+        this.listener = listener;
+        podcastPlayer.sync(listener);
     }
 
-    private void play() {
+    @Override
+    public void onPlay(PodcastPosition position) {
+        play(position);
+        podcastPlayer.sync(listener);
+    }
+
+    private void play(PodcastPosition position) {
         audioFocusManager.requestFocus();
-        podcastPlayer.play();
+        podcastPlayer.play(position);
     }
 
     @Override

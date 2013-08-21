@@ -29,18 +29,21 @@ public class PodcastPlayer {
         mediaPlayer.prepare();
     }
 
-    public void play() {
+    public void play(PodcastPosition position) {
         isPaused = false;
+        goTo(position.value());
         mediaPlayer.start();
         scheduleSeekPositionUpdate();
+    }
+
+    private void goTo(int position) {
+        mediaPlayer.seekTo(position);
     }
 
     private final Runnable seekUpdater = new Runnable() {
         @Override
         public void run() {
-            float percentCoeff = (float) mediaPlayer.getCurrentPosition() / (float) mediaPlayer.getDuration();
-            int percent = (int) (percentCoeff * 100);
-            positionBroadcaster.broadcast(new PodcastPosition(percent));
+            positionBroadcaster.broadcast(new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
             if (mediaPlayer.isPlaying()) {
                 scheduleSeekPositionUpdate();
             }
@@ -54,10 +57,6 @@ public class PodcastPlayer {
     public void pause() {
         isPaused = true;
         mediaPlayer.pause();
-    }
-
-    public void goTo(int position) {
-        mediaPlayer.seekTo(position);
     }
 
     public void stop() {
@@ -74,5 +73,13 @@ public class PodcastPlayer {
 
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();
+    }
+
+    public void sync(AudioServiceBinder.OnStateSync listener) {
+        if (mediaPlayer.getDuration() == 0 && mediaPlayer.getCurrentPosition() == 0) {
+            listener.onSync(mediaPlayer.isPlaying(), new PodcastPosition(0, 1));
+        } else {
+            listener.onSync(mediaPlayer.isPlaying(), new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
+        }
     }
 }

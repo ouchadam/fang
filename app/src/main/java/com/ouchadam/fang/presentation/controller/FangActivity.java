@@ -1,6 +1,5 @@
 package com.ouchadam.fang.presentation.controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.AudioManager;
@@ -23,6 +22,7 @@ import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
+import com.ouchadam.fang.audio.PodcastPosition;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
@@ -166,10 +166,10 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     protected void onResume() {
         super.onResume();
-        audioServiceBinder.bindService(new AudioServiceBinder.OnBindStateSync() {
+        audioServiceBinder.bindService(new AudioServiceBinder.OnStateSync() {
             @Override
-            public void onBind(boolean isPlaying) {
-                slidingPanelController.sync(isPlaying);
+            public void onSync(boolean playing, PodcastPosition position) {
+                slidingPanelController.sync(playing, position);
             }
         });
     }
