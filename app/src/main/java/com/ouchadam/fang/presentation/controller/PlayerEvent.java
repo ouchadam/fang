@@ -79,6 +79,11 @@ public class PlayerEvent {
         private PlayerEvent build() {
             return playerEvent;
         }
+
+        public PlayerEvent stop() {
+            playerEvent.event = Event.STOP;
+            return playerEvent;
+        }
     }
 
 }

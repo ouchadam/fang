@@ -34,6 +34,8 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private FangBookKeeer fangBookKeeer;
     private AudioServiceBinder audioServiceBinder;
 
+    private boolean isPlaying = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (fangDrawer.onOptionsItemSelected(item)) {
@@ -60,6 +62,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private final AudioServiceBinder.OnStateSync onStateSync = new AudioServiceBinder.OnStateSync() {
         @Override
         public void onSync(SyncEvent syncEvent) {
+            FangActivity.this.isPlaying = syncEvent.isPlaying;
             slidingPanelController.sync(syncEvent.isPlaying, syncEvent.position, syncEvent.itemId);
         }
     };
@@ -182,6 +185,9 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     protected void onPause() {
         super.onPause();
+        if (!isPlaying) {
+            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
+        }
         audioServiceBinder.unbind();
     }
 }

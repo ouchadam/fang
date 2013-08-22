@@ -47,6 +47,8 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
                 return factory.newSource(itemId, (Uri) intent.getParcelableExtra(SOURCE));
             case PAUSE:
                 return factory.pause();
+            case STOP:
+                return factory.stop();
             default:
                 throw new RuntimeException("Intent has unhandled event : " + event);
         }

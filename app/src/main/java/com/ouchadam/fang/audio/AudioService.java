@@ -72,6 +72,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onPause() {
         pause();
+        podcastPlayer.sync(playingItemId, listener);
     }
 
     private void pause() {
@@ -81,6 +82,8 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onStop() {
         stop();
+        podcastPlayer.release();
+        stopSelf();
     }
 
     private void stop() {
@@ -110,4 +113,5 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     public boolean isPlaying() {
         return podcastPlayer.isPlaying();
     }
+
 }

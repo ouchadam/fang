@@ -13,9 +13,9 @@ public class AudioServiceBinder {
     private Connection connection;
 
     public interface OnStateSync {
+
         void onSync(SyncEvent syncEvent);
     }
-
     public AudioServiceBinder(Context context, OnStateSync onBindStateSyncListener) {
         this.context = context;
         this.onBindStateSyncListener = onBindStateSyncListener;
