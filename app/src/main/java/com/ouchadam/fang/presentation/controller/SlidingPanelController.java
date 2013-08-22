@@ -16,6 +16,8 @@ import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 
+import java.util.concurrent.RunnableFuture;
+
 public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnDownloadClickListener {
 
     private final Downloader downloader;
@@ -76,7 +78,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         Uri source = getSourceUri(item);
         if (sourceHasChanged(source)) {
             currentSource = source;
-            playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(source));
+            playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
         }
         playerBroadcaster.broadcast(new PlayerEvent.Factory().play(new PodcastPosition(slidingPanelViewManipulator.getSeekProgress(), slidingPanelViewManipulator.getSeekMax())));
     }
@@ -117,8 +119,9 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
 
-    public void sync(boolean isPlaying, PodcastPosition position) {
+    public void sync(boolean isPlaying, PodcastPosition position, long itemId) {
         slidingPanelViewManipulator.setPlayingState(isPlaying);
         slidingPanelViewManipulator.setSeekState(position);
+        setData(itemId);
     }
 }

@@ -7,6 +7,12 @@ public class PodcastPosition implements Serializable {
     private int currentPosition;
     private int duration;
 
+    private static PodcastPosition DEFAULT = new PodcastPosition(0, 100);
+
+    public static PodcastPosition idle() {
+        return DEFAULT;
+    }
+
     public PodcastPosition(int currentPosition, int duration) {
         this.currentPosition = currentPosition;
         this.duration = duration;

@@ -1,7 +1,6 @@
 package com.ouchadam.fang.audio;
 
 import android.content.Context;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -12,19 +11,19 @@ import java.io.IOException;
 
 public class PodcastPlayer {
 
-    private final MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private final Broadcaster<PodcastPosition> positionBroadcaster;
 
     private boolean isPaused = false;
 
     private final Handler seekHandler = new Handler();
 
-    public PodcastPlayer(MediaPlayer mediaPlayer, Broadcaster<PodcastPosition> positionBroadcaster) {
-        this.mediaPlayer = mediaPlayer;
+    public PodcastPlayer(Broadcaster<PodcastPosition> positionBroadcaster) {
         this.positionBroadcaster = positionBroadcaster;
     }
 
     public void setSource(Context context, Uri source) throws IOException {
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.setDataSource(context, source);
         mediaPlayer.prepare();
     }
@@ -75,11 +74,17 @@ public class PodcastPlayer {
         return mediaPlayer.isPlaying();
     }
 
-    public void sync(AudioServiceBinder.OnStateSync listener) {
-        if (mediaPlayer.getDuration() == 0 && mediaPlayer.getCurrentPosition() == 0) {
-            listener.onSync(mediaPlayer.isPlaying(), new PodcastPosition(0, 1));
+    public void sync(long itemId, AudioServiceBinder.OnStateSync listener) {
+        if (isIdle()) {
+            listener.onSync(SyncEvent.idle());
         } else {
-            listener.onSync(mediaPlayer.isPlaying(), new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
+            PodcastPosition position = new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
+            listener.onSync(new SyncEvent(mediaPlayer.isPlaying(), position, itemId));
         }
     }
+
+    private boolean isIdle() {
+        return mediaPlayer == null;
+    }
+
 }

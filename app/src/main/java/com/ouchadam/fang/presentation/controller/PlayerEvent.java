@@ -9,6 +9,7 @@ public class PlayerEvent {
     private Event event;
     private Uri source;
     private PodcastPosition position;
+    private long id;
 
     private PlayerEvent() {
     }
@@ -23,6 +24,10 @@ public class PlayerEvent {
 
     public Uri getSource() {
         return source;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public enum Event {
@@ -64,8 +69,9 @@ public class PlayerEvent {
             return build();
         }
 
-        public PlayerEvent newSource(Uri source) {
+        public PlayerEvent newSource(long itemId, Uri source) {
             playerEvent.event = Event.NEW_SOURCE;
+            playerEvent.id = itemId;
             playerEvent.source = source;
             return build();
         }

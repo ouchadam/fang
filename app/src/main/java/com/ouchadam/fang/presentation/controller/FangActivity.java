@@ -22,7 +22,7 @@ import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
-import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
@@ -48,18 +48,21 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
         fangBookKeeer = FangBookKeeer.newInstance(this);
-        audioServiceBinder = new AudioServiceBinder(this);
+        audioServiceBinder = new AudioServiceBinder(this, onStateSync);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        if (!AndroidUtils.isServiceRunning(AudioService.class, this)) {
-            startService(new Intent(this, AudioService.class));
-        }
-
         initSlidingPaneController();
-
         initDrawer();
+        startAudioService();
         onFangCreate(savedInstanceState);
     }
+
+    private final AudioServiceBinder.OnStateSync onStateSync = new AudioServiceBinder.OnStateSync() {
+        @Override
+        public void onSync(SyncEvent syncEvent) {
+            slidingPanelController.sync(syncEvent.isPlaying, syncEvent.position, syncEvent.itemId);
+        }
+    };
 
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, getRoot());
@@ -69,10 +72,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     private View getRoot() {
         return Views.findById(this, android.R.id.content);
-    }
-
-    protected void onFangCreate(Bundle savedInstanceState) {
-        // template
     }
 
     private void initDrawer() {
@@ -90,6 +89,16 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private void initDrawer(ListAdapter listAdapter, DrawerNavigator drawerNavigator) {
         fangDrawer = FangDrawer.newInstance(this, drawerNavigator);
         fangDrawer.setAdapter(listAdapter);
+    }
+
+    private void startAudioService() {
+        if (!AndroidUtils.isServiceRunning(AudioService.class, this)) {
+            startService(new Intent(this, AudioService.class));
+        }
+    }
+
+    protected void onFangCreate(Bundle savedInstanceState) {
+        // template
     }
 
     @Override
@@ -166,12 +175,8 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     protected void onResume() {
         super.onResume();
-        audioServiceBinder.bindService(new AudioServiceBinder.OnStateSync() {
-            @Override
-            public void onSync(boolean playing, PodcastPosition position) {
-                slidingPanelController.sync(playing, position);
-            }
-        });
+
+        audioServiceBinder.bindService();
     }
 
     @Override

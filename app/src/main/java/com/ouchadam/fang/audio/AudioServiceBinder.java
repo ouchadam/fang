@@ -9,17 +9,19 @@ import android.os.IBinder;
 public class AudioServiceBinder {
 
     private final Context context;
+    private OnStateSync onBindStateSyncListener;
     private Connection connection;
 
     public interface OnStateSync {
-        void onSync(boolean playing, PodcastPosition position);
+        void onSync(SyncEvent syncEvent);
     }
 
-    public AudioServiceBinder(Context context) {
+    public AudioServiceBinder(Context context, OnStateSync onBindStateSyncListener) {
         this.context = context;
+        this.onBindStateSyncListener = onBindStateSyncListener;
     }
 
-    public void bindService(OnStateSync onBindStateSyncListener) {
+    public void bindService() {
         if (connection == null) {
             connection = new Connection(onBindStateSyncListener);
         }

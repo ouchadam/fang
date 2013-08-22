@@ -22,6 +22,8 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     private PlayerEventReceiver playerEventReceiver;
     private AudioServiceBinder.OnStateSync listener;
 
+    private long playingItemId = -1L;
+
     public AudioService() {
         binder = new LocalBinder();
     }
@@ -41,7 +43,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     public void onCreate() {
         super.onCreate();
         audioFocusManager = new AudioFocusManager((AudioManager) getSystemService(Context.AUDIO_SERVICE));
-        podcastPlayer = new PodcastPlayer(new MediaPlayer(), new PodcastPositionBroadcaster(this));
+        podcastPlayer = new PodcastPlayer(new PodcastPositionBroadcaster(this));
         playerEventReceiver = new PlayerEventReceiver(this);
         playerEventReceiver.register(this);
     }
@@ -53,13 +55,13 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
         this.listener = listener;
-        podcastPlayer.sync(listener);
+        podcastPlayer.sync(playingItemId, listener);
     }
 
     @Override
     public void onPlay(PodcastPosition position) {
         play(position);
-        podcastPlayer.sync(listener);
+        podcastPlayer.sync(playingItemId, listener);
     }
 
     private void play(PodcastPosition position) {
@@ -91,7 +93,8 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     }
 
     @Override
-    public void onNewSource(Uri source) {
+    public void onNewSource(long itemId, Uri source) {
+        this.playingItemId = itemId;
         setSource(source);
     }
 
