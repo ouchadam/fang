@@ -58,12 +58,11 @@ public class PodcastPlayer {
         mediaPlayer.pause();
     }
 
-    public void stop() {
-        mediaPlayer.stop();
-    }
-
     public void release() {
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+        mediaPlayer = null;
     }
 
     public boolean isPaused() {

@@ -72,6 +72,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onPause() {
         pause();
+        persistPosition();
         podcastPlayer.sync(playingItemId, listener);
     }
 
@@ -82,8 +83,13 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onStop() {
         stop();
+        persistPosition();
         podcastPlayer.release();
         stopSelf();
+    }
+
+    private void persistPosition() {
+        // TODO persist position
     }
 
     private void stop() {
