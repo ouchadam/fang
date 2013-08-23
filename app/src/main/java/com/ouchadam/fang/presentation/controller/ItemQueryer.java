@@ -13,7 +13,7 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 import java.util.List;
 
-class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
+public class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
 
     private final long itemId;
     private final OnItemListener onItemListener;

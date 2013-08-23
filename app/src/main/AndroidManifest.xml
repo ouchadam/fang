@@ -34,6 +34,7 @@
       android:name=".presentation.controller.ChannelActivity" />
 
     <service android:name=".audio.AudioService" />
+    <service android:name=".audio.NotificationService" />
 
     <!-- PROVIDERS -->
     <provider

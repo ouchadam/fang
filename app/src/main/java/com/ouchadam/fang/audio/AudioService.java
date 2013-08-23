@@ -9,7 +9,9 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.controller.AudioFocusManager;
+import com.ouchadam.fang.presentation.controller.ItemQueryer;
 
 import java.io.IOException;
 
