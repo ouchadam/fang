@@ -23,6 +23,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
 import com.ouchadam.fang.audio.NotificationService;
+import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;

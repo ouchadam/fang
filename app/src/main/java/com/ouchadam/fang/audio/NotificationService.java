@@ -14,7 +14,6 @@ import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 
 public class NotificationService extends IntentService {
 
-
     private FangNotification fangNotification;
 
     public NotificationService() {

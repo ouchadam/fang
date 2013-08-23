@@ -8,6 +8,7 @@ import android.widget.ViewSwitcher;
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
@@ -19,6 +20,7 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     private final SeekBar seekBar;
     private final ViewSwitcher topMediaSwitcher;
     private final ViewSwitcher bottomMediaSwitcher;
+    private final SeekbarReceiver seekbarReceiver;
 
     private FullItem fullItem;
 
@@ -66,8 +68,17 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
         this.seekBar = Views.findById(panelLayout, R.id.seek_bar);
         this.topMediaSwitcher = Views.findById(panelLayout, R.id.media_switcher);
         this.bottomMediaSwitcher = Views.findById(panelLayout, R.id.bottom_media_switcher);
+        this.seekbarReceiver = new SeekbarReceiver(seekUpdate);
         setOnPanelExpandListener(this);
     }
+
+    private final SeekbarReceiver.OnSeekUpdate seekUpdate = new SeekbarReceiver.OnSeekUpdate() {
+        @Override
+        public void onUpdate(PodcastPosition position) {
+            seekBar.setMax(position.getDuration());
+            seekBar.setProgress(position.value());
+        }
+    };
 
     public interface ActionBarManipulator {
 
@@ -192,6 +203,11 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     public void onPanelExpanded(View panel) {
         syncDownloadState();
         showExpanded();
+        registerReceiver();
+    }
+
+    private void registerReceiver() {
+        seekbarReceiver.register(panelLayout.getContext());
     }
 
     private void syncDownloadState() {
@@ -219,6 +235,11 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     public void onPanelCollapsed(View panel) {
         syncDownloadState();
         showCollapsed();
+        unregisterReceiver();
+    }
+
+    private void unregisterReceiver() {
+        seekbarReceiver.unregister(panelLayout.getContext());
     }
 
     private void showCollapsed() {

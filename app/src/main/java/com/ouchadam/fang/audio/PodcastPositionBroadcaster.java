@@ -7,12 +7,17 @@ import com.ouchadam.fang.FangBroadcaster;
 
 class PodcastPositionBroadcaster extends FangBroadcaster<PodcastPosition> {
 
+    public static final String POSITION_ACTION = "postion_action";
+    public static final String EXTRA_POSITION = "position_extra";
+
     public PodcastPositionBroadcaster(Context context) {
         super(context);
     }
 
     @Override
     protected Intent marshall(PodcastPosition what) {
-        return new Intent("postion_action");
+        Intent intent = new Intent(POSITION_ACTION);
+        intent.putExtra(EXTRA_POSITION, what);
+        return intent;
     }
 }
