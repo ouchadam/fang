@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.controller.FangNotification;
 import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
-import com.ouchadam.fang.presentation.controller.ItemMarshaller;
-import com.ouchadam.fang.presentation.controller.ItemQueryer;
 
 public class NotificationService extends IntentService {
 
@@ -46,7 +43,7 @@ public class NotificationService extends IntentService {
         Cursor cursor = getContentResolver().query(query.uri, query.projection, query.selection, query.selectionArgs, query.sortOrder);
 
         FullItem item = null;
-        if (cursor != null && cursor.moveToFirst()) {
+        if   (cursor != null && cursor.moveToFirst()) {
             item = new FullItemMarshaller().marshall(cursor);
         }
         return item;
