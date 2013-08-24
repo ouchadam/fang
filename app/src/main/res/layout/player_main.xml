@@ -11,7 +11,6 @@
     android:layout_width="wrap_content"
     android:layout_alignParentLeft="true"
     android:layout_above="@+id/player_bottom_bar"
-    android:text="0:12"
     android:padding="14dp"
     android:layout_marginBottom="30dp"
     android:textSize="14sp"/>
@@ -23,7 +22,6 @@
     android:layout_above="@id/player_bottom_bar"
     android:padding="14dp"
     android:layout_marginBottom="30dp"
-    android:text="5:47"
     android:layout_alignParentRight="true"
     android:textSize="14sp"/>
 
