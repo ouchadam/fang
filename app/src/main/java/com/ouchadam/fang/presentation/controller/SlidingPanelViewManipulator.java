@@ -1,9 +1,7 @@
 package com.ouchadam.fang.presentation.controller;
 
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
@@ -17,77 +15,63 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     private final ActionBarManipulator actionBarManipulator;
     private final SlidingUpPanelLayout panelLayout;
-    private final SeekBar seekBar;
-    private final ViewSwitcher topMediaSwitcher;
-    private final ViewSwitcher bottomMediaSwitcher;
-    private final SeekbarReceiver seekbarReceiver;
-
-    private FullItem fullItem;
+    private final PanelViewHolder panelViewHolder;
+    private final DownloadFoo downloadFoo;
+    private final PositionManager positionManager;
 
     public void setPlayingState(boolean playing) {
         if (playing) {
-            if (topMediaSwitcher.getCurrentView().getId() == R.id.play_top) {
-                mediaNext();
+            if (panelViewHolder.isInPlayMode()) {
+                panelViewHolder.mediaController().showNext();
             }
         }
     }
 
-    public int getSeekMax() {
-        return seekBar.getMax();
+    public void update(PodcastPosition position) {
+        positionManager.update(position);
     }
 
-    public void setSeekState(PodcastPosition position) {
-        seekBar.setMax(position.getDuration());
-        seekBar.setProgress(position.value());
+    public PodcastPosition getPosition() {
+        return positionManager.getLatestPosition();
     }
 
-    public enum MediaPressed {
-        PLAY,
-        PAUSE;
-
+    public void setMediaClickedListener(MediaClickManager.OnMediaClickListener onMediaClickListener) {
+        MediaClickManager mediaClickManager = new MediaClickManager(onMediaClickListener, panelViewHolder.mediaController());
     }
-    public interface OnMediaClickListener {
 
-        void onMediaClicked(MediaPressed mediaPressed);
-    }
     public interface OnDownloadClickListener {
-
         void onDownloadClicked(FullItem fullItem);
     }
-    private OnMediaClickListener mediaClickedListener;
 
-    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, View root) {
-        SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
-        slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
-        return new SlidingPanelViewManipulator(actionBarManipulator, slidingPanel);
+    public interface OnSeekChanged {
+        void onSeekChanged(PodcastPosition position);
     }
 
-    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, SlidingUpPanelLayout panelLayout) {
+    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root) {
+        SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
+        slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
+        return new SlidingPanelViewManipulator(actionBarManipulator, onSeekChanged, slidingPanel);
+    }
+
+    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, SlidingUpPanelLayout panelLayout) {
         this.actionBarManipulator = actionBarManipulator;
         this.panelLayout = panelLayout;
-        this.seekBar = Views.findById(panelLayout, R.id.seek_bar);
-        this.topMediaSwitcher = Views.findById(panelLayout, R.id.media_switcher);
-        this.bottomMediaSwitcher = Views.findById(panelLayout, R.id.bottom_media_switcher);
-        this.seekbarReceiver = new SeekbarReceiver(seekUpdate);
+        this.panelViewHolder = PanelViewHolder.from(panelLayout);
+
+        this.downloadFoo = new DownloadFoo(panelViewHolder.downloadController());
+
+        positionManager = new PositionManager(onSeekChanged, new SeekbarReceiver(seekUpdate), panelViewHolder.positionController());
+
         setOnPanelExpandListener(this);
     }
 
     private final SeekbarReceiver.OnSeekUpdate seekUpdate = new SeekbarReceiver.OnSeekUpdate() {
         @Override
         public void onUpdate(PodcastPosition position) {
-            seekBar.setMax(position.getDuration());
-            seekBar.setProgress(position.value());
+            positionManager.update(position);
         }
     };
 
-    public interface ActionBarManipulator {
-
-        boolean isActionBarShowing();
-        void hideActionBar();
-
-        void showActionBar();
-
-    }
     private void setOnPanelExpandListener(final OnPanelChangeListener onPanelExpandListener) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -116,45 +100,7 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     }
 
     public void setOnDownloadClickedListener(final OnDownloadClickListener onDownloadClickedListener) {
-        Views.findById(panelLayout, R.id.download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onDownloadClickedListener.onDownloadClicked(fullItem);
-            }
-        });
-    }
-
-    public void setMediaClickedListener(OnMediaClickListener mediaClickedListener) {
-        this.mediaClickedListener = mediaClickedListener;
-        panelLayout.findViewById(R.id.play_top).setOnClickListener(onPlayClicked);
-        panelLayout.findViewById(R.id.play_bottom).setOnClickListener(onPlayClicked);
-        panelLayout.findViewById(R.id.pause_top).setOnClickListener(onPauseClicked);
-        panelLayout.findViewById(R.id.pause_bottom).setOnClickListener(onPauseClicked);
-    }
-
-    private final View.OnClickListener onPlayClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mediaClickedListener.onMediaClicked(MediaPressed.PLAY);
-            mediaNext();
-        }
-    };
-
-    private void mediaNext() {
-        topMediaSwitcher.showNext();
-        bottomMediaSwitcher.showNext();
-    }
-
-    private final View.OnClickListener onPauseClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mediaClickedListener.onMediaClicked(MediaPressed.PAUSE);
-            mediaNext();
-        }
-    };
-
-    public void setSeekProgress(int percent) {
-        seekBar.setProgress(percent);
+        downloadFoo.setListener(onDownloadClickedListener);
     }
 
     public void expand() {
@@ -162,7 +108,8 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
     }
 
     public void fromItem(FullItem fullItem) {
-        this.fullItem = fullItem;
+        downloadFoo.itemChange(fullItem);
+
         Item item = fullItem.getItem();
         setBarTitle(item.getTitle());
         setDescription(item.getSummary());
@@ -201,57 +148,23 @@ class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     @Override
     public void onPanelExpanded(View panel) {
-        syncDownloadState();
-        showExpanded();
-        registerReceiver();
+        showExpanded(downloadFoo.isDownloaded());
+        positionManager.registerForUpdates(panel.getContext());
     }
 
-    private void registerReceiver() {
-        seekbarReceiver.register(panelLayout.getContext());
-    }
-
-    private void syncDownloadState() {
-        if (isDownloaded()) {
-            Views.findById(panelLayout, R.id.download).setVisibility(View.INVISIBLE);
-        } else {
-            Views.findById(panelLayout, R.id.download).setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void showExpanded() {
-        topMediaSwitcher.setVisibility(View.INVISIBLE);
-        if (isDownloaded()) {
-            bottomMediaSwitcher.setVisibility(View.VISIBLE);
-        } else {
-            bottomMediaSwitcher.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private boolean isDownloaded() {
-        return fullItem != null && fullItem.isDownloaded();
+    private void showExpanded(boolean isDownloaded) {
+        panelViewHolder.showExpanded(isDownloaded);
     }
 
     @Override
     public void onPanelCollapsed(View panel) {
-        syncDownloadState();
-        showCollapsed();
-        unregisterReceiver();
+        showCollapsed(downloadFoo.isDownloaded());
+        positionManager.unregisterForUpdates(panel.getContext());
     }
 
-    private void unregisterReceiver() {
-        seekbarReceiver.unregister(panelLayout.getContext());
-    }
 
-    private void showCollapsed() {
-        if (isDownloaded()) {
-            topMediaSwitcher.setVisibility(View.VISIBLE);
-        } else {
-            topMediaSwitcher.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public int getSeekProgress() {
-        return seekBar.getProgress();
+    private void showCollapsed(boolean isDownloaded) {
+        panelViewHolder.showCollapsed(isDownloaded);
     }
 
 }

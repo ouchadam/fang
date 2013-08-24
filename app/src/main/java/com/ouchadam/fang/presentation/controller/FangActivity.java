@@ -23,14 +23,13 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
 import com.ouchadam.fang.audio.NotificationService;
-import com.ouchadam.fang.audio.SeekbarReceiver;
+import com.ouchadam.fang.audio.PodcastPosition;
 import com.ouchadam.fang.audio.SyncEvent;
-import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
 
-public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, SlidingPanelViewManipulator.ActionBarManipulator, SlidingPanelExposer, Downloader {
+public class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
@@ -76,7 +75,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     };
 
     private void initSlidingPaneController() {
-        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, getRoot());
+        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot());
         Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(this);
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventBroadcaster);
     }
@@ -190,7 +189,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         fangNotification.dismiss();
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -198,9 +196,20 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
             new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
         }
         audioServiceBinder.unbind();
-        Intent intent = new Intent(this, NotificationService.class);
-        intent.putExtra("test", itemId);
-        startService(intent);
+        showNotification();
+    }
+
+    private void showNotification() {
+        if (isPlaying) {
+            Intent intent = new Intent(this, NotificationService.class);
+            intent.putExtra("test", itemId);
+            startService(intent);
+        }
+    }
+
+    @Override
+    public void onSeekChanged(PodcastPosition position) {
+        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().play(position));
     }
 
 }

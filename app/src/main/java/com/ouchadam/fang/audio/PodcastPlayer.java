@@ -11,8 +11,8 @@ import java.io.IOException;
 
 public class PodcastPlayer {
 
-    private MediaPlayer mediaPlayer;
     private final Broadcaster<PodcastPosition> positionBroadcaster;
+    private MediaPlayer mediaPlayer;
 
     private boolean isPaused = false;
 
@@ -43,7 +43,7 @@ public class PodcastPlayer {
         @Override
         public void run() {
             positionBroadcaster.broadcast(new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
-            if (mediaPlayer.isPlaying()) {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 scheduleSeekPositionUpdate();
             }
         }
@@ -63,10 +63,6 @@ public class PodcastPlayer {
             mediaPlayer.release();
         }
         mediaPlayer = null;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
     }
 
     public boolean isPlaying() {

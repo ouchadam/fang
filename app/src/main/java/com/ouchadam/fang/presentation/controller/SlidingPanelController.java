@@ -62,10 +62,10 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     private void initialiseViews(final FullItem item) {
         slidingPanelViewManipulator.fromItem(item);
-        slidingPanelViewManipulator.setMediaClickedListener(new SlidingPanelViewManipulator.OnMediaClickListener() {
+        slidingPanelViewManipulator.setMediaClickedListener(new MediaClickManager.OnMediaClickListener() {
             @Override
-            public void onMediaClicked(SlidingPanelViewManipulator.MediaPressed mediaPressed) {
-                if (mediaPressed == SlidingPanelViewManipulator.MediaPressed.PLAY) {
+            public void onMediaClicked(MediaClickManager.MediaPressed mediaPressed) {
+                if (mediaPressed == MediaClickManager.MediaPressed.PLAY) {
                     playItem(item);
                 } else {
                     pause();
@@ -80,7 +80,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
             currentSource = source;
             playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
         }
-        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(new PodcastPosition(slidingPanelViewManipulator.getSeekProgress(), slidingPanelViewManipulator.getSeekMax())));
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(slidingPanelViewManipulator.getPosition()));
     }
 
     private boolean sourceHasChanged(Uri uri) {
@@ -121,7 +121,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     public void sync(boolean isPlaying, PodcastPosition position, long itemId) {
         slidingPanelViewManipulator.setPlayingState(isPlaying);
-        slidingPanelViewManipulator.setSeekState(position);
+        slidingPanelViewManipulator.update(position);
         setData(itemId);
     }
 }
