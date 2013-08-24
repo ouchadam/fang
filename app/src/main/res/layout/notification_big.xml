@@ -22,6 +22,7 @@
     android:layout_toRightOf="@id/notification_big_channel_image">
 
     <ImageButton
+      android:id="@+id/notification_close"
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:layout_alignParentTop="true"

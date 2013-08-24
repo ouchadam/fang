@@ -1,5 +1,6 @@
 package com.ouchadam.fang.audio;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.IBinder;
 
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.controller.AudioFocusManager;
+import com.ouchadam.fang.presentation.controller.FangNotification;
 import com.ouchadam.fang.presentation.controller.ItemQueryer;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     private PodcastPlayer podcastPlayer;
     private PlayerEventReceiver playerEventReceiver;
     private AudioServiceBinder.OnStateSync listener;
+    private FangNotification fangNotification;
 
     private long playingItemId = -1L;
 
@@ -48,6 +51,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         podcastPlayer = new PodcastPlayer(new PodcastPositionBroadcaster(this));
         playerEventReceiver = new PlayerEventReceiver(this);
         playerEventReceiver.register(this);
+        fangNotification = FangNotification.from(this);
     }
 
     @Override
@@ -96,6 +100,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
 
     private void stop() {
         audioFocusManager.abandonFocus();
+        fangNotification.dismiss();
         unregisterEventReciever();
     }
 
