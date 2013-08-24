@@ -25,20 +25,12 @@
     android:layout_alignParentRight="true"
     android:textSize="14sp"/>
 
-  <SeekBar
-    android:id="@+id/seek_bar"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:layout_above="@id/player_bottom_bar"
-    android:fitsSystemWindows="true"
-    android:clickable="true"/>
-
   <RelativeLayout
     android:id="@id/player_bottom_bar"
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:layout_alignParentBottom="true"
-    android:background="@drawable/card_background">
+    android:background="@android:color/white">
 
     <Button
       android:id="@+id/download"
@@ -74,6 +66,23 @@
         android:src="@drawable/pause_button"/>
 
     </ViewSwitcher>
+
+  </RelativeLayout>
+
+  <RelativeLayout
+    android:id="@+id/seek_bar_container"
+    android:layout_width="match_parent"
+    android:layout_height="84.5dp"
+    android:layout_alignParentBottom="true"
+    android:background="@null">
+
+    <SeekBar
+      android:id="@+id/seek_bar"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:background="@null"
+      android:clickable="true"
+      android:indeterminate="false"/>
 
   </RelativeLayout>
 

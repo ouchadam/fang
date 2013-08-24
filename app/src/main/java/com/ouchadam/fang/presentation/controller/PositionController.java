@@ -1,8 +1,10 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.graphics.drawable.Drawable;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.PodcastPosition;
 
 import java.util.concurrent.TimeUnit;
