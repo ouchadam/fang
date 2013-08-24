@@ -1,8 +1,10 @@
 package com.ouchadam.fang.audio;
 
+import android.R;
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -11,6 +13,9 @@ import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.controller.FangNotification;
 import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 public class NotificationService extends IntentService {
 
@@ -32,7 +37,14 @@ public class NotificationService extends IntentService {
             long itemId = intent.getLongExtra("test", -1L);
             FullItem item = getFullItem(itemId);
             if (item != null) {
-                fangNotification.show(item);
+                try {
+                    int imageWidth = getResources().getDimensionPixelSize(R.dimen.notification_large_icon_width);
+                    int imageHeight = getResources().getDimensionPixelSize(R.dimen.notification_large_icon_height);
+                    Bitmap channelImage = Picasso.with(this).load(item.getImageUrl()).resize(imageWidth, imageHeight).get();
+                    fangNotification.show(channelImage, item);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
