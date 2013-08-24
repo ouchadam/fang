@@ -59,7 +59,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     };
 
     private void initialiseViews(final FullItem item) {
-
         Uri source = getSourceUri(item);
         if (sourceHasChanged(source)) {
             currentSource = source;
@@ -84,7 +83,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     private boolean sourceHasChanged(Uri uri) {
-        return !uri.equals(currentSource);
+        return uri != null && !uri.equals(currentSource);
     }
 
     private Uri getSourceUri(FullItem item) {

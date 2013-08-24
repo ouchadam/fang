@@ -36,7 +36,7 @@
 
     <TextView
       android:id="@+id/item_time"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:maxLines="1"
       android:ellipsize="end"
@@ -44,7 +44,7 @@
       android:fontFamily="sans-serif-medium"
       android:textStyle="italic"
       android:textColor="#089983"
-      android:paddingTop="4dp"
+      android:paddingTop="6dp"
       android:layout_below="@id/channel_title"/>
 
   </RelativeLayout>

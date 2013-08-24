@@ -14,7 +14,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:layout_below="@id/top_bar_container"
-    android:clickable="true">
+    android:clickable="false">
 
     <ScrollView
       android:id="@+id/item_description_container"

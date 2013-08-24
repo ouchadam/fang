@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 public class SeekbarReceiver extends BroadcastReceiver {
 
     private final OnSeekUpdate onSeekUpdate;
+    private boolean registered;
 
     public SeekbarReceiver(OnSeekUpdate onSeekUpdate) {
         this.onSeekUpdate = onSeekUpdate;
@@ -18,7 +19,10 @@ public class SeekbarReceiver extends BroadcastReceiver {
     }
 
     public void register(Context context) {
-        context.registerReceiver(this, getIntentFilter());
+        if (!registered) {
+            registered = true;
+            context.registerReceiver(this, getIntentFilter());
+        }
     }
 
     private IntentFilter getIntentFilter() {
@@ -26,7 +30,10 @@ public class SeekbarReceiver extends BroadcastReceiver {
     }
 
     public void unregister(Context context) {
-        context.unregisterReceiver(this);
+        if (registered) {
+            context.unregisterReceiver(this);
+            registered = false;
+        }
     }
 
     @Override
