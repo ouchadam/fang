@@ -209,7 +209,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
 
     @Override
     public void onSeekChanged(PodcastPosition position) {
-        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().play(position));
+        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(position));
     }
 
 }

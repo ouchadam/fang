@@ -14,8 +14,6 @@ public class PodcastPlayer {
     private final Broadcaster<PodcastPosition> positionBroadcaster;
     private MediaPlayer mediaPlayer;
 
-    private boolean isPaused = false;
-
     private final Handler seekHandler = new Handler();
 
     public PodcastPlayer(Broadcaster<PodcastPosition> positionBroadcaster) {
@@ -29,21 +27,20 @@ public class PodcastPlayer {
     }
 
     public void play(PodcastPosition position) {
-        isPaused = false;
         goTo(position.value());
         mediaPlayer.start();
         scheduleSeekPositionUpdate();
     }
 
-    private void goTo(int position) {
+    public void goTo(int position) {
         mediaPlayer.seekTo(position);
     }
 
     private final Runnable seekUpdater = new Runnable() {
         @Override
         public void run() {
-            positionBroadcaster.broadcast(new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                positionBroadcaster.broadcast(new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
                 scheduleSeekPositionUpdate();
             }
         }
@@ -54,7 +51,6 @@ public class PodcastPlayer {
     }
 
     public void pause() {
-        isPaused = true;
         mediaPlayer.pause();
     }
 

@@ -49,6 +49,8 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
                 return factory.pause();
             case STOP:
                 return factory.stop();
+            case GOTO:
+                return factory.goTo((PodcastPosition) intent.getSerializableExtra(POSITION));
             default:
                 throw new RuntimeException("Intent has unhandled event : " + event);
         }

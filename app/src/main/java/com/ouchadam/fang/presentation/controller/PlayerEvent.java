@@ -34,7 +34,9 @@ public class PlayerEvent {
         PLAY,
         PAUSE,
         STOP,
+        GOTO,
         NEW_SOURCE;
+
         public static final String ACTION_PREFIX = "com.fang.action.";
 
         public String toAction() {
@@ -73,6 +75,13 @@ public class PlayerEvent {
             playerEvent.event = Event.NEW_SOURCE;
             playerEvent.id = itemId;
             playerEvent.source = source;
+            return build();
+        }
+
+
+        public PlayerEvent goTo(PodcastPosition position) {
+            playerEvent.event = Event.GOTO;
+            playerEvent.position = position;
             return build();
         }
 
