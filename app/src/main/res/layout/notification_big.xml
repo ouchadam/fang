@@ -29,7 +29,7 @@
       android:padding="8dp"
       android:scaleType="fitCenter"
       android:src="@drawable/ic_close_notification_normal_holo_dark"
-      android:background="@null"/>
+      android:background="@android:drawable/list_selector_background"/>
 
     <LinearLayout
       android:id="@+id/text_container"
@@ -37,6 +37,7 @@
       android:layout_width="match_parent"
       android:orientation="vertical"
       android:paddingLeft="8dp"
+      android:paddingRight="50dp"
       android:layout_centerVertical="true">
 
       <TextView
@@ -75,33 +76,31 @@
 
     <FrameLayout
       android:id="@+id/line_break"
-      android:layout_height="1dp"
+      android:layout_height="1px"
       android:layout_width="match_parent"
       android:layout_alignParentTop="true"
       android:layout_marginBottom="12dp"
-      android:background="@android:color/white"/>
+      android:background="#3B3B3B"/>
 
     <ImageView
       android:id="@+id/play"
       android:layout_height="29dp"
-      android:layout_width="31dp"
+      android:layout_width="30dp"
       android:background="@null"
       android:scaleType="fitXY"
       android:layout_centerHorizontal="true"
       android:layout_below="@id/line_break"
-      android:duplicateParentState="true"
       android:src="@drawable/btn_playback_play_normal_jb_dark"/>
 
     <ImageView
       android:id="@+id/pause"
       android:layout_height="29dp"
-      android:layout_width="31dp"
+      android:layout_width="30dp"
       android:background="@null"
       android:scaleType="fitXY"
       android:src="@drawable/btn_playback_pause_normal_jb_dark"
       android:layout_centerHorizontal="true"
       android:layout_below="@id/line_break"
-      android:duplicateParentState="true"
       android:visibility="gone"/>
 
   </RelativeLayout>
