@@ -38,14 +38,19 @@ public class PlayerEvent {
         NEW_SOURCE;
 
         public static final String ACTION_PREFIX = "com.fang.action.";
+        public static final String NOTIFICATION_PREFIX = "com.fang.notification.";
 
         public String toAction() {
             return ACTION_PREFIX + toString();
         }
 
-        public static Event fromAction(String action) {
-            if (action.startsWith(ACTION_PREFIX)) {
-                return valueOf(action.substring(ACTION_PREFIX.length()));
+        public String toNotification() {
+            return NOTIFICATION_PREFIX + toString();
+        }
+
+        public static Event fromAction(String prefix, String action) {
+            if (action.startsWith(prefix)) {
+                return valueOf(action.substring(prefix.length()));
             }
             throw new RuntimeException("tried to create an event from an invalid action : " + action);
         }
@@ -63,6 +68,11 @@ public class PlayerEvent {
         public PlayerEvent play(PodcastPosition position) {
             playerEvent.event = Event.PLAY;
             playerEvent.position = position;
+            return build();
+        }
+
+        public PlayerEvent play() {
+            playerEvent.event = Event.PLAY;
             return build();
         }
 

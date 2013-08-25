@@ -14,6 +14,12 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
     private static final String POSITION = "position";
     private static final String ID = "id";
 
+    private final String actionPrefix;
+
+    public PlayerEventIntentMarshaller(String actionPrefix) {
+        this.actionPrefix = actionPrefix;
+    }
+
     @Override
     public Intent to(long itemId, PlayerEvent what) {
         Intent intent = new Intent(what.getEvent().toAction());
@@ -37,7 +43,7 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
 
     @Override
     public PlayerEvent from(Intent intent) {
-        PlayerEvent.Event event = PlayerEvent.Event.fromAction(intent.getAction());
+        PlayerEvent.Event event = PlayerEvent.Event.fromAction(actionPrefix, intent.getAction());
         PlayerEvent.Factory factory = new PlayerEvent.Factory();
         switch (event) {
             case PLAY:

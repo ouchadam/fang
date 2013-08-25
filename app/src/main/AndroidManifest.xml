@@ -36,6 +36,13 @@
     <service android:name=".audio.AudioService" />
     <service android:name=".audio.NotificationService" />
 
+    <receiver android:name=".audio.NotificationReceiver" >
+      <intent-filter>
+        <action android:name="com.fang.notification.PLAY"/>
+        <action android:name="com.fang.notification.PAUSE"/>
+      </intent-filter>
+    </receiver>
+
     <!-- PROVIDERS -->
     <provider
         android:name=".persistance.FangProvider"

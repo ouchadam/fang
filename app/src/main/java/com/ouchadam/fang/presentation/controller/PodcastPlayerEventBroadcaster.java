@@ -13,7 +13,7 @@ public class PodcastPlayerEventBroadcaster extends FangBroadcaster<PlayerEvent> 
 
     @Override
     protected Intent marshall(PlayerEvent what) {
-        return new PlayerEventIntentMarshaller().to(what.getId(), what);
+        return new PlayerEventIntentMarshaller(PlayerEvent.Event.ACTION_PREFIX).to(what.getId(), what);
     }
 
 }

@@ -33,7 +33,9 @@ public class PodcastPlayer {
     }
 
     public void play(PodcastPosition position) {
-        goTo(position.value());
+        if (position != null) {
+            goTo(position.value());
+        }
         mediaPlayer.start();
         scheduleSeekPositionUpdate();
     }

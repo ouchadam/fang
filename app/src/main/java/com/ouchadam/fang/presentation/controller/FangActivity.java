@@ -203,7 +203,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
 
     private void showNotification(long itemId) {
         if (isPlaying) {
-            NotificationService.start(this, itemId);
+            NotificationService.start(this, itemId, isPlaying);
         }
     }
 

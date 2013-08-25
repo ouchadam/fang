@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -20,11 +21,14 @@ import java.io.IOException;
 
 public class NotificationService extends IntentService {
 
+    public static final String EXTRA_IS_PLAYING = "isPlaying";
+    public static final String EXTRA_ITEM_ID = "test";
     private FangNotification fangNotification;
 
-    public static void start(Context context, long itemId) {
+    public static void start(Context context, long itemId, boolean isPlaying) {
         Intent intent = new Intent(context, NotificationService.class);
-        intent.putExtra("test", itemId);
+        intent.putExtra(EXTRA_ITEM_ID, itemId);
+        intent.putExtra(EXTRA_IS_PLAYING, isPlaying);
         context.startService(intent);
     }
 
@@ -41,14 +45,15 @@ public class NotificationService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (isValid(intent)) {
-            long itemId = intent.getLongExtra("test", -1L);
+            long itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L);
+            boolean isPlaying = intent.getBooleanExtra(EXTRA_IS_PLAYING, true);
             FullItem item = getFullItem(itemId);
             if (item != null) {
                 try {
                     int imageWidth = getResources().getDimensionPixelSize(R.dimen.notification_large_icon_width);
                     int imageHeight = getResources().getDimensionPixelSize(R.dimen.notification_large_icon_height);
                     Bitmap channelImage = Picasso.with(this).load(item.getImageUrl()).resize(imageWidth, imageHeight).get();
-                    fangNotification.show(channelImage, item);
+                    fangNotification.show(channelImage, item, isPlaying);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -61,14 +66,14 @@ public class NotificationService extends IntentService {
         Cursor cursor = getContentResolver().query(query.uri, query.projection, query.selection, query.selectionArgs, query.sortOrder);
 
         FullItem item = null;
-        if   (cursor != null && cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             item = new FullItemMarshaller().marshall(cursor);
         }
         return item;
     }
 
     private boolean isValid(Intent intent) {
-        return intent != null && intent.hasExtra("test") && intent.getLongExtra("test", -1L) != -1L;
+        return intent != null && intent.hasExtra(EXTRA_ITEM_ID) && intent.getLongExtra(EXTRA_ITEM_ID, -1L) != -1L;
     }
 
     private Query getQueryValues(long itemId) {
