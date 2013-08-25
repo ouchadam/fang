@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.util.Log;
 
 import com.ouchadam.fang.presentation.controller.PlayerEvent;
 import com.ouchadam.fang.presentation.controller.PlayerEventIntentMarshaller;
 
-class PlayerEventReceiver extends BroadcastReceiver {
+public class PlayerEventReceiver extends BroadcastReceiver {
 
     private final PlayerEventCallbacks callbacks;
 
@@ -43,6 +44,7 @@ class PlayerEventReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("!!!", "onReceive");
         PlayerEvent from = new PlayerEventIntentMarshaller().from(intent);
 
         switch (from.getEvent()) {
@@ -62,7 +64,7 @@ class PlayerEventReceiver extends BroadcastReceiver {
                 callbacks.gotoPosition(from.getPosition());
                 break;
             default:
-                throw new RuntimeException("recieved an unhandled event : " + from.getEvent());
+                throw new RuntimeException("received an unhandled event : " + from.getEvent());
         }
 
     }

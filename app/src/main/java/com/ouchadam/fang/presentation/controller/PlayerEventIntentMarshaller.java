@@ -18,7 +18,7 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
     public Intent to(long itemId, PlayerEvent what) {
         Intent intent = new Intent(what.getEvent().toAction());
         putExtraIfAvailable(intent, SOURCE, what.getSource());
-        putExtraIfAvailable(intent, ID, what.getId());
+        intent.putExtra(ID, what.getId());
         putExtraIfAvailable(intent, POSITION, what.getPosition());
         return intent;
     }

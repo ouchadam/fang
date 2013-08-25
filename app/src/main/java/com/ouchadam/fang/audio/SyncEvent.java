@@ -17,4 +17,8 @@ public class SyncEvent {
         this.position = position;
         this.itemId = longItemId;
     }
+
+    public boolean isIdle() {
+        return equals(IDLE);
+    }
 }

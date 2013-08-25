@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.frankiesardo.icepick.annotation.Icicle;
+import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.android.ClassCaster;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
@@ -31,6 +34,12 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         panelController = ClassCaster.toListener(activity);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundles.restoreInstanceState(this, savedInstanceState);
     }
 
     @Override

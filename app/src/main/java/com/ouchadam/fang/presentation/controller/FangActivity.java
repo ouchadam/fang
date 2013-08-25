@@ -70,7 +70,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
         public void onSync(SyncEvent syncEvent) {
             FangActivity.this.isPlaying = syncEvent.isPlaying;
             FangActivity.this.itemId = syncEvent.itemId;
-            slidingPanelController.sync(syncEvent.isPlaying, syncEvent.position, syncEvent.itemId);
+            slidingPanelController.sync(syncEvent);
         }
     };
 
@@ -185,6 +185,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     @Override
     protected void onResume() {
         super.onResume();
+        startAudioService();
         audioServiceBinder.bindService();
         fangNotification.dismiss();
     }

@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class PodcastPlayer {
 
+    private static final int ONE_SECOND = 1000;
     private final Broadcaster<PodcastPosition> positionBroadcaster;
     private MediaPlayer mediaPlayer;
 
@@ -21,6 +22,10 @@ public class PodcastPlayer {
     }
 
     public void setSource(Context context, Uri source) throws IOException {
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        }
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setDataSource(context, source);
         mediaPlayer.prepare();
@@ -47,7 +52,7 @@ public class PodcastPlayer {
     };
 
     private void scheduleSeekPositionUpdate() {
-        seekHandler.postDelayed(seekUpdater, 1000);
+        seekHandler.postDelayed(seekUpdater, ONE_SECOND);
     }
 
     public void pause() {

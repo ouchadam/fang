@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
+import android.util.Log;
 
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
@@ -11,6 +12,7 @@ import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
@@ -25,8 +27,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     private Broadcaster<PlayerEvent> playerBroadcaster;
 
     private ItemQueryer itemQueryer;
-
-    private Uri currentSource;
 
     public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, Broadcaster<PlayerEvent> playerBroadcaster) {
         this.downloader = downloader;
@@ -46,29 +46,22 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         itemQueryer.query();
     }
 
-    @Override
-    public void show() {
-        slidingPanelViewManipulator.expand();
-    }
-
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
         public void onItem(FullItem item) {
             initialiseViews(item);
+            Uri source = getSourceUri(item);
+            playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
         }
     };
 
     private void initialiseViews(final FullItem item) {
-        Uri source = getSourceUri(item);
-        if (sourceHasChanged(source)) {
-            currentSource = source;
-            playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
-        }
-
         slidingPanelViewManipulator.fromItem(item);
         slidingPanelViewManipulator.setMediaClickedListener(new MediaClickManager.OnMediaClickListener() {
             @Override
             public void onMediaClicked(MediaClickManager.MediaPressed mediaPressed) {
+
+
                 if (mediaPressed == MediaClickManager.MediaPressed.PLAY) {
                     play();
                 } else {
@@ -78,12 +71,13 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         });
     }
 
-    private void play() {
-        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(slidingPanelViewManipulator.getPosition()));
+    @Override
+    public void show() {
+        slidingPanelViewManipulator.expand();
     }
 
-    private boolean sourceHasChanged(Uri uri) {
-        return uri != null && !uri.equals(currentSource);
+    private void play() {
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(slidingPanelViewManipulator.getPosition()));
     }
 
     private Uri getSourceUri(FullItem item) {
@@ -117,10 +111,10 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         downloader.watch(downloadId, new NotificationWatcher(context, downloadable, downloadId));
     }
 
-
-    public void sync(boolean isPlaying, PodcastPosition position, long itemId) {
-        slidingPanelViewManipulator.setPlayingState(isPlaying);
-        slidingPanelViewManipulator.update(position);
-        setData(itemId);
+    public void sync(SyncEvent syncEvent) {
+        Log.e("!!!", "service sync : " + " is playing? " + syncEvent.isPlaying);
+        slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
+        slidingPanelViewManipulator.update(syncEvent.position);
+        setData(syncEvent.itemId);
     }
 }

@@ -6,12 +6,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.audio.AudioService;
+import com.ouchadam.fang.audio.PlayerEventReceiver;
 import com.ouchadam.fang.domain.FullItem;
+
+import java.util.Random;
 
 public class FangNotification {
 
@@ -41,7 +44,9 @@ public class FangNotification {
         customNotifView.setTextViewText(R.id.channel, fullItem.getChannelTitle());
         customNotifView.setImageViewBitmap(R.id.notification_big_channel_image, channelImage);
 
-        new RemoteClick().createButtonListener(R.id.notification_close, customNotifView, context, new PlayerEvent.Factory().stop(), fullItem.getItemId());
+        PendingIntent pendingIntent = new RemoteClick().createPendingIntent(context, new PlayerEvent.Factory().stop(), fullItem.getItemId());
+
+        customNotifView.setOnClickPendingIntent(R.id.notification_close, pendingIntent);
 
         Notification notification = normal.build();
         notification.bigContentView = customNotifView;
@@ -53,18 +58,19 @@ public class FangNotification {
 
         private static final int UNNEEDED_REQUEST_CODE = 0;
 
-        public void createButtonListener(int buttonId, RemoteViews remoteViews, Context context, PlayerEvent event, long itemId) {
+        public PendingIntent createPendingIntent(Context context, PlayerEvent event, long itemId) {
             Intent intent = createIntent(event, itemId);
-            addClickListener(remoteViews, context, intent, buttonId);
+            return addClickListener(context, intent);
         }
 
         private Intent createIntent(PlayerEvent event, long itemId) {
-            return new PlayerEventIntentMarshaller().to(itemId, event);
+//            Intent intent = new PlayerEventIntentMarshaller().to(itemId, event);
+            Intent intent = new Intent(event.getEvent().toAction());
+            return intent;
         }
 
-        private void addClickListener(RemoteViews remoteViews, Context context, Intent intent, int id) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, UNNEEDED_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(id, pendingIntent);
+        private PendingIntent addClickListener(Context context, Intent intent) {
+            return PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         }
     }
 

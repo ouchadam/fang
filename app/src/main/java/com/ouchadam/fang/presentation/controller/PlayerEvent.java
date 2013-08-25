@@ -85,12 +85,12 @@ public class PlayerEvent {
             return build();
         }
 
-        private PlayerEvent build() {
-            return playerEvent;
-        }
-
         public PlayerEvent stop() {
             playerEvent.event = Event.STOP;
+            return build();
+        }
+
+        private PlayerEvent build() {
             return playerEvent;
         }
     }

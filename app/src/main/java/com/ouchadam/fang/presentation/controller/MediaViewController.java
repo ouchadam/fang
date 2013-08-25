@@ -5,7 +5,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ViewSwitcher;
 
+import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.domain.FullItem;
 
 class MediaViewController {
 
@@ -25,8 +27,30 @@ class MediaViewController {
         this.bottomMediaSwitcher = bottomMediaSwitcher;
     }
 
-    public boolean isInPlayMode() {
+    public void showPlay() {
+        if (isInPauseState()) {
+            showNext();
+        }
+    }
+
+    public void showPause() {
+        if (isInPlayState()) {
+            showNext();
+        }
+    }
+
+    private boolean isInPlayState() {
         return topMediaSwitcher.getCurrentView().getId() == R.id.play_top;
+    }
+
+
+    private boolean isInPauseState() {
+        return topMediaSwitcher.getCurrentView().getId() == R.id.pause_top;
+    }
+
+    public void setMediaVisibility(FullItem fullItem) {
+        topMediaSwitcher.setVisibility(fullItem.isDownloaded() ? View.VISIBLE : View.INVISIBLE);
+        bottomMediaSwitcher.setVisibility(fullItem.isDownloaded() ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void setPlayPauseListeners(View.OnClickListener onPlayClicked, View.OnClickListener onPauseClicked) {

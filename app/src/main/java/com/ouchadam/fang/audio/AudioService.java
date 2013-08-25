@@ -1,19 +1,16 @@
 package com.ouchadam.fang.audio;
 
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
-import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.controller.AudioFocusManager;
 import com.ouchadam.fang.presentation.controller.FangNotification;
-import com.ouchadam.fang.presentation.controller.ItemQueryer;
 
 import java.io.IOException;
 
@@ -47,6 +44,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e("!!!", "Service created");
         audioFocusManager = new AudioFocusManager((AudioManager) getSystemService(Context.AUDIO_SERVICE));
         podcastPlayer = new PodcastPlayer(new PodcastPositionBroadcaster(this));
         playerEventReceiver = new PlayerEventReceiver(this);
@@ -61,12 +59,14 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
         this.listener = listener;
+        Log.e("!!!", "onBind");
         podcastPlayer.sync(playingItemId, listener);
     }
 
     @Override
     public void onPlay(PodcastPosition position) {
         play(position);
+        Log.e("!!!", "onPlay");
         podcastPlayer.sync(playingItemId, listener);
     }
 
@@ -79,6 +79,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     public void onPause() {
         pause();
         persistPosition();
+        Log.e("!!!", "onPause");
         podcastPlayer.sync(playingItemId, listener);
     }
 
@@ -88,9 +89,8 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
 
     @Override
     public void onStop() {
-        stop();
         persistPosition();
-        podcastPlayer.release();
+        stop();
         stopSelf();
     }
 
@@ -101,28 +101,28 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     private void stop() {
         audioFocusManager.abandonFocus();
         fangNotification.dismiss();
-        unregisterEventReciever();
-    }
-
-    private void unregisterEventReciever() {
-        playerEventReceiver.unregister(this);
+        podcastPlayer.release();
     }
 
     @Override
     public void onNewSource(long itemId, Uri source) {
-        this.playingItemId = itemId;
-        setSource(source);
+        if (playingItemId != itemId) {
+            this.playingItemId = itemId;
+            setSource(source);
+        }
     }
 
     @Override
     public void gotoPosition(PodcastPosition position) {
         podcastPlayer.goTo(position.value());
+        Log.e("!!!", "onGoTo");
         podcastPlayer.sync(playingItemId, listener);
     }
 
     private void setSource(Uri uri) {
         try {
             podcastPlayer.setSource(this, uri);
+            Log.e("!!!", "onNewSource");
             podcastPlayer.sync(playingItemId, listener);
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,8 +130,14 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         }
     }
 
-    public boolean isPlaying() {
-        return podcastPlayer.isPlaying();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("!!!", "Service destroyed");
+        unregisterEventReciever();
     }
 
+    private void unregisterEventReciever() {
+        playerEventReceiver.unregister(this);
+    }
 }
