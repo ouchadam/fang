@@ -37,7 +37,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
-        return new PlaylistAdapter(LayoutInflater.from(getActivity()));
+        return new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity());
     }
 
     @Override

@@ -14,7 +14,7 @@ class ItemProgressManager extends ListItemProgress<FullItem, PlaylistAdapter.Vie
 
     @Override
     protected void onStart(FullItem what, PlaylistAdapter.ViewHolder viewHolder) {
-        viewHolder.textView.setText("Download about to start");
+        viewHolder.title.setText("Download about to start");
         viewHolder.progressBar.setProgress(0);
         viewHolder.progressBar.setMax(100);
         viewHolder.progressBar.setVisibility(View.VISIBLE);
@@ -22,7 +22,7 @@ class ItemProgressManager extends ListItemProgress<FullItem, PlaylistAdapter.Vie
 
     @Override
     protected void onUpdate(FullItem what, PlaylistAdapter.ViewHolder viewHolder, ProgressValues progressValues) {
-        viewHolder.textView.setText("Downloading...");
+        viewHolder.title.setText("Downloading...");
         viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.progressBar.setMax(100);
         viewHolder.progressBar.setProgress(progressValues.getPercentage());
@@ -30,7 +30,7 @@ class ItemProgressManager extends ListItemProgress<FullItem, PlaylistAdapter.Vie
 
     @Override
     protected void onStop(FullItem what, PlaylistAdapter.ViewHolder viewHolder) {
-        viewHolder.textView.setText("Download complete");
+        viewHolder.title.setText(what.getItem().getTitle());
         viewHolder.progressBar.setVisibility(View.GONE);
     }
 
