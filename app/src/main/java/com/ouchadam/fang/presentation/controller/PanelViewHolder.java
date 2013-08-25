@@ -62,6 +62,7 @@ class PanelViewHolder {
 
     public void showExpanded(boolean downloaded) {
         mediaController.showExpanded(downloaded);
+        positionController.panelScopeChange(downloaded);
         downloadController.panelScopeChange(downloaded);
     }
 

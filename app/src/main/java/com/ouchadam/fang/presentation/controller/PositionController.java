@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -41,5 +42,15 @@ class PositionController {
         seekBar.setProgress(position.value());
         seekBar.setMax(position.getDuration());
         currentTime.setText(toTimeString(position.value()));
+    }
+
+    public void panelScopeChange(boolean downloaded) {
+        setBooleanVisibility(seekBar, downloaded);
+        setBooleanVisibility(currentTime, downloaded);
+        setBooleanVisibility(endTime, downloaded);
+    }
+
+    private void setBooleanVisibility(View view, boolean visible) {
+        view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 }
