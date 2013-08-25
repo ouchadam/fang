@@ -197,14 +197,12 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
             new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
         }
         audioServiceBinder.unbind();
-        showNotification();
+        showNotification(itemId);
     }
 
-    private void showNotification() {
+    private void showNotification(long itemId) {
         if (isPlaying) {
-            Intent intent = new Intent(this, NotificationService.class);
-            intent.putExtra("test", itemId);
-            startService(intent);
+            NotificationService.start(this, itemId);
         }
     }
 

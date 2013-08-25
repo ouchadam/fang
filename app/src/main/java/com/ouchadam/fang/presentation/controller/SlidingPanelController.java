@@ -11,7 +11,6 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.ItemDownload;
-import com.ouchadam.fang.audio.PodcastPosition;
 import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
@@ -51,25 +50,27 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         public void onItem(FullItem item) {
             initialiseViews(item);
             Uri source = getSourceUri(item);
-            playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
+            if (source != null) {
+                playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
+            }
         }
     };
 
     private void initialiseViews(final FullItem item) {
         slidingPanelViewManipulator.fromItem(item);
-        slidingPanelViewManipulator.setMediaClickedListener(new MediaClickManager.OnMediaClickListener() {
-            @Override
-            public void onMediaClicked(MediaClickManager.MediaPressed mediaPressed) {
-
-
-                if (mediaPressed == MediaClickManager.MediaPressed.PLAY) {
-                    play();
-                } else {
-                    pause();
-                }
-            }
-        });
+        slidingPanelViewManipulator.setMediaClickedListener(onMediaClicked);
     }
+
+    private final MediaClickManager.OnMediaClickListener onMediaClicked = new MediaClickManager.OnMediaClickListener() {
+        @Override
+        public void onMediaClicked(MediaClickManager.MediaPressed mediaPressed) {
+            if (mediaPressed == MediaClickManager.MediaPressed.PLAY) {
+                play();
+            } else {
+                pause();
+            }
+        }
+    };
 
     @Override
     public void show() {
@@ -112,9 +113,16 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     public void sync(SyncEvent syncEvent) {
-        Log.e("!!!", "service sync : " + " is playing? " + syncEvent.isPlaying);
         slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
         slidingPanelViewManipulator.update(syncEvent.position);
-        setData(syncEvent.itemId);
+        if (syncEvent.isFresh()) {
+            setDataWithPersistedItemId();
+        } else {
+            setData(syncEvent.itemId);
+        }
+    }
+
+    private void setDataWithPersistedItemId() {
+
     }
 }

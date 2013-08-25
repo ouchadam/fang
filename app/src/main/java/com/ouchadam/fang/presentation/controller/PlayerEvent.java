@@ -74,10 +74,16 @@ public class PlayerEvent {
         public PlayerEvent newSource(long itemId, Uri source) {
             playerEvent.event = Event.NEW_SOURCE;
             playerEvent.id = itemId;
-            playerEvent.source = source;
+            playerEvent.source = validate(source);
             return build();
         }
 
+        private <T> T validate(T what) {
+            if (what == null) {
+                throw new NullPointerException("Don't pass nulls to the builer!");
+            }
+            return what;
+        }
 
         public PlayerEvent goTo(PodcastPosition position) {
             playerEvent.event = Event.GOTO;

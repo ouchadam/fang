@@ -6,10 +6,14 @@ public class SyncEvent {
     public final PodcastPosition position;
     public final long itemId;
 
-    private static final SyncEvent IDLE = new SyncEvent(false, PodcastPosition.idle(), -1L);
+    private static final SyncEvent FRESH = new SyncEvent(false, PodcastPosition.idle(), -1L);
 
-    public static SyncEvent idle() {
-        return IDLE;
+    public static SyncEvent fresh() {
+        return FRESH;
+    }
+
+    public static SyncEvent idle(long itemId) {
+        return new SyncEvent(false, PodcastPosition.idle(), itemId);
     }
 
     SyncEvent(boolean playing, PodcastPosition position, long longItemId) {
@@ -18,7 +22,7 @@ public class SyncEvent {
         this.itemId = longItemId;
     }
 
-    public boolean isIdle() {
-        return equals(IDLE);
+    public boolean isFresh() {
+        return equals(FRESH);
     }
 }

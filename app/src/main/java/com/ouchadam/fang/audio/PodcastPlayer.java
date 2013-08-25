@@ -71,16 +71,19 @@ public class PodcastPlayer {
     }
 
     public void sync(long itemId, AudioServiceBinder.OnStateSync listener) {
-        if (isIdle()) {
-            listener.onSync(SyncEvent.idle());
+        if (isNotPrepared()) {
+            listener.onSync(SyncEvent.idle(itemId));
         } else {
             PodcastPosition position = new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
             listener.onSync(new SyncEvent(mediaPlayer.isPlaying(), position, itemId));
         }
     }
 
-    private boolean isIdle() {
+    public boolean isNotPrepared() {
         return mediaPlayer == null;
     }
 
+    public PodcastPosition getPosition() {
+        return new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
+    }
 }

@@ -2,6 +2,7 @@ package com.ouchadam.fang.audio;
 
 import android.R;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,6 +21,12 @@ import java.io.IOException;
 public class NotificationService extends IntentService {
 
     private FangNotification fangNotification;
+
+    public static void start(Context context, long itemId) {
+        Intent intent = new Intent(context, NotificationService.class);
+        intent.putExtra("test", itemId);
+        context.startService(intent);
+    }
 
     public NotificationService() {
         super(NotificationService.class.getSimpleName());
