@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 
 import com.ouchadam.fang.Broadcaster;
+import com.ouchadam.fang.domain.PodcastPosition;
 
 import java.io.IOException;
 

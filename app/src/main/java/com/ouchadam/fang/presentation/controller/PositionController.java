@@ -1,11 +1,9 @@
 package com.ouchadam.fang.presentation.controller;
 
-import android.graphics.drawable.Drawable;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.ouchadam.fang.R;
-import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.domain.PodcastPosition;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,5 +35,11 @@ class PositionController {
 
     public void setSeekChangedListener(SeekBar.OnSeekBarChangeListener seekListener) {
         seekBar.setOnSeekBarChangeListener(seekListener);
+    }
+
+    public void setInitialPosition(PodcastPosition position) {
+        seekBar.setProgress(position.value());
+        seekBar.setMax(position.getDuration());
+        currentTime.setText(toTimeString(position.value()));
     }
 }

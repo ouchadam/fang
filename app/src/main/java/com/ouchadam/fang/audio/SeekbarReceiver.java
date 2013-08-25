@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.ouchadam.fang.domain.PodcastPosition;
+
 public class SeekbarReceiver extends BroadcastReceiver {
 
     private final OnSeekUpdate onSeekUpdate;

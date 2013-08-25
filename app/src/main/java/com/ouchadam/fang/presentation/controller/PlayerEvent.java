@@ -2,7 +2,7 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.net.Uri;
 
-import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.domain.PodcastPosition;
 
 public class PlayerEvent {
 

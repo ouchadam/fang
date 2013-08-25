@@ -3,7 +3,7 @@ package com.ouchadam.fang.presentation.controller;
 import android.content.Context;
 import android.widget.SeekBar;
 
-import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SeekbarReceiver;
 
 public class PositionManager {

@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;

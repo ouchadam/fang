@@ -1,5 +1,7 @@
 package com.ouchadam.fang.audio;
 
+import com.ouchadam.fang.domain.PodcastPosition;
+
 public class SyncEvent {
 
     public final boolean isPlaying;

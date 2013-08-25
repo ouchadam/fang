@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ouchadam.fang.FangBroadcaster;
+import com.ouchadam.fang.domain.PodcastPosition;
 
 class PodcastPositionBroadcaster extends FangBroadcaster<PodcastPosition> {
 

@@ -1,4 +1,4 @@
-package com.ouchadam.fang.audio;
+package com.ouchadam.fang.domain;
 
 import java.io.Serializable;
 

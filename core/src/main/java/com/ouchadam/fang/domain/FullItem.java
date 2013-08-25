@@ -11,13 +11,15 @@ public class FullItem {
     private final Image image;
     private final long downloadId;
     private final boolean isDownloaded;
+    private final PodcastPosition playPosition;
 
-    public FullItem(Item item, String channelTitle, Image image, long downloadId, boolean downloaded) {
+    public FullItem(Item item, String channelTitle, Image image, long downloadId, boolean downloaded, PodcastPosition playPosition) {
         this.item = item;
         this.channelTitle = channelTitle;
         this.image = image;
         this.downloadId = downloadId;
         isDownloaded = downloaded;
+        this.playPosition = playPosition;
     }
 
     public Item getItem() {
@@ -42,6 +44,10 @@ public class FullItem {
 
     public boolean isDownloaded() {
         return isDownloaded;
+    }
+
+    public PodcastPosition getInitialPlayPosition() {
+        return playPosition;
     }
 
 }

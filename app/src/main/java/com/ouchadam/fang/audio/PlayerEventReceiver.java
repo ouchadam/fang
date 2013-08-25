@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.util.Log;
 
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.controller.PlayerEvent;
 import com.ouchadam.fang.presentation.controller.PlayerEventIntentMarshaller;
 

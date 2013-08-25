@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.database.Cursor;
 import com.ouchadam.fang.domain.FullItem;
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.database.Tables;
@@ -17,7 +18,12 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
         String channelTitle = cursorUtil.getString(Tables.Channel.CHANNEL_TITLE);
         long downloadId = cursorUtil.getLong(Tables.Playlist.DOWNLOAD_ID);
         boolean isDownloaded = cursorUtil.getBoolean(Tables.Playlist.DOWNLOADED);
-        return new FullItem(item, channelTitle, image, downloadId, isDownloaded);
+        int playPosition = cursorUtil.getInt(Tables.Playlist.PLAY_POSITION);
+        int maxDuration = cursorUtil.getInt(Tables.Playlist.MAX_DURATION);
+
+        PodcastPosition podcastPosition = new PodcastPosition(playPosition, maxDuration);
+
+        return new FullItem(item, channelTitle, image, downloadId, isDownloaded, podcastPosition);
     }
 
     private static class ImageCursorMarshaller implements CursorMarshaller<Image> {

@@ -23,7 +23,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
 import com.ouchadam.fang.audio.NotificationService;
-import com.ouchadam.fang.audio.PodcastPosition;
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
@@ -198,6 +198,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
         }
         audioServiceBinder.unbind();
         showNotification(itemId);
+        slidingPanelController.resetItem();
     }
 
     private void showNotification(long itemId) {

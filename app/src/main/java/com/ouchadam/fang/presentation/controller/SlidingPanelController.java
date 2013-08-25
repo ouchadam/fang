@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
-import android.util.Log;
 
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
@@ -26,6 +25,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     private Broadcaster<PlayerEvent> playerBroadcaster;
 
     private ItemQueryer itemQueryer;
+    private long itemId;
 
     public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, Broadcaster<PlayerEvent> playerBroadcaster) {
         this.downloader = downloader;
@@ -38,6 +38,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     @Override
     public void setData(long itemId) {
+        this.itemId = itemId;
         if (itemQueryer != null) {
             itemQueryer.stop();
         }
@@ -48,11 +49,12 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
         public void onItem(FullItem item) {
-            initialiseViews(item);
-            Uri source = getSourceUri(item);
-            if (source != null) {
+            if (item.isDownloaded()) {
+                Uri source = getSourceUri(item);
                 playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
+                playerBroadcaster.broadcast(new PlayerEvent.Factory().goTo(item.getInitialPlayPosition()));
             }
+            initialiseViews(item);
         }
     };
 
@@ -116,13 +118,20 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
         slidingPanelViewManipulator.update(syncEvent.position);
         if (syncEvent.isFresh()) {
-            setDataWithPersistedItemId();
+            // TODO: do nothing for now...
         } else {
-            setData(syncEvent.itemId);
+            if (notAlreadyWatching(syncEvent.itemId)) {
+                setData(syncEvent.itemId);
+            }
         }
     }
 
-    private void setDataWithPersistedItemId() {
-
+    private boolean notAlreadyWatching(long itemId) {
+        return this.itemId != itemId;
     }
+
+    public void resetItem() {
+        this.itemId = -1L;
+    }
+
 }

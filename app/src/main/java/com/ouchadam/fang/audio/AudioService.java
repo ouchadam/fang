@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.ouchadam.fang.domain.PodcastPosition;
+import com.ouchadam.fang.persistance.PositionPersister;
 import com.ouchadam.fang.presentation.controller.AudioFocusManager;
 import com.ouchadam.fang.presentation.controller.FangNotification;
 
@@ -92,8 +94,15 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onStop() {
         persistCurrentId();
+        persistPosition();
         stop();
         stopSelf();
+    }
+
+    private void persistPosition() {
+        if (playingItemId != MISSING_ID) {
+            new PositionPersister(playingItemId, getContentResolver()).persist(podcastPlayer.getPosition());
+        }
     }
 
     private void persistCurrentId() {
