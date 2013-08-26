@@ -52,7 +52,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void updateUi(String searchTerm) {
-        // TODO 
+        // TODO
     }
 
     private void performSearch(final String searchTerm) {

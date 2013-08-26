@@ -32,6 +32,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     private FangNotification fangNotification;
 
     private long playingItemId = MISSING_ID;
+    private ExternalReceiver externalReceiver;
 
     public AudioService() {
         binder = new LocalBinder();
@@ -55,9 +56,15 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         this.playingItemId = getStoredPlayingId();
         audioFocusManager = new AudioFocusManager((AudioManager) getSystemService(Context.AUDIO_SERVICE));
         podcastPlayer = new PodcastPlayer(new PodcastPositionBroadcaster(this));
+        initReceivers();
+        fangNotification = FangNotification.from(this);
+    }
+
+    private void initReceivers() {
         playerEventReceiver = new PlayerEventReceiver(this);
         playerEventReceiver.register(this);
-        fangNotification = FangNotification.from(this);
+        externalReceiver = new ExternalReceiver();
+        externalReceiver.register(this);
     }
 
     private long getStoredPlayingId() {
@@ -205,10 +212,11 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterEventReceiver();
+        unregisterReceivers();
     }
 
-    private void unregisterEventReceiver() {
+    private void unregisterReceivers() {
         playerEventReceiver.unregister(this);
+        externalReceiver.unregister(this);
     }
 }

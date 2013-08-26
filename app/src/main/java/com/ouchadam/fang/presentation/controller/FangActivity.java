@@ -80,7 +80,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
 
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot());
-        Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, this);
+        Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(this);
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventBroadcaster);
     }
 
@@ -202,7 +202,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     protected void onPause() {
         super.onPause();
         if (!isPlaying) {
-            new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, this).broadcast(new PlayerEvent.Factory().stop());
+            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
         }
         audioServiceBinder.unbind();
         showNotification(itemId);
@@ -217,7 +217,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
 
     @Override
     public void onSeekChanged(PodcastPosition position) {
-        new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, this).broadcast(new PlayerEvent.Factory().goTo(position));
+        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(position));
     }
 
 }

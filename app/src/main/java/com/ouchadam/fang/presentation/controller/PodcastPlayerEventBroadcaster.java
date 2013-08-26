@@ -7,16 +7,13 @@ import com.ouchadam.fang.FangBroadcaster;
 
 public class PodcastPlayerEventBroadcaster extends FangBroadcaster<PlayerEvent> {
 
-    private final String prefix;
-
-    public PodcastPlayerEventBroadcaster(String prefix, Context context) {
+    public PodcastPlayerEventBroadcaster(Context context) {
         super(context);
-        this.prefix = prefix;
     }
 
     @Override
     protected Intent marshall(PlayerEvent what) {
-        return new PlayerEventIntentMarshaller(prefix).to(what.getId(), what);
+        return new PlayerEventIntentMarshaller(PlayerEvent.Event.ACTION_PREFIX).to(what.getId(), what);
     }
 
 }
