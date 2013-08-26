@@ -11,14 +11,14 @@ import com.ouchadam.fang.domain.FullItem;
 
 class MediaViewController {
 
-    private final ImageButton playTop;
-    private final ImageButton playBottom;
-    private final ImageButton pauseTop;
-    private final ImageButton pauseBottom;
+    private final View playTop;
+    private final View playBottom;
+    private final View pauseTop;
+    private final View pauseBottom;
     private final ViewSwitcher topMediaSwitcher;
     private final ViewSwitcher bottomMediaSwitcher;
 
-    MediaViewController(ImageButton playTop, ImageButton playBottom, ImageButton pauseTop, ImageButton pauseBottom, ViewSwitcher topMediaSwitcher, ViewSwitcher bottomMediaSwitcher) {
+    MediaViewController(View playTop, View playBottom, View pauseTop, View pauseBottom, ViewSwitcher topMediaSwitcher, ViewSwitcher bottomMediaSwitcher) {
         this.playTop = playTop;
         this.playBottom = playBottom;
         this.pauseTop = pauseTop;

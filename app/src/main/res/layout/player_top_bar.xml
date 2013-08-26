@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/player_top_bar"
-  android:layout_width="match_parent"
-  android:layout_height="68dp"
-  android:layout_alignParentTop="true"
-  android:background="@drawable/card_background">
+                android:id="@+id/player_top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/card_background">
 
   <RelativeLayout
     android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
       android:layout_width="match_parent"
       android:maxLines="1"
       android:ellipsize="end"
-      android:textSize="16sp" />
+      android:textSize="16sp"/>
 
     <TextView
       android:id="@+id/bar_sub_title"
@@ -32,34 +32,49 @@
       android:ellipsize="end"
       android:textStyle="italic"
       android:textColor="@android:color/darker_gray"
-      android:textSize="12sp" />
+      android:textSize="12sp"/>
 
   </RelativeLayout>
 
   <ViewSwitcher
     android:id="@id/media_switcher"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_width="wrap_content"
-    android:paddingRight="24dp"
     android:layout_centerVertical="true"
     android:layout_alignParentRight="true"
     android:visibility="invisible">
 
-    <ImageButton
+    <RelativeLayout
       android:id="@+id/play_top"
-      android:layout_height="25dp"
-      android:layout_width="20dp"
-      android:background="@null"
-      android:scaleType="fitXY"
-      android:src="@drawable/play_button" />
+      android:layout_height="match_parent"
+      android:layout_width="67dp"
+      android:background="@android:drawable/list_selector_background">
 
-    <ImageButton
+      <ImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_play_dark"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
       android:id="@+id/pause_top"
-      android:layout_height="25dp"
-      android:layout_width="20dp"
-      android:background="@null"
-      android:scaleType="fitXY"
-      android:src="@drawable/pause_button" />
+      android:layout_height="match_parent"
+      android:layout_width="67dp"
+      android:background="@android:drawable/list_selector_background">
+
+      <ImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_pause_dark"/>
+
+    </RelativeLayout>
 
   </ViewSwitcher>
 

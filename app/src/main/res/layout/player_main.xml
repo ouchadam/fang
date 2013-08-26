@@ -43,27 +43,43 @@
 
     <ViewSwitcher
       android:id="@+id/bottom_media_switcher"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:layout_width="wrap_content"
       android:layout_centerInParent="true"
       android:background="@null"
       android:visibility="invisible">
 
-      <ImageButton
+      <RelativeLayout
         android:id="@+id/play_bottom"
-        android:layout_height="25dp"
-        android:layout_width="20dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/play_button"/>
+        android:layout_height="match_parent"
+        android:layout_width="67dp"
+        android:background="@android:drawable/list_selector_background">
 
-      <ImageButton
+        <ImageView
+          android:layout_height="50dp"
+          android:layout_width="50dp"
+          android:scaleType="fitXY"
+          android:background="@null"
+          android:layout_centerInParent="true"
+          android:src="@drawable/ic_play_dark"/>
+
+      </RelativeLayout>
+
+      <RelativeLayout
         android:id="@+id/pause_bottom"
-        android:layout_height="25dp"
-        android:layout_width="20dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/pause_button"/>
+        android:layout_height="match_parent"
+        android:layout_width="67dp"
+        android:background="@android:drawable/list_selector_background">
+
+        <ImageView
+          android:layout_height="50dp"
+          android:layout_width="50dp"
+          android:background="@null"
+          android:scaleType="fitXY"
+          android:layout_centerInParent="true"
+          android:src="@drawable/ic_pause_dark"/>
+
+      </RelativeLayout>
 
     </ViewSwitcher>
 

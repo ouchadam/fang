@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.panel;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -23,10 +24,10 @@ class PanelViewHolder {
         ViewSwitcher topMediaSwitcher = Views.findById(panel, R.id.media_switcher);
         ViewSwitcher bottomMediaSwitcher = Views.findById(panel, R.id.bottom_media_switcher);
 
-        ImageButton playTop = Views.findById(panel, R.id.play_top);
-        ImageButton playBottom = Views.findById(panel, R.id.play_bottom);
-        ImageButton pauseTop = Views.findById(panel, R.id.pause_top);
-        ImageButton pauseBottom = Views.findById(panel, R.id.pause_bottom);
+        View playTop = Views.findById(panel, R.id.play_top);
+        View playBottom = Views.findById(panel, R.id.play_bottom);
+        View pauseTop = Views.findById(panel, R.id.pause_top);
+        View pauseBottom = Views.findById(panel, R.id.pause_bottom);
 
         MediaViewController mediaController = new MediaViewController(playTop, playBottom, pauseTop, pauseBottom, topMediaSwitcher, bottomMediaSwitcher);
 
