@@ -4,6 +4,8 @@
   <style name="FangTheme" parent="@android:style/Theme.Holo.Light">
     <item name="android:actionBarStyle">@style/FangActionBar</item>
     <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
+    <item name="android:progressBarStyleHorizontal">@style/FangProgressTheme</item>
+    <item name="android:seekBarStyle">@style/FangSeekBarTheme</item>
   </style>
 
   <style name="FangActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
@@ -13,6 +15,24 @@
 
   <style name="FangTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
     <item name="android:textColor">@android:color/white</item>
+  </style>
+
+  <style name="FangProgressTheme" parent="android:Widget.ProgressBar.Horizontal">
+    <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
+    <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>
+    <item name="android:minHeight">16dip</item>
+    <item name="android:maxHeight">16dip</item>
+  </style>
+
+  <style name="FangSeekBarTheme" parent="android:Widget.SeekBar">
+    <item name="android:progressDrawable">@drawable/scrubber_progress_horizontal_holo_light</item>
+    <item name="android:indeterminateDrawable">@drawable/scrubber_progress_horizontal_holo_light</item>
+    <item name="android:minHeight">13dip</item>
+    <item name="android:maxHeight">13dip</item>
+    <item name="android:thumb">@drawable/scrubber_control_selector_holo_light</item>
+    <item name="android:thumbOffset">16dip</item>
+    <item name="android:paddingLeft">16dip</item>
+    <item name="android:paddingRight">16dip</item>
   </style>
 
 </resources>
