@@ -1,20 +1,17 @@
 package com.ouchadam.fang.debug;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.preference.Preference;
-import android.util.Log;
 import android.widget.Toast;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.api.search.ItunesSearch;
+import com.ouchadam.fang.api.search.Result;
+import com.ouchadam.fang.api.search.SearchResult;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.persistance.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class DebugActivity extends BasePreferenceActivity {
 
@@ -85,13 +82,24 @@ public class DebugActivity extends BasePreferenceActivity {
         }
     };
 
+    private final static Handler HANDLER = new Handler(Looper.getMainLooper());
+
+
     private final Preference.OnPreferenceClickListener searchItunes = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    new ItunesSearch().search("bbc");
+                    final SearchResult search = new ItunesSearch().search("bbc");
+                    HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (Result result : search.getResults()) {
+                                Toast.makeText(DebugActivity.this, result.getChannelOwner(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }).start();
             return false;

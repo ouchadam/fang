@@ -15,7 +15,7 @@ public class ItunesSearch {
 
     private static final String ITUNES_SEARCH_URL = "https://itunes.apple.com/search";
 
-    public void search(String searchTerm) {
+    public SearchResult search(String searchTerm) {
 
         Map<String, String> params = new HashMap<String, String>();
 
@@ -28,29 +28,12 @@ public class ItunesSearch {
         if (request.ok()) {
             InputStream inputStream = request.buffer();
             try {
-                SearchResult searchResult = new ObjectMapper().readValue(inputStream, SearchResult.class);
-                System.out.println("XXXX : " + searchResult.resultCount);
+                return new ObjectMapper().readValue(inputStream, SearchResult.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class SearchResult {
-
-        private final int resultCount;
-
-        public SearchResult(int resultCount) {
-            this.resultCount = resultCount;
-        }
-
-        @JsonCreator
-        public static SearchResult from(@JsonProperty("resultCount") int resultCount) {
-            return new SearchResult(resultCount);
-        }
-
+        throw new RuntimeException("Search failed");
     }
 
 }
