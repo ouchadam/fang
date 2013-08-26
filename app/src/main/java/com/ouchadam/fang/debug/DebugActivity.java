@@ -6,6 +6,7 @@ import android.preference.Preference;
 import android.util.Log;
 import android.widget.Toast;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.api.search.ItunesSearch;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.persistance.*;
@@ -26,6 +27,7 @@ public class DebugActivity extends BasePreferenceActivity {
         setPreferenceListener("persist_live_data", fetchLiveAndPersistData);
         setPreferenceListener("delete_tables", deleteData);
         setPreferenceListener("add_to_playlist", addToPlaylist);
+        setPreferenceListener("search_itunes", searchItunes);
     }
 
     private final Preference.OnPreferenceClickListener persistData = new Preference.OnPreferenceClickListener() {
@@ -79,6 +81,19 @@ public class DebugActivity extends BasePreferenceActivity {
             ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L);
             new AddToPlaylistPersister(getContentResolver()).persist(itemToPlaylist);
             Toast.makeText(DebugActivity.this, "Added to playlist", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    };
+
+    private final Preference.OnPreferenceClickListener searchItunes = new Preference.OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    new ItunesSearch().search("bbc");
+                }
+            }).start();
             return false;
         }
     };

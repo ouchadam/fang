@@ -1,0 +1,127 @@
+{
+"resultCount" : 3,
+"results" :
+[
+{
+"wrapperType" : "track",
+"kind" : "podcast",
+"artistId" : 121676617,
+"collectionId" : 135067274,
+"trackId" : 135067274,
+"artistName" : "BBC World Service",
+"collectionName" : "Global News",
+"trackName" : "Global News",
+"collectionCensoredName" : "Global News",
+"trackCensoredName" : "Global News",
+"artistViewUrl" : "https://itunes.apple.com/us/artist/bbc/id121676617?mt=2&uo=4",
+"collectionViewUrl" : "https://itunes.apple.com/us/podcast/global-news/id135067274?mt=2&uo=4",
+"feedUrl" : "http://downloads.bbc.co.uk/podcasts/worldservice/globalnews/rss.xml",
+"trackViewUrl" : "https://itunes.apple.com/us/podcast/global-news/id135067274?mt=2&uo=4",
+"artworkUrl30" : "http://a2.mzstatic.com/us/r30/Podcasts/v4/93/02/9b/93029b65-d574-23cd-fac3-38f034635528/mza_3884753850776344710.30x30-50.jpg",
+"artworkUrl60" : "http://a1.mzstatic.com/us/r30/Podcasts/v4/93/02/9b/93029b65-d574-23cd-fac3-38f034635528/mza_3884753850776344710.60x60-50.jpg",
+"artworkUrl100" : "http://a4.mzstatic.com/us/r30/Podcasts/v4/93/02/9b/93029b65-d574-23cd-fac3-38f034635528/mza_3884753850776344710.100x100-75.jpg",
+"collectionPrice" : 0.00,
+"trackPrice" : 0.00,
+"releaseDate" : "2013-08-26T02:40:00Z",
+"collectionExplicitness" : "notExplicit",
+"trackExplicitness" : "notExplicit",
+"trackCount" : 51,
+"country" : "USA",
+"currency" : "USD",
+"primaryGenreName" : "News & Politics",
+"artworkUrl600" : "http://a5.mzstatic.com/us/r30/Podcasts/v4/93/02/9b/93029b65-d574-23cd-fac3-38f034635528/mza_3884753850776344710.600x600-75.jpg",
+"genreIds" :
+[
+"1311",
+"26"
+],
+"genres" :
+[
+"News & Politics",
+"Podcasts"
+]
+},
+{
+"wrapperType" : "track",
+"kind" : "podcast",
+"artistId" : 121676617,
+"collectionId" : 145809238,
+"trackId" : 145809238,
+"artistName" : "BBC Radio Wales",
+"collectionName" : "BBC All Things Considered",
+"trackName" : "BBC All Things Considered",
+"collectionCensoredName" : "BBC All Things Considered",
+"trackCensoredName" : "BBC All Things Considered",
+"artistViewUrl" : "https://itunes.apple.com/us/artist/bbc/id121676617?mt=2&uo=4",
+"collectionViewUrl" : "https://itunes.apple.com/us/podcast/bbc-all-things-considered/id145809238?mt=2&uo=4",
+"feedUrl" : "http://downloads.bbc.co.uk/podcasts/wales/atc/rss.xml",
+"trackViewUrl" : "https://itunes.apple.com/us/podcast/bbc-all-things-considered/id145809238?mt=2&uo=4",
+"artworkUrl30" : "http://a1.mzstatic.com/us/r30/Podcasts4/v4/5c/97/50/5c975040-9887-2dab-f917-9683dc573045/mza_4439072388724499765.30x30-50.jpg",
+"artworkUrl60" : "http://a5.mzstatic.com/us/r30/Podcasts4/v4/5c/97/50/5c975040-9887-2dab-f917-9683dc573045/mza_4439072388724499765.60x60-50.jpg",
+"artworkUrl100" : "http://a4.mzstatic.com/us/r30/Podcasts4/v4/5c/97/50/5c975040-9887-2dab-f917-9683dc573045/mza_4439072388724499765.100x100-75.jpg",
+"collectionPrice" : 0.00,
+"trackPrice" : 0.00,
+"releaseDate" : "2013-08-25T08:30:00Z",
+"collectionExplicitness" : "notExplicit",
+"trackExplicitness" : "notExplicit",
+"trackCount" : 5,
+"country" : "USA",
+"currency" : "USD",
+"primaryGenreName" : "Christianity",
+"artworkUrl600" : "http://a2.mzstatic.com/us/r30/Podcasts4/v4/5c/97/50/5c975040-9887-2dab-f917-9683dc573045/mza_4439072388724499765.600x600-75.jpg",
+"genreIds" :
+[
+"1439",
+"26",
+"1314",
+"1324"
+],
+"genres" :
+[
+"Christianity",
+"Podcasts",
+"Religion & Spirituality",
+"Society & Culture"
+]
+},
+{
+"wrapperType" : "track",
+"kind" : "podcast",
+"artistId" : 121676617,
+"collectionId" : 389121261,
+"trackId" : 389121261,
+"artistName" : "BBC World Service",
+"collectionName" : "BBC World Update: Daily Commute",
+"trackName" : "BBC World Update: Daily Commute",
+"collectionCensoredName" : "BBC World Update: Daily Commute",
+"trackCensoredName" : "BBC World Update: Daily Commute",
+"artistViewUrl" : "https://itunes.apple.com/us/artist/bbc/id121676617?mt=2&uo=4",
+"collectionViewUrl" : "https://itunes.apple.com/us/podcast/bbc-world-update-daily-commute/id389121261?mt=2&uo=4",
+"feedUrl" : "http://downloads.bbc.co.uk/podcasts/worldservice/worldupmc/rss.xml",
+"trackViewUrl" : "https://itunes.apple.com/us/podcast/bbc-world-update-daily-commute/id389121261?mt=2&uo=4",
+"artworkUrl30" : "http://a4.mzstatic.com/us/r30/Podcasts6/v4/f3/3b/bc/f33bbca0-bdee-fd84-93d1-f952be9dbf39/mza_675914173967794828.30x30-50.jpg",
+"artworkUrl60" : "http://a3.mzstatic.com/us/r30/Podcasts6/v4/f3/3b/bc/f33bbca0-bdee-fd84-93d1-f952be9dbf39/mza_675914173967794828.60x60-50.jpg",
+"artworkUrl100" : "http://a4.mzstatic.com/us/r30/Podcasts6/v4/f3/3b/bc/f33bbca0-bdee-fd84-93d1-f952be9dbf39/mza_675914173967794828.100x100-75.jpg",
+"collectionPrice" : 0.00,
+"trackPrice" : 0.00,
+"releaseDate" : "2013-08-26T10:00:00Z",
+"collectionExplicitness" : "notExplicit",
+"trackExplicitness" : "notExplicit",
+"trackCount" : 6,
+"country" : "USA",
+"currency" : "USD",
+"primaryGenreName" : "News & Politics",
+"artworkUrl600" : "http://a2.mzstatic.com/us/r30/Podcasts6/v4/f3/3b/bc/f33bbca0-bdee-fd84-93d1-f952be9dbf39/mza_675914173967794828.600x600-75.jpg",
+"genreIds" :
+[
+"1311",
+"26"
+],
+"genres" :
+[
+"News & Politics",
+"Podcasts"
+]
+}
+]
+}
