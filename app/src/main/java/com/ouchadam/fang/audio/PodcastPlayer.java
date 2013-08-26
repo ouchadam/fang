@@ -73,20 +73,15 @@ public class PodcastPlayer {
         return mediaPlayer.isPlaying();
     }
 
-    public void sync(long itemId, AudioServiceBinder.OnStateSync listener) {
-        if (isNotPrepared()) {
-            listener.onSync(SyncEvent.idle(itemId));
-        } else {
-            PodcastPosition position = new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
-            listener.onSync(new SyncEvent(mediaPlayer.isPlaying(), position, itemId));
-        }
-    }
-
     public boolean isNotPrepared() {
         return mediaPlayer == null;
     }
 
     public PodcastPosition getPosition() {
         return new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
+    }
+
+    public void setCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
+        mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
@@ -39,11 +40,11 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     }
 
     public class LocalBinder extends Binder {
+
         public AudioService getService() {
             return AudioService.this;
         }
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -68,6 +69,30 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         this.listener = listener;
         sync();
     }
+
+    @Override
+    public void onNewSource(long itemId, Uri source) {
+        this.playingItemId = itemId;
+        setSource(source);
+        podcastPlayer.setCompletionListener(onComplete);
+        sync();
+    }
+
+    private void setSource(Uri uri) {
+        try {
+            podcastPlayer.setSource(this, uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("couldn't find : " + uri);
+        }
+    }
+
+    private final MediaPlayer.OnCompletionListener onComplete = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            onPause();
+        }
+    };
 
     @Override
     public void onPlay(PodcastPosition position) {
@@ -117,22 +142,6 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         audioFocusManager.abandonFocus();
         fangNotification.dismiss();
         podcastPlayer.release();
-    }
-
-    @Override
-    public void onNewSource(long itemId, Uri source) {
-        this.playingItemId = itemId;
-        setSource(source);
-        sync();
-    }
-
-    private void setSource(Uri uri) {
-        try {
-            podcastPlayer.setSource(this, uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("couldn't find : " + uri);
-        }
     }
 
     @Override

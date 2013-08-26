@@ -24,7 +24,7 @@ public class PodcastPosition implements Serializable {
 
     public int asPercentage() {
         float percentCoeff = (float) currentPosition / (float) duration;
-        return (int) (percentCoeff * 100);
+        return (int) ((percentCoeff * 100) + 0.5F);
     }
 
     public int getDuration() {

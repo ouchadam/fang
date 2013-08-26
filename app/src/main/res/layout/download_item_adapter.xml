@@ -47,6 +47,20 @@
       android:paddingTop="6dp"
       android:layout_below="@id/channel_title"/>
 
+    <TextView
+      android:id="@+id/listened"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:maxLines="1"
+      android:ellipsize="end"
+      android:textSize="13sp"
+      android:fontFamily="sans-serif-medium"
+      android:textStyle="italic"
+      android:textColor="#089983"
+      android:paddingTop="6dp"
+      android:layout_below="@id/channel_title"
+      android:layout_alignParentRight="true"/>
+
   </RelativeLayout>
 
   <ImageView

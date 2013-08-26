@@ -65,6 +65,7 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         tag.channelTitle = Views.findById(newView, R.id.channel_title);
         tag.channelImage = Views.findById(newView, R.id.channel_image);
         tag.itemTime = Views.findById(newView, R.id.item_time);
+        tag.listened = Views.findById(newView, R.id.listened);
         tag.position = position;
 
     }
@@ -84,6 +85,7 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         holder.title.setText(item.getItem().getTitle());
         holder.channelTitle.setText(item.getChannelTitle());
         holder.itemTime.setText(item.getItem().getPubDate().getTimeAgo());
+        holder.listened.setText(item.getInitialPlayPosition().asPercentage() +"%" + " listened");
     }
 
     @Override
@@ -111,6 +113,7 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         TextView title;
         TextView channelTitle;
         TextView itemTime;
+        TextView listened;
         ImageView channelImage;
         int position;
         ProgressBar progressBar;
