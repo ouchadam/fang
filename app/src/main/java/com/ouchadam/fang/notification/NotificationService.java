@@ -1,4 +1,4 @@
-package com.ouchadam.fang.audio;
+package com.ouchadam.fang.notification;
 
 import android.R;
 import android.app.IntentService;
@@ -13,7 +13,6 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
-import com.ouchadam.fang.presentation.controller.FangNotification;
 import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +46,8 @@ public class NotificationService extends IntentService {
         if (isValid(intent)) {
             long itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L);
             boolean isPlaying = intent.getBooleanExtra(EXTRA_IS_PLAYING, true);
+            Log.e("!!!!" , "Acting on event : " + itemId + " with isPlaying? : " + isPlaying);
+
             FullItem item = getFullItem(itemId);
             if (item != null) {
                 try {

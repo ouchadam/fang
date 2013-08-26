@@ -22,12 +22,16 @@ import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
-import com.ouchadam.fang.audio.NotificationService;
+import com.ouchadam.fang.notification.FangNotification;
+import com.ouchadam.fang.notification.NotificationService;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SyncEvent;
+import com.ouchadam.fang.presentation.panel.SlidingPanelController;
+import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
+import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
 
 public class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged {
 
@@ -76,7 +80,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
 
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot());
-        Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(this);
+        Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, this);
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventBroadcaster);
     }
 
@@ -102,9 +106,13 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     }
 
     private void startAudioService() {
-        if (!AndroidUtils.isServiceRunning(AudioService.class, this)) {
+        if (!audioServiceIsRunning()) {
             startService(new Intent(this, AudioService.class));
         }
+    }
+
+    private boolean audioServiceIsRunning() {
+        return AndroidUtils.isServiceRunning(AudioService.class, this);
     }
 
     protected void onFangCreate(Bundle savedInstanceState) {
@@ -194,7 +202,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
     protected void onPause() {
         super.onPause();
         if (!isPlaying) {
-            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
+            new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, this).broadcast(new PlayerEvent.Factory().stop());
         }
         audioServiceBinder.unbind();
         showNotification(itemId);
@@ -209,7 +217,7 @@ public class FangActivity extends FragmentActivity implements ActionBarRefresher
 
     @Override
     public void onSeekChanged(PodcastPosition position) {
-        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(position));
+        new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, this).broadcast(new PlayerEvent.Factory().goTo(position));
     }
 
 }

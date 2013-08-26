@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation.panel;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -10,11 +10,13 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
 import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.ItemDownload;
+import com.ouchadam.fang.ItemQueryer;
 import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
+import com.ouchadam.fang.presentation.controller.PlayerEvent;
 
 public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnDownloadClickListener {
 

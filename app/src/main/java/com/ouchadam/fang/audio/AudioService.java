@@ -9,11 +9,14 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.PositionPersister;
 import com.ouchadam.fang.presentation.controller.AudioFocusManager;
-import com.ouchadam.fang.presentation.controller.FangNotification;
+import com.ouchadam.fang.notification.FangNotification;
+import com.ouchadam.fang.presentation.controller.PlayerEvent;
+import com.ouchadam.fang.notification.PodcastPlayerNotificationEventBroadcaster;
 
 import java.io.IOException;
 
@@ -45,6 +48,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
             return AudioService.this;
         }
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -75,7 +79,16 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         this.playingItemId = itemId;
         setSource(source);
         podcastPlayer.setCompletionListener(onComplete);
-        sync();
+        sync(new PlayerEvent.Factory().newSource(itemId, source));
+    }
+
+    private void sync(PlayerEvent playerEvent) {
+        if (isWithinApp()) {
+            sync();
+        } else {
+            Log.e("!!!!", "Sending event : " + playerEvent.getEvent().name() + " to notification with ID : " + playingItemId);
+            new PodcastPlayerNotificationEventBroadcaster(playingItemId, this).broadcast(playerEvent);
+        }
     }
 
     private void setSource(Uri uri) {
@@ -90,14 +103,26 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     private final MediaPlayer.OnCompletionListener onComplete = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
-            onPause();
+            if (hasNext()) {
+                // TODO implement a queue
+            } else {
+                if (isWithinApp()) {
+                    onPause();
+                } else {
+                    onStop();
+                }
+            }
         }
     };
+
+    private boolean hasNext() {
+        return false;
+    }
 
     @Override
     public void onPlay(PodcastPosition position) {
         play(position);
-        sync();
+        sync(new PlayerEvent.Factory().play(position));
     }
 
     private void play(PodcastPosition position) {
@@ -110,17 +135,20 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
         pause();
         persistCurrentId();
         persistPosition();
-        sync();
+        sync(new PlayerEvent.Factory().pause());
     }
 
     private void pause() {
         podcastPlayer.pause();
+        audioFocusManager.abandonFocus();
     }
 
     @Override
     public void onStop() {
-        persistCurrentId();
-        persistPosition();
+        if (podcastPlayer.isPrepared()) {
+            persistCurrentId();
+            persistPosition();
+        }
         stop();
         stopSelf();
     }
@@ -132,7 +160,6 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     }
 
     private void persistCurrentId() {
-        // TODO persist position
         if (playingItemId != MISSING_ID) {
             SharedPreferences preferences = getSharedPreferences(AudioService.class.getSimpleName(), Context.MODE_PRIVATE);
             preferences.edit().putLong("id", playingItemId).commit();
@@ -163,6 +190,16 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
             }
         }
         listener.onSync(syncEvent);
+    }
+
+    private boolean isWithinApp() {
+        return listener != null;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        listener = null;
+        return super.onUnbind(intent);
     }
 
     @Override

@@ -1,15 +1,16 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.domain.FullItem;
+import com.ouchadam.fang.domain.PodcastPosition;
+import com.ouchadam.fang.presentation.controller.ActionBarManipulator;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
-class SlidingPanelViewManipulator implements OnPanelChangeListener {
+public class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     private final ActionBarManipulator actionBarManipulator;
     private final PanelViewHolder panelViewHolder;

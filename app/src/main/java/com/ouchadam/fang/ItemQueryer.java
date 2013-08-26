@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang;
 
 import android.content.Context;
 import android.support.v4.app.LoaderManager;
@@ -8,6 +8,7 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 import com.ouchadam.fang.presentation.item.DataQueryer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
@@ -19,7 +20,7 @@ public class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
     private final OnItemListener onItemListener;
     private final DataQueryer<FullItem> itemQueryer;
 
-    interface OnItemListener {
+    public interface OnItemListener {
         void onItem(FullItem item);
     }
 

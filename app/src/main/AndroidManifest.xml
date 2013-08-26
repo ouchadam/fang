@@ -34,9 +34,9 @@
       android:name=".presentation.controller.ChannelActivity" />
 
     <service android:name=".audio.AudioService" />
-    <service android:name=".audio.NotificationService" />
+    <service android:name=".notification.NotificationService" />
 
-    <receiver android:name=".audio.NotificationReceiver" >
+    <receiver android:name=".notification.NotificationReceiver" >
       <intent-filter>
         <action android:name="com.fang.notification.PLAY"/>
         <action android:name="com.fang.notification.PAUSE"/>

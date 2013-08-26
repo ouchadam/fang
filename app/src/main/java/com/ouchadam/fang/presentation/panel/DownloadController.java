@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 import android.widget.Button;

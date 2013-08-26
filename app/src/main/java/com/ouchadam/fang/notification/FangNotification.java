@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.notification;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -6,16 +6,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.audio.PlayerEventReceiver;
 import com.ouchadam.fang.domain.FullItem;
-
-import java.util.Random;
+import com.ouchadam.fang.presentation.controller.PlayerEvent;
 
 public class FangNotification {
 
@@ -66,7 +63,7 @@ public class FangNotification {
 
         public PendingIntent createMediaPendingIntent(Context context, PlayerEvent event, long itemId) {
             Intent intent = createIntent(event);
-            intent.setAction(event.getEvent().toNotification());
+//            intent.setAction(event.getEvent().toNotification());
             intent.putExtra("itemId", itemId);
             return addClickListener(context, intent);
         }
@@ -77,7 +74,7 @@ public class FangNotification {
         }
 
         private Intent createIntent(PlayerEvent event) {
-            return new Intent(event.getEvent().toAction());
+            return new Intent(event.getEvent().toAction(PlayerEvent.Event.ACTION_PREFIX));
         }
 
         private PendingIntent addClickListener(Context context, Intent intent) {

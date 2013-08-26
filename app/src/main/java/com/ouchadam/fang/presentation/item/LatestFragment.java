@@ -6,24 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.android.ClassCaster;
-import com.ouchadam.bookkeeper.Downloader;
-import com.ouchadam.bookkeeper.domain.DownloadId;
-import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
-import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.ItemToPlaylist;
-import com.ouchadam.fang.domain.item.Item;
-import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
-import com.ouchadam.fang.presentation.controller.SlidingPanelExposer;
+import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {

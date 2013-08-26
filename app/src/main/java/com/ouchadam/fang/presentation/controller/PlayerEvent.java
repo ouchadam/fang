@@ -40,12 +40,8 @@ public class PlayerEvent {
         public static final String ACTION_PREFIX = "com.fang.action.";
         public static final String NOTIFICATION_PREFIX = "com.fang.notification.";
 
-        public String toAction() {
-            return ACTION_PREFIX + toString();
-        }
-
-        public String toNotification() {
-            return NOTIFICATION_PREFIX + toString();
+        public String toAction(String prefix) {
+            return prefix + toString();
         }
 
         public static Event fromAction(String prefix, String action) {
@@ -54,7 +50,6 @@ public class PlayerEvent {
             }
             throw new RuntimeException("tried to create an event from an invalid action : " + action);
         }
-
     }
 
     public static class Factory {
@@ -109,6 +104,34 @@ public class PlayerEvent {
         private PlayerEvent build() {
             return playerEvent;
         }
+    }
+
+    public static class Builder {
+
+        private final PlayerEvent playerEvent;
+
+        public Builder() {
+            this(new PlayerEvent());
+        }
+
+        public Builder(PlayerEvent playerEvent) {
+            this.playerEvent = playerEvent;
+        }
+
+        public Builder withId(long itemId) {
+            playerEvent.id = itemId;
+            return this;
+        }
+
+        public Builder withEvent(Event event) {
+            playerEvent.event = event;
+            return this;
+        }
+
+        public PlayerEvent build() {
+            return playerEvent;
+        }
+
     }
 
 }

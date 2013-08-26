@@ -1,6 +1,5 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation.panel;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;

@@ -26,7 +26,7 @@ public class PlayerEventReceiver extends BroadcastReceiver {
     private IntentFilter getIntentFilter() {
         IntentFilter intentFilter = new IntentFilter();
         for (PlayerEvent.Event event : PlayerEvent.Event.values()) {
-            intentFilter.addAction(event.toAction());
+            intentFilter.addAction(event.toAction(PlayerEvent.Event.ACTION_PREFIX));
         }
         return intentFilter;
     }

@@ -1,12 +1,12 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation.panel;
 
 import android.content.Context;
 import android.widget.SeekBar;
 
-import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SeekbarReceiver;
+import com.ouchadam.fang.domain.PodcastPosition;
 
-public class PositionManager {
+class PositionManager {
 
     private final SlidingPanelViewManipulator.OnSeekChanged onSeekChanged;
     private final SeekbarReceiver seekbarReceiver;

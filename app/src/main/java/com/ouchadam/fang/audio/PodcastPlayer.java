@@ -77,6 +77,11 @@ public class PodcastPlayer {
         return mediaPlayer == null;
     }
 
+
+    public boolean isPrepared() {
+        return mediaPlayer != null;
+    }
+
     public PodcastPosition getPosition() {
         return new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
     }
