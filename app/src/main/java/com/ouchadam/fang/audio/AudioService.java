@@ -121,9 +121,17 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
 
     @Override
     public void onNewSource(long itemId, Uri source) {
-        if (podcastPlayer.isNotPrepared()) {
-            this.playingItemId = itemId;
-            setSource(source);
+        this.playingItemId = itemId;
+        setSource(source);
+        sync();
+    }
+
+    private void setSource(Uri uri) {
+        try {
+            podcastPlayer.setSource(this, uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("couldn't find : " + uri);
         }
     }
 
@@ -131,16 +139,6 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     public void gotoPosition(PodcastPosition position) {
         podcastPlayer.goTo(position.value());
         sync();
-    }
-
-    private void setSource(Uri uri) {
-        try {
-            podcastPlayer.setSource(this, uri);
-            sync();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("couldn't find : " + uri);
-        }
     }
 
     private void sync() {

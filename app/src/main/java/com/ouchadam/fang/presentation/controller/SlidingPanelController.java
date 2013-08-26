@@ -25,7 +25,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     private Broadcaster<PlayerEvent> playerBroadcaster;
 
     private ItemQueryer itemQueryer;
-    private long itemId;
 
     public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, Broadcaster<PlayerEvent> playerBroadcaster) {
         this.downloader = downloader;
@@ -38,7 +37,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     @Override
     public void setData(long itemId) {
-        this.itemId = itemId;
         if (itemQueryer != null) {
             itemQueryer.stop();
         }
@@ -119,19 +117,14 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         slidingPanelViewManipulator.update(syncEvent.position);
         if (syncEvent.isFresh()) {
             // TODO: do nothing for now...
-        } else {
-            if (notAlreadyWatching(syncEvent.itemId)) {
-                setData(syncEvent.itemId);
-            }
+        } else if (itemQueryer == null) {
+            setData(syncEvent.itemId);
         }
     }
 
-    private boolean notAlreadyWatching(long itemId) {
-        return this.itemId != itemId;
-    }
-
     public void resetItem() {
-        this.itemId = -1L;
+        itemQueryer.stop();
+        itemQueryer = null;
     }
 
 }
