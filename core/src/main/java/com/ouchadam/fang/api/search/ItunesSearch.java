@@ -17,11 +17,13 @@ public class ItunesSearch {
 
     public SearchResult search(String searchTerm) {
 
+        searchTerm = searchTerm.replace(" ", "+");
+
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("term", searchTerm);
         params.put("media", "podcast");
-        params.put("limit", "3");
+//        params.put("limit", "3");
 
         HttpRequest request = HttpRequest.get(ITUNES_SEARCH_URL, params, true);
 

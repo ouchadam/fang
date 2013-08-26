@@ -41,4 +41,16 @@ public class Result {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public String getChannelTitle() {
+        return channelTitle;
+    }
+
+    public String getGenre() {
+        return mainGenre;
+    }
+
+    public String getFeedUrl() {
+        return feedUrl;
+    }
 }

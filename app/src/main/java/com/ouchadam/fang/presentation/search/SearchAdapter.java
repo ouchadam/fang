@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.api.search.Result;
-import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.item.TypedListAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -54,10 +53,10 @@ public class SearchAdapter extends TypedListAdapter<Result> {
 
     private ViewHolder createViewHolder(View view, int position) {
         ViewHolder holder = new ViewHolder();
-        holder.title = Views.findById(view, R.id.text);
-        holder.channelTitle = Views.findById(view, R.id.channel_title);
+        holder.channelTitle = Views.findById(view, R.id.text);
+        holder.channelOwner = Views.findById(view, R.id.channel_title);
         holder.channelImage = Views.findById(view, R.id.channel_image);
-        holder.itemTime = Views.findById(view, R.id.item_time);
+        holder.genre = Views.findById(view, R.id.item_time);
         holder.position = position;
         return holder;
     }
@@ -78,9 +77,9 @@ public class SearchAdapter extends TypedListAdapter<Result> {
     }
 
     private void setHolderText(ViewHolder holder, Result item) {
-        holder.title.setText(item.getChannelOwner());
-//        holder.channelTitle.setText(item.getChannelTitle());
-//        holder.itemTime.setText(item.getItem().getPubDate().getTimeAgo());
+        holder.channelTitle.setText(item.getChannelTitle());
+        holder.channelOwner.setText(item.getChannelOwner());
+        holder.genre.setText(item.getGenre());
     }
 
     @Override
@@ -89,9 +88,9 @@ public class SearchAdapter extends TypedListAdapter<Result> {
     }
 
     static class ViewHolder {
-        TextView title;
         TextView channelTitle;
-        TextView itemTime;
+        TextView channelOwner;
+        TextView genre;
         ImageView channelImage;
         int position;
     }
