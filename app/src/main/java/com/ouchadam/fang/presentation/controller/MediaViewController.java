@@ -48,8 +48,8 @@ class MediaViewController {
         return topMediaSwitcher.getCurrentView().getId() == R.id.pause_top;
     }
 
-    public void setMediaVisibility(FullItem fullItem) {
-        topMediaSwitcher.setVisibility(fullItem.isDownloaded() ? View.VISIBLE : View.INVISIBLE);
+    public void setMediaVisibility(boolean isExpanded, FullItem fullItem) {
+        topMediaSwitcher.setVisibility(fullItem.isDownloaded() && !isExpanded ? View.VISIBLE : View.INVISIBLE);
         bottomMediaSwitcher.setVisibility(fullItem.isDownloaded() ? View.VISIBLE : View.INVISIBLE);
     }
 
