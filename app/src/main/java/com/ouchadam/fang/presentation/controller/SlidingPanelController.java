@@ -123,8 +123,10 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     public void resetItem() {
-        itemQueryer.stop();
-        itemQueryer = null;
+        if (itemQueryer != null) {
+            itemQueryer.stop();
+            itemQueryer = null;
+        }
     }
 
 }

@@ -109,6 +109,7 @@ public class AudioService extends Service implements PlayerEventReceiver.PlayerE
     public void onPause() {
         pause();
         persistCurrentId();
+        persistPosition();
         sync();
     }
 

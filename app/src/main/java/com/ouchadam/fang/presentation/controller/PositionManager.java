@@ -25,6 +25,8 @@ public class PositionManager {
     private final SeekBar.OnSeekBarChangeListener seekListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            PodcastPosition position = new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
+            positionController.update(positionChanging, position);
         }
 
         @Override

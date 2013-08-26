@@ -24,4 +24,12 @@ public class FangProvider extends SQLiteContentProviderImpl {
         return result;
     }
 
+    @Override
+    public Uri insert(Uri uri, ContentValues values) {
+        Uri result = super.insert(uri, values);
+        if (uri.equals(getUri(Uris.ITEM))) {
+            notifyUriChange(getUri(Uris.FULL_ITEM));
+        }
+        return result;
+    }
 }

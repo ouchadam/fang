@@ -1,7 +1,6 @@
 package com.ouchadam.fang.persistance.database.marshaller;
 
 import com.novoda.notils.java.Collections;
-import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
@@ -24,13 +23,13 @@ public class PositionMarshaller extends BaseMarshaller<PodcastPosition>  {
     @Override
     public List<ContentProviderOperationValues> marshall(PodcastPosition what) {
         operations = Collections.newArrayList();
-        insertItem(what);
+        updatePosition(what);
         return operations;
     }
 
-    private void insertItem(PodcastPosition position) {
-        ContentProviderOperationValues itemBuilder = newInsertFor(Uris.PLAYLIST);
-        itemBuilder.withValue(Tables.Playlist.ITEM_ID.name(), itemId);
+    private void updatePosition(PodcastPosition position) {
+        ContentProviderOperationValues itemBuilder = newUpdateFor(Uris.PLAYLIST);
+        itemBuilder.withSelection(Tables.Playlist.ITEM_ID.name() + "=?", new String[]{String.valueOf(itemId)});
         itemBuilder.withValue(Tables.Playlist.PLAY_POSITION.name(), position.value());
         itemBuilder.withValue(Tables.Playlist.MAX_DURATION.name(), position.getDuration());
         operations.add(itemBuilder);
