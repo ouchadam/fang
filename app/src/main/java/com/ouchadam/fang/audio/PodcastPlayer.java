@@ -12,24 +12,36 @@ import java.io.IOException;
 
 public class PodcastPlayer {
 
-    private static final int ONE_SECOND = 1000;
-    private final Broadcaster<PodcastPosition> positionBroadcaster;
-    private MediaPlayer mediaPlayer;
+    private static final int ONE_SECOND_MS = 1000;
 
     private final Handler seekHandler = new Handler();
+    private final Context context;
+    private final Broadcaster<PodcastPosition> positionBroadcaster;
+    private final MediaPlayer.OnCompletionListener onComplete;
 
-    public PodcastPlayer(Broadcaster<PodcastPosition> positionBroadcaster) {
+    private MediaPlayer mediaPlayer;
+
+
+    public PodcastPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster, MediaPlayer.OnCompletionListener onComplete) {
+        this.context = context;
         this.positionBroadcaster = positionBroadcaster;
+        this.onComplete = onComplete;
     }
 
-    public void setSource(Context context, Uri source) throws IOException {
+    public void setSource(Uri source) throws IOException {
         if (mediaPlayer != null) {
             mediaPlayer.reset();
             mediaPlayer.release();
         }
-        mediaPlayer = new MediaPlayer();
+        mediaPlayer = newMediaPlayer();
         mediaPlayer.setDataSource(context, source);
         mediaPlayer.prepare();
+    }
+
+    private MediaPlayer newMediaPlayer() {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(onComplete);
+        return mediaPlayer;
     }
 
     public void play(PodcastPosition position) {
@@ -55,7 +67,7 @@ public class PodcastPlayer {
     };
 
     private void scheduleSeekPositionUpdate() {
-        seekHandler.postDelayed(seekUpdater, ONE_SECOND);
+        seekHandler.postDelayed(seekUpdater, ONE_SECOND_MS);
     }
 
     public void pause() {

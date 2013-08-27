@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.ouchadam.fang.presentation.controller.PlayerEvent;
 import com.ouchadam.fang.presentation.controller.PodcastPlayerEventBroadcaster;

@@ -5,20 +5,20 @@
           android:versionName="1.0">
 
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
   <uses-sdk
-      android:minSdkVersion="14"
-      android:targetSdkVersion="18"/>
+    android:minSdkVersion="14"
+    android:targetSdkVersion="18"/>
 
   <application
-      android:label="@string/app_name"
-      android:icon="@drawable/ic_launcher"
-      android:theme="@style/FangTheme">
+    android:label="@string/app_name"
+    android:icon="@drawable/ic_launcher"
+    android:theme="@style/FangTheme">
 
     <activity
-        android:name=".presentation.controller.FragmentControllerActivity"
-        android:label="@string/app_name">
+      android:name=".presentation.controller.FragmentControllerActivity"
+      android:label="@string/app_name">
 
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -28,16 +28,16 @@
     </activity>
 
     <activity
-        android:name=".debug.DebugActivity"
-        android:label="@string/app_name"/>
+      android:name=".debug.DebugActivity"
+      android:label="@string/app_name"/>
 
     <activity
-      android:name=".presentation.controller.ChannelActivity" />
+      android:name=".presentation.controller.ChannelActivity"/>
 
-    <service android:name=".audio.AudioService" />
-    <service android:name=".notification.NotificationService" />
+    <service android:name=".audio.AudioService"/>
+    <service android:name=".notification.NotificationService"/>
 
-    <receiver android:name=".notification.NotificationReceiver" >
+    <receiver android:name=".notification.NotificationReceiver">
       <intent-filter>
         <action android:name="com.fang.notification.PLAY"/>
         <action android:name="com.fang.notification.PAUSE"/>
@@ -46,9 +46,9 @@
 
     <!-- PROVIDERS -->
     <provider
-        android:name=".persistance.FangProvider"
-        android:authorities="com.ouchadam.fang"
-        android:exported="false"/>
+      android:name=".persistance.FangProvider"
+      android:authorities="com.ouchadam.fang"
+      android:exported="false"/>
 
   </application>
 
