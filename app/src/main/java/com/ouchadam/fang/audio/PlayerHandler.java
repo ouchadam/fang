@@ -113,15 +113,15 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     public SyncEvent asSyncEvent() {
-        if (playingItemId == MISSING_ID) {
-            return SyncEvent.fresh();
-        } else {
-            if (podcastPlayer.isNotPrepared()) {
-                return SyncEvent.idle(playingItemId);
-            } else {
-                return new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playingItemId);
-            }
-        }
+        return currentItemIsValid() ? createValidSyncEvent() : SyncEvent.fresh();
+    }
+
+    private boolean currentItemIsValid() {
+        return playingItemId != MISSING_ID;
+    }
+
+    private SyncEvent createValidSyncEvent() {
+        return podcastPlayer.isNotPrepared() ? SyncEvent.idle(playingItemId) : new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playingItemId);
     }
 
 }
