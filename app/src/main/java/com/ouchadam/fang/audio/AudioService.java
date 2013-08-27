@@ -45,7 +45,7 @@ public class AudioService extends Service implements ServiceManipulator {
     public void onCreate() {
         super.onCreate();
         initReceivers();
-        playerHandler = PlayerHandler.from(this, onSync, onComplete);
+        playerHandler = PlayerHandler.from(this, onSync, onComplete, this);
     }
 
     private final PlayerHandler.AudioSync onSync = new PlayerHandler.AudioSync() {
