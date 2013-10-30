@@ -1,15 +1,12 @@
 package com.ouchadam.fang.audio;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 
 import com.ouchadam.fang.notification.PodcastPlayerNotificationEventBroadcaster;
-import com.ouchadam.fang.presentation.controller.AudioFocusManager;
 import com.ouchadam.fang.presentation.controller.PlayerEvent;
 
 public class AudioService extends Service implements ServiceManipulator {
@@ -44,8 +41,8 @@ public class AudioService extends Service implements ServiceManipulator {
     @Override
     public void onCreate() {
         super.onCreate();
-        initReceivers();
         playerHandler = PlayerHandler.from(this, onSync, onComplete, this);
+        initReceivers(playerHandler);
     }
 
     private final PlayerHandler.AudioSync onSync = new PlayerHandler.AudioSync() {
@@ -67,7 +64,7 @@ public class AudioService extends Service implements ServiceManipulator {
         new PodcastPlayerNotificationEventBroadcaster(itemId, this).broadcast(playerEvent);
     }
 
-    private void initReceivers() {
+    private void initReceivers(PlayerHandler playerHandler) {
         playerEventReceiver = new PlayerEventReceiver(playerHandler);
         playerEventReceiver.register(this);
         externalReceiver = new ExternalReceiver();
