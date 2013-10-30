@@ -14,9 +14,9 @@ public class AudioService extends Service implements ServiceManipulator {
     private final LocalBinder binder;
 
     private PlayerEventReceiver playerEventReceiver;
-    private AudioServiceBinder.OnStateSync listener;
     private ExternalReceiver externalReceiver;
     private PlayerHandler playerHandler;
+    private Syncer syncer;
 
     public AudioService() {
         binder = new LocalBinder();
@@ -42,19 +42,20 @@ public class AudioService extends Service implements ServiceManipulator {
     public void onCreate() {
         super.onCreate();
         playerHandler = PlayerHandler.from(this, onSync, onComplete, this);
+        this.syncer = new Syncer(playerHandler);
         initReceivers(playerHandler);
     }
 
     private final PlayerHandler.AudioSync onSync = new PlayerHandler.AudioSync() {
         @Override
         public void onSync(long itemId, PlayerEvent playerEvent) {
-            sync(itemId, playerEvent);
+            handleSyncRequest(itemId, playerEvent);
         }
     };
 
-    private void sync(long itemId, PlayerEvent playerEvent) {
-        if (isWithinApp()) {
-            sync();
+    private void handleSyncRequest(long itemId, PlayerEvent playerEvent) {
+        if (syncer.isWithinApp()) {
+            syncForeground();
         } else {
             broadcastToNotification(itemId, playerEvent);
         }
@@ -77,36 +78,24 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
-        this.listener = listener;
-        sync();
+        syncer.setSyncListener(listener);
+        syncForeground();
+    }
+
+    private void syncForeground() {
+        syncer.sync();
     }
 
     private final MediaPlayer.OnCompletionListener onComplete = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
-            if (hasNext()) {
-                // TODO implement a queue
+            if (syncer.isWithinApp()) {
+                playerHandler.onPause();
             } else {
-                if (isWithinApp()) {
-                    playerHandler.onPause();
-                } else {
-                    playerHandler.onStop();
-                }
+                playerHandler.onStop();
             }
         }
     };
-
-    private boolean hasNext() {
-        return false;
-    }
-
-    private void sync() {
-        listener.onSync(playerHandler.asSyncEvent());
-    }
-
-    private boolean isWithinApp() {
-        return listener != null;
-    }
 
     @Override
     public boolean onUnbind(Intent intent) {
@@ -115,7 +104,7 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     private void removeSyncListener() {
-        listener = null;
+        syncer.removeSyncListener();
     }
 
     @Override
