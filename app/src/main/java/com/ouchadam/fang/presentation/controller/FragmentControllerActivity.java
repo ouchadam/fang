@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Fragments;
@@ -24,22 +25,40 @@ public class FragmentControllerActivity extends FangActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.ab_debug) {
-            startActivity(new Intent(this, DebugActivity.class));
+        switch (item.getItemId()) {
+            case R.id.ab_debug:
+                onDebugClicked();
+                break;
+
+            case R.id.ab_refresh:
+                onRefreshClicked();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onDebugClicked() {
+        startActivity(new Intent(this, DebugActivity.class));
+    }
+
+    private void onRefreshClicked() {
+        Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         Bundles.restoreInstanceState(this, savedInstanceState);
+        initActionBar();
+        if (hasEmptyContent()) {
+            showDefaultFragment();
+        }
+    }
+
+    private void initActionBar() {
         if (activityTitle != null) {
             getActionBar().setTitle(activityTitle);
         }
         invalidateOptionsMenu();
-        if (hasEmptyContent()) {
-            showDefaultFragment();
-        }
     }
 
     private boolean hasEmptyContent() {

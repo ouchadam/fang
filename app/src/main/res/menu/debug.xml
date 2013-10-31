@@ -6,4 +6,9 @@
     android:title="debug"
     android:showAsAction="never" />
 
+  <item
+    android:id="@+id/ab_refresh"
+    android:title="refresh"
+    android:showAsAction="always" />
+
 </menu>
