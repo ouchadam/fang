@@ -10,7 +10,8 @@ public class Tables {
         _id,
         CHANNEL_TITLE,
         CATEGORY,
-        SUMMARY;
+        SUMMARY,
+        URL;
     }
 
     public enum ChannelImage {

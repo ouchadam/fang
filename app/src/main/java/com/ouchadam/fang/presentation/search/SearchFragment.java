@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
 
     private void dirtyParsing(Result item) {
         ParseHelper parseHelper = new ParseHelper(getActivity().getContentResolver(), this);
-        parseHelper.parse(item.getFeedUrl());
+        parseHelper.parse(getActivity(), item.getFeedUrl());
     }
 
     @Override

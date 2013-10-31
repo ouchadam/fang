@@ -2,10 +2,15 @@ package com.ouchadam.fang.debug;
 
 import android.app.Activity;
 
+import android.app.Service;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+
 import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.parsing.ChannelFinder;
@@ -14,14 +19,16 @@ import com.ouchadam.fang.persistance.ChannelPersister;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class ParseHelper {
 
     private final static Handler HANDLER = new Handler(Looper.getMainLooper());
+
     private final ContentResolver contentResolver;
     private final OnParseFinishedListener listener;
+
     private PodcastParser podcastParser;
 
     public interface OnParseFinishedListener {
@@ -45,27 +52,14 @@ public class ParseHelper {
     private final ParseFinishWatcher parseFinishWatcher = new ParseFinishWatcher() {
         @Override
         public void onFinish() {
-            new ChannelPersister(contentResolver).persist(podcastParser.getResult());
+            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), "www.dummyaddress.com");
             onCallback(podcastParser.getResult());
         }
     };
 
-    public void parse(String... urls) {
-        for (final String url : urls) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), new ParseFinishWatcher() {
-                        @Override
-                        public void onFinish() {
-                        }
-                    });
-                    podcastParser.parse(getInputStream(url));
-                    new ChannelPersister(contentResolver).persist(podcastParser.getResult());
-                    onCallback(podcastParser.getResult());
-                }
-            }).start();
-        }
+    public void parse(Context context, String... urls) {
+        Intent addServiceIntent = ServiceInfo.add(context, urls);
+        context.startService(addServiceIntent);
     }
 
     private synchronized void onCallback(final Channel channel) {
@@ -77,22 +71,6 @@ public class ParseHelper {
         });
     }
 
-    private InputStream getInputStream(String url) {
-        URL oracle = null;
-        Log.e("!!!", "Fetching stream for : " + url);
-        try {
-            oracle = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
 
-        InputStream in = null;
-        try {
-            return oracle.openStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

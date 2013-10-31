@@ -44,7 +44,7 @@ public class DebugActivity extends BasePreferenceActivity {
         public boolean onPreferenceClick(Preference preference) {
             new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteTestData();
             ParseHelper parseHelper = new ParseHelper(getContentResolver(), onParseFinishedListener);
-            parseHelper.parse(
+            parseHelper.parse(DebugActivity.this,
                     "http://www.cnet.co.uk/feeds/podcasts/",
                     "http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss",
                     "http://www.howstuffworks.com/podcasts/stuff-to-blow-your-mind.rss",

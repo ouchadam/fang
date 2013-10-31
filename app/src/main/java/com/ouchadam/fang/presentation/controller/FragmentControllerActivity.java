@@ -43,6 +43,7 @@ public class FragmentControllerActivity extends FangActivity {
 
     private void onRefreshClicked() {
         Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
