@@ -43,6 +43,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // TODO : restore last search
         searchFor("bbc");
     }
 
@@ -59,13 +60,25 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final SearchResult search = new ItunesSearch().search(searchTerm);
-                HANDLER.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateAdapter(search.getResults());
-                    }
-                });
+                final SearchResult search;
+                try {
+                    search = new ItunesSearch().search(searchTerm);
+                    HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateAdapter(search.getResults());
+                        }
+                    });
+                } catch (ItunesSearch.ItunesSearchException e) {
+                    e.printStackTrace();
+                    HANDLER.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "oopsies... search dun goofed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
             }
         }).start();
     }

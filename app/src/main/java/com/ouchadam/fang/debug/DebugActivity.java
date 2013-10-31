@@ -91,15 +91,26 @@ public class DebugActivity extends BasePreferenceActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final SearchResult search = new ItunesSearch().search("bbc");
-                    HANDLER.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (Result result : search.getResults()) {
-                                Toast.makeText(DebugActivity.this, result.getChannelOwner(), Toast.LENGTH_SHORT).show();
+                    final SearchResult search;
+                    try {
+                        search = new ItunesSearch().search("bbc");
+                        HANDLER.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (Result result : search.getResults()) {
+                                    Toast.makeText(DebugActivity.this, result.getChannelOwner(), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    } catch (ItunesSearch.ItunesSearchException e) {
+                        e.printStackTrace();
+                        HANDLER.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(DebugActivity.this, "oopsies... search dun goofed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             }).start();
             return false;

@@ -15,7 +15,7 @@ public class ItunesSearch {
 
     private static final String ITUNES_SEARCH_URL = "https://itunes.apple.com/search";
 
-    public SearchResult search(String searchTerm) {
+    public SearchResult search(String searchTerm) throws ItunesSearchException {
 
         searchTerm = searchTerm.replace(" ", "+");
 
@@ -35,7 +35,13 @@ public class ItunesSearch {
                 e.printStackTrace();
             }
         }
-        throw new RuntimeException("Search failed");
+        throw new ItunesSearchException("Search failed");
+    }
+
+    public static class ItunesSearchException extends Exception {
+        public ItunesSearchException(String message) {
+            super(message);
+        }
     }
 
 }
