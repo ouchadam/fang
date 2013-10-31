@@ -12,7 +12,7 @@ apply plugin: 'android'
 dependencies {
     compile project(':core')
     compile 'com.novoda:sqliteprovider-core:1.0.0'
-    compile 'com.novoda.notils:android:1.0'
+    compile 'com.novoda:notils:2.1-SNAPSHOT'
     compile 'com.novoda:typewriter:0.0.3-SNAPSHOT'
     compile 'com.google.android:support-v4:r13.1'
     compile 'com.squareup.picasso:picasso:1.1.1'

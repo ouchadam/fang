@@ -17,15 +17,14 @@ public class PodcastPlayer {
     private final Handler seekHandler = new Handler();
     private final Context context;
     private final Broadcaster<PodcastPosition> positionBroadcaster;
-    private final MediaPlayer.OnCompletionListener onComplete;
 
     private MediaPlayer mediaPlayer;
+    private MediaPlayer.OnCompletionListener onComplete;
 
 
-    public PodcastPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster, MediaPlayer.OnCompletionListener onComplete) {
+    public PodcastPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster) {
         this.context = context;
         this.positionBroadcaster = positionBroadcaster;
-        this.onComplete = onComplete;
     }
 
     public void setSource(Uri source) throws IOException {
@@ -40,8 +39,15 @@ public class PodcastPlayer {
 
     private MediaPlayer newMediaPlayer() {
         MediaPlayer mediaPlayer = new MediaPlayer();
+        validateCompleteListener();
         mediaPlayer.setOnCompletionListener(onComplete);
         return mediaPlayer;
+    }
+
+    private void validateCompleteListener() {
+        if (onComplete == null) {
+            throw new RuntimeException("No media player complete listener set, this is a no no");
+        }
     }
 
     public void play(PodcastPosition position) {
@@ -99,6 +105,6 @@ public class PodcastPlayer {
     }
 
     public void setCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
-        mediaPlayer.setOnCompletionListener(onCompletionListener);
+        this.onComplete = onCompletionListener;
     }
 }

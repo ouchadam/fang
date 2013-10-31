@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.persistance.DataUpdater;
 import com.ouchadam.fang.persistance.Query;

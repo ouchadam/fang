@@ -5,6 +5,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import com.novoda.notils.logger.AndroidLogger;
+import com.novoda.notils.logger.LogLevel;
+import com.novoda.notils.logger.Logger;
+import com.novoda.notils.logger.Novogger;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.presentation.controller.AudioFocusManager;
@@ -22,6 +26,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final PlayingItemStateManager itemStateManager;
     private final FangNotification notification;
     private final ServiceManipulator serviceManipulator;
+    private final AudioCompletionHandler audioCompletionHandler;
 
     private long playingItemId;
 
@@ -29,23 +34,32 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         void onSync(long itemId, PlayerEvent playerEvent);
     }
 
-    static PlayerHandler from(Context context, AudioSync audioSync, MediaPlayer.OnCompletionListener onComplete, ServiceManipulator serviceManipulator) {
-        PodcastPlayer player = new PodcastPlayer(context, new PodcastPositionBroadcaster(context), onComplete);
+    static PlayerHandler from(Context context, AudioSync audioSync, AudioCompletionHandler audioCompletionHandler, ServiceManipulator serviceManipulator) {
+        PodcastPlayer player = new PodcastPlayer(context, new PodcastPositionBroadcaster(context));
         AudioFocusManager focusManager = new AudioFocusManager((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         FangNotification notification = FangNotification.from(context);
-        return new PlayerHandler(player, focusManager, audioSync, itemStateManager, notification, serviceManipulator);
+        return new PlayerHandler(player, focusManager, audioSync, itemStateManager, audioCompletionHandler, notification, serviceManipulator);
     }
 
-    PlayerHandler(PodcastPlayer podcastPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, PlayingItemStateManager itemStateManager, FangNotification notification, ServiceManipulator serviceManipulator) {
+    PlayerHandler(PodcastPlayer podcastPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, PlayingItemStateManager itemStateManager, AudioCompletionHandler audioCompletionHandler, FangNotification notification, ServiceManipulator serviceManipulator) {
         this.podcastPlayer = podcastPlayer;
         this.audioFocusManager = audioFocusManager;
         this.audioSync = audioSync;
         this.itemStateManager = itemStateManager;
+        this.audioCompletionHandler = audioCompletionHandler;
         this.notification = notification;
         this.serviceManipulator = serviceManipulator;
         this.playingItemId = itemStateManager.getStoredPlayingId();
+        podcastPlayer.setCompletionListener(onCompletionWrapper);
     }
+
+    private final MediaPlayer.OnCompletionListener onCompletionWrapper = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            audioCompletionHandler.onCompletion(PlayerHandler.this);
+        }
+    };
 
     @Override
     public void onNewSource(long itemId, Uri source) {
@@ -59,6 +73,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
             podcastPlayer.setSource(uri);
         } catch (IOException e) {
             e.printStackTrace();
+            Novogger.e(e.getMessage());
             throw new RuntimeException("couldn't find : " + uri);
         }
     }
@@ -88,14 +103,17 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onStop() {
-        if (podcastPlayer.isPrepared()) {
-            itemStateManager.persist(playingItemId, podcastPlayer.getPosition());
-        }
+        saveCurrentPlayState();
         stopAudio();
         notification.dismiss();
         serviceManipulator.stop();
     }
 
+    private void saveCurrentPlayState() {
+        if (podcastPlayer.isPrepared()) {
+            itemStateManager.persist(playingItemId, podcastPlayer.getPosition());
+        }
+    }
 
     private void stopAudio() {
         audioFocusManager.abandonFocus();
@@ -121,7 +139,11 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     private SyncEvent createValidSyncEvent() {
-        return podcastPlayer.isNotPrepared() ? SyncEvent.idle(playingItemId) : new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playingItemId);
+        return podcastPlayer.isNotPrepared() ? SyncEvent.idle(playingItemId) : createCurrentSyncEvent();
+    }
+
+    private SyncEvent createCurrentSyncEvent() {
+        return new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playingItemId);
     }
 
 }

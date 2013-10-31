@@ -6,11 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.channel.Channel;
-import com.ouchadam.fang.domain.channel.Image;
 import com.squareup.picasso.Picasso;
 
 public class ChannelAdapter extends TypedListAdapter<Channel> {

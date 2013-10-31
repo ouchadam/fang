@@ -2,7 +2,7 @@ package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.domain.FullItem;
@@ -16,7 +16,6 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
     private final PanelViewHolder panelViewHolder;
     private final DownloadFoo downloadFoo;
     private final PositionManager positionManager;
-    private SlidingUpPanelLayout.PanelSlideListener panelSlideListener;
 
     public void setPlayingState(boolean playing) {
         panelViewHolder.updatePlayingState(playing);
@@ -31,6 +30,7 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
     }
 
     public void setMediaClickedListener(MediaClickManager.OnMediaClickListener onMediaClickListener) {
+        // TODO : not a fan of this
         MediaClickManager mediaClickManager = new MediaClickManager(onMediaClickListener, panelViewHolder.mediaController());
     }
 

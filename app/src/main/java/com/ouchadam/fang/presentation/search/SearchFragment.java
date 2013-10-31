@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.api.search.ItunesSearch;
 import com.ouchadam.fang.api.search.Result;

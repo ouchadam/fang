@@ -6,7 +6,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
-import com.novoda.notils.android.ClassCaster;
+import com.novoda.notils.caster.Classes;
 import com.ouchadam.fang.R;
 
 public class FangDrawerToggle extends ActionBarDrawerToggle {
@@ -21,7 +21,7 @@ public class FangDrawerToggle extends ActionBarDrawerToggle {
         super(activity, drawerLayout, R.drawable.ic_navigation_drawer, R.string.drawer_open, R.string.drawer_close);
         this.drawerTitle = drawerTitle;
         actionBar = activity.getActionBar();
-        actionBarRefresher = ClassCaster.toListener(activity);
+        actionBarRefresher = Classes.from(activity);
     }
 
     public void setOutgoingActivityTitle(String activityTitle) {

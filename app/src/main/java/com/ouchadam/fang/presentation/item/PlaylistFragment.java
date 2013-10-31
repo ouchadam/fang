@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.novoda.notils.android.ClassCaster;
+import com.novoda.notils.caster.Classes;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
@@ -57,8 +57,8 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        downloader = ClassCaster.toListener(activity);
-        panelController = ClassCaster.toListener(activity);
+        downloader = Classes.from(activity);
+        panelController = Classes.from(activity);
     }
 
     @Override

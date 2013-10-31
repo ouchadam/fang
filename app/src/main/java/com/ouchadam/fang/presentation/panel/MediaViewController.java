@@ -1,11 +1,7 @@
 package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ViewSwitcher;
-
-import com.novoda.notils.android.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 

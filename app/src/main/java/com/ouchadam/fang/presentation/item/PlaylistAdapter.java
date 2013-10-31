@@ -1,22 +1,19 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.bookkeeper.watcher.adapter.ListItemProgress;
 import com.ouchadam.bookkeeper.watcher.adapter.ProgressDelegate;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.item.Item;
 import com.squareup.picasso.Picasso;
 
 public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListItemWatcher.ItemWatcher {

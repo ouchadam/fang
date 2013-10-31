@@ -2,12 +2,11 @@ package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;

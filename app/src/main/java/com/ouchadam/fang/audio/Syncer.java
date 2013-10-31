@@ -3,10 +3,13 @@ package com.ouchadam.fang.audio;
 class Syncer {
 
     private final PlayerHandler playerHandler;
+    private final ServiceLocation serviceLocation;
+
     private AudioServiceBinder.OnStateSync listener;
 
-    Syncer(PlayerHandler playerHandler) {
+    Syncer(PlayerHandler playerHandler, ServiceLocation serviceLocation) {
         this.playerHandler = playerHandler;
+        this.serviceLocation = serviceLocation;
     }
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
@@ -14,13 +17,9 @@ class Syncer {
     }
 
     public void sync() {
-        if (isWithinApp()) {
+        if (serviceLocation.isWithinApp()) {
             listener.onSync(playerHandler.asSyncEvent());
         }
-    }
-
-    public boolean isWithinApp() {
-        return listener != null;
     }
 
     public void removeSyncListener() {

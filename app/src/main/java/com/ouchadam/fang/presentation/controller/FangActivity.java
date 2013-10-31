@@ -11,8 +11,8 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
-import com.novoda.notils.android.AndroidUtils;
-import com.novoda.notils.android.Views;
+import com.novoda.notils.caster.Views;
+import com.novoda.notils.meta.AndroidUtils;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;

@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.github.frankiesardo.icepick.bundle.Bundles;
-import com.novoda.notils.android.ClassCaster;
+import com.novoda.notils.caster.Classes;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -25,7 +24,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        panelController = ClassCaster.toListener(activity);
+        panelController = Classes.from(activity);
     }
 
     @Override

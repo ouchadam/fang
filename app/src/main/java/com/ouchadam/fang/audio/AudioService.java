@@ -2,7 +2,6 @@ package com.ouchadam.fang.audio;
 
 import android.app.Service;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 
@@ -12,18 +11,20 @@ import com.ouchadam.fang.presentation.controller.PlayerEvent;
 public class AudioService extends Service implements ServiceManipulator {
 
     private final LocalBinder binder;
+    private final ServiceLocation serviceLocation;
 
     private PlayerEventReceiver playerEventReceiver;
     private ExternalReceiver externalReceiver;
-    private PlayerHandler playerHandler;
     private Syncer syncer;
 
     public AudioService() {
         binder = new LocalBinder();
+        serviceLocation = new ServiceLocation();
     }
 
     @Override
     public IBinder onBind(Intent intent) {
+        serviceLocation.setWithinApp();
         return binder;
     }
 
@@ -41,8 +42,8 @@ public class AudioService extends Service implements ServiceManipulator {
     @Override
     public void onCreate() {
         super.onCreate();
-        playerHandler = PlayerHandler.from(this, onSync, onComplete, this);
-        this.syncer = new Syncer(playerHandler);
+        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, new AudioCompletionHandler(serviceLocation), this);
+        this.syncer = new Syncer(playerHandler, serviceLocation);
         initReceivers(playerHandler);
     }
 
@@ -54,7 +55,7 @@ public class AudioService extends Service implements ServiceManipulator {
     };
 
     private void handleSyncRequest(long itemId, PlayerEvent playerEvent) {
-        if (syncer.isWithinApp()) {
+        if (serviceLocation.isWithinApp()) {
             syncForeground();
         } else {
             broadcastToNotification(itemId, playerEvent);
@@ -86,20 +87,10 @@ public class AudioService extends Service implements ServiceManipulator {
         syncer.sync();
     }
 
-    private final MediaPlayer.OnCompletionListener onComplete = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mediaPlayer) {
-            if (syncer.isWithinApp()) {
-                playerHandler.onPause();
-            } else {
-                playerHandler.onStop();
-            }
-        }
-    };
-
     @Override
     public boolean onUnbind(Intent intent) {
         removeSyncListener();
+        serviceLocation.leavingApp();
         return super.onUnbind(intent);
     }
 
