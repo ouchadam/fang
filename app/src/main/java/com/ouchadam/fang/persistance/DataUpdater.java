@@ -45,7 +45,7 @@ public class DataUpdater<T> implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     private int loaderId() {
-        return hashCode();
+        return values.hashCode();
     }
 
     @Override
