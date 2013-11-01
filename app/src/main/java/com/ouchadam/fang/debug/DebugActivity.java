@@ -50,7 +50,9 @@ public class DebugActivity extends BasePreferenceActivity {
                     "http://www.howstuffworks.com/podcasts/stuff-to-blow-your-mind.rss",
                     "http://feeds.99percentinvisible.org/99percentinvisible",
                     "http://www.giantbomb.com/podcast-xml/giant-bombcast/",
-                    "http://feeds.feedburner.com/AndroidCentralPodcast"
+                    "http://feeds.feedburner.com/AndroidCentralPodcast",
+                    "http://radiofrance-podcast.net/podcast09/rss_13104.xml",
+                    "http://radiofrance-podcast.net/podcast09/rss_12581.xml"
             );
             return false;
         }

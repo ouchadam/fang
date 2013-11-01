@@ -23,8 +23,6 @@ public class ParseHelper {
     private final ContentResolver contentResolver;
     private final OnParseFinishedListener listener;
 
-    private PodcastParser podcastParser;
-
     public interface OnParseFinishedListener {
         void onParseFinished(Channel channel);
     }
@@ -35,21 +33,15 @@ public class ParseHelper {
     }
 
     public void parse(Activity activity, String fileName) {
-        podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), parseFinishWatcher);
+        PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
             podcastParser.parse(activity.getAssets().open(fileName));
+            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), "www.dummyaddress.com");
+            onCallback(podcastParser.getResult());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private final ParseFinishWatcher parseFinishWatcher = new ParseFinishWatcher() {
-        @Override
-        public void onFinish() {
-            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), "www.dummyaddress.com");
-            onCallback(podcastParser.getResult());
-        }
-    };
 
     public void parse(Context context, String... urls) {
         Intent addServiceIntent = FeedServiceInfo.add(context, urls);
@@ -64,7 +56,5 @@ public class ParseHelper {
             }
         });
     }
-
-
 
 }

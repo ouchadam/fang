@@ -56,7 +56,6 @@ public class ChannelFeedDownloadService extends Service {
     }
 
     private void showNotification() {
-        Log.e("!!!", "Showing notification");
         Notification notification = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.play_button).setContentTitle("Refreshing podcast feeds").build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
@@ -93,7 +92,7 @@ public class ChannelFeedDownloadService extends Service {
     }
 
     private void getPodcastFrom(String url, ThreadTracker threadTracker) {
-        PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance(), parseFinishWatcher);
+        PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
             Log.e("!!!", "Fetching : " + url);
             InputStream urlInputStream = getInputStreamFrom(url);
@@ -143,12 +142,6 @@ public class ChannelFeedDownloadService extends Service {
         public void onFinish() {
             dismissNotification();
             stopSelf();
-        }
-    };
-
-    private final ParseFinishWatcher parseFinishWatcher = new ParseFinishWatcher() {
-        @Override
-        public void onFinish() {
         }
     };
 

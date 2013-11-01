@@ -11,8 +11,13 @@ public class PodcastParser implements XmlParser<Channel> {
 
     private final InstigatorResult<Channel> instigator;
 
-    public static PodcastParser newInstance(ElementFinder<Channel> channelFinder, ParseFinishWatcher parseFinishWatcher) {
-        return new PodcastParser(new PodcastIntigator(channelFinder, parseFinishWatcher));
+    public static PodcastParser newInstance(ElementFinder<Channel> channelFinder) {
+        return new PodcastParser(new PodcastIntigator(channelFinder, new ParseFinishWatcher() {
+            @Override
+            public void onFinish() {
+                // unneeded
+            }
+        }));
     }
 
     PodcastParser(InstigatorResult<Channel> instigator) {
