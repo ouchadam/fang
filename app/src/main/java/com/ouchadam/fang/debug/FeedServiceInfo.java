@@ -7,7 +7,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ServiceInfo {
+public class FeedServiceInfo {
 
     public static final String TYPE = "type";
     public static final String URLS = "urls";
@@ -19,11 +19,11 @@ class ServiceInfo {
 
     private final Bundle bundle;
 
-    static ServiceInfo from(Bundle bundle) {
-        return new ServiceInfo(bundle);
+    static FeedServiceInfo from(Bundle bundle) {
+        return new FeedServiceInfo(bundle);
     }
 
-    ServiceInfo(Bundle bundle) {
+    FeedServiceInfo(Bundle bundle) {
         this.bundle = bundle;
     }
 
@@ -35,13 +35,13 @@ class ServiceInfo {
         return bundle.getStringArrayList(URLS);
     }
 
-    static Intent refresh(Context context) {
+    public static Intent refresh(Context context) {
         Intent intent = new Intent(context, ChannelFeedDownloadService.class);
         intent.putExtra(TYPE, Type.REFRESH.name());
         return intent;
     }
 
-    static Intent add(Context context, String... url) {
+    public static Intent add(Context context, String... url) {
         Intent intent = new Intent(context, ChannelFeedDownloadService.class);
         intent.putExtra(TYPE, Type.ADD.name());
         ArrayList<String> urlsAsList = new ArrayList<String>(Arrays.asList(url));

@@ -13,7 +13,6 @@ import android.util.Log;
 import com.novoda.notils.java.Collections;
 import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.notification.NotificationService;
 import com.ouchadam.fang.parsing.ChannelFinder;
 import com.ouchadam.fang.parsing.PodcastParser;
 import com.ouchadam.fang.persistance.ChannelPersister;
@@ -39,7 +38,7 @@ public class ChannelFeedDownloadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         List<String> urls = Collections.newArrayList();
-        ServiceInfo from = ServiceInfo.from(intent.getExtras());
+        FeedServiceInfo from = FeedServiceInfo.from(intent.getExtras());
         switch (from.getType()) {
             case ADD :
                 urls = from.getUrlsToAdd();

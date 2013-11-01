@@ -10,6 +10,7 @@ import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Fragments;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
+import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.presentation.item.LatestFragment;
 
 public class FragmentControllerActivity extends FangActivity {
@@ -42,8 +43,8 @@ public class FragmentControllerActivity extends FangActivity {
     }
 
     private void onRefreshClicked() {
-        Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
-
+        Intent refreshIntent = FeedServiceInfo.refresh(this);
+        startService(refreshIntent);
     }
 
     @Override

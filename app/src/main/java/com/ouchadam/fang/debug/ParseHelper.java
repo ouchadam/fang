@@ -2,14 +2,11 @@ package com.ouchadam.fang.debug;
 
 import android.app.Activity;
 
-import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.domain.channel.Channel;
@@ -18,9 +15,6 @@ import com.ouchadam.fang.parsing.PodcastParser;
 import com.ouchadam.fang.persistance.ChannelPersister;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
 
 public class ParseHelper {
 
@@ -58,7 +52,7 @@ public class ParseHelper {
     };
 
     public void parse(Context context, String... urls) {
-        Intent addServiceIntent = ServiceInfo.add(context, urls);
+        Intent addServiceIntent = FeedServiceInfo.add(context, urls);
         context.startService(addServiceIntent);
     }
 
