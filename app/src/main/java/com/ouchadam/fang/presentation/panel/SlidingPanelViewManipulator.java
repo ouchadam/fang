@@ -7,7 +7,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
-import com.ouchadam.fang.presentation.controller.ActionBarManipulator;
+import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 public class SlidingPanelViewManipulator implements OnPanelChangeListener {

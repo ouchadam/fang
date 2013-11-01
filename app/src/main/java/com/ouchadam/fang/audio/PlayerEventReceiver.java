@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.ouchadam.fang.domain.PodcastPosition;
-import com.ouchadam.fang.presentation.controller.PlayerEvent;
-import com.ouchadam.fang.presentation.controller.PlayerEventIntentMarshaller;
+import com.ouchadam.fang.presentation.PlayerEvent;
+import com.ouchadam.fang.presentation.PlayerEventIntentMarshaller;
 
 public class PlayerEventReceiver extends BroadcastReceiver {
 

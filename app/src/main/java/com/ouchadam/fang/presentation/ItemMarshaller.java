@@ -1,12 +1,12 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation;
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.item.Audio;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.database.Tables;
+
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class ItemMarshaller implements CursorMarshaller<Item> {

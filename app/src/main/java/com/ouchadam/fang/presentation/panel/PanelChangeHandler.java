@@ -2,7 +2,7 @@ package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 
-import com.ouchadam.fang.presentation.controller.ActionBarManipulator;
+import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 public class PanelChangeHandler implements SlidingUpPanelLayout.PanelSlideListener {

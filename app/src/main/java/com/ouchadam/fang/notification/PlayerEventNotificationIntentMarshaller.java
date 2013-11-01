@@ -5,8 +5,8 @@ import android.net.Uri;
 import android.os.Parcelable;
 
 import com.ouchadam.fang.domain.PodcastPosition;
-import com.ouchadam.fang.presentation.controller.IntentMarshaller;
-import com.ouchadam.fang.presentation.controller.PlayerEvent;
+import com.ouchadam.fang.presentation.IntentMarshaller;
+import com.ouchadam.fang.presentation.PlayerEvent;
 
 import java.io.Serializable;
 

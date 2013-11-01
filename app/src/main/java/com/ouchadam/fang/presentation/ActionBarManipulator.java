@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation;
 
 public interface ActionBarManipulator {
     boolean isActionBarShowing();

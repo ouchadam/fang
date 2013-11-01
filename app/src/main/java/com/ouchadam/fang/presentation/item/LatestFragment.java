@@ -13,7 +13,7 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
-import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
+import com.ouchadam.fang.presentation.FullItemMarshaller;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import novoda.android.typewriter.cursor.CursorMarshaller;
 

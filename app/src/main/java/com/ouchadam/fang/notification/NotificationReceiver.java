@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.ouchadam.fang.presentation.controller.PlayerEvent;
+import com.ouchadam.fang.presentation.PlayerEvent;
 
 public class NotificationReceiver extends BroadcastReceiver {
 

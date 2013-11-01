@@ -16,7 +16,7 @@ import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
-import com.ouchadam.fang.presentation.controller.PlayerEvent;
+import com.ouchadam.fang.presentation.PlayerEvent;
 
 public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnDownloadClickListener {
 

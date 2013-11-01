@@ -12,7 +12,7 @@ import android.widget.RemoteViews;
 
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.presentation.controller.PlayerEvent;
+import com.ouchadam.fang.presentation.PlayerEvent;
 
 public class FangNotification {
 

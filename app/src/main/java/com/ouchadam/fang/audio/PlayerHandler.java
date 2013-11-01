@@ -5,14 +5,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
-import com.novoda.notils.logger.AndroidLogger;
-import com.novoda.notils.logger.LogLevel;
-import com.novoda.notils.logger.Logger;
 import com.novoda.notils.logger.Novogger;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.notification.FangNotification;
-import com.ouchadam.fang.presentation.controller.AudioFocusManager;
-import com.ouchadam.fang.presentation.controller.PlayerEvent;
+import com.ouchadam.fang.presentation.AudioFocusManager;
+import com.ouchadam.fang.presentation.PlayerEvent;
 
 import java.io.IOException;
 

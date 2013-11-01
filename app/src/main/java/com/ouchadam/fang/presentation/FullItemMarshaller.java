@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation;
 
 import android.database.Cursor;
 import com.ouchadam.fang.domain.FullItem;

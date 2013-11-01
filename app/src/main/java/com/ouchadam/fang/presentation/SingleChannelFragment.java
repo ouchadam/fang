@@ -11,7 +11,6 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
-import com.ouchadam.fang.presentation.controller.FullItemMarshaller;
 import com.ouchadam.fang.presentation.item.CursorBackedListFragment;
 import com.ouchadam.fang.presentation.item.ItemAdapter;
 import com.ouchadam.fang.presentation.item.TypedListAdapter;
