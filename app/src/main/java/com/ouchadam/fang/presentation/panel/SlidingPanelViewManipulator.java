@@ -34,6 +34,10 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
         MediaClickManager mediaClickManager = new MediaClickManager(onMediaClickListener, panelViewHolder.mediaController());
     }
 
+    public void show() {
+        panelViewHolder.show();
+    }
+
     public interface OnDownloadClickListener {
         void onDownloadClicked(FullItem fullItem);
     }

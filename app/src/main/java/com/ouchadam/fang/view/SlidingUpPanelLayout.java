@@ -109,6 +109,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     private final Rect mTmpRect = new Rect();
     private boolean dragging;
+    private int defaultHeight;
 
     /**
      * Listener for monitoring events about sliding panes.
@@ -172,6 +173,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         mPanelHeight = (int) (DEFAULT_PANEL_HEIGHT * density + 0.5f);
         mShadowHeight = (int) (DEFAULT_SHADOW_HEIGHT * density + 0.5f);
 
+        defaultHeight = mPanelHeight;
         setWillNotDraw(false);
 
         mDragHelper = ViewDragHelper.create(this, 0.5f, new DragHelperCallback());
@@ -180,6 +182,14 @@ public class SlidingUpPanelLayout extends ViewGroup {
         mCanSlide = true;
 
         setCoveredFadeColor(DEFAULT_FADE_COLOR);
+    }
+
+    public void hidePanel() {
+        setPanelHeight(0);
+    }
+
+    public void showPanel() {
+        setPanelHeight(defaultHeight);
     }
 
     /**

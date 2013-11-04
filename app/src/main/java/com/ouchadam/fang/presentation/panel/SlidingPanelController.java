@@ -75,8 +75,14 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     };
 
     @Override
-    public void show() {
+    public void showExpanded() {
+        // TODO disable nav drawer
         slidingPanelViewManipulator.expand();
+    }
+
+    @Override
+    public void showPanel() {
+        slidingPanelViewManipulator.show();
     }
 
     private void play() {

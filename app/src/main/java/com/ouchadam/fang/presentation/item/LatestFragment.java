@@ -64,7 +64,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
         panelController.setData(itemId);
-        panelController.show();
+        panelController.showExpanded();
     }
 
 }

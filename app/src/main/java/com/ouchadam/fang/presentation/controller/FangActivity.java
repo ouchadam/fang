@@ -161,8 +161,13 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
-    public void show() {
-        slidingPanelController.show();
+    public void showExpanded() {
+        slidingPanelController.showExpanded();
+    }
+
+    @Override
+    public void showPanel() {
+        slidingPanelController.showPanel();
     }
 
     @Override

@@ -78,7 +78,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        // TODO play by default?
+        panelController.showPanel();
         panelController.setData(itemId);
     }
 

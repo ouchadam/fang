@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.panel;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -103,12 +104,27 @@ class PanelViewHolder {
         mainPanelController.setPanelSlideListener(panelSlideListener);
     }
 
+    public void show() {
+        mainPanelController.showPanel();
+    }
+
     private static class MainPanelController {
 
         private final SlidingUpPanelLayout panelLayout;
 
         private MainPanelController(SlidingUpPanelLayout panelLayout) {
             this.panelLayout = panelLayout;
+            hidePanel();
+        }
+
+        private void hidePanel() {
+            Log.e("!!!", "Hide panel");
+            panelLayout.hidePanel();
+        }
+
+        private void showPanel() {
+            Log.e("!!!", "Show panel");
+            panelLayout.showPanel();
         }
 
         public void updateFrom(FullItem fullItem) {
@@ -144,6 +160,7 @@ class PanelViewHolder {
         }
 
         public void expand() {
+            showPanel();
             panelLayout.expandPane();
         }
 
