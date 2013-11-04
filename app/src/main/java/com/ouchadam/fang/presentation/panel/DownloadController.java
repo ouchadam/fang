@@ -12,11 +12,11 @@ public class DownloadController {
     }
 
     public void panelScopeChange(boolean downloaded) {
-        if (downloaded) {
-            downloadButton.setVisibility(View.INVISIBLE);
-        } else {
-            downloadButton.setVisibility(View.VISIBLE);
-        }
+        downloadButton.setVisibility(getVisibilityFrom(downloaded));
+    }
+
+    private int getVisibilityFrom(boolean downloaded) {
+        return downloaded ? View.INVISIBLE : View.VISIBLE;
     }
 
     public void setListener(View.OnClickListener onDownloadClicked) {
