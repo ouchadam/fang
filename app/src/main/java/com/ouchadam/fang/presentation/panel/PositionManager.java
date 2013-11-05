@@ -1,6 +1,7 @@
 package com.ouchadam.fang.presentation.panel;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.SeekBar;
 
 import com.ouchadam.fang.audio.SeekbarReceiver;
@@ -13,7 +14,7 @@ class PositionManager {
     private final PositionController positionController;
 
     private boolean positionChanging = false;
-    private PodcastPosition position;
+
     private boolean playing;
 
     public PositionManager(SlidingPanelViewManipulator.OnSeekChanged onSeekChanged, SeekbarReceiver seekbarReceiver, PositionController positionController) {
@@ -38,7 +39,8 @@ class PositionManager {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            position = new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
+            PodcastPosition position = new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
+            positionController.update(positionChanging, position);
             if (playing) {
                 onSeekChanged.onSeekChanged(position);
             }
@@ -56,12 +58,12 @@ class PositionManager {
     }
 
     public void update(PodcastPosition position) {
-        this.position = position;
+        Log.e("!!!!", "Updating position with : " + position.value());
         positionController.update(positionChanging, position);
     }
 
     public PodcastPosition getLatestPosition() {
-        return position;
+        return positionController.getPosition();
     }
 
     public void upatePlayingState(boolean playing) {

@@ -54,4 +54,7 @@ class PositionController {
         view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 
+    public PodcastPosition getPosition() {
+        return new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
+    }
 }
