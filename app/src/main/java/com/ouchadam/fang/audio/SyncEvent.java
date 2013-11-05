@@ -25,6 +25,7 @@ public class SyncEvent {
     }
 
     public boolean isFresh() {
-        return equals(FRESH);
+        return position.isIdle();
     }
+
 }

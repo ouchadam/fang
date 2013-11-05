@@ -30,4 +30,28 @@ public class PodcastPosition implements Serializable {
     public int getDuration() {
         return duration;
     }
+
+    public boolean isIdle() {
+        return DEFAULT.equals(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PodcastPosition that = (PodcastPosition) o;
+
+        if (currentPosition != that.currentPosition) return false;
+        if (duration != that.duration) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = currentPosition;
+        result = 31 * result + duration;
+        return result;
+    }
 }

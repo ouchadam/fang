@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.panel;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ class PositionController {
     }
 
     public void setInitialPosition(PodcastPosition position) {
+        Log.e("!!!!", "initial position : " + position.value() + " : " + position.getDuration());
         seekBar.setProgress(position.value());
         seekBar.setMax(position.getDuration());
         currentTime.setText(toTimeString(position.value()));

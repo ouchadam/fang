@@ -115,11 +115,10 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     public void sync(SyncEvent syncEvent) {
         slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
-        slidingPanelViewManipulator.update(syncEvent.position);
-        if (syncEvent.isFresh()) {
-            // TODO: do nothing for now...
-        } else if (itemQueryer == null) {
-            Log.e("!!!", "Sync : setData");
+        if (!syncEvent.isFresh()) {
+            slidingPanelViewManipulator.update(syncEvent.position);
+        }
+        if (itemQueryer == null) {
             setData(syncEvent.itemId);
         }
     }
