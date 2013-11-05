@@ -45,3 +45,6 @@ local.properties
 
 # Robolectric helper to find the manifest
 /AndroidManifest.xml
+
+#Signing stuffs
+gradle.properties
