@@ -53,4 +53,5 @@ class PositionController {
     private void setBooleanVisibility(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
+
 }

@@ -36,7 +36,7 @@ public class ParseHelper {
         PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
             podcastParser.parse(activity.getAssets().open(fileName));
-            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), "www.dummyaddress.com");
+            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), fileName);
             onCallback(podcastParser.getResult());
         } catch (IOException e) {
             e.printStackTrace();

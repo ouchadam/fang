@@ -19,6 +19,7 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     public void setPlayingState(boolean playing) {
         panelViewHolder.updatePlayingState(playing);
+        positionManager.upatePlayingState(playing);
     }
 
     public void update(PodcastPosition position) {

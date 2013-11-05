@@ -14,11 +14,13 @@ class PositionManager {
 
     private boolean positionChanging = false;
     private PodcastPosition position;
+    private boolean playing;
 
     public PositionManager(SlidingPanelViewManipulator.OnSeekChanged onSeekChanged, SeekbarReceiver seekbarReceiver, PositionController positionController) {
         this.onSeekChanged = onSeekChanged;
         this.seekbarReceiver = seekbarReceiver;
         this.positionController = positionController;
+        this.playing = false;
         positionController.setSeekChangedListener(seekListener);
     }
 
@@ -36,7 +38,10 @@ class PositionManager {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            onSeekChanged.onSeekChanged(new PodcastPosition(seekBar.getProgress(), seekBar.getMax()));
+            position = new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
+            if (playing) {
+                onSeekChanged.onSeekChanged(position);
+            }
             positionChanging = false;
         }
     };
@@ -57,6 +62,10 @@ class PositionManager {
 
     public PodcastPosition getLatestPosition() {
         return position;
+    }
+
+    public void upatePlayingState(boolean playing) {
+        this.playing = playing;
     }
 
 }

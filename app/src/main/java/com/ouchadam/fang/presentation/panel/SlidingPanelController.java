@@ -4,11 +4,11 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
+import android.util.Log;
 
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
-import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.ItemQueryer;
 import com.ouchadam.fang.audio.SyncEvent;
@@ -24,16 +24,16 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     private final Context context;
     private final LoaderManager loaderManager;
     private final SlidingPanelViewManipulator slidingPanelViewManipulator;
-    private Broadcaster<PlayerEvent> playerBroadcaster;
+    private final PlayerEventInteractionManager playerEventInteractionManager;
 
     private ItemQueryer itemQueryer;
 
-    public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, Broadcaster<PlayerEvent> playerBroadcaster) {
+    public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, PlayerEventInteractionManager playerEventInteractionManager) {
         this.downloader = downloader;
         this.context = context;
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;
-        this.playerBroadcaster = playerBroadcaster;
+        this.playerEventInteractionManager = playerEventInteractionManager;
         slidingPanelViewManipulator.setOnDownloadClickedListener(this);
     }
 
@@ -51,12 +51,18 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         public void onItem(FullItem item) {
             if (item.isDownloaded()) {
                 Uri source = getSourceUri(item);
-                playerBroadcaster.broadcast(new PlayerEvent.Factory().newSource(item.getItemId(), source));
-                playerBroadcaster.broadcast(new PlayerEvent.Factory().goTo(item.getInitialPlayPosition()));
+                PlayerEvent sourceEvent = new PlayerEvent.Factory().newSource(item.getItemId(), source);
+                PlayerEvent gotoEvent = new PlayerEvent.Factory().goTo(item.getInitialPlayPosition());
+                playerEventInteractionManager.setData(sourceEvent, gotoEvent);
             }
             initialiseViews(item);
         }
     };
+
+    private Uri getSourceUri(FullItem item) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        return downloadManager.getUriForDownloadedFile(item.getDownloadId());
+    }
 
     private void initialiseViews(final FullItem item) {
         slidingPanelViewManipulator.fromItem(item);
@@ -67,9 +73,9 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         @Override
         public void onMediaClicked(MediaClickManager.MediaPressed mediaPressed) {
             if (mediaPressed == MediaClickManager.MediaPressed.PLAY) {
-                play();
+                playerEventInteractionManager.play(slidingPanelViewManipulator.getPosition());
             } else {
-                pause();
+                playerEventInteractionManager.pause();
             }
         }
     };
@@ -83,19 +89,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     @Override
     public void showPanel() {
         slidingPanelViewManipulator.show();
-    }
-
-    private void play() {
-        playerBroadcaster.broadcast(new PlayerEvent.Factory().play(slidingPanelViewManipulator.getPosition()));
-    }
-
-    private Uri getSourceUri(FullItem item) {
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        return downloadManager.getUriForDownloadedFile(item.getDownloadId());
-    }
-
-    private void pause() {
-        playerBroadcaster.broadcast(new PlayerEvent.Factory().pause());
     }
 
     public void close() {
@@ -126,6 +119,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         if (syncEvent.isFresh()) {
             // TODO: do nothing for now...
         } else if (itemQueryer == null) {
+            Log.e("!!!", "Sync : setData");
             setData(syncEvent.itemId);
         }
     }

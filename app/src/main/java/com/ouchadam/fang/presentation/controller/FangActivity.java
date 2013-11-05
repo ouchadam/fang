@@ -22,19 +22,18 @@ import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
-import com.ouchadam.fang.notification.FangNotification;
-import com.ouchadam.fang.notification.NotificationService;
-import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.audio.SyncEvent;
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.presentation.FangBookKeeer;
 import com.ouchadam.fang.presentation.PlayerEvent;
 import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
-import com.ouchadam.fang.presentation.panel.SlidingPanelController;
-import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
+import com.ouchadam.fang.presentation.panel.PlayerEventInteractionManager;
+import com.ouchadam.fang.presentation.panel.SlidingPanelController;
+import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
 
 public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged {
@@ -43,11 +42,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private SlidingPanelController slidingPanelController;
     private FangBookKeeer fangBookKeeer;
     private AudioServiceBinder audioServiceBinder;
-
-    private boolean isPlaying = false;
-    private long itemId = -1L;
-
-    private FangNotification fangNotification;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,7 +57,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
         fangBookKeeer = FangBookKeeer.newInstance(this);
-        fangNotification = FangNotification.from(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -76,16 +69,14 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private final AudioServiceBinder.OnStateSync onStateSync = new AudioServiceBinder.OnStateSync() {
         @Override
         public void onSync(SyncEvent syncEvent) {
-            FangActivity.this.isPlaying = syncEvent.isPlaying;
-            FangActivity.this.itemId = syncEvent.itemId;
             slidingPanelController.sync(syncEvent);
         }
     };
 
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot());
-        Broadcaster<PlayerEvent> playerEventBroadcaster = new PodcastPlayerEventBroadcaster(this);
-        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventBroadcaster);
+        PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
+        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
     }
 
     private View getRoot() {
@@ -204,24 +195,13 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         super.onResume();
         startAudioService();
         audioServiceBinder.bindService();
-        fangNotification.dismiss();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (!isPlaying) {
-            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
-        }
         audioServiceBinder.unbind();
-        showNotification(itemId);
         slidingPanelController.resetItem();
-    }
-
-    private void showNotification(long itemId) {
-        if (isPlaying) {
-            NotificationService.start(this, itemId, isPlaying);
-        }
     }
 
     @Override

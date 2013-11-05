@@ -4,9 +4,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
+import com.ouchadam.fang.notification.FangNotification;
+import com.ouchadam.fang.notification.NotificationService;
 import com.ouchadam.fang.notification.PodcastPlayerNotificationEventBroadcaster;
 import com.ouchadam.fang.presentation.PlayerEvent;
+import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
 
 public class AudioService extends Service implements ServiceManipulator {
 
@@ -24,8 +28,13 @@ public class AudioService extends Service implements ServiceManipulator {
 
     @Override
     public IBinder onBind(Intent intent) {
+        dismissNotification();
         serviceLocation.setWithinApp();
         return binder;
+    }
+
+    private void dismissNotification() {
+        FangNotification.from(this).dismiss();
     }
 
     @Override
@@ -79,6 +88,8 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
+        dismissNotification();
+        serviceLocation.setWithinApp();
         syncer.setSyncListener(listener);
         syncForeground();
     }
@@ -91,11 +102,22 @@ public class AudioService extends Service implements ServiceManipulator {
     public boolean onUnbind(Intent intent) {
         removeSyncListener();
         serviceLocation.leavingApp();
+        showNotification();
         return super.onUnbind(intent);
     }
 
     private void removeSyncListener() {
         syncer.removeSyncListener();
+    }
+
+    private void showNotification() {
+        boolean isPlaying = syncer.isPlaying();
+        if (!isPlaying) {
+            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
+        }
+        if (isPlaying) {
+            NotificationService.start(this, syncer.getItemId(), isPlaying);
+        }
     }
 
     @Override

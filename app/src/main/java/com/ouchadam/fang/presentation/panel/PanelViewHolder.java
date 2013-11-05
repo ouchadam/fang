@@ -75,6 +75,7 @@ class PanelViewHolder {
     }
 
     public void updatePlayingState(boolean playing) {
+        ;
         if (playing) {
             mediaController.showPause();
         } else {

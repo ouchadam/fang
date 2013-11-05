@@ -85,7 +85,7 @@ public class PlayerEvent {
 
         private <T> T validate(T what) {
             if (what == null) {
-                throw new NullPointerException("Don't pass nulls to the builer!");
+                throw new NullPointerException("Don't pass nulls to the builder!");
             }
             return what;
         }

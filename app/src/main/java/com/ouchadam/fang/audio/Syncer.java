@@ -26,4 +26,11 @@ class Syncer {
         listener = null;
     }
 
+    public boolean isPlaying() {
+        return playerHandler.asSyncEvent().isPlaying;
+    }
+
+    public long getItemId() {
+        return playerHandler.asSyncEvent().itemId;
+    }
 }

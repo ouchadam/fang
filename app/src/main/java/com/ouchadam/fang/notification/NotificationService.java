@@ -1,6 +1,5 @@
 package com.ouchadam.fang.notification;
 
-import android.R;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +21,7 @@ public class NotificationService extends IntentService {
 
     public static final String EXTRA_IS_PLAYING = "isPlaying";
     public static final String EXTRA_ITEM_ID = "test";
+
     private FangNotification fangNotification;
 
     public static void start(Context context, long itemId, boolean isPlaying) {
@@ -51,15 +51,19 @@ public class NotificationService extends IntentService {
             FullItem item = getFullItem(itemId);
             if (item != null) {
                 try {
-                    int imageWidth = getResources().getDimensionPixelSize(R.dimen.notification_large_icon_width);
-                    int imageHeight = getResources().getDimensionPixelSize(R.dimen.notification_large_icon_height);
-                    Bitmap channelImage = Picasso.with(this).load(item.getImageUrl()).resize(imageWidth, imageHeight).get();
+                    Bitmap channelImage = getChannelImage(item);
                     fangNotification.show(channelImage, item, isPlaying);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private Bitmap getChannelImage(FullItem item) throws IOException {
+        int imageWidth = getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width);
+        int imageHeight = getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height);
+        return Picasso.with(this).load(item.getImageUrl()).resize(imageWidth, imageHeight).get();
     }
 
     private FullItem getFullItem(long itemId) {
