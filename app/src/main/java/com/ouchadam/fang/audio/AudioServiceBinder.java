@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 
 public class AudioServiceBinder {
 
@@ -31,6 +32,7 @@ public class AudioServiceBinder {
 
     public void unbind() {
         if (connectionIsAvailable()) {
+            connection.fangUnbind();
             context.unbindService(connection);
             connection = null;
         }
@@ -53,6 +55,7 @@ public class AudioServiceBinder {
         public void onServiceConnected(ComponentName name, IBinder binder) {
             audioService = ((AudioService.LocalBinder) binder).getService();
             audioService.setSyncListener(listener);
+            audioService.fangBind();
         }
 
         @Override
@@ -60,6 +63,9 @@ public class AudioServiceBinder {
             audioService = null;
         }
 
+        public void fangUnbind() {
+            audioService.fangUnbind();
+        }
     }
 
 }

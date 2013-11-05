@@ -28,9 +28,12 @@ public class AudioService extends Service implements ServiceManipulator {
 
     @Override
     public IBinder onBind(Intent intent) {
+        return binder;
+    }
+
+    public void fangBind() {
         dismissNotification();
         serviceLocation.setWithinApp();
-        return binder;
     }
 
     private void dismissNotification() {
@@ -43,11 +46,11 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public class LocalBinder extends Binder {
+
         public AudioService getService() {
             return AudioService.this;
         }
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -98,26 +101,35 @@ public class AudioService extends Service implements ServiceManipulator {
         syncer.sync();
     }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
+    public void fangUnbind() {
         removeSyncListener();
         serviceLocation.leavingApp();
-        showNotification();
-        return super.onUnbind(intent);
+        boolean isPlaying = syncer.isPlaying();
+        onLeavingApp(isPlaying);
+        if (!isPlaying) {
+            stopSelf();
+        }
+    }
+
+    private void onLeavingApp(boolean isPlaying) {
+        broadcastStop(isPlaying);
+        showNotification(isPlaying);
+    }
+
+    private void broadcastStop(boolean isPlaying) {
+        if (!isPlaying) {
+            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
+        }
+    }
+
+    private void showNotification(boolean isPlaying) {
+        if (isPlaying) {
+            NotificationService.start(this, syncer.getItemId(), isPlaying);
+        }
     }
 
     private void removeSyncListener() {
         syncer.removeSyncListener();
-    }
-
-    private void showNotification() {
-        boolean isPlaying = syncer.isPlaying();
-        if (!isPlaying) {
-            new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().stop());
-        }
-        if (isPlaying) {
-            NotificationService.start(this, syncer.getItemId(), isPlaying);
-        }
     }
 
     @Override
