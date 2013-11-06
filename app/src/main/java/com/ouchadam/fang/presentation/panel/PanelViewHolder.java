@@ -138,13 +138,21 @@ class PanelViewHolder {
             setDescription(item.getSummary());
             setDuration(item.getDuration());
             setBarSubtitle(fullItem.getChannelTitle());
-            setBackgroundImage("http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg");
-//            setBackgroundImage("http://cdn-static.cnet.co.uk/i/c/p/cnet-uk-podcast.jpg");
+            setBackgroundImage(getImageUrl(fullItem));
+        }
+
+        private String getImageUrl(FullItem fullItem) {
+            String heroImage = fullItem.getItem().getHeroImage();
+            String channelImage = fullItem.getImageUrl();
+            return heroImage == null ? channelImage : heroImage;
         }
 
         private void setBackgroundImage(String url) {
-            ImageView imageView = Views.findById(panelLayout, R.id.drawer_content_image);
-            Picasso.with(panelLayout.getContext()).load(url).centerCrop().resize(imageView.getWidth(), imageView.getHeight()).into(imageView);
+            if (url != null) {
+                ImageView imageView = Views.findById(panelLayout, R.id.drawer_content_image);
+                Picasso.with(panelLayout.getContext()).load(url).centerCrop().resize(imageView.getWidth(), imageView.getHeight()).into(imageView);
+            }
+            // TODO load a default image or something
         }
 
         private void setBarTitle(CharSequence text) {

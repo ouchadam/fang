@@ -16,13 +16,14 @@ public class ItemMarshaller implements CursorMarshaller<Item> {
         String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.TITLE.name()));
         String summary = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.SUMMARY.name()));
         String subtitle = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.SUBTITLE.name()));
+        String heroImage = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.HERO_IMAGE.name()));
         int columnId = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Item._id.name()));
         FangCalendar pubDate = new FangCalendar(cursor.getLong(cursor.getColumnIndexOrThrow(Tables.Item.PUBDATE.name())));
         FangDuration duration = new FangDuration(cursor.getString(cursor.getColumnIndexOrThrow(Tables.Item.DURATION.name())));
 
         Audio audio = createAudio(cursor);
 
-        return new Item(title, "", pubDate, duration, audio, subtitle, summary, columnId);
+        return new Item(title, "", heroImage, pubDate, duration, audio, subtitle, summary, columnId);
     }
 
     private Audio createAudio(Cursor cursor) {

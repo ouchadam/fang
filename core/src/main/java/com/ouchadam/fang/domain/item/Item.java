@@ -9,6 +9,7 @@ public class Item {
 
     private final String title;
     private final String link;
+    private final String heroImage;
     private final FangCalendar pubDate;
     private final FangDuration duration;
     private final Audio audio;
@@ -16,13 +17,14 @@ public class Item {
     private final String summary;
     private final int id;
 
-    public Item(String title, String link, FangCalendar pubDate, FangDuration duration, Audio audio, String subtitle, String summary) {
-        this(title, link, pubDate, duration, audio, subtitle, summary, INVALID_ID);
+    public Item(String title, String link, String heroImage, FangCalendar pubDate, FangDuration duration, Audio audio, String subtitle, String summary) {
+        this(title, link, heroImage, pubDate, duration, audio, subtitle, summary, INVALID_ID);
     }
 
-    public Item(String title, String link, FangCalendar pubDate, FangDuration duration, Audio audio, String subtitle, String summary, int id) {
+    public Item(String title, String link, String heroImage, FangCalendar pubDate, FangDuration duration, Audio audio, String subtitle, String summary, int id) {
         this.title = title;
         this.link = link;
+        this.heroImage = heroImage;
         this.pubDate = pubDate;
         this.duration = duration;
         this.audio = audio;
@@ -77,8 +79,8 @@ public class Item {
         return id;
     }
 
-    public boolean hasValidId() {
-        return INVALID_ID != id;
+    public String getHeroImage() {
+        return heroImage;
     }
 
     @Override
@@ -103,5 +105,4 @@ public class Item {
     public int hashCode() {
         return title != null ? title.hashCode() : 0;
     }
-
 }

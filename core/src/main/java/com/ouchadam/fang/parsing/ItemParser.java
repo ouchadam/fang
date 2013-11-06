@@ -19,6 +19,7 @@ class ItemParser implements Parser<Item> {
 
     private static final String TAG_TITLE = "title";
     private static final String TAG_LINK = "link";
+    private static final String TAG_IMAGE = "image";
     private static final String TAG_PUBDATE = "pubDate";
     private static final String TAG_DURATION = "duration";
     private static final String TAG_ENCLOSURE = "enclosure";
@@ -27,6 +28,7 @@ class ItemParser implements Parser<Item> {
 
     private final ElementFinder<String> titleFinder;
     private final ElementFinder<String> linkFinder;
+    private final ElementFinder<String> heroFinder;
     private final ElementFinder<String> pubDateFinder;
     private final ElementFinder<String> durationFinder;
     private final ElementFinder<Audio> audioFinder;
@@ -39,6 +41,7 @@ class ItemParser implements Parser<Item> {
     ItemParser(ElementFinderFactory finderFactory) {
         titleFinder = finderFactory.getStringFinder();
         linkFinder = finderFactory.getStringFinder();
+        heroFinder = finderFactory.getAttributeFinder(new HrefAttributeMarshaller(), HrefAttributeMarshaller.HREF_TAG);
         pubDateFinder = finderFactory.getStringFinder();
         durationFinder = finderFactory.getStringFinder();
         audioFinder = finderFactory.getAttributeFinder(new EnclosureAttributeMarshaller(), EnclosureAttributeMarshaller.getAttributes());
@@ -52,6 +55,7 @@ class ItemParser implements Parser<Item> {
         element.setElementListener(itemListener);
         titleFinder.find(element, TAG_TITLE);
         linkFinder.find(element, TAG_LINK);
+        heroFinder.find(element, NAMESPACE_ITUNES, TAG_IMAGE);
         pubDateFinder.find(element, TAG_PUBDATE);
         durationFinder.find(element, NAMESPACE_ITUNES, TAG_DURATION);
         audioFinder.find(element, TAG_ENCLOSURE);
@@ -70,6 +74,7 @@ class ItemParser implements Parser<Item> {
         public void end() {
             itemHolder.title = titleFinder.getResult();
             itemHolder.link = linkFinder.getResult();
+            itemHolder.heroImage = heroFinder.getResult();
             itemHolder.pubDate = pubDateFinder.getResult();
             itemHolder.duration = durationFinder.getResult();
             itemHolder.audio = audioFinder.getResult();
@@ -84,6 +89,7 @@ class ItemParser implements Parser<Item> {
 
         private String title;
         private String link;
+        private String heroImage;
         private String pubDate;
         private String duration;
         private Audio audio;
@@ -91,8 +97,8 @@ class ItemParser implements Parser<Item> {
         private String summary;
 
         Item asItem() {
-            System.out.println("XXXX : title : " + title + " duration : " + duration);
-            return new Item(title, link, new FangCalendar(pubDate), new FangDuration(duration), audio, subtitle, summary);
+            System.out.println("XXXX : title : " + title + " hero image : " + heroImage);
+            return new Item(title, link, heroImage, new FangCalendar(pubDate), new FangDuration(duration), audio, subtitle, summary);
         }
     }
 

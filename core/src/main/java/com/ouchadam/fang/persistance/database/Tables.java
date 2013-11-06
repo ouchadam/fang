@@ -32,6 +32,7 @@ public class Tables {
         AUDIO_URL,
         AUDIO_TYPE,
         LINK,
+        HERO_IMAGE,
         SUBTITLE,
         SUMMARY;
     }

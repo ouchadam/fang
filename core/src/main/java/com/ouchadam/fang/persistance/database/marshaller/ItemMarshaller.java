@@ -36,6 +36,7 @@ public class ItemMarshaller extends BaseMarshaller<Item>  {
         itemBuilder.withValue(Tables.Item.PUBDATE.name(), item.getPubDate().getTimeInMillis());
         itemBuilder.withValue(Tables.Item.DURATION.name(), item.getDuration().getRaw());
         itemBuilder.withValue(Tables.Item.LINK.name(), item.getLink());
+        itemBuilder.withValue(Tables.Item.HERO_IMAGE.name(), item.getHeroImage());
         itemBuilder.withValue(Tables.Item.SUBTITLE.name(), item.getSubtitle());
         itemBuilder.withValue(Tables.Item.SUMMARY.name(), item.getSummary());
         buildWithAudio(itemBuilder, item.getAudio());
