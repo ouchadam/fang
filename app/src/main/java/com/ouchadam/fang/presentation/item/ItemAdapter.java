@@ -52,6 +52,7 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     private ViewHolder createViewHolder(View view, int position) {
         ViewHolder holder = new ViewHolder();
         holder.title = Views.findById(view, R.id.text);
+        holder.indicator = Views.findById(view, R.id.item_indicator);
         holder.channelTitle = Views.findById(view, R.id.channel_title);
         holder.channelImage = Views.findById(view, R.id.channel_image);
         holder.itemTime = Views.findById(view, R.id.item_time);
@@ -66,6 +67,7 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     private void updateViewHolder(ViewHolder holder, FullItem item) {
         setHolderText(holder, item);
         setHolderImage(holder, item.getImageUrl());
+        setIndicator(holder, item);
     }
 
     private void setHolderImage(ViewHolder holder, String imageUrl) {
@@ -80,12 +82,21 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
         holder.itemTime.setText(item.getItem().getPubDate().getTimeAgo());
     }
 
+    private void setIndicator(ViewHolder holder, FullItem item) {
+        if (item.isDownloaded()) {
+            holder.indicator.setBackgroundColor(context.getResources().getColor(R.color.fang_ascent));
+        } else {
+            holder.indicator.setBackground(null);
+        }
+    }
+
     @Override
     public long getItemId(int position) {
         return getItem(position).getItem().getId();
     }
 
     static class ViewHolder {
+        View indicator;
         TextView title;
         TextView channelTitle;
         TextView itemTime;

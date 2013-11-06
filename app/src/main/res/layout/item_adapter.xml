@@ -5,7 +5,19 @@
                 android:layout_height="100dp"
                 android:background="@drawable/card_background">
 
-  <RelativeLayout
+    <RelativeLayout
+        android:id="@+id/item_indicator"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_alignParentLeft="true"
+        android:background="@null"/>
+
+
+    <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingLeft="12dp"
