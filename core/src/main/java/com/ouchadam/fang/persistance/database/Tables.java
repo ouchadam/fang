@@ -28,6 +28,7 @@ public class Tables {
         CHANNEL,
         TITLE,
         PUBDATE,
+        DURATION,
         AUDIO_URL,
         AUDIO_TYPE,
         LINK,

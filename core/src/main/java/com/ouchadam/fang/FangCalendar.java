@@ -16,7 +16,7 @@ public class FangCalendar extends NovodaCalendar {
     }
 
     @Override
-    protected DateFormat getDateFormat() {
+    protected DateFormat getDateFormat(String date) {
         return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.UK);
     }
 

@@ -27,6 +27,6 @@ public class FangCalendarShould {
 
         FangCalendar fangCalendar = new FangCalendar(date);
 
-        assertThat(fangCalendar.get(NovodaCalendar.DateInteger.DAY_IN_MONTH)).isEqualTo(06);
+        assertThat(fangCalendar.get(NovodaCalendar.DateInteger.DAY_IN_MONTH)).isEqualTo(6);
     }
 }

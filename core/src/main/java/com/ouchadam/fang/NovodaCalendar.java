@@ -23,14 +23,13 @@ public abstract class NovodaCalendar implements Serializable, Cloneable {
 
     private synchronized void parseTime(String date) {
         try {
-            setTime(getDateFormat().parse(date));
+            setTime(getDateFormat(date).parse(date));
         } catch (ParseException ignored) {
-            System.out.println("Couldn't parse : " + date);
-            ignored.printStackTrace();
+            throw new IllegalStateException("couldn't parse : " + date, ignored);
         }
     }
 
-    protected abstract DateFormat getDateFormat();
+    protected abstract DateFormat getDateFormat(String date);
 
     private void parseTime(long date) {
         setTime(new Date(date));
@@ -42,15 +41,6 @@ public abstract class NovodaCalendar implements Serializable, Cloneable {
 
     private NovodaCalendar(Calendar time) {
         this.time = time;
-    }
-
-    public void adjustDate(NovodaCalendar reference) {
-        time.set(Calendar.YEAR, reference.getField(Calendar.YEAR));
-        time.set(Calendar.MONTH, reference.getField(Calendar.MONTH));
-        time.set(Calendar.DAY_OF_MONTH, reference.getField(Calendar.DAY_OF_MONTH));
-        time.set(Calendar.DAY_OF_WEEK, reference.getField(Calendar.DAY_OF_WEEK));
-        time.set(Calendar.DAY_OF_WEEK_IN_MONTH, reference.getField(Calendar.DAY_OF_WEEK_IN_MONTH));
-        time.set(Calendar.DAY_OF_YEAR, reference.getField(Calendar.DAY_OF_YEAR));
     }
 
     private String getField(int field, int style) {

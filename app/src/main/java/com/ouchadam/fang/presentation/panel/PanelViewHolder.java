@@ -119,12 +119,10 @@ class PanelViewHolder {
         }
 
         private void hidePanel() {
-            Log.e("!!!", "Hide panel");
             panelLayout.hidePanel();
         }
 
         private void showPanel() {
-            Log.e("!!!", "Show panel");
             panelLayout.showPanel();
         }
 
@@ -132,6 +130,7 @@ class PanelViewHolder {
             Item item = fullItem.getItem();
             setBarTitle(item.getTitle());
             setDescription(item.getSummary());
+            setDuration(item.getDuration().formatted());
             setBarSubtitle(fullItem.getChannelTitle());
         }
 
@@ -145,6 +144,10 @@ class PanelViewHolder {
 
         private void setDescription(CharSequence summary) {
             setTextViewText(summary, R.id.item_description);
+        }
+
+        private void setDuration(CharSequence duration) {
+            setTextViewText(duration, R.id.item_duration);
         }
 
         private void setTextViewText(CharSequence text, int viewId) {

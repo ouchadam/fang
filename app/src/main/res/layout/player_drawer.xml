@@ -16,11 +16,19 @@
     android:layout_below="@id/top_bar_container"
     android:clickable="false">
 
+    <TextView
+     android:id="@+id/item_duration"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:layout_alignParentTop="true"
+     android:textSize="18sp" />
+
     <ScrollView
       android:id="@+id/item_description_container"
       android:layout_height="300dp"
       android:layout_width="match_parent"
       android:padding="24dp"
+      android:layout_below="@id/item_duration"
       android:fadingEdge="vertical"
       android:fadingEdgeLength="40dp"
       android:requiresFadingEdge="vertical">

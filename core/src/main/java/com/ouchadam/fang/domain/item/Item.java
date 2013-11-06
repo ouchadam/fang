@@ -1,6 +1,7 @@
 package com.ouchadam.fang.domain.item;
 
 import com.ouchadam.fang.FangCalendar;
+import com.ouchadam.fang.FangDuration;
 
 public class Item {
 
@@ -9,19 +10,21 @@ public class Item {
     private final String title;
     private final String link;
     private final FangCalendar pubDate;
+    private final FangDuration duration;
     private final Audio audio;
     private final String subtitle;
     private final String summary;
     private final int id;
 
-    public Item(String title, String link, FangCalendar pubDate, Audio audio, String subtitle, String summary) {
-        this(title, link, pubDate, audio, subtitle, summary, INVALID_ID);
+    public Item(String title, String link, FangCalendar pubDate, FangDuration duration, Audio audio, String subtitle, String summary) {
+        this(title, link, pubDate, duration, audio, subtitle, summary, INVALID_ID);
     }
 
-    public Item(String title, String link, FangCalendar pubDate, Audio audio, String subtitle, String summary, int id) {
+    public Item(String title, String link, FangCalendar pubDate, FangDuration duration, Audio audio, String subtitle, String summary, int id) {
         this.title = title;
         this.link = link;
         this.pubDate = pubDate;
+        this.duration = duration;
         this.audio = audio;
         this.subtitle = subtitle;
         this.summary = summary;
@@ -38,6 +41,10 @@ public class Item {
 
     public FangCalendar getPubDate() {
         return pubDate;
+    }
+
+    public FangDuration getDuration() {
+        return duration;
     }
 
     public Audio getAudio() {

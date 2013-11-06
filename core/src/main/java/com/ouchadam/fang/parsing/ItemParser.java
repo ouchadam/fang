@@ -7,6 +7,7 @@ import com.novoda.sexp.finder.ElementFinderFactory;
 import com.novoda.sexp.parser.ParseWatcher;
 import com.novoda.sexp.parser.Parser;
 import com.ouchadam.fang.FangCalendar;
+import com.ouchadam.fang.FangDuration;
 import com.ouchadam.fang.domain.item.Audio;
 import com.ouchadam.fang.domain.item.Item;
 
@@ -19,6 +20,7 @@ class ItemParser implements Parser<Item> {
     private static final String TAG_TITLE = "title";
     private static final String TAG_LINK = "link";
     private static final String TAG_PUBDATE = "pubDate";
+    private static final String TAG_DURATION = "duration";
     private static final String TAG_ENCLOSURE = "enclosure";
     private static final String TAG_SUBTITLE = "subtitle";
     private static final String TAG_SUMMARY = "summary";
@@ -26,6 +28,7 @@ class ItemParser implements Parser<Item> {
     private final ElementFinder<String> titleFinder;
     private final ElementFinder<String> linkFinder;
     private final ElementFinder<String> pubDateFinder;
+    private final ElementFinder<String> durationFinder;
     private final ElementFinder<Audio> audioFinder;
     private final ElementFinder<String> subtitleFinder;
     private final ElementFinder<String> summaryFinder;
@@ -37,6 +40,7 @@ class ItemParser implements Parser<Item> {
         titleFinder = finderFactory.getStringFinder();
         linkFinder = finderFactory.getStringFinder();
         pubDateFinder = finderFactory.getStringFinder();
+        durationFinder = finderFactory.getStringFinder();
         audioFinder = finderFactory.getAttributeFinder(new EnclosureAttributeMarshaller(), EnclosureAttributeMarshaller.getAttributes());
         subtitleFinder = finderFactory.getStringFinder();
         summaryFinder = finderFactory.getStringFinder();
@@ -49,6 +53,7 @@ class ItemParser implements Parser<Item> {
         titleFinder.find(element, TAG_TITLE);
         linkFinder.find(element, TAG_LINK);
         pubDateFinder.find(element, TAG_PUBDATE);
+        durationFinder.find(element, NAMESPACE_ITUNES, TAG_DURATION);
         audioFinder.find(element, TAG_ENCLOSURE);
         subtitleFinder.find(element,NAMESPACE_ITUNES, TAG_SUBTITLE);
         summaryFinder.find(element, NAMESPACE_ITUNES, TAG_SUMMARY);
@@ -66,6 +71,7 @@ class ItemParser implements Parser<Item> {
             itemHolder.title = titleFinder.getResult();
             itemHolder.link = linkFinder.getResult();
             itemHolder.pubDate = pubDateFinder.getResult();
+            itemHolder.duration = durationFinder.getResult();
             itemHolder.audio = audioFinder.getResult();
             itemHolder.subtitle = subtitleFinder.getResult();
             itemHolder.summary = summaryFinder.getResult();
@@ -79,12 +85,14 @@ class ItemParser implements Parser<Item> {
         private String title;
         private String link;
         private String pubDate;
+        private String duration;
         private Audio audio;
         private String subtitle;
         private String summary;
 
         Item asItem() {
-            return new Item(title, link, new FangCalendar(pubDate), audio, subtitle, summary);
+            System.out.println("XXXX : title : " + title + " duration : " + duration);
+            return new Item(title, link, new FangCalendar(pubDate), new FangDuration(duration), audio, subtitle, summary);
         }
     }
 
