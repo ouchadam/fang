@@ -36,18 +36,15 @@ public class FangDuration extends NovodaCalendar {
         return colonCount;
     }
 
-    public String formatted() {
-        if (hasHours()) {
-            return get(DateInteger.HOUR_24) + " " + get(DateInteger.MINUTE) + "mins";
-        }
-        return "duration";
-    }
-
-    private boolean hasHours() {
-        return get(DateInteger.HOUR_24) != 0;
-    }
-
     public String getRaw() {
         return rawTime;
+    }
+
+    public int getHours() {
+        return get(DateInteger.HOUR_24);
+    }
+
+    public int getMinutes() {
+        return get(DateInteger.MINUTE);
     }
 }

@@ -9,7 +9,8 @@
         android:id="@+id/drawer_content_image"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerInside"
+        android:contentDescription="@null"/>
 
   <include
     android:id="@+id/top_bar_container"

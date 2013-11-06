@@ -8,11 +8,14 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.novoda.notils.caster.Views;
+import com.ouchadam.fang.FangDuration;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
+
+import java.text.MessageFormat;
 
 class PanelViewHolder {
 
@@ -133,7 +136,7 @@ class PanelViewHolder {
             Item item = fullItem.getItem();
             setBarTitle(item.getTitle());
             setDescription(item.getSummary());
-            setDuration(item.getDuration().formatted());
+            setDuration(item.getDuration());
             setBarSubtitle(fullItem.getChannelTitle());
             setBackgroundImage("http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg");
 //            setBackgroundImage("http://cdn-static.cnet.co.uk/i/c/p/cnet-uk-podcast.jpg");
@@ -156,8 +159,19 @@ class PanelViewHolder {
             setTextViewText(summary, R.id.item_description);
         }
 
-        private void setDuration(CharSequence duration) {
-            setTextViewText(duration, R.id.item_duration);
+        private void setDuration(FangDuration duration) {
+            String formattedDuration = formatDuration(duration);
+            setTextViewText(formattedDuration, R.id.item_duration);
+        }
+
+        private String formatDuration(FangDuration duration) {
+            int hours = duration.getHours();
+            int minutes = duration.getMinutes();
+            String hoursString = "";
+            if (hours > 0) {
+                hoursString = panelLayout.getResources().getQuantityString(R.plurals.hour, hours, hours) + " ";
+            }
+            return hoursString + minutes + " " + "minutes";
         }
 
         private void setTextViewText(CharSequence text, int viewId) {
