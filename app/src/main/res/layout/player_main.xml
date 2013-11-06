@@ -9,6 +9,7 @@
     android:id="@+id/current_position"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    style="@style/DrawerTextShadow"
     android:layout_alignParentLeft="true"
     android:layout_above="@+id/player_bottom_bar"
     android:padding="14dp"
@@ -19,6 +20,7 @@
     android:id="@+id/total_time"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    style="@style/DrawerTextShadow"
     android:layout_above="@id/player_bottom_bar"
     android:padding="14dp"
     android:layout_marginBottom="30dp"
@@ -30,7 +32,7 @@
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:layout_alignParentBottom="true"
-    android:background="@android:color/white">
+    android:background="@color/trans_white">
 
     <Button
       android:id="@+id/download"

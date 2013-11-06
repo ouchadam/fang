@@ -1,8 +1,8 @@
 package com.ouchadam.fang.presentation.panel;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -12,6 +12,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 class PanelViewHolder {
 
@@ -58,12 +59,14 @@ class PanelViewHolder {
     public void showCollapsed(boolean isDownloaded) {
         mediaController.showCollapsed(isDownloaded);
         downloadController.panelScopeChange(isDownloaded);
+        mainPanelController.makeTopBarSolid();
     }
 
     public void showExpanded(boolean downloaded) {
         mediaController.showExpanded(downloaded);
         positionController.panelScopeChange(downloaded);
         downloadController.panelScopeChange(downloaded);
+        mainPanelController.makeTopBarTransparent();
     }
 
     public DownloadController downloadController() {
@@ -132,6 +135,13 @@ class PanelViewHolder {
             setDescription(item.getSummary());
             setDuration(item.getDuration().formatted());
             setBarSubtitle(fullItem.getChannelTitle());
+            setBackgroundImage("http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg");
+//            setBackgroundImage("http://cdn-static.cnet.co.uk/i/c/p/cnet-uk-podcast.jpg");
+        }
+
+        private void setBackgroundImage(String url) {
+            ImageView imageView = Views.findById(panelLayout, R.id.drawer_content_image);
+            Picasso.with(panelLayout.getContext()).load(url).centerCrop().resize(imageView.getWidth(), imageView.getHeight()).into(imageView);
         }
 
         private void setBarTitle(CharSequence text) {
@@ -170,6 +180,24 @@ class PanelViewHolder {
 
         public void setPanelSlideListener(SlidingUpPanelLayout.PanelSlideListener panelSlideListener) {
             panelLayout.setPanelSlideListener(panelSlideListener);
+        }
+
+        public void makeTopBarTransparent() {
+            int color = getColour(R.color.trans_white);
+            setTopBarColor(color);
+        }
+
+        private int getColour(int colourId) {
+            return panelLayout.getResources().getColor(colourId);
+        }
+
+        public void makeTopBarSolid() {
+            setTopBarColor(getColour(R.color.white));
+        }
+
+        private void setTopBarColor(int color) {
+            View topBarContainer = Views.findById(panelLayout, R.id.top_bar_container);
+            Views.findById(topBarContainer, R.id.player_top_bar).setBackgroundColor(color);
         }
     }
 

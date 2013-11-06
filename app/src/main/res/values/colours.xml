@@ -2,5 +2,7 @@
 <resources>
 
   <color name="fang_ascent">#089983</color>
+  <color name="trans_white">#E4FFFFFF</color>
+  <color name="white">#FFFFFF</color>
 
 </resources>
