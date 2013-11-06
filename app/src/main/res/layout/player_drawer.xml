@@ -38,7 +38,9 @@
           android:layout_width="match_parent"
           android:layout_below="@id/item_description"
           android:gravity="right"
-          android:textSize="18sp" />
+          android:textSize="18sp"
+          style="@style/DrawerTextShadow"
+          android:textStyle="italic"/>
 
   </RelativeLayout>
 
