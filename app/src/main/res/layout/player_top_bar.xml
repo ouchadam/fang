@@ -41,6 +41,18 @@
 
   </RelativeLayout>
 
+  <ImageButton
+    android:id="@+id/download"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true"
+    android:src="@drawable/ic_menu_upload"
+    android:textSize="14sp"
+    android:paddingRight="16dp"
+    android:background="@android:color/transparent"
+    android:visibility="invisible"/>
+
   <ViewSwitcher
     android:id="@id/media_switcher"
     android:layout_height="match_parent"

@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ class PanelViewHolder {
 
         MediaViewController mediaController = new MediaViewController(playTop, playBottom, pauseTop, pauseBottom, topMediaSwitcher, bottomMediaSwitcher);
 
-        Button downloadButton = Views.findById(panel, R.id.download);
+        ImageButton downloadButton = Views.findById(panel, R.id.download);
         DownloadController downloadController = new DownloadController(downloadButton);
 
         SeekBar seekBar = Views.findById(panel, R.id.seek_bar);

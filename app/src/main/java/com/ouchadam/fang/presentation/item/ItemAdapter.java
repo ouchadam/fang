@@ -84,10 +84,14 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
 
     private void setIndicator(ViewHolder holder, FullItem item) {
         if (item.isDownloaded()) {
-            holder.indicator.setBackgroundColor(context.getResources().getColor(R.color.fang_ascent));
+            holder.indicator.setBackgroundColor(getColour(R.color.fang_ascent));
         } else {
-            holder.indicator.setBackground(null);
+            holder.indicator.setBackgroundColor(getColour(android.R.color.transparent));
         }
+    }
+
+    private int getColour(int colourId) {
+        return context.getResources().getColor(colourId);
     }
 
     @Override

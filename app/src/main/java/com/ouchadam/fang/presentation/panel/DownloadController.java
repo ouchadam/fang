@@ -2,12 +2,13 @@ package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class DownloadController {
 
-    private final Button downloadButton;
+    private final ImageButton downloadButton;
 
-    DownloadController(Button downloadButton) {
+    DownloadController(ImageButton downloadButton) {
         this.downloadButton = downloadButton;
     }
 
