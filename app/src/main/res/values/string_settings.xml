@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="touch_behaviours">
+        <item>Expand details - Everywhere</item>
+        <item>Expand details - Feeds only</item>
+        <item>Expand details - Playlist only </item>
+        <item>Don\'t expand</item>
+    </array>
+
+</resources>

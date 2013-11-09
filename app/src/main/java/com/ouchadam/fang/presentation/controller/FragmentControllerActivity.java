@@ -12,6 +12,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.presentation.item.LatestFragment;
+import com.ouchadam.fang.setting.SettingsActivity;
 
 public class FragmentControllerActivity extends FangActivity {
 
@@ -34,6 +35,10 @@ public class FragmentControllerActivity extends FangActivity {
             case R.id.ab_refresh:
                 onRefreshClicked();
                 break;
+
+            case R.id.ab_settings:
+                onSettingsClicked();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -45,6 +50,11 @@ public class FragmentControllerActivity extends FangActivity {
     private void onRefreshClicked() {
         Intent refreshIntent = FeedServiceInfo.refresh(this);
         startService(refreshIntent);
+    }
+
+    private void onSettingsClicked() {
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 
     @Override

@@ -79,6 +79,7 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
     }
 
     public void expand() {
+        showExpanded(downloadFoo.isDownloaded());
         panelViewHolder.expand();
     }
 
