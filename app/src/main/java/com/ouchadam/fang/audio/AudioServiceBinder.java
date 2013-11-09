@@ -64,7 +64,11 @@ public class AudioServiceBinder {
         }
 
         public void fangUnbind() {
-            audioService.fangUnbind();
+            if (audioService != null) {
+                audioService.fangUnbind();
+            } else {
+                Log.e("!!!!", "Tried to unbind but service has already disconnected");
+            }
         }
     }
 
