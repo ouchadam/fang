@@ -1,7 +1,6 @@
 package com.ouchadam.fang.presentation.panel;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -15,8 +14,6 @@ import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
-
-import java.text.MessageFormat;
 
 class PanelViewHolder {
 
@@ -44,12 +41,13 @@ class PanelViewHolder {
         TextView endTime = Views.findById(panel, R.id.total_time);
         PositionController position = new PositionController(seekBar, currentTime, endTime);
 
-        MainPanelController mainPanelController = new MainPanelController(panel);
+        DurationFormatter durationFormatter = new DurationFormatter(panel.getResources());
+        MainPanelController mainPanelController = new MainPanelController(panel, durationFormatter);
 
-        return new PanelViewHolder(position, mediaController, downloadController, mainPanelController);
+        return new PanelViewHolder(position, mediaController, downloadController, mainPanelController, durationFormatter);
     }
 
-    PanelViewHolder(PositionController positionController, MediaViewController mediaController, DownloadController downloadController, MainPanelController mainPanelController) {
+    PanelViewHolder(PositionController positionController, MediaViewController mediaController, DownloadController downloadController, MainPanelController mainPanelController, DurationFormatter durationFormatter) {
         this.mediaController = mediaController;
         this.positionController = positionController;
         this.downloadController = downloadController;
@@ -120,9 +118,11 @@ class PanelViewHolder {
     private static class MainPanelController {
 
         private final SlidingUpPanelLayout panelLayout;
+        private DurationFormatter durationFormatter;
 
-        private MainPanelController(SlidingUpPanelLayout panelLayout) {
+        private MainPanelController(SlidingUpPanelLayout panelLayout, DurationFormatter durationFormatter) {
             this.panelLayout = panelLayout;
+            this.durationFormatter = durationFormatter;
             hidePanel();
         }
 
@@ -170,18 +170,8 @@ class PanelViewHolder {
         }
 
         private void setDuration(FangDuration duration) {
-            String formattedDuration = formatDuration(duration);
+            String formattedDuration = durationFormatter.format(duration);
             setTextViewText(formattedDuration, R.id.item_duration);
-        }
-
-        private String formatDuration(FangDuration duration) {
-            int hours = duration.getHours();
-            int minutes = duration.getMinutes();
-            String hoursString = "";
-            if (hours > 0) {
-                hoursString = panelLayout.getResources().getQuantityString(R.plurals.hour, hours, hours) + " ";
-            }
-            return hoursString + minutes + " " + "minutes";
         }
 
         private void setTextViewText(CharSequence text, int viewId) {
