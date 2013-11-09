@@ -87,6 +87,14 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     @Override
+    public long getId() {
+        if (itemQueryer != null) {
+            return itemQueryer.getId();
+        }
+        return -1;
+    }
+
+    @Override
     public void showPanel() {
         slidingPanelViewManipulator.show();
     }

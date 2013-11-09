@@ -1,10 +1,12 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Classes;
 import com.ouchadam.fang.R;
@@ -14,7 +16,9 @@ import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
+import com.ouchadam.fang.presentation.controller.DetailsActivity;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
+
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
@@ -63,8 +67,13 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        panelController.setData(itemId);
-        panelController.showExpanded();
+        if (panelController.getId() == itemId) {
+            panelController.showExpanded();
+        } else {
+            Intent intent = new Intent(getActivity(), DetailsActivity.class);
+            intent.putExtra("itemId", itemId);
+            startActivity(intent);
+        }
     }
 
 }

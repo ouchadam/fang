@@ -4,4 +4,5 @@ public interface SlidingPanelExposer {
     void setData(long itemId);
     void showExpanded();
     void showPanel();
+    long getId();
 }

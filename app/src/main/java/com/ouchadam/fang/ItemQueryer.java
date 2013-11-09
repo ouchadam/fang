@@ -21,9 +21,9 @@ public class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
     private final DataQueryer<FullItem> itemQueryer;
 
     public interface OnItemListener {
+
         void onItem(FullItem item);
     }
-
     public ItemQueryer(Context context, long itemId, LoaderManager loaderManager, OnItemListener onItemListener) {
         this.itemId = itemId;
         this.onItemListener = onItemListener;
@@ -54,6 +54,10 @@ public class ItemQueryer implements DataUpdater.DataUpdatedListener<FullItem> {
 
     public void stop() {
         itemQueryer.stop();
+    }
+
+    public long getId() {
+        return itemId;
     }
 
 }

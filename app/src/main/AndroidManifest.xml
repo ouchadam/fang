@@ -32,6 +32,7 @@
       android:label="@string/app_name"/>
 
     <activity android:name=".presentation.controller.ChannelActivity"/>
+    <activity android:name=".presentation.controller.DetailsActivity"/>
     <activity android:name=".setting.SettingsActivity"/>
 
     <service android:name=".audio.AudioService"/>

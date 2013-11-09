@@ -163,6 +163,11 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
+    public long getId() {
+        return slidingPanelController.getId();
+    }
+
+    @Override
     public void onBackPressed() {
         if (slidingPanelController.isShowing()) {
             slidingPanelController.close();
