@@ -3,7 +3,8 @@
                 android:id="@+id/player_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null">
+                android:background="@null"
+                android:visibility="invisible">
 
   <TextView
     android:id="@+id/current_position"

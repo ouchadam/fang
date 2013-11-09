@@ -97,7 +97,6 @@ class ItemParser implements Parser<Item> {
         private String summary;
 
         Item asItem() {
-            System.out.println("XXXX : title : " + title + " hero image : " + heroImage);
             return new Item(title, link, heroImage, new FangCalendar(pubDate), new FangDuration(duration), audio, subtitle, summary);
         }
     }

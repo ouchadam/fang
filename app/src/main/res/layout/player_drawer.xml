@@ -45,6 +45,6 @@
 
   <include
     layout="@layout/player_main"
-    android:layout_alignParentBottom="true" />
+    android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

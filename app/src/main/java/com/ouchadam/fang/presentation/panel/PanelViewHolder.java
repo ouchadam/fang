@@ -71,6 +71,7 @@ class PanelViewHolder {
         positionController.panelScopeChange(downloaded);
         downloadController.panelScopeChange(downloaded);
         mainPanelController.makeTopBarTransparent();
+        mainPanelController.showBottomBar(downloaded);
     }
 
     public DownloadController downloadController() {
@@ -82,7 +83,6 @@ class PanelViewHolder {
     }
 
     public void updatePlayingState(boolean playing) {
-        ;
         if (playing) {
             mediaController.showPause();
         } else {
@@ -221,6 +221,18 @@ class PanelViewHolder {
         private void setTopBarColor(int color) {
             View topBarContainer = Views.findById(panelLayout, R.id.top_bar_container);
             Views.findById(topBarContainer, R.id.player_top_bar).setBackgroundColor(color);
+        }
+
+        public void showBottomBar(boolean downloaded) {
+            if (downloaded) {
+                setBottomBarVisibility(View.VISIBLE);
+            } else {
+                setBottomBarVisibility(View.INVISIBLE);
+            }
+        }
+
+        private void setBottomBarVisibility(int visibility) {
+            Views.findById(panelLayout, R.id.player_main).setVisibility(visibility);
         }
     }
 
