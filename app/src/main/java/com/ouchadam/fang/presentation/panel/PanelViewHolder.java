@@ -92,6 +92,7 @@ class PanelViewHolder {
 
     public void updatePanel(FullItem fullItem) {
         mainPanelController.updateFrom(fullItem);
+        downloadController.panelScopeChange(fullItem.isDownloaded());
         mediaController.setMediaVisibility(mainPanelController.isShowing(), fullItem);
         positionController.setInitialPosition(fullItem.getInitialPlayPosition());
     }
