@@ -5,6 +5,7 @@ class ServiceLocation {
     private int bindCount;
 
     ServiceLocation() {
+        this.bindCount = 0;
     }
 
     public void binding() {
@@ -17,6 +18,10 @@ class ServiceLocation {
 
     public boolean isWithinApp() {
         return bindCount > 0;
+    }
+
+    public int get() {
+        return bindCount;
     }
 
 }

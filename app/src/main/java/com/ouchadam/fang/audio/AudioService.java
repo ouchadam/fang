@@ -2,6 +2,7 @@ package com.ouchadam.fang.audio;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -21,9 +22,12 @@ public class AudioService extends Service implements ServiceManipulator {
     private ExternalReceiver externalReceiver;
     private Syncer syncer;
 
+    private boolean configChanged;
+
     public AudioService() {
         binder = new LocalBinder();
         serviceLocation = new ServiceLocation();
+        this.configChanged = false;
     }
 
     @Override
@@ -32,8 +36,9 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void fangBind() {
-        dismissNotification();
+        configChanged = false;
         serviceLocation.binding();
+        dismissNotification();
     }
 
     private void dismissNotification() {
@@ -92,8 +97,6 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
-        dismissNotification();
-        serviceLocation.binding();
         syncer.setSyncListener(listener);
         syncForeground();
     }
@@ -104,7 +107,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     public void fangUnbind() {
         serviceLocation.unbinding();
-        if (!serviceLocation.isWithinApp()) {
+        if (!serviceLocation.isWithinApp() && !configChanged) {
             boolean isPlaying = syncer.isPlaying();
             removeSyncListener();
             onLeavingApp(isPlaying);
@@ -134,6 +137,12 @@ public class AudioService extends Service implements ServiceManipulator {
 
     private void removeSyncListener() {
         syncer.removeSyncListener();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        this.configChanged = true;
     }
 
     @Override
