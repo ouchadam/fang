@@ -210,15 +210,15 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         startAudioService();
         audioServiceBinder.bindService();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         audioServiceBinder.unbind();
         slidingPanelController.resetItem();
     }

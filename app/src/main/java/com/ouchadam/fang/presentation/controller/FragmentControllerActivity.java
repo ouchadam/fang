@@ -108,7 +108,6 @@ public class FragmentControllerActivity extends FangActivity {
         @Override
         public void onPlaySelected(long itemId, Uri itemSource) {
             showPanel();
-            Log.e("???", "setting data : " + itemId);
             setData(itemId);
             // TODO auto Expand or just play?
 
