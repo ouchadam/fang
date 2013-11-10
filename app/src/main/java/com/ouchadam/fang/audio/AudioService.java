@@ -33,7 +33,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     public void fangBind() {
         dismissNotification();
-        serviceLocation.setWithinApp();
+        serviceLocation.binding();
     }
 
     private void dismissNotification() {
@@ -51,6 +51,7 @@ public class AudioService extends Service implements ServiceManipulator {
             return AudioService.this;
         }
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -92,7 +93,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
         dismissNotification();
-        serviceLocation.setWithinApp();
+        serviceLocation.binding();
         syncer.setSyncListener(listener);
         syncForeground();
     }
@@ -102,12 +103,14 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void fangUnbind() {
-        removeSyncListener();
-        serviceLocation.leavingApp();
-        boolean isPlaying = syncer.isPlaying();
-        onLeavingApp(isPlaying);
-        if (!isPlaying) {
-            stopSelf();
+        serviceLocation.unbinding();
+        if (!serviceLocation.isWithinApp()) {
+            boolean isPlaying = syncer.isPlaying();
+            removeSyncListener();
+            onLeavingApp(isPlaying);
+            if (!isPlaying) {
+                stopSelf();
+            }
         }
     }
 
@@ -124,6 +127,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     private void showNotification(boolean isPlaying) {
         if (isPlaying) {
+            Log.e("???", "asked to show notification");
             NotificationService.start(this, syncer.getItemId(), isPlaying);
         }
     }

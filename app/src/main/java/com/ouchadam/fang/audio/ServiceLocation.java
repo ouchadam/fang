@@ -2,22 +2,21 @@ package com.ouchadam.fang.audio;
 
 class ServiceLocation {
 
-    private boolean withinApp;
+    private int bindCount;
 
     ServiceLocation() {
-        this.withinApp = false;
     }
 
-    public void setWithinApp() {
-        this.withinApp = true;
+    public void binding() {
+        bindCount ++;
     }
 
-    public void leavingApp() {
-        this.withinApp = false;
+    public void unbinding() {
+        bindCount --;
     }
 
     public boolean isWithinApp() {
-        return withinApp;
+        return bindCount > 0;
     }
 
 }
