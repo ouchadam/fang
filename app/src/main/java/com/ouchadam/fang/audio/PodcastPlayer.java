@@ -19,12 +19,14 @@ public class PodcastPlayer {
     private final Broadcaster<PodcastPosition> positionBroadcaster;
 
     private MediaPlayer mediaPlayer;
+    private Uri source;
     private MediaPlayer.OnCompletionListener onComplete;
 
 
     public PodcastPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster) {
         this.context = context;
         this.positionBroadcaster = positionBroadcaster;
+        this.source = null;
     }
 
     public void setSource(Uri source) throws IOException {
@@ -34,6 +36,7 @@ public class PodcastPlayer {
         }
         mediaPlayer = newMediaPlayer();
         mediaPlayer.setDataSource(context, source);
+        this.source = source;
         mediaPlayer.prepare();
     }
 
@@ -106,5 +109,9 @@ public class PodcastPlayer {
 
     public void setCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         this.onComplete = onCompletionListener;
+    }
+
+    public Uri getSource() {
+        return source;
     }
 }

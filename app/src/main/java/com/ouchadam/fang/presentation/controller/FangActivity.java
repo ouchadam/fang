@@ -73,6 +73,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private final AudioServiceBinder.OnStateSync onStateSync = new AudioServiceBinder.OnStateSync() {
         @Override
         public void onSync(SyncEvent syncEvent) {
+            Log.e("???", "Sync callback");
             slidingPanelController.sync(syncEvent);
         }
     };

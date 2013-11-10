@@ -3,6 +3,7 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
+        Log.e("???", "panel id : " + panelController.getId() + " clicked id : " + itemId);
         if (panelController.getId() == itemId) {
             panelController.showExpanded();
         } else {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.notification.NotificationService;
@@ -61,7 +60,8 @@ public class AudioService extends Service implements ServiceManipulator {
     public void onCreate() {
         super.onCreate();
         PlayerHandler playerHandler = PlayerHandler.from(this, onSync, new AudioCompletionHandler(serviceLocation), this);
-        this.syncer = new Syncer(playerHandler, serviceLocation);
+        this.syncer = new Syncer(playerHandler);
+        playerHandler.restoreItem();
         initReceivers(playerHandler);
     }
 
@@ -130,7 +130,6 @@ public class AudioService extends Service implements ServiceManipulator {
 
     private void showNotification(boolean isPlaying) {
         if (isPlaying) {
-            Log.e("???", "asked to show notification");
             NotificationService.start(this, syncer.getItemId(), isPlaying);
         }
     }

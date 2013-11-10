@@ -39,6 +39,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     @Override
     public void setData(long itemId) {
+        Log.e("???", "setData with : " + itemId);
         if (itemQueryer != null) {
             itemQueryer.stop();
         }
@@ -122,10 +123,9 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     public void sync(SyncEvent syncEvent) {
+        slidingPanelViewManipulator.show();
         slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
-        if (!syncEvent.isFresh()) {
-            slidingPanelViewManipulator.update(syncEvent.position);
-        }
+        slidingPanelViewManipulator.update(syncEvent.position);
         if (itemQueryer == null) {
             setData(syncEvent.itemId);
         }

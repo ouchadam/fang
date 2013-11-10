@@ -53,7 +53,6 @@ public class AudioServiceBinder {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
-            Log.e("???", "onServiceConnected");
             audioService = ((AudioService.LocalBinder) binder).getService();
             audioService.setSyncListener(listener);
             audioService.fangBind();

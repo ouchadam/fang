@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 
 import com.novoda.notils.logger.Novogger;
 import com.ouchadam.fang.domain.PodcastPosition;
@@ -89,7 +90,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     @Override
     public void onPause() {
         pauseAudio();
-        itemStateManager.persist(playingItemId, podcastPlayer.getPosition());
+        itemStateManager.persist(playingItemId, podcastPlayer.getPosition(), podcastPlayer.getSource());
         sync(new PlayerEvent.Factory().pause());
     }
 
@@ -108,7 +109,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     private void saveCurrentPlayState() {
         if (podcastPlayer.isPrepared()) {
-            itemStateManager.persist(playingItemId, podcastPlayer.getPosition());
+            itemStateManager.persist(playingItemId, podcastPlayer.getPosition(), podcastPlayer.getSource());
         }
     }
 
@@ -141,6 +142,16 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     private SyncEvent createCurrentSyncEvent() {
         return new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playingItemId);
+    }
+
+    public void restoreItem() {
+        long playingId = itemStateManager.getStoredPlayingId();
+        Uri source = itemStateManager.getSource();
+        if (source != null) {
+            setAudioSource(source);
+            Log.e("???", "restore item : calling onsync");
+            audioSync.onSync(playingId, new PlayerEvent.Factory().newSource(playingId, source));
+        }
     }
 
 }
