@@ -1,31 +1,45 @@
 package com.ouchadam.fang.presentation.item;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
+import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.domain.DownloadId;
+import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
+import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.ItemQueryer;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
+import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.presentation.panel.DurationFormatter;
-import com.squareup.picasso.Picasso;
+import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 public class DetailsFragment extends Fragment {
 
-    private final HeroHolder heroHolder;
+    private SlidingPanelExposer panelController;
+    private Downloader downloader;
 
     private ItemQueryer itemQueryer;
     private TextView descriptionText;
     private TextView durationText;
     private ImageView heroImage;
+
+    private boolean isDownloaded;
+    private Item item;
+    private HeroManager heroManager;
 
     public static DetailsFragment newInstance(long itemId) {
         DetailsFragment detailsFragment = new DetailsFragment();
@@ -36,7 +50,62 @@ public class DetailsFragment extends Fragment {
     }
 
     public DetailsFragment() {
-        heroHolder = new HeroHolder();
+        this.isDownloaded = false;
+        this.item = null;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        setHasOptionsMenu(true);
+        panelController = Classes.from(activity);
+        downloader = Classes.from(activity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.details, menu);
+        menu.findItem(R.id.ab_play).setVisible(isDownloaded);
+        menu.findItem(R.id.ab_download).setVisible(!isDownloaded);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ab_download:
+                downloadCurrent();
+                break;
+            case R.id.ab_play:
+                playCurrent();
+                break;
+            default:
+                // todo nothing
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void downloadCurrent() {
+        Item item = getItem();
+        if (item != null) {
+            ItemDownload downloadable = ItemDownload.from(item);
+            DownloadId downloadId = downloader.keep(downloadable);
+            downloader.store(downloadId, getItemId());
+
+            new AddToPlaylistPersister(getActivity().getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value()));
+            downloader.watch(downloadId, new NotificationWatcher(getActivity(), downloadable, downloadId));
+        }
+    }
+
+    private Item getItem() {
+        return item;
+    }
+
+    private void playCurrent() {
+        panelController.showPanel();
+        panelController.setData(getItemId());
+        panelController.showExpanded();
     }
 
     @Override
@@ -51,29 +120,18 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getHeroDimensions(heroImage);
-    }
-
-    private void getHeroDimensions(final ImageView heroImage) {
-        final ViewTreeObserver treeObserver = heroImage.getViewTreeObserver();
-        if (treeObserver != null && treeObserver.isAlive()) {
-            treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    heroHolder.width = heroImage.getWidth();
-                    heroHolder.height = heroImage.getHeight();
-                    heroHolder.tryLoad(getActivity(), heroImage);
-                    heroImage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
-        }
+        heroManager = new HeroManager(new HeroHolder(), heroImage, getActivity());
+        heroManager.loadDimensions();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        long itemId = getArguments().getLong("itemId");
-        setData(itemId);
+        setData(getItemId());
+    }
+
+    private long getItemId() {
+        return getArguments().getLong("itemId");
     }
 
     private void setData(long itemId) {
@@ -93,52 +151,18 @@ public class DetailsFragment extends Fragment {
 
     private void initialiseViews(final FullItem item) {
         Item baseItem = item.getItem();
+        this.item = baseItem;
+        initActionBarFrom(item);
         item.getChannelTitle();
         baseItem.getTitle();
         descriptionText.setText(baseItem.getSummary());
         durationText.setText(new DurationFormatter(getResources()).format(baseItem.getDuration()));
-        setBackgroundImage(getImageUrl(item));
+        heroManager.setBackgroundImage(item);
     }
 
-    private String getImageUrl(FullItem fullItem) {
-        String heroImage = fullItem.getItem().getHeroImage();
-        String channelImage = fullItem.getImageUrl();
-        return heroImage == null ? channelImage : heroImage;
-    }
-
-    private void setBackgroundImage(String url) {
-        heroHolder.url = url;
-        heroHolder.tryLoad(getActivity(), heroImage);
-    }
-
-    private static class HeroHolder {
-
-        private static final int INVALID = -1;
-
-        int width;
-        int height;
-        String url;
-
-        HeroHolder() {
-            this.width = INVALID;
-            this.height = INVALID;
-            this.url = null;
-        }
-
-        void tryLoad(Context context, ImageView imageView) {
-            if (isValid(width) && isValid(height) && isValid(url)) {
-                Picasso.with(context).load(url).centerCrop().resize(width, height).into(imageView);
-            }
-        }
-
-        private boolean isValid(int dimen) {
-            return dimen != INVALID;
-        }
-
-
-        private boolean isValid(String url) {
-            return url != null;
-        }
+    private void initActionBarFrom(FullItem item) {
+        isDownloaded = item.isDownloaded();
+        getActivity().invalidateOptionsMenu();
     }
 
 }

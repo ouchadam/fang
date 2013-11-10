@@ -12,8 +12,9 @@ import com.ouchadam.fang.FangDuration;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.presentation.item.HeroHolder;
+import com.ouchadam.fang.presentation.item.HeroManager;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
-import com.squareup.picasso.Picasso;
 
 class PanelViewHolder {
 
@@ -42,7 +43,11 @@ class PanelViewHolder {
         PositionController position = new PositionController(seekBar, currentTime, endTime);
 
         DurationFormatter durationFormatter = new DurationFormatter(panel.getResources());
-        MainPanelController mainPanelController = new MainPanelController(panel, durationFormatter);
+
+        ImageView heroView = Views.findById(panel, R.id.drawer_content_image);
+
+        HeroManager heroManager = new HeroManager(new HeroHolder(), heroView, panel.getContext());
+        MainPanelController mainPanelController = new MainPanelController(panel, durationFormatter, heroManager);
 
         return new PanelViewHolder(position, mediaController, downloadController, mainPanelController, durationFormatter);
     }
@@ -118,11 +123,14 @@ class PanelViewHolder {
     private static class MainPanelController {
 
         private final SlidingUpPanelLayout panelLayout;
-        private DurationFormatter durationFormatter;
+        private final DurationFormatter durationFormatter;
+        private final HeroManager heroManager;
 
-        private MainPanelController(SlidingUpPanelLayout panelLayout, DurationFormatter durationFormatter) {
+        private MainPanelController(SlidingUpPanelLayout panelLayout, DurationFormatter durationFormatter, HeroManager heroManager) {
             this.panelLayout = panelLayout;
             this.durationFormatter = durationFormatter;
+            this.heroManager = heroManager;
+            heroManager.loadDimensions();
             hidePanel();
         }
 
@@ -140,21 +148,7 @@ class PanelViewHolder {
             setDescription(item.getSummary());
             setDuration(item.getDuration());
             setBarSubtitle(fullItem.getChannelTitle());
-            setBackgroundImage(getImageUrl(fullItem));
-        }
-
-        private String getImageUrl(FullItem fullItem) {
-            String heroImage = fullItem.getItem().getHeroImage();
-            String channelImage = fullItem.getImageUrl();
-            return heroImage == null ? channelImage : heroImage;
-        }
-
-        private void setBackgroundImage(String url) {
-            if (url != null) {
-                ImageView imageView = Views.findById(panelLayout, R.id.drawer_content_image);
-                Picasso.with(panelLayout.getContext()).load(url).centerCrop().resize(imageView.getWidth(), imageView.getHeight()).into(imageView);
-            }
-            // TODO load a default image or something
+            heroManager.setBackgroundImage(fullItem);
         }
 
         private void setBarTitle(CharSequence text) {

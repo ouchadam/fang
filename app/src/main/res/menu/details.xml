@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:id="@+id/ab_download"
+    android:title="Download"
+    android:visible="false"
+    android:icon="@drawable/ic_menu_upload"
+    android:showAsAction="always"/>
+
+  <item
+    android:id="@+id/ab_play"
+    android:title="Play"
+    android:visible="false"
+    android:icon="@drawable/play_button"
+    android:showAsAction="always"/>
+
+  <item
+    android:id="@+id/ab_stream"
+    android:title="Stream"
+    android:showAsAction="never"/>
+
+</menu>
