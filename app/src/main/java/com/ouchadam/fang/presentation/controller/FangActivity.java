@@ -204,6 +204,12 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        startAudioService();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         startAudioService();

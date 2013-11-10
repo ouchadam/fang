@@ -1,7 +1,9 @@
 package com.ouchadam.fang.presentation.controller;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,6 +13,9 @@ import com.novoda.notils.caster.Fragments;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.debug.FeedServiceInfo;
+import com.ouchadam.fang.presentation.PlayerEvent;
+import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
+import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.LatestFragment;
 import com.ouchadam.fang.setting.SettingsActivity;
 
@@ -92,4 +97,24 @@ public class FragmentControllerActivity extends FangActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ActivityResultHandler activityResultHandler = new ActivityResultHandler();
+        activityResultHandler.handleResult(requestCode, resultCode, data, onResult);
+    }
+
+    private final ActivityResultHandler.OnResult onResult = new ActivityResultHandler.OnResult() {
+        @Override
+        public void onPlaySelected(long itemId, Uri itemSource) {
+            showPanel();
+            Log.e("???", "setting data : " + itemId);
+            setData(itemId);
+            // TODO auto Expand or just play?
+
+            PodcastPlayerEventBroadcaster broadcaster = new PodcastPlayerEventBroadcaster(FragmentControllerActivity.this);
+            broadcaster.broadcast(new PlayerEvent.Factory().newSource(itemId, itemSource));
+            broadcaster.broadcast(new PlayerEvent.Factory().play());
+        }
+    };
 }

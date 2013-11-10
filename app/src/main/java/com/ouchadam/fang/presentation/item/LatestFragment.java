@@ -75,7 +75,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
             if (panelController.getId() != -1) {
                 intent.putExtra("playingItemId", panelController.getId());
             }
-            startActivity(intent);
+            getActivity().startActivityForResult(intent, ActivityResultHandler.NEW_PLAY_RESULT);
         }
     }
 

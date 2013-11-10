@@ -1,6 +1,9 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,11 +28,9 @@ import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.presentation.panel.DurationFormatter;
-import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 public class DetailsFragment extends Fragment {
 
-    private SlidingPanelExposer panelController;
     private Downloader downloader;
 
     private ItemQueryer itemQueryer;
@@ -38,7 +39,7 @@ public class DetailsFragment extends Fragment {
     private ImageView heroImage;
 
     private boolean isDownloaded;
-    private Item item;
+    private FullItem item;
     private HeroManager heroManager;
 
     public static DetailsFragment newInstance(long itemId) {
@@ -58,7 +59,6 @@ public class DetailsFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         setHasOptionsMenu(true);
-        panelController = Classes.from(activity);
         downloader = Classes.from(activity);
     }
 
@@ -87,25 +87,29 @@ public class DetailsFragment extends Fragment {
     }
 
     private void downloadCurrent() {
-        Item item = getItem();
+        FullItem item = getItem();
         if (item != null) {
-            ItemDownload downloadable = ItemDownload.from(item);
+            ItemDownload downloadable = ItemDownload.from(item.getItem());
             DownloadId downloadId = downloader.keep(downloadable);
             downloader.store(downloadId, getItemId());
 
-            new AddToPlaylistPersister(getActivity().getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value()));
+            new AddToPlaylistPersister(getActivity().getContentResolver()).persist(ItemToPlaylist.from(item.getItem(), downloadId.value()));
             downloader.watch(downloadId, new NotificationWatcher(getActivity(), downloadable, downloadId));
         }
     }
 
-    private Item getItem() {
+    private FullItem getItem() {
         return item;
     }
 
     private void playCurrent() {
-        panelController.showPanel();
-        panelController.setData(getItemId());
-        panelController.showExpanded();
+        FullItem item = getItem();
+        new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), getSourceUri(item));
+    }
+
+    private Uri getSourceUri(FullItem item) {
+        DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        return downloadManager.getUriForDownloadedFile(item.getDownloadId());
     }
 
     @Override
@@ -150,8 +154,8 @@ public class DetailsFragment extends Fragment {
     };
 
     private void initialiseViews(final FullItem item) {
+        this.item = item;
         Item baseItem = item.getItem();
-        this.item = baseItem;
         initActionBarFrom(item);
         item.getChannelTitle();
         baseItem.getTitle();
