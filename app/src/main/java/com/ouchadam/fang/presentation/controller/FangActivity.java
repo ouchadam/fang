@@ -46,10 +46,13 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (fangDrawer.onOptionsItemSelected(item)) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return fangDrawer.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -194,6 +197,10 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     public void restore(LazyWatcher lazyWatcher) {
         fangBookKeeer.restore(lazyWatcher);
+    }
+
+    protected void showDrawerIndicator(boolean show) {
+        fangDrawer.showIndicator(show);
     }
 
     @Override

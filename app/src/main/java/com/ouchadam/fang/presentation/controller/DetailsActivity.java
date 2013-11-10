@@ -1,6 +1,9 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.ouchadam.fang.R;
@@ -18,6 +21,11 @@ public class DetailsActivity extends FangActivity {
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         super.onFangCreate(savedInstanceState);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        showDrawerIndicator(false);
         init();
     }
 
@@ -39,7 +47,7 @@ public class DetailsActivity extends FangActivity {
     protected void onResume() {
         super.onResume();
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getLong("playingItemId") != -1) {
+        if (extras != null && extras.getLong("playingItemId", -1) != -1) {
             initPanel(extras.getLong("playingItemId"));
         }
     }
