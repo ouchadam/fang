@@ -1,10 +1,12 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,8 @@ import com.ouchadam.fang.presentation.panel.DurationFormatter;
 import com.squareup.picasso.Picasso;
 
 public class DetailsFragment extends Fragment {
+
+    private final HeroHolder heroHolder;
 
     private ItemQueryer itemQueryer;
     private TextView descriptionText;
@@ -31,6 +35,10 @@ public class DetailsFragment extends Fragment {
         return detailsFragment;
     }
 
+    public DetailsFragment() {
+        heroHolder = new HeroHolder();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_details, container, false);
@@ -38,6 +46,27 @@ public class DetailsFragment extends Fragment {
         descriptionText = Views.findById(root, R.id.fragment_item_description);
         durationText = Views.findById(root, R.id.fragment_item_duration);
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getHeroDimensions(heroImage);
+    }
+
+    private void getHeroDimensions(final ImageView heroImage) {
+        final ViewTreeObserver treeObserver = heroImage.getViewTreeObserver();
+        if (treeObserver != null && treeObserver.isAlive()) {
+            treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    heroHolder.width = heroImage.getWidth();
+                    heroHolder.height = heroImage.getHeight();
+                    heroHolder.tryLoad(getActivity(), heroImage);
+                    heroImage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
     }
 
     @Override
@@ -78,11 +107,38 @@ public class DetailsFragment extends Fragment {
     }
 
     private void setBackgroundImage(String url) {
-        if (url != null) {
-            // TODO get the layout size to as the view isn't always measured in time
-            Picasso.with(getActivity()).load(url).centerCrop().resize(heroImage.getWidth(), heroImage.getHeight()).into(heroImage);
+        heroHolder.url = url;
+        heroHolder.tryLoad(getActivity(), heroImage);
+    }
+
+    private static class HeroHolder {
+
+        private static final int INVALID = -1;
+
+        int width;
+        int height;
+        String url;
+
+        HeroHolder() {
+            this.width = INVALID;
+            this.height = INVALID;
+            this.url = null;
         }
-        // TODO load a default image or something
+
+        void tryLoad(Context context, ImageView imageView) {
+            if (isValid(width) && isValid(height) && isValid(url)) {
+                Picasso.with(context).load(url).centerCrop().resize(width, height).into(imageView);
+            }
+        }
+
+        private boolean isValid(int dimen) {
+            return dimen != INVALID;
+        }
+
+
+        private boolean isValid(String url) {
+            return url != null;
+        }
     }
 
 }
