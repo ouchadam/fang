@@ -94,6 +94,12 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         sync(new PlayerEvent.Factory().pause());
     }
 
+    public void completeAudio() {
+        pauseAudio();
+        itemStateManager.persist(playingItemId, podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
+        sync(new PlayerEvent.Factory().pause());
+    }
+
     private void pauseAudio() {
         podcastPlayer.pause();
         audioFocusManager.abandonFocus();

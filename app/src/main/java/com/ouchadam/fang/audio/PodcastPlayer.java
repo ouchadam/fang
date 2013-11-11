@@ -107,6 +107,10 @@ public class PodcastPlayer {
         return new PodcastPosition(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
     }
 
+    public PodcastPosition getCompletedPosition() {
+        return new PodcastPosition(mediaPlayer.getDuration(), mediaPlayer.getDuration());
+    }
+
     public void setCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         this.onComplete = onCompletionListener;
     }

@@ -86,6 +86,7 @@ public class ExploreResultsFragment extends Fragment implements AdapterView.OnIt
     }
 
     private void performSearch(final String searchTerm) {
+        // TODO give this horrible quick hack some love
         new Thread(new Runnable() {
             @Override
             public void run() {

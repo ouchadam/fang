@@ -11,7 +11,7 @@ public class AudioCompletionHandler implements OnPlayCompletionListener {
     @Override
     public void onCompletion(PlayerHandler playerHandler) {
         if (serviceLocation.isWithinApp()) {
-            playerHandler.onPause();
+            playerHandler.completeAudio();
         } else {
             playerHandler.onStop();
         }

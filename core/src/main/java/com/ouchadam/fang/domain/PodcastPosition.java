@@ -35,6 +35,10 @@ public class PodcastPosition implements Serializable {
         return DEFAULT.equals(this);
     }
 
+    public boolean isCompleted() {
+        return currentPosition == duration;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
