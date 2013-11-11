@@ -23,10 +23,8 @@ public class DrawerNavigator implements OnDrawItemClickListener {
     }
 
     private void selectItem(DrawerManipulator drawer, int position) {
-        DrawerItem drawerItem = DrawerItem.get(position);
-        fragmentManager.beginTransaction().replace(R.id.content_frame, drawerItem.fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, Fragments.get(position)).commit();
         drawer.setChecked(position, true);
-        drawer.setOnCloseTitle(drawerItem.title);
         drawer.close();
     }
 
@@ -34,53 +32,41 @@ public class DrawerNavigator implements OnDrawItemClickListener {
         return Fragments.toStringList();
     }
 
-    private static class DrawerItem {
-
-        private final Fragment fragment;
-        private final String title;
-
-        private DrawerItem(Fragment fragment, String title) {
-            this.fragment = fragment;
-            this.title = title;
-        }
-
-        public static DrawerItem get(int position) {
-            return Fragments.values()[position].get();
-        }
-    }
-
     enum Fragments {
         LATEST {
             @Override
-            DrawerItem get() {
-                return new DrawerItem(new LatestFragment(), "Latest");
+            Fragment get() {
+                return new LatestFragment();
             }
         },
         CHANNELS {
             @Override
-            DrawerItem get() {
-                return new DrawerItem(new ChannelFragment(), "Channels");
+            Fragment get() {
+                return new ChannelFragment();
             }
         },
         PLAYLIST {
             @Override
-            DrawerItem get() {
-                return new DrawerItem(new PlaylistFragment(), "Playlist");
+            Fragment get() {
+                return new PlaylistFragment();
             }
         },
         EXPLORE {
             @Override
-            DrawerItem get() {
-                return new DrawerItem(new SearchFragment(), "Explore");
+            Fragment get() {
+                return new SearchFragment();
             }
         };
 
-        abstract DrawerItem get();
+        abstract Fragment get();
 
-        static String[] toStringList() {
-            return new String[]{"Latest", "Channels", "Playlist", "Explore"};
+        public static Fragment get(int position) {
+            return values()[position].get();
         }
 
+        public static String[] toStringList() {
+            return new String[]{"Latest", "Channels", "Playlist", "Explore"};
+        }
     }
 
 }

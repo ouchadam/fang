@@ -75,16 +75,20 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        if (panelController.getId() == itemId) {
+        if (isAlreadySelected(itemId)) {
             panelController.showExpanded();
         } else {
-            Intent intent = new Intent(getActivity(), DetailsActivity.class);
-            intent.putExtra("itemId", itemId);
-            if (panelController.getId() != -1) {
-                intent.putExtra("playingItemId", panelController.getId());
-            }
-            getActivity().startActivityForResult(intent, ActivityResultHandler.NEW_PLAY_RESULT);
+            showItemDetails(itemId, panelController.getId());
         }
+    }
+
+    private void showItemDetails(long itemId, long panelId) {
+        NavigatorForResult navigator = new NavigatorForResult(getActivity());
+        navigator.toItemDetails(itemId, panelId);
+    }
+
+    private boolean isAlreadySelected(long clickedId) {
+        return panelController.getId() == clickedId;
     }
 
 }
