@@ -119,10 +119,10 @@ public class ExploreResultsFragment extends Fragment implements AdapterView.OnIt
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long itemId) {
         Result item = adapter.getItem(position);
-        dirtyParsing(item);
+        addFeedToFang(item);
     }
 
-    private void dirtyParsing(Result item) {
+    private void addFeedToFang(Result item) {
         Toast.makeText(getActivity(), "Adding : " + item.getChannelTitle(), Toast.LENGTH_SHORT).show();
         ParseHelper parseHelper = new ParseHelper(getActivity().getContentResolver(), null);
         parseHelper.parse(getActivity(), item.getFeedUrl());
