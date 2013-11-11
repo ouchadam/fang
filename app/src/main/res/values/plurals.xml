@@ -2,7 +2,7 @@
 <resources>
 
     <plurals name="hour">
-        <item quantity="one">hour</item>
+        <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
 
