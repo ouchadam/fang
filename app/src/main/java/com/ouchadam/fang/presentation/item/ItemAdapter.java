@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
@@ -66,15 +67,36 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
 
     private void updateViewHolder(ViewHolder holder, FullItem item) {
         setHolderText(holder, item);
-        setHolderImage(holder, item.getImageUrl());
+        setHolderTextColour(holder, item);
+        setHolderImage(holder, item);
         setIndicator(holder, item);
     }
 
-    private void setHolderImage(ViewHolder holder, String imageUrl) {
+    private void setHolderTextColour(ViewHolder holder, FullItem item) {
+        holder.title.setTextColor(getTitleColour(holder.title, item.isListenedTo()));
+        holder.channelTitle.setTextColor(getChannelColour(item.isListenedTo()));
+        holder.itemTime.setTextColor(getAscentColour(item.isListenedTo()));
+    }
+
+    private int getTitleColour(TextView originalText, boolean isListenedTo) {
+        return isListenedTo ? getColour(R.color.listened_grey) : originalText.getTextColors().getDefaultColor();
+    }
+
+    private int getChannelColour(boolean listenedTo) {
+        return listenedTo ? getColour(R.color.listened_grey) : getColour(android.R.color.darker_gray);
+    }
+
+    private void setHolderImage(ViewHolder holder, final FullItem fullItem) {
         if (holder.channelImage != null) {
-            Picasso.with(context).load(imageUrl).resize(200, 200).centerCrop().into(holder.channelImage);
+            String imageUrl = fullItem.getImageUrl();
+            if (fullItem.isListenedTo()) {
+                Picasso.with(context).load(imageUrl).transform(new GreyscaleTransformation(imageUrl)).resize(200, 200).centerCrop().into(holder.channelImage);
+            } else {
+                Picasso.with(context).load(imageUrl).resize(200, 200).centerCrop().into(holder.channelImage);
+            }
         }
     }
+
 
     private void setHolderText(ViewHolder holder, FullItem item) {
         holder.title.setText(item.getItem().getTitle());
@@ -82,11 +104,19 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
         holder.itemTime.setText(item.getItem().getPubDate().getTimeAgo());
     }
 
+    private int getAscentColour(boolean isListenedTo) {
+        return isListenedTo ? getColour(R.color.listened_grey) : getColour(R.color.fang_ascent);
+    }
+
     private void setIndicator(ViewHolder holder, FullItem item) {
-        if (item.isDownloaded()) {
-            holder.indicator.setBackgroundColor(getColour(R.color.fang_ascent));
+        if (item.isListenedTo()) {
+            holder.indicator.setBackgroundColor(getColour(R.color.listened_grey));
         } else {
-            holder.indicator.setBackgroundColor(getColour(android.R.color.transparent));
+            if (item.isDownloaded()) {
+                holder.indicator.setBackgroundColor(getColour(R.color.fang_ascent));
+            } else {
+                holder.indicator.setBackgroundColor(getColour(android.R.color.transparent));
+            }
         }
     }
 

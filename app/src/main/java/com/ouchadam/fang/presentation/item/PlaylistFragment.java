@@ -3,6 +3,8 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.novoda.notils.caster.Classes;
@@ -66,6 +68,12 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.details, menu);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setOnItemClickListener(this);
@@ -74,6 +82,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
         actionBarTitleSetter.set("Playlist");
     }
 

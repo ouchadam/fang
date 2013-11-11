@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ab_delete_all_downloads"
+        android:title="Delete all audio"
+        android:showAsAction="never"/>
+
+</menu>

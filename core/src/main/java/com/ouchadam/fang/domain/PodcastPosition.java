@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class PodcastPosition implements Serializable {
 
-    private int currentPosition;
-    private int duration;
+    private final int currentPosition;
+    private final int duration;
 
     private static PodcastPosition DEFAULT = new PodcastPosition(0, 100);
 
@@ -36,7 +36,7 @@ public class PodcastPosition implements Serializable {
     }
 
     public boolean isCompleted() {
-        return currentPosition == duration;
+        return currentPosition != 0 && duration != 0 && currentPosition == duration;
     }
 
     @Override

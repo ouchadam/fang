@@ -50,4 +50,8 @@ public class FullItem {
         return playPosition;
     }
 
+    public boolean isListenedTo() {
+        return playPosition.isCompleted();
+    }
+
 }
