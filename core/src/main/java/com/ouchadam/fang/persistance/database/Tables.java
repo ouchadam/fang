@@ -16,7 +16,7 @@ public class Tables {
 
     public enum ChannelImage {
         CHANNEL,
-        URL,
+        IMAGE_URL,
         LINK,
         TITLE,
         WIDTH,

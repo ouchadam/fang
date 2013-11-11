@@ -3,6 +3,7 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
     protected Query getQueryValues() {
         return new Query.Builder()
                 .withUri(FangProvider.getUri(Uris.FULL_CHANNEL))
-                .withProjection(new String[] { Tables.Channel.CHANNEL_TITLE.name(), Tables.ChannelImage.URL.name() })
+                .withProjection(new String[] { Tables.Channel.CHANNEL_TITLE.name(), Tables.ChannelImage.IMAGE_URL.name() })
                 .build();
     }
 
@@ -75,7 +76,8 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
         @Override
         public Channel marshall(Cursor cursor) {
             String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Channel.CHANNEL_TITLE.name()));
-            String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.ChannelImage.URL.name()));
+            String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.ChannelImage.IMAGE_URL.name()));
+
             return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), "", null);
         }
     }

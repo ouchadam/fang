@@ -30,7 +30,7 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
         @Override
         public Image marshall(Cursor cursor) {
             CursorMarshallerUtil cursorUtil = new CursorMarshallerUtil(cursor);
-            String url = cursorUtil.getString(Tables.ChannelImage.URL);
+            String url = cursorUtil.getString(Tables.ChannelImage.IMAGE_URL);
             String link = cursorUtil.getString(Tables.ChannelImage.LINK);
             String title = cursorUtil.getString(Tables.ChannelImage.TITLE);
             int width = cursorUtil.getInt(Tables.ChannelImage.WIDTH);

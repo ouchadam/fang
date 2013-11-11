@@ -30,7 +30,7 @@ public class ImageMarshaller extends BaseMarshaller<Image> {
         ContentProviderOperationValues itemBuilder = newInsertFor(Uris.IMAGE);
         itemBuilder.withValue(Tables.ChannelImage.CHANNEL.name(), channelTitle);
         itemBuilder.withValue(Tables.ChannelImage.TITLE.name(), image.getTitle());
-        itemBuilder.withValue(Tables.ChannelImage.URL.name(), image.getUrl());
+        itemBuilder.withValue(Tables.ChannelImage.IMAGE_URL.name(), image.getUrl());
         itemBuilder.withValue(Tables.ChannelImage.LINK.name(), image.getLink());
         itemBuilder.withValue(Tables.ChannelImage.WIDTH.name(), image.getWidth());
         itemBuilder.withValue(Tables.ChannelImage.HEIGHT.name(), image.getHeight());
