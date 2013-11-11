@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.notification.NotificationService;
@@ -21,12 +20,14 @@ public class AudioService extends Service implements ServiceManipulator {
     private PlayerEventReceiver playerEventReceiver;
     private ExternalReceiver externalReceiver;
     private Syncer syncer;
+    private CompletionListener onCompletionListener;
 
     private boolean configChanged;
+    private AudioCompletionHandler audioCompletionHandler;
 
     public AudioService() {
-        binder = new LocalBinder();
-        serviceLocation = new ServiceLocation();
+        this.binder = new LocalBinder();
+        this.serviceLocation = new ServiceLocation();
         this.configChanged = false;
     }
 
@@ -51,7 +52,6 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public class LocalBinder extends Binder {
-
         public AudioService getService() {
             return AudioService.this;
         }
@@ -60,7 +60,8 @@ public class AudioService extends Service implements ServiceManipulator {
     @Override
     public void onCreate() {
         super.onCreate();
-        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, new AudioCompletionHandler(serviceLocation), this);
+        audioCompletionHandler = new AudioCompletionHandler(serviceLocation);
+        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, audioCompletionHandler, this);
         this.syncer = new Syncer(playerHandler);
         playerHandler.restoreItem();
         initReceivers(playerHandler);
@@ -97,7 +98,11 @@ public class AudioService extends Service implements ServiceManipulator {
         return START_STICKY;
     }
 
-    public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
+    public void setCompletionListener(CompletionListener onCompletionListener) {
+        audioCompletionHandler.setActivityListener(onCompletionListener);
+    }
+
+    public void setSyncListener(OnStateSync listener) {
         syncer.setSyncListener(listener);
         syncForeground();
     }
@@ -110,12 +115,17 @@ public class AudioService extends Service implements ServiceManipulator {
         serviceLocation.unbinding();
         if (!serviceLocation.isWithinApp() && !configChanged) {
             boolean isPlaying = syncer.isPlaying();
-            removeSyncListener();
+            removeListeners();
             onLeavingApp(isPlaying);
             if (!isPlaying) {
                 stopSelf();
             }
         }
+    }
+
+    private void removeListeners() {
+        this.onCompletionListener = null;
+        removeSyncListener();
     }
 
     private void onLeavingApp(boolean isPlaying) {

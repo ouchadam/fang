@@ -10,21 +10,20 @@ import android.util.Log;
 public class AudioServiceBinder {
 
     private final Context context;
-    private OnStateSync onBindStateSyncListener;
+    private final OnStateSync onBindStateSyncListener;
+    private final CompletionListener completionListener;
+
     private Connection connection;
 
-    public interface OnStateSync {
-
-        void onSync(SyncEvent syncEvent);
-    }
-    public AudioServiceBinder(Context context, OnStateSync onBindStateSyncListener) {
+    public AudioServiceBinder(Context context, OnStateSync onBindStateSyncListener, CompletionListener completionListener) {
         this.context = context;
         this.onBindStateSyncListener = onBindStateSyncListener;
+        this.completionListener = completionListener;
     }
 
     public void bindService() {
         if (connection == null) {
-            connection = new Connection(onBindStateSyncListener);
+            connection = new Connection(onBindStateSyncListener, completionListener);
         }
         Intent intent = new Intent(context, AudioService.class);
         context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
@@ -44,17 +43,20 @@ public class AudioServiceBinder {
 
     private static class Connection implements ServiceConnection {
 
-        private final OnStateSync listener;
+        private final OnStateSync syncListener;
+        private CompletionListener completionListener;
         private AudioService audioService;
 
-        private Connection(OnStateSync listener) {
-            this.listener = listener;
+        private Connection(OnStateSync syncListener, CompletionListener completionListener) {
+            this.syncListener = syncListener;
+            this.completionListener = completionListener;
         }
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             audioService = ((AudioService.LocalBinder) binder).getService();
-            audioService.setSyncListener(listener);
+            audioService.setSyncListener(syncListener);
+            audioService.setCompletionListener(completionListener);
             audioService.fangBind();
         }
 

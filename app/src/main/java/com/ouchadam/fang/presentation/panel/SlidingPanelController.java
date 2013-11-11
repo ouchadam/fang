@@ -99,6 +99,11 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
         slidingPanelViewManipulator.show();
     }
 
+    public void hidePanel() {
+        resetItem();
+        slidingPanelViewManipulator.hide();
+    }
+
     public void close() {
         slidingPanelViewManipulator.close();
     }

@@ -19,10 +19,12 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
-import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
+import com.ouchadam.fang.audio.CompletionListener;
+import com.ouchadam.fang.audio.OnStateSync;
+import com.ouchadam.fang.audio.PlayingItemStateManager;
 import com.ouchadam.fang.audio.SyncEvent;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.ActionBarManipulator;
@@ -61,7 +63,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
         fangBookKeeer = FangBookKeeer.newInstance(this);
-        audioServiceBinder = new AudioServiceBinder(this, onStateSync);
+        audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         initSlidingPaneController();
@@ -70,7 +72,16 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         onFangCreate(savedInstanceState);
     }
 
-    private final AudioServiceBinder.OnStateSync onStateSync = new AudioServiceBinder.OnStateSync() {
+    private final CompletionListener onCompletion = new CompletionListener() {
+        @Override
+        public void onComplete() {
+            slidingPanelController.hidePanel();
+            PlayingItemStateManager playingItemStateManager = PlayingItemStateManager.from(FangActivity.this);
+            playingItemStateManager.resetCurrentItem();
+        }
+    };
+
+    private final OnStateSync onStateSync = new OnStateSync() {
         @Override
         public void onSync(SyncEvent syncEvent) {
             slidingPanelController.sync(syncEvent);

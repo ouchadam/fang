@@ -4,13 +4,13 @@ class Syncer {
 
     private final PlayerHandler playerHandler;
 
-    private AudioServiceBinder.OnStateSync listener;
+    private OnStateSync listener;
 
     Syncer(PlayerHandler playerHandler) {
         this.playerHandler = playerHandler;
     }
 
-    public void setSyncListener(AudioServiceBinder.OnStateSync listener) {
+    public void setSyncListener(OnStateSync listener) {
         this.listener = listener;
     }
 

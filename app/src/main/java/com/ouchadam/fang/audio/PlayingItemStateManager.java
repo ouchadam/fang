@@ -9,7 +9,7 @@ import android.util.Log;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.PositionPersister;
 
-class PlayingItemStateManager {
+public class PlayingItemStateManager {
 
     private final ContentResolver contentResolver;
     private final SharedPreferences preferences;
@@ -26,7 +26,6 @@ class PlayingItemStateManager {
     }
 
     public void persist(long itemId, PodcastPosition position, Uri source) {
-        Log.e("???", "Persisting : " + itemId + " : within listened? " + position.isCompleted());
         if (itemId != PlayerHandler.MISSING_ID) {
             persistPosition(itemId, position);
             persistId(itemId);
@@ -56,5 +55,9 @@ class PlayingItemStateManager {
 
     public long getStoredPlayingId() {
         return preferences.getLong("id", PlayerHandler.MISSING_ID);
+    }
+
+    public void resetCurrentItem() {
+        preferences.edit().remove("id").apply();
     }
 }

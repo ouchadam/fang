@@ -118,4 +118,8 @@ class PanelViewHolder {
         mainPanelController.showPanel();
     }
 
+    public void hide() {
+        mainPanelController.hidePanel();
+    }
+
 }

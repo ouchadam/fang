@@ -39,6 +39,11 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
         panelViewHolder.show();
     }
 
+
+    public void hide() {
+        panelViewHolder.hide();
+    }
+
     public interface OnDownloadClickListener {
         void onDownloadClicked(FullItem fullItem);
     }

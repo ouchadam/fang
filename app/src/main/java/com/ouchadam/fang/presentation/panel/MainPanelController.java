@@ -25,7 +25,7 @@ class MainPanelController {
         hidePanel();
     }
 
-    private void hidePanel() {
+    void hidePanel() {
         panelLayout.hidePanel();
     }
 
