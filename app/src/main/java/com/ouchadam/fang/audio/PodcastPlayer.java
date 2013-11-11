@@ -108,6 +108,7 @@ public class PodcastPlayer {
     }
 
     public PodcastPosition getCompletedPosition() {
+        mediaPlayer.seekTo(mediaPlayer.getDuration());
         return new PodcastPosition(mediaPlayer.getDuration(), mediaPlayer.getDuration());
     }
 

@@ -39,7 +39,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     @Override
     public void setData(long itemId) {
-        Log.e("???", "setData with : " + itemId);
         if (itemQueryer != null) {
             itemQueryer.stop();
         }

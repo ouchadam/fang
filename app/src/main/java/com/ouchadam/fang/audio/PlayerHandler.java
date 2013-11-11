@@ -89,6 +89,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onPause() {
+        Log.e("???", "onPause");
         pauseAudio();
         itemStateManager.persist(playingItemId, podcastPlayer.getPosition(), podcastPlayer.getSource());
         sync(new PlayerEvent.Factory().pause());
@@ -107,6 +108,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onStop() {
+        Log.e("???", "onStop");
         saveCurrentPlayState();
         stopAudio();
         notification.dismiss();

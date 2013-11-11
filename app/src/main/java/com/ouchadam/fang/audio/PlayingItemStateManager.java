@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.PositionPersister;
