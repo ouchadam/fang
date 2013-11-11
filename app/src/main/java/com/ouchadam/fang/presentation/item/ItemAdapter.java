@@ -73,13 +73,13 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     }
 
     private void setHolderTextColour(ViewHolder holder, FullItem item) {
-        holder.title.setTextColor(getTitleColour(holder.title, item.isListenedTo()));
+        holder.title.setTextColor(getTitleColour(item.isListenedTo()));
         holder.channelTitle.setTextColor(getChannelColour(item.isListenedTo()));
         holder.itemTime.setTextColor(getAscentColour(item.isListenedTo()));
     }
 
-    private int getTitleColour(TextView originalText, boolean isListenedTo) {
-        return isListenedTo ? getColour(R.color.listened_grey) : originalText.getTextColors().getDefaultColor();
+    private int getTitleColour(boolean isListenedTo) {
+        return isListenedTo ? getColour(R.color.listened_grey) : getColour(android.R.color.primary_text_light);
     }
 
     private int getChannelColour(boolean listenedTo) {
@@ -90,8 +90,10 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
         if (holder.channelImage != null) {
             String imageUrl = fullItem.getImageUrl();
             if (fullItem.isListenedTo()) {
+                holder.channelImage.setAlpha(0.5f);
                 Picasso.with(context).load(imageUrl).transform(new GreyscaleTransformation(imageUrl)).resize(200, 200).centerCrop().into(holder.channelImage);
             } else {
+                holder.channelImage.setAlpha(1f);
                 Picasso.with(context).load(imageUrl).resize(200, 200).centerCrop().into(holder.channelImage);
             }
         }
