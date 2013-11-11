@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.search.ExploreResultsFragment;
@@ -49,9 +48,7 @@ public class SearchActivity extends FangActivity {
 
     private String getSearchQuery(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Log.e("???", "search : " + query);
-            return query;
+            return intent.getStringExtra(SearchManager.QUERY);
         }
         return "";
     }

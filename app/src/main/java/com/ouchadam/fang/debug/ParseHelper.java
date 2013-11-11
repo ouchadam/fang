@@ -32,7 +32,7 @@ public class ParseHelper {
         this.listener = listener;
     }
 
-    public void parse(Activity activity, String fileName) {
+    public void parseLocal(Activity activity, String fileName) {
         PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
             podcastParser.parse(activity.getAssets().open(fileName));

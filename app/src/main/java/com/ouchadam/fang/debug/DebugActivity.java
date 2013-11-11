@@ -32,8 +32,8 @@ public class DebugActivity extends BasePreferenceActivity {
         public boolean onPreferenceClick(Preference preference) {
             new DatabaseCleaner(new ContentProviderOperationExecutable(getContentResolver())).deleteTestData();
             ParseHelper parseHelper = new ParseHelper(getContentResolver(), onParseFinishedListener);
-            parseHelper.parse(DebugActivity.this, "feed_cnet_small.xml");
-            parseHelper.parse(DebugActivity.this, "feed_hsw_small.xml");
+            parseHelper.parseLocal(DebugActivity.this, "feed_cnet_small.xml");
+            parseHelper.parseLocal(DebugActivity.this, "feed_hsw_small.xml");
             return false;
         }
     };

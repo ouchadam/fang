@@ -1,20 +1,15 @@
 package com.ouchadam.fang.presentation.search;
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.novoda.notils.caster.Views;
@@ -23,12 +18,11 @@ import com.ouchadam.fang.api.search.ItunesSearch;
 import com.ouchadam.fang.api.search.Result;
 import com.ouchadam.fang.api.search.SearchResult;
 import com.ouchadam.fang.debug.ParseHelper;
-import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
 
 import java.util.List;
 
-public class ExploreResultsFragment extends Fragment implements AdapterView.OnItemClickListener, ParseHelper.OnParseFinishedListener {
+public class ExploreResultsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private final static Handler HANDLER = new Handler(Looper.getMainLooper());
     private final ActionBarTitleSetter actionBarTitleSetter;
@@ -129,12 +123,9 @@ public class ExploreResultsFragment extends Fragment implements AdapterView.OnIt
     }
 
     private void dirtyParsing(Result item) {
-        ParseHelper parseHelper = new ParseHelper(getActivity().getContentResolver(), this);
+        Toast.makeText(getActivity(), "Adding : " + item.getChannelTitle(), Toast.LENGTH_SHORT).show();
+        ParseHelper parseHelper = new ParseHelper(getActivity().getContentResolver(), null);
         parseHelper.parse(getActivity(), item.getFeedUrl());
     }
 
-    @Override
-    public void onParseFinished(Channel channel) {
-        Toast.makeText(getActivity(), "Added : " + channel.getTitle(), Toast.LENGTH_SHORT).show();
-    }
 }
