@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.notification.NotificationService;

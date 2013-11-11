@@ -91,14 +91,18 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     public void onPause() {
         Log.e("???", "onPause");
         pauseAudio();
-        itemStateManager.persist(playingItemId, podcastPlayer.getPosition(), podcastPlayer.getSource());
+        saveCurrentPlayState();
         sync(new PlayerEvent.Factory().pause());
     }
 
     public void completeAudio() {
         pauseAudio();
-        itemStateManager.persist(playingItemId, podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
+        saveCompletedState();
         sync(new PlayerEvent.Factory().pause());
+    }
+
+    private void saveCompletedState() {
+        itemStateManager.persist(playingItemId, podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
     }
 
     private void pauseAudio() {
@@ -109,14 +113,13 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     @Override
     public void onStop() {
         Log.e("???", "onStop");
-        saveCurrentPlayState();
         stopAudio();
         notification.dismiss();
         serviceManipulator.stop();
     }
 
     private void saveCurrentPlayState() {
-        if (podcastPlayer.isPrepared()) {
+        if (podcastPlayer.isPrepared() && podcastPlayer.hasChanged()) {
             itemStateManager.persist(playingItemId, podcastPlayer.getPosition(), podcastPlayer.getSource());
         }
     }

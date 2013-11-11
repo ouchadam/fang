@@ -22,11 +22,14 @@ public class PodcastPlayer {
     private Uri source;
     private MediaPlayer.OnCompletionListener onComplete;
 
+    private boolean hasChanged;
+
 
     public PodcastPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster) {
         this.context = context;
         this.positionBroadcaster = positionBroadcaster;
         this.source = null;
+        this.hasChanged = false;
     }
 
     public void setSource(Uri source) throws IOException {
@@ -57,11 +60,13 @@ public class PodcastPlayer {
         if (position != null) {
             goTo(position.value());
         }
+        hasChanged = true;
         mediaPlayer.start();
         scheduleSeekPositionUpdate();
     }
 
     public void goTo(int position) {
+        hasChanged = true;
         mediaPlayer.seekTo(position);
     }
 
@@ -108,7 +113,6 @@ public class PodcastPlayer {
     }
 
     public PodcastPosition getCompletedPosition() {
-        mediaPlayer.seekTo(mediaPlayer.getDuration());
         return new PodcastPosition(mediaPlayer.getDuration(), mediaPlayer.getDuration());
     }
 
@@ -118,5 +122,9 @@ public class PodcastPlayer {
 
     public Uri getSource() {
         return source;
+    }
+
+    public boolean hasChanged() {
+        return hasChanged;
     }
 }

@@ -26,6 +26,7 @@ class PlayingItemStateManager {
     }
 
     public void persist(long itemId, PodcastPosition position, Uri source) {
+        Log.e("???", "Persisting : " + itemId + " : within listened? " + position.isCompleted());
         if (itemId != PlayerHandler.MISSING_ID) {
             persistPosition(itemId, position);
             persistId(itemId);
