@@ -1,15 +1,20 @@
 package com.ouchadam.fang.presentation.search;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.novoda.notils.caster.Views;
@@ -29,8 +34,29 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
     private final ActionBarTitleSetter actionBarTitleSetter;
     private SearchAdapter adapter;
 
+    public static ExploreFragment newInstance(String query) {
+        Bundle arguments = new Bundle();
+        arguments.putString("Query", query);
+        ExploreFragment exploreFragment = new ExploreFragment();
+        exploreFragment.setArguments(arguments);
+        return exploreFragment;
+    }
+
     public ExploreFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.explore_menu, menu);
+
+        // TODO move to a different fragment
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(true);
+
     }
 
     @Override
@@ -54,12 +80,22 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO : restore last search
+        setHasOptionsMenu(true);
         actionBarTitleSetter.set("Explore");
-        searchFor("bbc");
+        if (hasQuery()) {
+            searchFor(getSearchQuery());
+        }
     }
 
-    private void searchFor(final String searchTerm) {
+    private boolean hasQuery() {
+        return getArguments() != null && getArguments().containsKey("Query");
+    }
+
+    private String getSearchQuery() {
+        return getArguments().getString("Query");
+    }
+
+    public void searchFor(final String searchTerm) {
         updateUi(searchTerm);
         performSearch(searchTerm);
     }
@@ -112,6 +148,6 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onParseFinished(Channel channel) {
-        Toast.makeText(getActivity(), "Added : "  + channel.getTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Added : " + channel.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }
