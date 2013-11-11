@@ -31,6 +31,7 @@ import com.ouchadam.fang.presentation.panel.DurationFormatter;
 
 public class DetailsFragment extends Fragment {
 
+    private final ActionBarTitleSetter actionBarTitleSetter;
     private Downloader downloader;
 
     private ItemQueryer itemQueryer;
@@ -51,6 +52,7 @@ public class DetailsFragment extends Fragment {
     }
 
     public DetailsFragment() {
+        this.actionBarTitleSetter = new ActionBarTitleSetter();
         this.isDownloaded = false;
         this.item = null;
     }
@@ -60,6 +62,7 @@ public class DetailsFragment extends Fragment {
         super.onAttach(activity);
         setHasOptionsMenu(true);
         downloader = Classes.from(activity);
+        actionBarTitleSetter.onAttach(activity);
     }
 
     @Override
@@ -124,6 +127,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        actionBarTitleSetter.set("Details");
         heroManager = new HeroManager(new HeroHolder(), heroImage, getActivity());
         heroManager.loadDimensions();
     }

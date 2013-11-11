@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.search;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,21 +19,31 @@ import com.ouchadam.fang.api.search.Result;
 import com.ouchadam.fang.api.search.SearchResult;
 import com.ouchadam.fang.debug.ParseHelper;
 import com.ouchadam.fang.domain.channel.Channel;
+import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
 
 import java.util.List;
 
-public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener, ParseHelper.OnParseFinishedListener {
+public class ExploreFragment extends Fragment implements AdapterView.OnItemClickListener, ParseHelper.OnParseFinishedListener {
 
     private final static Handler HANDLER = new Handler(Looper.getMainLooper());
-
-    private ListView listView;
+    private final ActionBarTitleSetter actionBarTitleSetter;
     private SearchAdapter adapter;
+
+    public ExploreFragment() {
+        this.actionBarTitleSetter = new ActionBarTitleSetter();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        actionBarTitleSetter.onAttach(activity);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        listView = Views.findById(root, R.id.list);
+        ListView listView = Views.findById(root, R.id.list);
         adapter = new SearchAdapter(LayoutInflater.from(getActivity()), getActivity());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -44,6 +55,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO : restore last search
+        actionBarTitleSetter.set("Explore");
         searchFor("bbc");
     }
 

@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,18 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class ChannelFragment extends CursorBackedListFragment<Channel> implements OnItemClickListener<Channel> {
 
+    private final ActionBarTitleSetter actionBarTitleSetter;
+
+    public ChannelFragment() {
+        this.actionBarTitleSetter = new ActionBarTitleSetter();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        actionBarTitleSetter.onAttach(activity);
+    }
+
     @Override
     protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_channel_list, container, false);
@@ -27,6 +40,12 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        actionBarTitleSetter.set("Channels");
     }
 
     @Override

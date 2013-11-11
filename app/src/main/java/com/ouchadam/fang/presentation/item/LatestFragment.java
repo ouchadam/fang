@@ -28,7 +28,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     private SlidingPanelExposer panelController;
 
     public LatestFragment() {
-        actionBarTitleSetter = new ActionBarTitleSetter();
+        this.actionBarTitleSetter = new ActionBarTitleSetter();
     }
 
     @Override

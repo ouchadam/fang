@@ -22,12 +22,15 @@ import java.util.List;
 
 public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
+    private final ActionBarTitleSetter actionBarTitleSetter;
+
     private Downloader downloader;
     private SlidingPanelExposer panelController;
     private boolean hasRestored;
 
     public PlaylistFragment() {
         this.hasRestored = false;
+        this.actionBarTitleSetter = new ActionBarTitleSetter();
     }
 
     @Override
@@ -59,12 +62,19 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         super.onAttach(activity);
         downloader = Classes.from(activity);
         panelController = Classes.from(activity);
+        actionBarTitleSetter.onAttach(activity);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        actionBarTitleSetter.set("Playlist");
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.item.ChannelFragment;
 import com.ouchadam.fang.presentation.item.LatestFragment;
 import com.ouchadam.fang.presentation.item.PlaylistFragment;
-import com.ouchadam.fang.presentation.search.SearchFragment;
+import com.ouchadam.fang.presentation.search.ExploreFragment;
 
 public class DrawerNavigator implements OnDrawItemClickListener {
 
@@ -54,7 +54,7 @@ public class DrawerNavigator implements OnDrawItemClickListener {
         EXPLORE {
             @Override
             Fragment get() {
-                return new SearchFragment();
+                return new ExploreFragment();
             }
         };
 
