@@ -70,7 +70,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.details, menu);
+        inflater.inflate(R.menu.playlist, menu);
     }
 
     @Override
