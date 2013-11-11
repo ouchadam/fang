@@ -102,6 +102,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private void initDrawer(ListAdapter listAdapter, DrawerNavigator drawerNavigator) {
         fangDrawer = FangDrawer.newInstance(this, drawerNavigator);
         fangDrawer.setAdapter(listAdapter);
+        fangDrawer.setOnCloseTitle(getTitle().toString());
     }
 
     private void startAudioService() {
@@ -128,6 +129,13 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         fangDrawer.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        getActionBar().setTitle(title);
+        fangDrawer.setOnCloseTitle(title);
+        refresh();
     }
 
     @Override

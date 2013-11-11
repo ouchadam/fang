@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 
 import com.novoda.notils.caster.Classes;

@@ -83,7 +83,6 @@ public class FragmentControllerActivity extends FangActivity {
     }
 
     private void showDefaultFragment() {
-        getActionBar().setTitle("Latest");
         invalidateOptionsMenu();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new LatestFragment()).commit();
     }

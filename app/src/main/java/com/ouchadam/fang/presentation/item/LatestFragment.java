@@ -3,7 +3,6 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
 import com.ouchadam.fang.presentation.controller.DetailsActivity;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
@@ -24,18 +24,25 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
+    private final ActionBarTitleSetter actionBarTitleSetter;
     private SlidingPanelExposer panelController;
+
+    public LatestFragment() {
+        actionBarTitleSetter = new ActionBarTitleSetter();
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         panelController = Classes.from(activity);
+        actionBarTitleSetter.onAttach(activity);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundles.restoreInstanceState(this, savedInstanceState);
+        actionBarTitleSetter.set("Latest");
     }
 
     @Override

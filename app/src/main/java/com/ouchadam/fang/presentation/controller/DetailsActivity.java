@@ -2,34 +2,35 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.item.DetailsFragment;
-import com.ouchadam.fang.presentation.item.LatestFragment;
 
 public class DetailsActivity extends FangActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        init();
+        initContent();
     }
 
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         super.onFangCreate(savedInstanceState);
+        initActionBar();
+        initContent();
+    }
+
+    private void initActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         showDrawerIndicator(false);
-        init();
     }
 
-    private void init() {
+    private void initContent() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             showDefaultFragment(extras.getLong("itemId"));

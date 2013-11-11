@@ -3,6 +3,7 @@ package com.ouchadam.fang.presentation.drawer;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;

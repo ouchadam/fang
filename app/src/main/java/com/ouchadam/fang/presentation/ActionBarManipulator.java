@@ -4,4 +4,5 @@ public interface ActionBarManipulator {
     boolean isActionBarShowing();
     void hideActionBar();
     void showActionBar();
+    void setTitle(String title);
 }
