@@ -5,6 +5,10 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,6 +46,8 @@ public class DetailsFragment extends Fragment {
     private boolean isDownloaded;
     private FullItem item;
     private HeroManager heroManager;
+    private TextView channelText;
+    private TextView itemTitleText;
 
     public static DetailsFragment newInstance(long itemId) {
         DetailsFragment detailsFragment = new DetailsFragment();
@@ -121,6 +127,8 @@ public class DetailsFragment extends Fragment {
         heroImage = Views.findById(root, R.id.content_image);
         descriptionText = Views.findById(root, R.id.fragment_item_description);
         durationText = Views.findById(root, R.id.fragment_item_duration);
+        channelText = Views.findById(root, R.id.fragment_channel_title);
+        itemTitleText = Views.findById(root, R.id.fragment_item_title);
         return root;
     }
 
@@ -161,8 +169,8 @@ public class DetailsFragment extends Fragment {
         this.item = item;
         Item baseItem = item.getItem();
         initActionBarFrom(item);
-        item.getChannelTitle();
-        baseItem.getTitle();
+        channelText.setText(item.getChannelTitle());
+        itemTitleText.setText(baseItem.getTitle());
         descriptionText.setText(baseItem.getSummary());
         durationText.setText(new DurationFormatter(getResources()).format(baseItem.getDuration()));
         heroManager.setBackgroundImage(item);

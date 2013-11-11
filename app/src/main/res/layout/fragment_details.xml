@@ -11,28 +11,52 @@
     android:scaleType="centerInside"
     android:contentDescription="@null"/>
 
-  <TextView
-    android:id="@+id/fragment_item_description"
-    android:layout_height="wrap_content"
+  <RelativeLayout
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingTop="48dp"
     android:paddingLeft="24dp"
-    android:paddingRight="24dp"
-    style="@style/DrawerTextShadow"
-    android:layout_alignParentTop="true"
-    android:textSize="16sp"/>
+    android:paddingRight="24dp">
 
-  <TextView
-    android:id="@+id/fragment_item_duration"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
-    android:layout_below="@id/fragment_item_description"
-    android:gravity="right"
-    android:textSize="18sp"
-    style="@style/DrawerTextShadow"
-    android:textStyle="italic"/>
+    <TextView
+      android:id="@+id/fragment_item_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:textStyle="bold"
+      android:fontFamily="sans-serif-thin"
+      android:textSize="39sp"/>
+
+    <TextView
+      android:id="@+id/fragment_channel_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:fontFamily="sans-serif-light"
+      android:textSize="24sp"
+      android:paddingBottom="12dp"
+      android:textColor="@android:color/darker_gray"
+      android:layout_below="@id/fragment_item_title" />
+
+    <TextView
+      android:id="@+id/fragment_item_description"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      style="@style/DrawerTextShadow"
+      android:layout_below="@id/fragment_channel_title"
+      android:textSize="18sp"
+      android:paddingBottom="8dp"/>
+
+    <TextView
+      android:id="@+id/fragment_item_duration"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_below="@id/fragment_item_description"
+      android:gravity="right"
+      android:textSize="18sp"
+      style="@style/DrawerTextShadow"
+      android:textStyle="italic"/>
+
+  </RelativeLayout>
 
 </RelativeLayout>
 
