@@ -37,7 +37,6 @@ public class DetailsActivity extends FangActivity {
     }
 
     private void showDefaultFragment(long itemId) {
-        getActionBar().setTitle("Latest");
         invalidateOptionsMenu();
         DetailsFragment detailsFragment = DetailsFragment.newInstance(itemId);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, detailsFragment).commit();
