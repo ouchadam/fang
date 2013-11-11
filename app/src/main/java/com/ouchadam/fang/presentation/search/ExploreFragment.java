@@ -28,19 +28,9 @@ import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
 
 import java.util.List;
 
-public class ExploreFragment extends Fragment implements AdapterView.OnItemClickListener, ParseHelper.OnParseFinishedListener {
+public class ExploreFragment extends Fragment {
 
-    private final static Handler HANDLER = new Handler(Looper.getMainLooper());
     private final ActionBarTitleSetter actionBarTitleSetter;
-    private SearchAdapter adapter;
-
-    public static ExploreFragment newInstance(String query) {
-        Bundle arguments = new Bundle();
-        arguments.putString("Query", query);
-        ExploreFragment exploreFragment = new ExploreFragment();
-        exploreFragment.setArguments(arguments);
-        return exploreFragment;
-    }
 
     public ExploreFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
@@ -68,12 +58,6 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
-
-        ListView listView = Views.findById(root, R.id.list);
-        adapter = new SearchAdapter(LayoutInflater.from(getActivity()), getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-
         return root;
     }
 
@@ -82,72 +66,6 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         actionBarTitleSetter.set("Explore");
-        if (hasQuery()) {
-            searchFor(getSearchQuery());
-        }
     }
 
-    private boolean hasQuery() {
-        return getArguments() != null && getArguments().containsKey("Query");
-    }
-
-    private String getSearchQuery() {
-        return getArguments().getString("Query");
-    }
-
-    public void searchFor(final String searchTerm) {
-        updateUi(searchTerm);
-        performSearch(searchTerm);
-    }
-
-    private void updateUi(String searchTerm) {
-        // TODO
-    }
-
-    private void performSearch(final String searchTerm) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final SearchResult search;
-                try {
-                    search = new ItunesSearch().search(searchTerm);
-                    HANDLER.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateAdapter(search.getResults());
-                        }
-                    });
-                } catch (ItunesSearch.ItunesSearchException e) {
-                    e.printStackTrace();
-                    HANDLER.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "oopsies... search dun goofed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-            }
-        }).start();
-    }
-
-    private void updateAdapter(List<Result> results) {
-        adapter.updateData(results);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long itemId) {
-        Result item = adapter.getItem(position);
-        dirtyParsing(item);
-    }
-
-    private void dirtyParsing(Result item) {
-        ParseHelper parseHelper = new ParseHelper(getActivity().getContentResolver(), this);
-        parseHelper.parse(getActivity(), item.getFeedUrl());
-    }
-
-    @Override
-    public void onParseFinished(Channel channel) {
-        Toast.makeText(getActivity(), "Added : " + channel.getTitle(), Toast.LENGTH_SHORT).show();
-    }
 }

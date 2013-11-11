@@ -1,12 +1,13 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.presentation.search.ExploreFragment;
+import com.ouchadam.fang.presentation.search.ExploreResultsFragment;
 
 public class SearchActivity extends FangActivity {
 
@@ -20,7 +21,15 @@ public class SearchActivity extends FangActivity {
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         super.onFangCreate(savedInstanceState);
+        initActionBar();
         onSearch(getIntent());
+    }
+
+    private void initActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        showDrawerIndicator(false);
     }
 
     private void onSearch(Intent intent) {
@@ -35,7 +44,7 @@ public class SearchActivity extends FangActivity {
     }
 
     private void handleSearch(String query) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, ExploreFragment.newInstance(query)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, ExploreResultsFragment.newInstance(query)).commit();
     }
 
     private String getSearchQuery(Intent intent) {

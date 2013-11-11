@@ -53,4 +53,8 @@ public class Result {
     public String getFeedUrl() {
         return feedUrl;
     }
+
+    public int getItemCount() {
+        return itemCount;
+    }
 }

@@ -24,7 +24,6 @@ public class DetailsActivity extends FangActivity {
 
     private void initActionBar() {
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         showDrawerIndicator(false);
