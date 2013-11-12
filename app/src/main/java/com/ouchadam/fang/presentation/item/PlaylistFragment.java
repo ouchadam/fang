@@ -27,8 +27,8 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private final ActionBarTitleSetter actionBarTitleSetter;
 
     private Downloader downloader;
-    private SlidingPanelExposer panelController;
     private boolean hasRestored;
+    private DetailsDisplayManager detailsDisplayManager;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -63,8 +63,9 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         downloader = Classes.from(activity);
-        panelController = Classes.from(activity);
         actionBarTitleSetter.onAttach(activity);
+        SlidingPanelExposer panelController = Classes.from(activity);
+        detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
     }
 
     @Override
@@ -97,8 +98,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        panelController.showPanel();
-        panelController.setData(itemId);
+        detailsDisplayManager.displayItem(itemId);
     }
 
 }

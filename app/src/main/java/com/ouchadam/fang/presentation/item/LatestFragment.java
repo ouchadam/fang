@@ -1,7 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,7 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
-import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
-import com.ouchadam.fang.presentation.controller.DetailsActivity;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
@@ -25,7 +22,7 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
     private final ActionBarTitleSetter actionBarTitleSetter;
-    private SlidingPanelExposer panelController;
+    private DetailsDisplayManager detailsDisplayManager;
 
     public LatestFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
@@ -34,8 +31,9 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        panelController = Classes.from(activity);
         actionBarTitleSetter.onAttach(activity);
+        SlidingPanelExposer panelController = Classes.from(activity);
+        detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
     }
 
     @Override
@@ -75,20 +73,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        if (isAlreadySelected(itemId)) {
-            panelController.showExpanded();
-        } else {
-            showItemDetails(itemId, panelController.getId());
-        }
-    }
-
-    private void showItemDetails(long itemId, long panelId) {
-        NavigatorForResult navigator = new NavigatorForResult(getActivity());
-        navigator.toItemDetails(itemId, panelId);
-    }
-
-    private boolean isAlreadySelected(long clickedId) {
-        return panelController.getId() == clickedId;
+        detailsDisplayManager.displayItem(itemId);
     }
 
 }
