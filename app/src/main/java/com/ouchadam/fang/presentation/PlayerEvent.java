@@ -35,7 +35,8 @@ public class PlayerEvent {
         PAUSE,
         STOP,
         GOTO,
-        NEW_SOURCE;
+        NEW_SOURCE,
+        RESET;
 
         public static final String ACTION_PREFIX = "com.fang.action.";
         public static final String NOTIFICATION_PREFIX = "com.fang.notification.";
@@ -98,6 +99,11 @@ public class PlayerEvent {
 
         public PlayerEvent stop() {
             playerEvent.event = Event.STOP;
+            return build();
+        }
+
+        public PlayerEvent reset() {
+            playerEvent.event = Event.RESET;
             return build();
         }
 

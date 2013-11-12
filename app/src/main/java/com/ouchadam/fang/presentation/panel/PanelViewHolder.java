@@ -22,7 +22,7 @@ class PanelViewHolder {
     private final MainPanelController mainPanelController;
     private final OverflowController overflowController;
 
-    public static PanelViewHolder from(SlidingUpPanelLayout panel) {
+    public static PanelViewHolder from(SlidingUpPanelLayout panel, OverflowCallback overflowCallback) {
         ViewSwitcher topMediaSwitcher = Views.findById(panel, R.id.media_switcher);
         ViewSwitcher bottomMediaSwitcher = Views.findById(panel, R.id.bottom_media_switcher);
 
@@ -49,7 +49,7 @@ class PanelViewHolder {
         MainPanelController mainPanelController = new MainPanelController(panel, durationFormatter, heroManager);
 
         ImageButton overflowButton = Views.findById(panel, R.id.drawer_overflow);
-        OverflowController overflowController = new OverflowController(overflowButton);
+        OverflowController overflowController = new OverflowController(overflowButton, overflowCallback);
 
         return new PanelViewHolder(position, mediaController, downloadController, mainPanelController, overflowController);
     }
@@ -127,6 +127,7 @@ class PanelViewHolder {
     }
 
     public void hide() {
+        showCollapsed(true);
         mainPanelController.hidePanel();
     }
 

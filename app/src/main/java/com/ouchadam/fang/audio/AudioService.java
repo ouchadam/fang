@@ -20,7 +20,6 @@ public class AudioService extends Service implements ServiceManipulator {
     private PlayerEventReceiver playerEventReceiver;
     private ExternalReceiver externalReceiver;
     private Syncer syncer;
-    private CompletionListener onCompletionListener;
 
     private boolean configChanged;
     private AudioCompletionHandler audioCompletionHandler;
@@ -124,7 +123,7 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     private void removeListeners() {
-        this.onCompletionListener = null;
+        audioCompletionHandler.removeListener();
         removeSyncListener();
     }
 

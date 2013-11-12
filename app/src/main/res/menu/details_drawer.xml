@@ -8,11 +8,15 @@
         android:visible="false"/>
 
     <item
-        android:id="@+id/ab_remove_from_playlist"
-        android:title="Remove from playlist"/>
+        android:id="@+id/ab_remove_podcast"
+        android:title="Remove..."/>
 
     <item
         android:id="@+id/ab_go_to_channel"
         android:title="Go to channel"/>
+
+    <item
+        android:id="@+id/ab_close_panel"
+        android:title="Dismiss drawer"/>
 
 </menu>

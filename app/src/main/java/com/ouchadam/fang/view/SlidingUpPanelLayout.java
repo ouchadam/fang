@@ -110,6 +110,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private final Rect mTmpRect = new Rect();
     private boolean dragging;
     private int defaultHeight;
+    private boolean hidden = false;
 
     /**
      * Listener for monitoring events about sliding panes.
@@ -140,24 +141,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
         public void onPanelExpanded(View panel);
     }
 
-    /**
-     * No-op stubs for {@link PanelSlideListener}. If you only want to implement a subset
-     * of the listener methods you can extend this instead of implement the full interface.
-     */
-    public static class SimplePanelSlideListener implements PanelSlideListener {
-        @Override
-        public void onPanelSlide(View panel, float slideOffset) {
-        }
-
-        @Override
-        public void onPanelCollapsed(View panel) {
-        }
-
-        @Override
-        public void onPanelExpanded(View panel) {
-        }
-    }
-
     public SlidingUpPanelLayout(Context context) {
         this(context, null);
     }
@@ -186,10 +169,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     public void hidePanel() {
         setPanelHeight(0);
+        hidePane();
     }
 
     public void showPanel() {
         setPanelHeight(defaultHeight);
+        showPane();
     }
 
     /**
@@ -244,17 +229,21 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     private void dispatchOnPanelExpanded(View panel) {
-        if (mPanelSlideListener != null) {
+        if (panelIsValid(panel)) {
             mPanelSlideListener.onPanelExpanded(panel);
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
     }
 
     private void dispatchOnPanelCollapsed(View panel) {
-        if (mPanelSlideListener != null) {
+        if (panelIsValid(panel)) {
             mPanelSlideListener.onPanelCollapsed(panel);
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+    }
+
+    private boolean panelIsValid(View panel) {
+        return mPanelSlideListener != null && !hidden && panel.getContext() != null;
     }
 
     void updateObscuredViewVisibility() {
@@ -335,6 +324,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         }
 
         int layoutHeight = heightSize - getPaddingTop() - getPaddingBottom();
+
         int panelHeight = mPanelHeight;
 
         final int childCount = getChildCount();
@@ -569,6 +559,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     public void showPane() {
+        Log.e("???", "Show pane");
+        hidden = false;
         if (getChildCount() < 2) {
             return;
         }
@@ -578,6 +570,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     public void hidePane() {
+        Log.e("???", "Hide pane");
+        hidden = true;
         if (mSlideableView == null) {
             return;
         }

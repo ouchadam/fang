@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.meta.AndroidUtils;
@@ -25,6 +26,7 @@ import com.ouchadam.fang.audio.CompletionListener;
 import com.ouchadam.fang.audio.OnStateSync;
 import com.ouchadam.fang.audio.PlayingItemStateManager;
 import com.ouchadam.fang.audio.SyncEvent;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.presentation.FangBookKeeer;
@@ -33,12 +35,14 @@ import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
+import com.ouchadam.fang.presentation.item.Navigator;
+import com.ouchadam.fang.presentation.panel.OverflowCallback;
 import com.ouchadam.fang.presentation.panel.PlayerEventInteractionManager;
 import com.ouchadam.fang.presentation.panel.SlidingPanelController;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
 
-public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged {
+public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged, OverflowCallback {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
@@ -71,11 +75,14 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private final CompletionListener onCompletion = new CompletionListener() {
         @Override
         public void onComplete() {
-            slidingPanelController.hidePanel();
-            PlayingItemStateManager playingItemStateManager = PlayingItemStateManager.from(FangActivity.this);
-            playingItemStateManager.resetCurrentItem();
+            hidePanel();
         }
     };
+
+    private void hidePanel() {
+        slidingPanelController.hidePanel();
+        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().reset());
+    }
 
     private final OnStateSync onStateSync = new OnStateSync() {
         @Override
@@ -103,7 +110,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     private void initSlidingPaneController() {
-        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), fangDrawer);
+        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), fangDrawer, this);
         PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
     }
@@ -215,10 +222,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         fangBookKeeer.restore(lazyWatcher);
     }
 
-    protected void showDrawerIndicator(boolean show) {
-        fangDrawer.showIndicator(show);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         startAudioService();
@@ -244,4 +247,24 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(position));
     }
 
+    @Override
+    public void onMarkHeard(FullItem fullItem) {
+        Toast.makeText(this, "Todo", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGoToChannel(FullItem fullItem) {
+        new Navigator(this).toChannel(fullItem.getChannelTitle());
+    }
+
+    @Override
+    public void onRemove(FullItem fullItem) {
+        Toast.makeText(this, "Todo", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDismissDrawer(FullItem fullItem) {
+        slidingPanelController.close();
+        hidePanel();
+    }
 }

@@ -41,6 +41,7 @@ public class PlayerEventReceiver extends BroadcastReceiver {
         void onStop();
         void onNewSource(long itemId, Uri source);
         void gotoPosition(PodcastPosition position);
+        void onReset();
     }
 
     @Override
@@ -63,6 +64,9 @@ public class PlayerEventReceiver extends BroadcastReceiver {
                 break;
             case GOTO:
                 callbacks.gotoPosition(from.getPosition());
+                break;
+            case RESET:
+                callbacks.onReset();
                 break;
             default:
                 throw new RuntimeException("received an unhandled event : " + from.getEvent());

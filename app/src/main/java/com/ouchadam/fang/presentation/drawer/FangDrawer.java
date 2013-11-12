@@ -56,10 +56,6 @@ public class FangDrawer implements DrawerManipulator, DrawerDisEnabler {
         drawerList.setAdapter(adapter);
     }
 
-    public void showIndicator(boolean showing) {
-        drawerToggle.setDrawerIndicatorEnabled(showing);
-    }
-
     @Override
     public void close() {
         drawerLayout.closeDrawer(drawerParent);

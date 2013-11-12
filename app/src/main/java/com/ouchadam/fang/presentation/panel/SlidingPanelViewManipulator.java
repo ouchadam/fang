@@ -54,10 +54,10 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
         void onSeekChanged(PodcastPosition position);
     }
 
-    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root, DrawerDisEnabler drawerDisEnabler) {
+    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root, DrawerDisEnabler drawerDisEnabler, OverflowCallback overflowCallback) {
         SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
         slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
-        PanelViewHolder panelViewHolder = PanelViewHolder.from(slidingPanel);
+        PanelViewHolder panelViewHolder = PanelViewHolder.from(slidingPanel, overflowCallback);
         return new SlidingPanelViewManipulator(actionBarManipulator, onSeekChanged, panelViewHolder, drawerDisEnabler);
     }
 

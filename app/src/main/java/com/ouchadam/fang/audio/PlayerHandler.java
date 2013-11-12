@@ -135,6 +135,13 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         sync(new PlayerEvent.Factory().goTo(position));
     }
 
+    @Override
+    public void onReset() {
+        stopAudio();
+        itemStateManager.resetCurrentItem();
+        playingItemId = MISSING_ID;
+    }
+
     private void sync(PlayerEvent playerEvent) {
         audioSync.onSync(playingItemId, playerEvent);
     }
@@ -160,7 +167,6 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         Uri source = itemStateManager.getSource();
         if (source != null) {
             setAudioSource(source);
-            Log.e("???", "restore item : calling onsync");
             audioSync.onSync(playingId, new PlayerEvent.Factory().newSource(playingId, source));
         }
     }

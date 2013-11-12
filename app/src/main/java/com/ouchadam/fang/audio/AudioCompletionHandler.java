@@ -22,4 +22,8 @@ public class AudioCompletionHandler implements OnPlayCompletionListener {
     public void setActivityListener(CompletionListener onCompletionListener) {
         this.onCompletionListener = onCompletionListener;
     }
+
+    public void removeListener() {
+        this.onCompletionListener = null;
+    }
 }
