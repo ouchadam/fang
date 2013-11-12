@@ -5,14 +5,14 @@
     android:id="@+id/ab_download"
     android:title="Download"
     android:visible="false"
-    android:icon="@drawable/ic_menu_upload"
+    android:icon="@drawable/ic_menu_save"
     android:showAsAction="always"/>
 
   <item
     android:id="@+id/ab_play"
     android:title="Play"
     android:visible="false"
-    android:icon="@drawable/play_button"
+    android:icon="@drawable/ic_menu_play_clip"
     android:showAsAction="always"/>
 
   <item

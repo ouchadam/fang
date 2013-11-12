@@ -8,4 +8,10 @@
         android:showAsAction="ifRoom|collapseActionView"
         android:actionViewClass="android.widget.SearchView" />
 
+    <item
+        android:id="@+id/ab_add"
+        android:title="Add"
+        android:icon="@drawable/ic_add"
+        android:showAsAction="always"/>
+
 </menu>

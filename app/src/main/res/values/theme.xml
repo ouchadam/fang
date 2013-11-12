@@ -19,7 +19,7 @@
 
   <style name="FangDetailsTheme" parent="@android:style/Theme.Holo.Light">
     <item name="android:actionBarStyle">@style/FangDetailsActionBar</item>
-    <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
+    <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.Light.ActionButton.Overflow</item>
     <item name="android:progressBarStyleHorizontal">@style/FangProgressTheme</item>
     <item name="android:seekBarStyle">@style/FangSeekBarTheme</item>
   </style>

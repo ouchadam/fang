@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.item.DetailsFragment;
 
-public class DetailsActivity extends FangActivity {
+public class DetailsActivity extends SecondLevelFangActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -18,15 +18,7 @@ public class DetailsActivity extends FangActivity {
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         super.onFangCreate(savedInstanceState);
-        initActionBar();
         initContent();
-    }
-
-    private void initActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
-        showDrawerIndicator(false);
     }
 
     private void initContent() {

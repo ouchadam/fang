@@ -12,14 +12,19 @@
     android:scaleType="centerInside"
     android:contentDescription="@null"/>
 
+    <include
+        layout="@layout/blank_action_bar"
+        android:id="@+id/dummy_action_bar"
+        android:layout_alignParentTop="true"/>
+
   <RelativeLayout
     android:id="@+id/details_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="48dp"
+    android:layout_below="@id/dummy_action_bar"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    android:background="@color/trans_white">
+    android:background="@color/details_trans_white">
 
     <TextView
       android:id="@+id/fragment_item_title"
