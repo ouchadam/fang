@@ -57,12 +57,20 @@ public class PodcastPlayer {
     }
 
     public void play(PodcastPosition position) {
-        if (position != null) {
-            goTo(position.value());
-        }
+        setInitialPlayPosition(position);
         hasChanged = true;
         mediaPlayer.start();
         scheduleSeekPositionUpdate();
+    }
+
+    private void setInitialPlayPosition(PodcastPosition position) {
+        if (hasNonCompletedPosition(position)) {
+            goTo(position.value());
+        }
+    }
+
+    private boolean hasNonCompletedPosition(PodcastPosition position) {
+        return position != null && !position.isCompleted();
     }
 
     public void goTo(int position) {

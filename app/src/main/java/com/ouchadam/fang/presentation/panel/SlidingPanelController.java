@@ -137,7 +137,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     public void resetItem() {
-        Log.e("???", "resetting itemId");
         if (itemQueryer != null) {
             itemQueryer.stop();
             itemQueryer = null;

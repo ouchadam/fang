@@ -80,6 +80,8 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     };
 
     private void hidePanel() {
+        // TODO possibly do nothing?
+        slidingPanelController.close();
         slidingPanelController.hidePanel();
         new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().reset());
     }
@@ -264,7 +266,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     @Override
     public void onDismissDrawer(FullItem fullItem) {
-        slidingPanelController.close();
         hidePanel();
     }
 }
