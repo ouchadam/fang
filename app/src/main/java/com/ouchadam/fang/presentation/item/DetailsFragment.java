@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
@@ -90,6 +91,7 @@ public class DetailsFragment extends Fragment {
                 break;
             default:
                 // todo nothing
+                Toast.makeText(getActivity(), "Todo...", Toast.LENGTH_SHORT).show();
 
         }
         return super.onOptionsItemSelected(item);

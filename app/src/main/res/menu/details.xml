@@ -20,4 +20,9 @@
     android:title="Stream"
     android:showAsAction="never"/>
 
+    <item
+        android:id="@+id/ab_open_in_browser"
+        android:title="Open in browser"
+        android:showAsAction="never"/>
+
 </menu>
