@@ -101,7 +101,7 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
     }
 
     public boolean isShowing() {
-        return panelViewHolder.isShowing();
+        return panelViewHolder.isExpanded();
     }
 
     @Override

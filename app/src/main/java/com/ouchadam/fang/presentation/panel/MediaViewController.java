@@ -5,7 +5,7 @@ import android.widget.ViewSwitcher;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 
-class MediaViewController {
+class MediaViewController implements PanelComponent {
 
     private final View playTop;
     private final View playBottom;
@@ -61,6 +61,7 @@ class MediaViewController {
         bottomMediaSwitcher.showNext();
     }
 
+    @Override
     public void showExpanded(boolean downloaded) {
         topMediaSwitcher.setVisibility(View.INVISIBLE);
         if (downloaded) {
@@ -70,6 +71,7 @@ class MediaViewController {
         }
     }
 
+    @Override
     public void showCollapsed(boolean downloaded) {
         if (downloaded) {
             topMediaSwitcher.setVisibility(View.VISIBLE);

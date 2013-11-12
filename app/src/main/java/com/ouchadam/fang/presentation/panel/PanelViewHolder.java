@@ -20,6 +20,7 @@ class PanelViewHolder {
     private final MediaViewController mediaController;
     private final DownloadController downloadController;
     private final MainPanelController mainPanelController;
+    private final OverflowController overflowController;
 
     public static PanelViewHolder from(SlidingUpPanelLayout panel) {
         ViewSwitcher topMediaSwitcher = Views.findById(panel, R.id.media_switcher);
@@ -40,21 +41,25 @@ class PanelViewHolder {
         TextView endTime = Views.findById(panel, R.id.total_time);
         PositionController position = new PositionController(seekBar, currentTime, endTime);
 
-        DurationFormatter durationFormatter = new DurationFormatter(panel.getResources());
 
         ImageView heroView = Views.findById(panel, R.id.drawer_content_image);
 
         HeroManager heroManager = new HeroManager(new HeroHolder(), heroView, panel.getContext());
+        DurationFormatter durationFormatter = new DurationFormatter(panel.getResources());
         MainPanelController mainPanelController = new MainPanelController(panel, durationFormatter, heroManager);
 
-        return new PanelViewHolder(position, mediaController, downloadController, mainPanelController, durationFormatter);
+        ImageButton overflowButton = Views.findById(panel, R.id.drawer_overflow);
+        OverflowController overflowController = new OverflowController(overflowButton);
+
+        return new PanelViewHolder(position, mediaController, downloadController, mainPanelController, overflowController);
     }
 
-    PanelViewHolder(PositionController positionController, MediaViewController mediaController, DownloadController downloadController, MainPanelController mainPanelController, DurationFormatter durationFormatter) {
+    PanelViewHolder(PositionController positionController, MediaViewController mediaController, DownloadController downloadController, MainPanelController mainPanelController, OverflowController overflowController) {
         this.mediaController = mediaController;
         this.positionController = positionController;
         this.downloadController = downloadController;
         this.mainPanelController = mainPanelController;
+        this.overflowController = overflowController;
     }
 
     public MediaViewController mediaController() {
@@ -63,16 +68,18 @@ class PanelViewHolder {
 
     public void showCollapsed(boolean isDownloaded) {
         mediaController.showCollapsed(isDownloaded);
-        downloadController.panelScopeChange(isDownloaded);
+        downloadController.showCollapsed(isDownloaded);
         mainPanelController.makeTopBarSolid();
+        overflowController.showCollapsed(isDownloaded);
     }
 
     public void showExpanded(boolean downloaded) {
         mediaController.showExpanded(downloaded);
         positionController.panelScopeChange(downloaded);
-        downloadController.panelScopeChange(downloaded);
+        downloadController.showExpanded(downloaded);
         mainPanelController.makeTopBarTransparent();
         mainPanelController.showBottomBar(downloaded);
+        overflowController.showExpanded(downloaded);
     }
 
     public DownloadController downloadController() {
@@ -93,9 +100,10 @@ class PanelViewHolder {
 
     public void updatePanel(FullItem fullItem) {
         mainPanelController.updateFrom(fullItem);
-        downloadController.panelScopeChange(fullItem.isDownloaded());
-        mediaController.setMediaVisibility(mainPanelController.isShowing(), fullItem);
+        downloadController.update(fullItem.isDownloaded());
+        mediaController.setMediaVisibility(isExpanded(), fullItem);
         positionController.setInitialPosition(fullItem.getInitialPlayPosition());
+        overflowController.initOverflow(fullItem);
     }
 
     public void close() {
@@ -106,8 +114,8 @@ class PanelViewHolder {
         mainPanelController.expand();
     }
 
-    public boolean isShowing() {
-        return mainPanelController.isShowing();
+    public boolean isExpanded() {
+        return mainPanelController.isExpanded();
     }
 
     public void setPanelSlideListener(SlidingUpPanelLayout.PanelSlideListener panelSlideListener) {

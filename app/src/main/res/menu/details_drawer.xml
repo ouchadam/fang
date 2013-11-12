@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ab_mark_heard"
+        android:title="Mark as heard"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/ab_remove_from_playlist"
+        android:title="Remove from playlist"/>
+
+    <item
+        android:id="@+id/ab_go_to_channel"
+        android:title="Go to channel"/>
+
+</menu>

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class DownloadController {
+public class DownloadController implements PanelComponent {
 
     private final ImageButton downloadButton;
 
@@ -12,8 +12,14 @@ public class DownloadController {
         this.downloadButton = downloadButton;
     }
 
-    public void panelScopeChange(boolean downloaded) {
-        downloadButton.setVisibility(getVisibilityFrom(downloaded));
+    @Override
+    public void showExpanded(boolean isDownloaded) {
+        panelScopeChange(isDownloaded);
+    }
+
+    @Override
+    public void showCollapsed(boolean isDownloaded) {
+        panelScopeChange(isDownloaded);
     }
 
     private int getVisibilityFrom(boolean downloaded) {
@@ -22,5 +28,13 @@ public class DownloadController {
 
     public void setListener(View.OnClickListener onDownloadClicked) {
         downloadButton.setOnClickListener(onDownloadClicked);
+    }
+
+    private void panelScopeChange(boolean downloaded) {
+        downloadButton.setVisibility(getVisibilityFrom(downloaded));
+    }
+
+    public void update(boolean isDownloaded) {
+        panelScopeChange(isDownloaded);
     }
 }

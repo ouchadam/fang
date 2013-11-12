@@ -41,14 +41,24 @@
 
   </RelativeLayout>
 
+    <ImageButton
+        android:id="@+id/drawer_overflow"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/abc_ic_menu_moreoverflow_normal_holo_light"
+        android:paddingRight="16dp"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"/>
+
   <ImageButton
     android:id="@+id/download"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
-    android:layout_alignParentRight="true"
+    android:layout_toLeftOf="@id/drawer_overflow"
     android:layout_centerVertical="true"
-    android:src="@drawable/ic_menu_upload"
-    android:textSize="14sp"
+    android:src="@drawable/ic_menu_save"
     android:paddingRight="16dp"
     android:background="@android:color/transparent"
     android:visibility="invisible"/>

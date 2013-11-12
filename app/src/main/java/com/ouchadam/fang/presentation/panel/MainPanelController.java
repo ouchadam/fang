@@ -68,7 +68,7 @@ class MainPanelController {
         panelLayout.collapsePane();
     }
 
-    public boolean isShowing() {
+    public boolean isExpanded() {
         return panelLayout.isExpanded();
     }
 

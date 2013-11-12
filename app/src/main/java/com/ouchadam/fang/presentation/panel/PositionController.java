@@ -9,7 +9,7 @@ import com.ouchadam.fang.domain.PodcastPosition;
 
 import java.util.concurrent.TimeUnit;
 
-class PositionController {
+class PositionController implements PanelComponent {
 
     private final SeekBar seekBar;
     private final TextView currentTime;
@@ -46,6 +46,20 @@ class PositionController {
         currentTime.setText(toTimeString(position.value()));
     }
 
+    public PodcastPosition getPosition() {
+        return new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
+    }
+
+    @Override
+    public void showExpanded(boolean isDownloaded) {
+        panelScopeChange(isDownloaded);
+    }
+
+    @Override
+    public void showCollapsed(boolean isDownloaded) {
+        panelScopeChange(isDownloaded);
+    }
+
     public void panelScopeChange(boolean downloaded) {
         setBooleanVisibility(seekBar, downloaded);
         setBooleanVisibility(currentTime, downloaded);
@@ -54,9 +68,5 @@ class PositionController {
 
     private void setBooleanVisibility(View view, boolean visible) {
         view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-    }
-
-    public PodcastPosition getPosition() {
-        return new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
     }
 }
