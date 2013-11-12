@@ -115,7 +115,7 @@ public class DetailsFragment extends Fragment {
 
     private void playCurrent() {
         FullItem item = getItem();
-        new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), getSourceUri(item));
+        new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getInitialPlayPosition(), getSourceUri(item));
     }
 
     private Uri getSourceUri(FullItem item) {

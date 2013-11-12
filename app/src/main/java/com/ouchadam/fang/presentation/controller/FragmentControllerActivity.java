@@ -15,6 +15,7 @@ import com.novoda.notils.caster.Fragments;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.debug.FeedServiceInfo;
+import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.PlayerEvent;
 import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.item.ActivityResultHandler;
@@ -107,14 +108,14 @@ public class FragmentControllerActivity extends FangActivity {
 
     private final ActivityResultHandler.OnResult onResult = new ActivityResultHandler.OnResult() {
         @Override
-        public void onPlaySelected(long itemId, Uri itemSource) {
+        public void onPlaySelected(long itemId, PodcastPosition position, Uri itemSource) {
             showPanel();
             setData(itemId);
             // TODO auto Expand or just play?
 
             PodcastPlayerEventBroadcaster broadcaster = new PodcastPlayerEventBroadcaster(FragmentControllerActivity.this);
             broadcaster.broadcast(new PlayerEvent.Factory().newSource(itemId, itemSource));
-            broadcaster.broadcast(new PlayerEvent.Factory().play());
+            broadcaster.broadcast(new PlayerEvent.Factory().play(position));
         }
     };
 }
