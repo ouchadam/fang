@@ -101,13 +101,13 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         sync(new PlayerEvent.Factory().pause());
     }
 
-    private void saveCompletedState() {
-        itemStateManager.persist(playingItemId, podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
-    }
-
     private void pauseAudio() {
         podcastPlayer.pause();
         audioFocusManager.abandonFocus();
+    }
+
+    private void saveCompletedState() {
+        itemStateManager.persist(playingItemId, podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
     }
 
     @Override
@@ -132,6 +132,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     @Override
     public void gotoPosition(PodcastPosition position) {
         podcastPlayer.goTo(position.value());
+        saveCurrentPlayState();
         sync(new PlayerEvent.Factory().goTo(position));
     }
 

@@ -51,7 +51,7 @@ public class FullItem {
     }
 
     public boolean isListenedTo() {
-        return playPosition.isCompleted();
+        return playPosition.isHeard(PodcastPosition.MAX_PERCENT);
     }
 
 }

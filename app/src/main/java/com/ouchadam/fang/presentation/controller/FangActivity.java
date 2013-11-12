@@ -251,7 +251,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     @Override
     public void onMarkHeard(FullItem fullItem) {
-        Toast.makeText(this, "Todo", Toast.LENGTH_SHORT).show();
+        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(fullItem.getInitialPlayPosition().asCompleted()));
     }
 
     @Override

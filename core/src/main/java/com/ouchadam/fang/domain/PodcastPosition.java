@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class PodcastPosition implements Serializable {
 
+    public static final int MAX_PERCENT = 100;
+
     private final int currentPosition;
     private final int duration;
 
@@ -36,7 +38,15 @@ public class PodcastPosition implements Serializable {
     }
 
     public boolean isCompleted() {
-        return currentPosition != 0 && duration != 0 && currentPosition == duration;
+        return currentPosition != 0 && duration != 0 && duration == currentPosition;
+    }
+
+    public boolean isHeard(int percentageConsideredComplete) {
+        return currentPosition != 0 && duration != 0 && asPercentage() > percentageConsideredComplete;
+    }
+
+    public PodcastPosition asCompleted() {
+        return new PodcastPosition(getDuration(), getDuration());
     }
 
     @Override
