@@ -20,6 +20,9 @@ public class DurationFormatter {
         if (hours > 0) {
             hoursString = resources.getQuantityString(R.plurals.hour, hours, hours) + " ";
         }
+        if (hours > 0 && minutes == 0) {
+            return hoursString;
+        }
         return hoursString + minutes + " " + "minutes";
     }
 
