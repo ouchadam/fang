@@ -17,6 +17,7 @@ import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.presentation.PlayerEvent;
+import com.ouchadam.fang.presentation.drawer.DrawerDisEnabler;
 
 public class SlidingPanelController implements SlidingPanelExposer, SlidingPanelViewManipulator.OnDownloadClickListener {
 
@@ -82,7 +83,6 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
 
     @Override
     public void showExpanded() {
-        // TODO disable nav drawer
         slidingPanelViewManipulator.expand();
     }
 

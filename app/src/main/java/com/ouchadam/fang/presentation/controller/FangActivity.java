@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -49,9 +48,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
             default:
                 return fangDrawer.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
         }
@@ -66,8 +62,8 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        initSlidingPaneController();
         initDrawer();
+        initSlidingPaneController();
         startAudioService();
         onFangCreate(savedInstanceState);
     }
@@ -88,16 +84,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         }
     };
 
-    private void initSlidingPaneController() {
-        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot());
-        PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
-        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
-    }
-
-    private View getRoot() {
-        return Views.findById(this, android.R.id.content);
-    }
-
     private void initDrawer() {
         initActionBar();
         DrawerNavigator drawerNavigator = new DrawerNavigator(getSupportFragmentManager());
@@ -115,6 +101,17 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         fangDrawer.setAdapter(listAdapter);
         fangDrawer.setOnCloseTitle(getTitle().toString());
     }
+
+    private void initSlidingPaneController() {
+        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), fangDrawer);
+        PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
+        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
+    }
+
+    private View getRoot() {
+        return Views.findById(this, android.R.id.content);
+    }
+
 
     private void startAudioService() {
         if (!audioServiceIsRunning()) {

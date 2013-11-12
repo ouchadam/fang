@@ -2,15 +2,12 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.meta.AndroidUtils;
@@ -32,8 +29,6 @@ import com.ouchadam.fang.presentation.FangBookKeeer;
 import com.ouchadam.fang.presentation.PlayerEvent;
 import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
-import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
-import com.ouchadam.fang.presentation.drawer.FangDrawer;
 import com.ouchadam.fang.presentation.panel.PlayerEventInteractionManager;
 import com.ouchadam.fang.presentation.panel.SlidingPanelController;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
@@ -88,7 +83,7 @@ public abstract class SecondLevelFangActivity extends FragmentActivity implement
     };
 
     private void initSlidingPaneController() {
-        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot());
+        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), null);
         PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
         slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
     }

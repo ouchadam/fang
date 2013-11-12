@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 
-public class FangDrawer implements DrawerManipulator {
+public class FangDrawer implements DrawerManipulator, DrawerDisEnabler {
 
     private final DrawerLayout drawerLayout;
     private final View drawerParent;
@@ -87,4 +87,13 @@ public class FangDrawer implements DrawerManipulator {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void enable() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    @Override
+    public void disable() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
 }

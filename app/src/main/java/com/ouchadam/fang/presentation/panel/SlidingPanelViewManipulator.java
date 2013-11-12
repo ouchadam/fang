@@ -8,6 +8,7 @@ import com.ouchadam.fang.audio.SeekbarReceiver;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.ActionBarManipulator;
+import com.ouchadam.fang.presentation.drawer.DrawerDisEnabler;
 import com.ouchadam.fang.view.SlidingUpPanelLayout;
 
 public class SlidingPanelViewManipulator implements OnPanelChangeListener {
@@ -16,6 +17,7 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
     private final PanelViewHolder panelViewHolder;
     private final DownloadFoo downloadFoo;
     private final PositionManager positionManager;
+    private final DrawerDisEnabler drawerDisEnabler;
 
     public void setPlayingState(boolean playing) {
         panelViewHolder.updatePlayingState(playing);
@@ -52,16 +54,17 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
         void onSeekChanged(PodcastPosition position);
     }
 
-    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root) {
+    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root, DrawerDisEnabler drawerDisEnabler) {
         SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
         slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
         PanelViewHolder panelViewHolder = PanelViewHolder.from(slidingPanel);
-        return new SlidingPanelViewManipulator(actionBarManipulator, onSeekChanged, panelViewHolder);
+        return new SlidingPanelViewManipulator(actionBarManipulator, onSeekChanged, panelViewHolder, drawerDisEnabler);
     }
 
-    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, PanelViewHolder panelViewHolder) {
+    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, PanelViewHolder panelViewHolder, DrawerDisEnabler drawerDisEnabler) {
         this.actionBarManipulator = actionBarManipulator;
         this.panelViewHolder = panelViewHolder;
+        this.drawerDisEnabler = drawerDisEnabler;
         this.downloadFoo = new DownloadFoo(panelViewHolder.downloadController());
         positionManager = new PositionManager(onSeekChanged, new SeekbarReceiver(seekUpdate), panelViewHolder.positionController());
 
@@ -103,6 +106,9 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     @Override
     public void onPanelExpanded(View panel) {
+        if (drawerDisEnabler != null) {
+            drawerDisEnabler.disable();
+        }
         showExpanded(downloadFoo.isDownloaded());
         positionManager.registerForUpdates(panel.getContext());
     }
@@ -113,6 +119,9 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
 
     @Override
     public void onPanelCollapsed(View panel) {
+        if (drawerDisEnabler != null) {
+            drawerDisEnabler.enable();
+        }
         showCollapsed(downloadFoo.isDownloaded());
         positionManager.unregisterForUpdates(panel.getContext());
     }

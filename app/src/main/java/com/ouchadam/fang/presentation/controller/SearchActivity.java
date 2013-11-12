@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.search.ExploreResultsFragment;
 
-public class SearchActivity extends FangActivity {
+public class SearchActivity extends SecondLevelFangActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -20,15 +20,7 @@ public class SearchActivity extends FangActivity {
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         super.onFangCreate(savedInstanceState);
-        initActionBar();
         onSearch(getIntent());
-    }
-
-    private void initActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
-        showDrawerIndicator(false);
     }
 
     private void onSearch(Intent intent) {
