@@ -129,7 +129,37 @@ public class DetailsFragment extends Fragment {
         durationText = Views.findById(root, R.id.fragment_item_duration);
         channelText = Views.findById(root, R.id.fragment_channel_title);
         itemTitleText = Views.findById(root, R.id.fragment_item_title);
+        Views.findById(root, R.id.details_parent).setOnClickListener(detailsClickListener);
         return root;
+    }
+
+    private final View.OnClickListener detailsClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // TODO make this a setting
+            View container = Views.findById(view, R.id.details_container);
+            toggleVisibility(container);
+        }
+    };
+
+    private void toggleVisibility(View view) {
+        int visibility = view.getVisibility();
+        view.setVisibility(getReversedVisibility(visibility));
+    }
+
+    private int getReversedVisibility(int visibility) {
+        validateVisibilty(visibility);
+        if (visibility == View.INVISIBLE || visibility == View.GONE) {
+            return View.VISIBLE;
+        } else {
+            return View.INVISIBLE;
+        }
+    }
+
+    private void validateVisibilty(int visibility) {
+        if (visibility != View.GONE && visibility != View.INVISIBLE && visibility != View.VISIBLE) {
+            throw new IllegalArgumentException("Must use one of the android specified visibilities");
+        }
     }
 
     @Override

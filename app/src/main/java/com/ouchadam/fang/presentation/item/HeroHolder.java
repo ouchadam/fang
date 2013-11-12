@@ -21,9 +21,9 @@ public class HeroHolder {
 
     void tryLoad(Context context, ImageView imageView) {
         if (isValid(width) && isValid(height) && isValid(url)) {
-            // TODO blur or not to blur? setting perhaps?  
-            Picasso.with(context).load(url).transform(new BlurTransformation(url, context)).centerCrop().resize(width, height).into(imageView);
-//            Picasso.with(context).load(url).transform(new BlurTransformation(url)).into(imageView);
+            // TODO blur or not to blur? setting perhaps?
+            Picasso.with(context).load(url).centerCrop().resize(width, height).into(imageView);
+//            Picasso.with(context).load(url).transform(new BlurTransformation(url, context)).centerCrop().resize(width, height).into(imageView);
         }
     }
 

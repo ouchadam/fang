@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:clickable="true">
+                android:clickable="true"
+                android:id="@+id/details_parent">
 
   <ImageView
     android:id="@+id/content_image"
@@ -12,11 +13,13 @@
     android:contentDescription="@null"/>
 
   <RelativeLayout
+    android:id="@+id/details_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="48dp"
+    android:layout_marginTop="48dp"
     android:paddingLeft="24dp"
-    android:paddingRight="24dp">
+    android:paddingRight="24dp"
+    android:background="@color/trans_white">
 
     <TextView
       android:id="@+id/fragment_item_title"
@@ -41,8 +44,8 @@
       android:id="@+id/fragment_item_description"
       android:layout_height="wrap_content"
       android:layout_width="match_parent"
-      style="@style/DrawerTextShadow"
       android:layout_below="@id/fragment_channel_title"
+      android:fontFamily="sans-serif-light"
       android:textSize="18sp"
       android:paddingBottom="8dp"/>
 
@@ -52,8 +55,8 @@
       android:layout_width="match_parent"
       android:layout_below="@id/fragment_item_description"
       android:gravity="right"
+      android:fontFamily="sans-serif-light"
       android:textSize="18sp"
-      style="@style/DrawerTextShadow"
       android:textStyle="italic"/>
 
   </RelativeLayout>
