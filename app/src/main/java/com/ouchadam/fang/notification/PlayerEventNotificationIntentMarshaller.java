@@ -42,10 +42,10 @@ public class PlayerEventNotificationIntentMarshaller implements IntentMarshaller
     @Override
     public PlayerEvent from(Intent intent) {
         PlayerEvent.Event event = PlayerEvent.Event.fromAction(PlayerEvent.Event.NOTIFICATION_PREFIX, intent.getAction());
-        long itemId = intent.getLongExtra(PLAYLIST_POSITION, -1L);
-
+        long itemId = intent.getLongExtra(ID, -1L);
         PlayerEvent.Factory factory = new PlayerEvent.Factory();
         PodcastPosition position = (PodcastPosition) intent.getSerializableExtra(POSITION);
+
         switch (event) {
             case PLAY:
                 return new PlayerEvent.Builder(factory.play(position)).withId(itemId).build();

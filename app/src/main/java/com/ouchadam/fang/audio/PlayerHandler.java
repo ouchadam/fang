@@ -81,6 +81,11 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     @Override
+    public void onPlay() {
+        onPlay(playlist.get().podcastPosition);
+    }
+
+    @Override
     public void onPlay(PodcastPosition position) {
         play(position);
         sync(new PlayerEvent.Factory().play(position));

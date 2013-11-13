@@ -91,7 +91,7 @@ public abstract class SecondLevelFangActivity extends FragmentActivity implement
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), null, onDownload, null);
         PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
-        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
+        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
     }
 
     private final SlidingPanelViewManipulator.OnDownloadClickListener onDownload = new SlidingPanelViewManipulator.OnDownloadClickListener() {

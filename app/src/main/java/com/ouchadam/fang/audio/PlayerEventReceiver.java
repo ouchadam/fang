@@ -36,11 +36,18 @@ public class PlayerEventReceiver extends BroadcastReceiver {
     }
 
     interface PlayerEventCallbacks {
+        void onPlay();
+
         void onPlay(PodcastPosition position);
+
         void onPause();
+
         void onStop();
+
         void onNewSource(int playlistPosition, String playlist);
+
         void gotoPosition(PodcastPosition position);
+
         void onReset();
     }
 
@@ -51,7 +58,7 @@ public class PlayerEventReceiver extends BroadcastReceiver {
 
         switch (from.getEvent()) {
             case PLAY:
-                callbacks.onPlay(from.getPosition());
+                handlePlay(from);
                 break;
             case PAUSE:
                 callbacks.onPause();
@@ -72,5 +79,14 @@ public class PlayerEventReceiver extends BroadcastReceiver {
                 throw new RuntimeException("received an unhandled event : " + from.getEvent());
         }
 
+    }
+
+    private void handlePlay(PlayerEvent from) {
+        PodcastPosition position = from.getPosition();
+        if (position != null) {
+            callbacks.onPlay(position);
+        } else {
+            callbacks.onPlay();
+        }
     }
 }

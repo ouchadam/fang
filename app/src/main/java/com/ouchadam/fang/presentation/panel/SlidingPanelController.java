@@ -22,7 +22,6 @@ import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
 
 public class SlidingPanelController implements SlidingPanelExposer {
 
-    private final Downloader downloader;
     private final Context context;
     private final LoaderManager loaderManager;
     private final SlidingPanelViewManipulator slidingPanelViewManipulator;
@@ -30,8 +29,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
 
     private ItemQueryer itemQueryer;
 
-    public SlidingPanelController(Downloader downloader, Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, PlayerEventInteractionManager playerEventInteractionManager) {
-        this.downloader = downloader;
+    public SlidingPanelController(Context context, LoaderManager loaderManager, SlidingPanelViewManipulator slidingPanelViewManipulator, PlayerEventInteractionManager playerEventInteractionManager) {
         this.context = context;
         this.loaderManager = loaderManager;
         this.slidingPanelViewManipulator = slidingPanelViewManipulator;

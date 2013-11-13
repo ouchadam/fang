@@ -113,7 +113,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private void initSlidingPaneController() {
         SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), fangDrawer, onDownload, this);
         PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
-        slidingPanelController = new SlidingPanelController(this, this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
+        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
     }
 
     private final SlidingPanelViewManipulator.OnDownloadClickListener onDownload = new SlidingPanelViewManipulator.OnDownloadClickListener() {
