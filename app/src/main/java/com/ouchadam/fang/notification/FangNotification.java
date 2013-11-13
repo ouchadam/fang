@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -49,6 +50,8 @@ public class FangNotification {
         customNotifView.setOnClickPendingIntent(R.id.notification_close, closeIntent);
         customNotifView.setOnClickPendingIntent(R.id.play, playIntent);
         customNotifView.setOnClickPendingIntent(R.id.pause, pauseIntent);
+
+        Log.e("!!!!", "show notification : " + "playling? : " + playing);
 
         customNotifView.setViewVisibility(R.id.play, playing ? View.GONE : View.VISIBLE);
         customNotifView.setViewVisibility(R.id.pause, playing ? View.VISIBLE : View.GONE);

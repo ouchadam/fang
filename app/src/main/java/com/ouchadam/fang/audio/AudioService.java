@@ -6,12 +6,11 @@ import android.content.res.Configuration;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.notification.NotificationService;
 import com.ouchadam.fang.notification.PodcastPlayerNotificationEventBroadcaster;
-import com.ouchadam.fang.audio.event.PlayerEvent;
-import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
-import com.woodblockwithoutco.remotemetadataprovider.v18.media.RemoteMetadataProvider;
 
 public class AudioService extends Service implements ServiceManipulator {
 

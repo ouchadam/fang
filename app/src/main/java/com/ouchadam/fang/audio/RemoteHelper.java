@@ -36,8 +36,6 @@ public class RemoteHelper {
 
         audioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 
-        // Use the remote control APIs (if available) to set the playback state
-
         Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         intent.setComponent(mMediaButtonReceiverComponent);
         remoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(context, 0, intent, 0));

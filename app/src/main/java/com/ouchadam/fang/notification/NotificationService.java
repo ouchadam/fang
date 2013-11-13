@@ -73,6 +73,7 @@ public class NotificationService extends IntentService {
         FullItem item = null;
         if (cursor != null && cursor.moveToFirst()) {
             item = new FullItemMarshaller().marshall(cursor);
+            cursor.close();
         }
         return item;
     }

@@ -13,9 +13,8 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         PlayerEvent event = new PlayerEventNotificationIntentMarshaller().from(intent);
         boolean isPlaying = event.getEvent() == PlayerEvent.Event.PLAY;
-        Log.e("!!!!" , "Received event : " + event.getEvent().name() + " to notification with ID : " + event.getId());
+        Log.e("!!!!" , "Notification Received event : " + event.getEvent().name() + " with ID : " + event.getId() + " and isPlaying? : " + isPlaying);
         NotificationService.start(context, event.getId(), isPlaying);
-//        new PodcastPlayerEventBroadcaster(PlayerEvent.Event.ACTION_PREFIX, context).broadcast(event);
     }
 
 }

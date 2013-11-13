@@ -22,7 +22,7 @@ public class PlayerEventNotificationIntentMarshaller implements IntentMarshaller
         Intent intent = new Intent(what.getEvent().toAction(PlayerEvent.Event.NOTIFICATION_PREFIX));
         putExtraIfAvailable(intent, SOURCE, what.getSource());
         intent.putExtra(PLAYLIST_POSITION, what.getPlaylistPosition());
-        intent.putExtra(ID, what.getId());
+        intent.putExtra(ID, itemId);
         putExtraIfAvailable(intent, POSITION, what.getPosition());
         return intent;
     }
