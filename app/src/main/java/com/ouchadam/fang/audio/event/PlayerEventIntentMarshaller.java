@@ -54,6 +54,8 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
                 return factory.newSource(playlistPosition, "PLAYLIST");
             case PAUSE:
                 return factory.pause();
+            case PLAY_PAUSE:
+                return factory.playPause();
             case STOP:
                 return factory.stop();
             case GOTO:

@@ -42,6 +42,8 @@ public class PlayerEventReceiver extends BroadcastReceiver {
 
         void onPause();
 
+        void onPlayPause();
+
         void onStop();
 
         void onNewSource(int playlistPosition, String playlist);
@@ -62,6 +64,9 @@ public class PlayerEventReceiver extends BroadcastReceiver {
                 break;
             case PAUSE:
                 callbacks.onPause();
+                break;
+            case PLAY_PAUSE:
+                callbacks.onPlayPause();
                 break;
             case STOP:
                 callbacks.onStop();

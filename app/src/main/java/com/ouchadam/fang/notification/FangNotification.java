@@ -15,6 +15,8 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.audio.event.PlayerEvent;
 
+import java.util.Random;
+
 public class FangNotification {
 
     private static final int ID = 0xA3;
@@ -44,8 +46,8 @@ public class FangNotification {
         customNotifView.setImageViewBitmap(R.id.notification_big_channel_image, channelImage);
 
         PendingIntent closeIntent = new RemoteClick().createPendingIntent(context, new PlayerEvent.Factory().stop());
-        PendingIntent pauseIntent = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().pause(), fullItem.getItemId());
-        PendingIntent playIntent = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().play(), fullItem.getItemId());
+        PendingIntent pauseIntent = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().playPause(), fullItem.getItemId());
+        PendingIntent playIntent = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().playPause(), fullItem.getItemId());
 
         customNotifView.setOnClickPendingIntent(R.id.notification_close, closeIntent);
         customNotifView.setOnClickPendingIntent(R.id.play, playIntent);
@@ -81,7 +83,7 @@ public class FangNotification {
         }
 
         private PendingIntent addClickListener(Context context, Intent intent) {
-            return PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            return PendingIntent.getBroadcast(context, (int) System.currentTimeMillis() + new Random().nextInt(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         }
     }
 

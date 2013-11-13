@@ -6,14 +6,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.RemoteControlClient;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.ouchadam.fang.R;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -23,6 +23,7 @@ public class RemoteHelper {
     private final Context context;
     private final AudioManager audioManager;
     private RemoteControlClient remoteControlClient;
+    private ComponentName eventReceiver;
 
     public RemoteHelper(Context context) {
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -30,30 +31,18 @@ public class RemoteHelper {
     }
 
     public void init() {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-
-        ComponentName mMediaButtonReceiverComponent = new ComponentName(context, MusicIntentReceiver.class);
-
-        audioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
+        eventReceiver = new ComponentName(context, MusicIntentReceiver.class);
+        audioManager.registerMediaButtonEventReceiver(eventReceiver);
 
         Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-        intent.setComponent(mMediaButtonReceiverComponent);
-        remoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(context, 0, intent, 0));
+        intent.setComponent(eventReceiver);
+        remoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
         audioManager.registerRemoteControlClient(remoteControlClient);
 
-
         remoteControlClient.setTransportControlFlags(
-                RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE |
-                        RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+                RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE | RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
                         RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
-
-        remoteControlClient.editMetadata(true)
-                .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, "Title")
-                .putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "Artist")
-                .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap)
-                .apply();
-
     }
 
     public void update(Playlist.PlaylistItem playlistItem) {
@@ -65,7 +54,6 @@ public class RemoteHelper {
             @Override
             public void run() {
                 try {
-                    Log.e("???", "loading img : " + imgUrl);
                     Bitmap bitmap = Picasso.with(context).load(imgUrl).get();
                     remoteControlClient.editMetadata(true).putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap).putString(MediaMetadataRetriever.METADATA_KEY_TITLE, title)
                             .putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, channel).apply();
@@ -74,7 +62,6 @@ public class RemoteHelper {
                 }
             }
         }).start();
-
     }
 
     public void setPlaying() {
@@ -86,35 +73,29 @@ public class RemoteHelper {
     }
 
     public void unregister() {
+        audioManager.unregisterMediaButtonEventReceiver(eventReceiver);
         audioManager.unregisterRemoteControlClient(remoteControlClient);
     }
 
-    private static class MusicIntentReceiver extends BroadcastReceiver {
+    public static class MusicIntentReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            Log.e("???", "Music intent receiver : " + intent.getAction());
+            PodcastPlayerEventBroadcaster eventBroadcaster = new PodcastPlayerEventBroadcaster(context);
 
             if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)) {
                 KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
+
                 if (keyEvent.getAction() != KeyEvent.ACTION_DOWN)
                     return;
 
                 switch (keyEvent.getKeyCode()) {
-                    case KeyEvent.KEYCODE_HEADSETHOOK:
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_STOP:
+                        eventBroadcaster.broadcast(new PlayerEvent.Factory().playPause());
                         break;
                     case KeyEvent.KEYCODE_MEDIA_NEXT:
                         break;
                     case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                        // TODO: ensure that doing this in rapid succession actually plays the
-                        // previous song
+                        // TODO: ensure that doing this in rapid succession actually plays the previous song
                         break;
                 }
             }

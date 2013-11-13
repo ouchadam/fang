@@ -109,6 +109,15 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         sync(new PlayerEvent.Factory().pause());
     }
 
+    @Override
+    public void onPlayPause() {
+        if (podcastPlayer.isPlaying()) {
+            onPause();
+        } else {
+            onPlay(podcastPlayer.getPosition());
+        }
+    }
+
     public boolean lastInPlaylist() {
         return playlist.isLast();
     }

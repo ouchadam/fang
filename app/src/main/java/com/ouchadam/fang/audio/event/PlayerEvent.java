@@ -39,6 +39,7 @@ public class PlayerEvent {
     public enum Event {
         PLAY,
         PAUSE,
+        PLAY_PAUSE,
         STOP,
         GOTO,
         NEW_SOURCE,
@@ -113,6 +114,11 @@ public class PlayerEvent {
 
         public PlayerEvent reset() {
             playerEvent.event = Event.RESET;
+            return build();
+        }
+
+        public PlayerEvent playPause() {
+            playerEvent.event = Event.PLAY_PAUSE;
             return build();
         }
 
