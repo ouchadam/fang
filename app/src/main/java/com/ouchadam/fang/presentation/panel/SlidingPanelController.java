@@ -109,7 +109,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
         slidingPanelViewManipulator.show();
         slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
         slidingPanelViewManipulator.update(syncEvent.position);
-        if (itemQueryer == null) {
+        if (itemQueryer == null || getId() != syncEvent.itemId) {
             setData(syncEvent.itemId);
         }
     }
