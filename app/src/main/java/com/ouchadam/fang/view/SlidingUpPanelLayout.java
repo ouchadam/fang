@@ -559,7 +559,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     public void showPane() {
-        Log.e("???", "Show pane");
         hidden = false;
         if (getChildCount() < 2) {
             return;
@@ -570,7 +569,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     public void hidePane() {
-        Log.e("???", "Hide pane");
         hidden = true;
         if (mSlideableView == null) {
             return;
