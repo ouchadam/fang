@@ -42,7 +42,7 @@ public class PodcastPosition implements Serializable {
     }
 
     public boolean isHeard(int percentageConsideredComplete) {
-        return currentPosition != 0 && duration != 0 && asPercentage() > percentageConsideredComplete;
+        return currentPosition != 0 && duration != 0 && asPercentage() >= percentageConsideredComplete;
     }
 
     public PodcastPosition asCompleted() {
