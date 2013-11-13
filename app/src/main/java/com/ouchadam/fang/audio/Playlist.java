@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.novoda.notils.java.Collections;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.database.Tables;
@@ -110,6 +111,8 @@ class Playlist {
 
         playlistItem.downloadId = cursorUtils.getLong(Tables.Playlist.DOWNLOAD_ID);
         playlistItem.channel = cursorUtils.getString(Tables.Item.CHANNEL);
+        playlistItem.title = cursorUtils.getString(Tables.Item.TITLE);
+        playlistItem.imageUrl = getImageUrl(cursorUtils.getString(Tables.Item.HERO_IMAGE), cursorUtils.getString(Tables.ChannelImage.IMAGE_URL));
 
         int playPosition = cursorUtils.getInt(Tables.Playlist.PLAY_POSITION);
         int duration = cursorUtils.getInt(Tables.Playlist.MAX_DURATION);
@@ -119,6 +122,10 @@ class Playlist {
         playlistItem.source = itemSourceFetcher.getSourceUri(playlistItem.downloadId);
 
         return playlistItem;
+    }
+
+    private String getImageUrl(String heroImage, String channelImage) {
+        return heroImage == null ? channelImage : heroImage;
     }
 
     public int getCurrentPosition() {
@@ -133,6 +140,8 @@ class Playlist {
         long downloadId;
         Uri source;
         String channel;
+        String imageUrl;
+        String title;
 
         public boolean isDownloaded() {
             return source != null;

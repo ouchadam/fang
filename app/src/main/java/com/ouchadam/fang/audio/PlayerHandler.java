@@ -24,21 +24,22 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final ServiceManipulator serviceManipulator;
     private final AudioCompletionHandler audioCompletionHandler;
     private final Playlist playlist;
+    private final RemoteHelper remoteHelper;
 
     interface AudioSync {
         void onSync(long itemId, PlayerEvent playerEvent);
     }
 
-    static PlayerHandler from(Context context, AudioSync audioSync, AudioCompletionHandler audioCompletionHandler, ServiceManipulator serviceManipulator) {
+    static PlayerHandler from(Context context, AudioSync audioSync, AudioCompletionHandler audioCompletionHandler, ServiceManipulator serviceManipulator, RemoteHelper remoteHelper) {
         PodcastPlayer player = new PodcastPlayer(context, new PodcastPositionBroadcaster(context));
         AudioFocusManager focusManager = new AudioFocusManager((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         FangNotification notification = FangNotification.from(context);
         Playlist playlist = Playlist.from(context);
-        return new PlayerHandler(player, focusManager, audioSync, itemStateManager, audioCompletionHandler, notification, serviceManipulator, playlist);
+        return new PlayerHandler(player, focusManager, audioSync, itemStateManager, audioCompletionHandler, notification, serviceManipulator, playlist, remoteHelper);
     }
 
-    PlayerHandler(PodcastPlayer podcastPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, PlayingItemStateManager itemStateManager, AudioCompletionHandler audioCompletionHandler, FangNotification notification, ServiceManipulator serviceManipulator, Playlist playlist) {
+    PlayerHandler(PodcastPlayer podcastPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, PlayingItemStateManager itemStateManager, AudioCompletionHandler audioCompletionHandler, FangNotification notification, ServiceManipulator serviceManipulator, Playlist playlist, RemoteHelper remoteHelper) {
         this.podcastPlayer = podcastPlayer;
         this.audioFocusManager = audioFocusManager;
         this.audioSync = audioSync;
@@ -47,6 +48,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         this.notification = notification;
         this.serviceManipulator = serviceManipulator;
         this.playlist = playlist;
+        this.remoteHelper = remoteHelper;
         podcastPlayer.setCompletionListener(onCompletionWrapper);
     }
 
@@ -68,6 +70,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private void setSource() {
         Playlist.PlaylistItem playItem = playlist.get();
         playlist.setCurrent(playItem.id);
+        remoteHelper.update(playItem);
         setAudioSource(playItem.source);
         sync(new PlayerEvent.Factory().newSource(playlist.getCurrentPosition(), "PLAYLIST"));
     }
@@ -94,6 +97,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     private void play(PodcastPosition position) {
+        remoteHelper.setPlaying();
         audioFocusManager.requestFocus();
         podcastPlayer.play(position);
     }
@@ -129,6 +133,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     private void pauseAudio() {
+        remoteHelper.setPaused();
         podcastPlayer.pause();
         audioFocusManager.abandonFocus();
     }

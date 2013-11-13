@@ -24,7 +24,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     private boolean configChanged;
     private AudioCompletionHandler audioCompletionHandler;
-    private RemoteMetadataProvider instance;
+    private RemoteHelper remoteHelper;
 
     public AudioService() {
         this.binder = new LocalBinder();
@@ -38,8 +38,6 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void fangBind() {
-        instance = RemoteMetadataProvider.getInstance(this);
-        instance.acquireRemoteControls();
         configChanged = false;
         serviceLocation.binding();
         dismissNotification();
@@ -51,7 +49,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     @Override
     public void stop() {
-        instance.dropRemoteControls(false);
+        remoteHelper.unregister();
         stopSelf();
     }
 
@@ -64,8 +62,10 @@ public class AudioService extends Service implements ServiceManipulator {
     @Override
     public void onCreate() {
         super.onCreate();
+        remoteHelper = new RemoteHelper(this);
+        remoteHelper.init();
         audioCompletionHandler = new AudioCompletionHandler(serviceLocation);
-        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, audioCompletionHandler, this);
+        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, audioCompletionHandler, this, remoteHelper);
         this.syncer = new Syncer(playerHandler);
         playerHandler.restoreItem();
         initReceivers(playerHandler);
