@@ -11,6 +11,7 @@ public class PlayerEvent {
     private Uri source;
     private PodcastPosition position;
     private long id;
+    private int playlistPosition;
 
     private PlayerEvent() {
     }
@@ -29,6 +30,10 @@ public class PlayerEvent {
 
     public long getId() {
         return id;
+    }
+
+    public int getPlaylistPosition() {
+        return playlistPosition;
     }
 
     public enum Event {
@@ -79,13 +84,12 @@ public class PlayerEvent {
         }
 
         public PlayerEvent newSource(PlayItem playItem) {
-            return newSource(playItem.getId(), playItem.getSource());
+            return newSource(playItem.getPlaylistPosition(), "TODO");
         }
 
-        public PlayerEvent newSource(long id, Uri source) {
+        public PlayerEvent newSource(int playlistPosition, String playlistName) {
             playerEvent.event = Event.NEW_SOURCE;
-            playerEvent.id = id;
-            playerEvent.source = validate(source);
+            playerEvent.playlistPosition = playlistPosition;
             return build();
         }
 

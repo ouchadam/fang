@@ -53,7 +53,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
             if (item.isDownloaded()) {
                 PlayItem playItem = PlayItem.from(item, context);
                 PlayerEvent sourceEvent = new PlayerEvent.Factory().newSource(playItem);
-                PlayerEvent gotoEvent = new PlayerEvent.Factory().goTo(playItem.getPosition());
+                PlayerEvent gotoEvent = new PlayerEvent.Factory().goTo(item.getInitialPlayPosition());
                 playerEventInteractionManager.setData(sourceEvent, gotoEvent);
             }
             initialiseViews(item);

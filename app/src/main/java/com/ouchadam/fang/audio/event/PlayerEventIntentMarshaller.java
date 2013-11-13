@@ -13,7 +13,7 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
 
     private static final String SOURCE = "source";
     private static final String POSITION = "position";
-    private static final String ID = "id";
+    private static final String playListPosition = "playlistPosition";
 
     private final String actionPrefix;
 
@@ -25,7 +25,7 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
     public Intent to(long itemId, PlayerEvent what) {
         Intent intent = new Intent(what.getEvent().toAction(actionPrefix));
         putExtraIfAvailable(intent, SOURCE, what.getSource());
-        intent.putExtra(ID, what.getId());
+        intent.putExtra(playListPosition, what.getPlaylistPosition());
         putExtraIfAvailable(intent, POSITION, what.getPosition());
         return intent;
     }
@@ -50,8 +50,8 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
             case PLAY:
                 return factory.play((PodcastPosition) intent.getSerializableExtra(POSITION));
             case NEW_SOURCE:
-                long itemId = intent.getLongExtra(ID, -1L);
-                return factory.newSource(itemId, (Uri) intent.getParcelableExtra(SOURCE));
+                int playlistPosition = intent.getIntExtra(playListPosition, 0);
+                return factory.newSource(playlistPosition, "PLAYLIST");
             case PAUSE:
                 return factory.pause();
             case STOP:

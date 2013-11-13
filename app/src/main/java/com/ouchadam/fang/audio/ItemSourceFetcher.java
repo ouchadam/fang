@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import com.ouchadam.fang.domain.FullItem;
 
-class ItemSourceFetcher {
+public class ItemSourceFetcher {
 
     private final DownloadManager downloadManager;
 
@@ -18,8 +18,8 @@ class ItemSourceFetcher {
         this.downloadManager = downloadManager;
     }
 
-    public Uri getSourceUri(FullItem item) {
-        return downloadManager.getUriForDownloadedFile(item.getDownloadId());
+    public Uri getSourceUri(long downloadId) {
+        return downloadManager.getUriForDownloadedFile(downloadId);
     }
 
 }

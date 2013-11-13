@@ -8,17 +8,22 @@ import com.ouchadam.fang.domain.PodcastPosition;
 
 public class PlayItem {
 
+    private final long id;
+    private final Uri source;
+    private final int playlistPosition;
+
     public static PlayItem from(FullItem item, Context context) {
-        PlayItem playItem = new PlayItem();
-        playItem.id = item.getItemId();
-        playItem.source = ItemSourceFetcher.from(context).getSourceUri(item);
-        playItem.position = item.getInitialPlayPosition();
-        return playItem;
+        long itemId = item.getItemId();
+        Uri sourceUri = ItemSourceFetcher.from(context).getSourceUri(item.getDownloadId());
+        int playlistPosition = item.getPlaylistPosition();
+        return new PlayItem(itemId, sourceUri, playlistPosition);
     }
 
-    Uri source;
-    long id;
-    PodcastPosition position;
+    public PlayItem(long id, Uri source, int playlistPosition) {
+        this.id = id;
+        this.source = source;
+        this.playlistPosition = playlistPosition;
+    }
 
     public boolean isValid() {
         return source != null && id != Playlist.MISSING_ID;
@@ -32,7 +37,7 @@ public class PlayItem {
         return source;
     }
 
-    public PodcastPosition getPosition() {
-        return position;
+    public int getPlaylistPosition() {
+        return playlistPosition;
     }
 }

@@ -15,12 +15,14 @@ public class PlayerEventNotificationIntentMarshaller implements IntentMarshaller
     private static final String SOURCE = "source";
     private static final String POSITION = "position";
     private static final String ID = "id";
+    private static final String PLAYLIST_POSITION = "playlistPosition";
 
     @Override
     public Intent to(long itemId, PlayerEvent what) {
         Intent intent = new Intent(what.getEvent().toAction(PlayerEvent.Event.NOTIFICATION_PREFIX));
         putExtraIfAvailable(intent, SOURCE, what.getSource());
-        intent.putExtra(ID, itemId);
+        intent.putExtra(PLAYLIST_POSITION, what.getPlaylistPosition());
+        intent.putExtra(ID, what.getId());
         putExtraIfAvailable(intent, POSITION, what.getPosition());
         return intent;
     }
@@ -40,7 +42,7 @@ public class PlayerEventNotificationIntentMarshaller implements IntentMarshaller
     @Override
     public PlayerEvent from(Intent intent) {
         PlayerEvent.Event event = PlayerEvent.Event.fromAction(PlayerEvent.Event.NOTIFICATION_PREFIX, intent.getAction());
-        long itemId = intent.getLongExtra(ID, -1L);
+        long itemId = intent.getLongExtra(PLAYLIST_POSITION, -1L);
 
         PlayerEvent.Factory factory = new PlayerEvent.Factory();
         PodcastPosition position = (PodcastPosition) intent.getSerializableExtra(POSITION);
@@ -48,7 +50,8 @@ public class PlayerEventNotificationIntentMarshaller implements IntentMarshaller
             case PLAY:
                 return new PlayerEvent.Builder(factory.play(position)).withId(itemId).build();
             case NEW_SOURCE:
-                return factory.newSource(itemId, (Uri) intent.getParcelableExtra(SOURCE));
+                int playlistPosition = intent.getIntExtra(PLAYLIST_POSITION, -1);
+                return factory.newSource(playlistPosition, "PLAYLIST");
             case PAUSE:
                 return new PlayerEvent.Builder(factory.pause()).withId(itemId).build();
             case STOP:

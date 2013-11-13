@@ -112,12 +112,7 @@ public class DetailsFragment extends Fragment {
 
     private void playCurrent() {
         FullItem item = getItem();
-        new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getInitialPlayPosition(), getSourceUri(item));
-    }
-
-    private Uri getSourceUri(FullItem item) {
-        DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-        return downloadManager.getUriForDownloadedFile(item.getDownloadId());
+        new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getPlaylistPosition(), "PLAYLIST");
     }
 
     @Override

@@ -105,14 +105,14 @@ public class FragmentControllerActivity extends FangActivity {
 
     private final ActivityResultHandler.OnResult onResult = new ActivityResultHandler.OnResult() {
         @Override
-        public void onPlaySelected(long itemId, PodcastPosition position, Uri itemSource) {
+        public void onPlaySelected(long itemId, int playlistPosition, String playlist) {
             showPanel();
             setData(itemId);
             // TODO auto Expand or just play?
 
             PodcastPlayerEventBroadcaster broadcaster = new PodcastPlayerEventBroadcaster(FragmentControllerActivity.this);
-            broadcaster.broadcast(new PlayerEvent.Factory().newSource(itemId, itemSource));
-            broadcaster.broadcast(new PlayerEvent.Factory().play(position));
+            broadcaster.broadcast(new PlayerEvent.Factory().newSource(playlistPosition, playlist));
+            broadcaster.broadcast(new PlayerEvent.Factory().play());
         }
     };
 }

@@ -2,37 +2,33 @@ package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
-
-import com.ouchadam.fang.domain.PodcastPosition;
 
 public class ActivityResultHandler {
 
     public static final int NEW_PLAY_RESULT = 7;
 
-    private static final String ITEM_ID = "itemId";
-    private static final String ITEM_POSITION = "itemPosition";
-    private static final String ITEM_SOURCE = "itemSource";
+    private static final String PLAYLIST_POSITION = "playlistPosition";
+    private static final String PLAYLIST_NAME = "playlist";
+    private static final String ITEM_ID = "id";
 
     public interface OnResult {
-        void onPlaySelected(long itemId, PodcastPosition position, Uri itemSource);
+        void onPlaySelected(long itemId, int playlistPosition, String playlist);
     }
 
     public void handleResult(int requestCode, int resultCode, Intent data, OnResult onResult) {
         if (requestCode == NEW_PLAY_RESULT && resultCode == Activity.RESULT_OK) {
-            long itemId = data.getLongExtra(ITEM_ID, -1);
-            PodcastPosition podcastPosition = (PodcastPosition) data.getSerializableExtra(ITEM_POSITION);
-            Uri itemSource = data.getParcelableExtra(ITEM_SOURCE);
-            onResult.onPlaySelected(itemId, podcastPosition, itemSource);
+            int playlistPosition = data.getIntExtra(PLAYLIST_POSITION, -1);
+            long itemId = data.getLongExtra(ITEM_ID, -1L);
+            String playlistName = data.getStringExtra(PLAYLIST_NAME);
+            onResult.onPlaySelected(itemId, playlistPosition, playlistName);
         }
     }
 
-    public void returnWithPlayingItem(Activity activity, long itemId, PodcastPosition podcastPosition, Uri source) {
+    public void returnWithPlayingItem(Activity activity, long itemId, int playlistPosition, String playlist) {
         Intent intent = new Intent();
+        intent.putExtra(PLAYLIST_POSITION, playlistPosition);
         intent.putExtra(ITEM_ID, itemId);
-        intent.putExtra(ITEM_POSITION, podcastPosition);
-        intent.putExtra(ITEM_SOURCE, source);
+        intent.putExtra(PLAYLIST_NAME, playlist);
         activity.setResult(Activity.RESULT_OK, intent);
         activity.finish();
     }

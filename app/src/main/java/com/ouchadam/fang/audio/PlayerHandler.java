@@ -33,7 +33,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         AudioFocusManager focusManager = new AudioFocusManager((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         FangNotification notification = FangNotification.from(context);
-        Playlist playlist = new Playlist();
+        Playlist playlist = Playlist.from(context);
         return new PlayerHandler(player, focusManager, audioSync, itemStateManager, audioCompletionHandler, notification, serviceManipulator, playlist);
     }
 
@@ -57,16 +57,17 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     };
 
     @Override
-    public void onNewSource(long itemId, Uri source) {
-        playlist.setCurrent(itemId);
-        setAudioSource(source);
-        sync(new PlayerEvent.Factory().newSource(itemId, source));
+    public void onNewSource(int playlistPosition, String playlistName) {
+        playlist.load();
+        playlist.moveTo(playlistPosition);
+        setSource();
     }
 
-    private void onNewSource() {
-        PlayItem playItem = playlist.get();
+    private void setSource() {
+        Playlist.PlaylistItem playItem = playlist.get();
+        playlist.setCurrent(playItem.id);
         setAudioSource(playItem.source);
-        sync(new PlayerEvent.Factory().newSource(playItem.id, playItem.source));
+        sync(new PlayerEvent.Factory().newSource(playlist.getCurrentPosition(), "PLAYLIST"));
     }
 
     private void setAudioSource(Uri uri) {
@@ -81,12 +82,6 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onPlay(PodcastPosition position) {
-        play(position);
-        sync(new PlayerEvent.Factory().play(position));
-    }
-
-    private void onPlay() {
-        PodcastPosition position = playlist.get().position;
         play(position);
         sync(new PlayerEvent.Factory().play(position));
     }
@@ -111,9 +106,13 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         if (playlist.hasNext()) {
             completeAudio();
             playlist.moveToNext();
-            onNewSource();
-            onPlay();
+            setSource();
+            play();
         }
+    }
+
+    private void play() {
+        onPlay(playlist.get().podcastPosition);
     }
 
     public void completeAudio() {
@@ -128,7 +127,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     private void saveCompletedState() {
-        itemStateManager.persist(playlist.getCurrentId(), podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
+        itemStateManager.persist(playlist.getCurrentId(), podcastPlayer.getCompletedPosition(), podcastPlayer.getSource(), playlist.getCurrentPosition());
     }
 
     @Override
@@ -140,7 +139,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     private void saveCurrentPlayState() {
         if (podcastPlayer.isPrepared() && podcastPlayer.hasChanged()) {
-            itemStateManager.persist(playlist.getCurrentId(), podcastPlayer.getPosition(), podcastPlayer.getSource());
+            itemStateManager.persist(playlist.getCurrentId(), podcastPlayer.getPosition(), podcastPlayer.getSource(), playlist.getCurrentPosition());
         }
     }
 
@@ -182,8 +181,8 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     public void restoreItem() {
         PlayItem playItem = itemStateManager.getStoredItem();
         if (playItem.isValid()) {
-            playlist.setCurrent(playItem.id);
-            onNewSource(playItem.id, playItem.source);
+            playlist.setCurrent(playItem.getId());
+            onNewSource(playItem.getPlaylistPosition(), "Playlist");
         }
     }
 

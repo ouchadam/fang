@@ -91,12 +91,12 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void onRemoveAll() {
         List<FullItem> items = getAdapter().getAll();
         DownloadDeleter.from(getActivity()).deleteAll(items);
+        // TODO remove current playing item
     }
 
     private static class DownloadDeleter {

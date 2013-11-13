@@ -24,11 +24,12 @@ public class PlayingItemStateManager {
         this.preferences = preferences;
     }
 
-    public void persist(long itemId, PodcastPosition position, Uri source) {
+    public void persist(long itemId, PodcastPosition position, Uri source, int currentPosition) {
         if (itemId != Playlist.MISSING_ID) {
             persistPosition(itemId, position);
             persistId(itemId);
             persistSource(source);
+            persistPlaylistPosition(currentPosition);
         }
     }
 
@@ -36,23 +37,28 @@ public class PlayingItemStateManager {
         new PositionPersister(itemId, contentResolver).persist(position);
     }
 
-    private void persistSource(Uri uri) {
-        preferences.edit().putString("source", uri.toString()).apply();
-    }
-
     private void persistId(long itemId) {
         preferences.edit().putLong("id", itemId).apply();
     }
 
+    private void persistSource(Uri uri) {
+        preferences.edit().putString("source", uri.toString()).apply();
+    }
+
+    private void persistPlaylistPosition(int currentPosition) {
+        preferences.edit().putInt("playlistPosition", currentPosition).apply();
+    }
+
     public PlayItem getStoredItem() {
-        PlayItem playItem = new PlayItem();
-        playItem.id = getStoredPlayingId();
-        playItem.source = getSource();
-        return playItem;
+        return new PlayItem(getStoredPlayingId(), getSource(), getStoredPlaylistPosition());
     }
 
     private long getStoredPlayingId() {
         return preferences.getLong("id", Playlist.MISSING_ID);
+    }
+
+    private int getStoredPlaylistPosition() {
+        return preferences.getInt("playlistPosition", 0);
     }
 
     private Uri getSource() {

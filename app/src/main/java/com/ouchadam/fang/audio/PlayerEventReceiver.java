@@ -39,7 +39,7 @@ public class PlayerEventReceiver extends BroadcastReceiver {
         void onPlay(PodcastPosition position);
         void onPause();
         void onStop();
-        void onNewSource(long itemId, Uri source);
+        void onNewSource(int playlistPosition, String playlist);
         void gotoPosition(PodcastPosition position);
         void onReset();
     }
@@ -60,7 +60,7 @@ public class PlayerEventReceiver extends BroadcastReceiver {
                 callbacks.onStop();
                 break;
             case NEW_SOURCE:
-                callbacks.onNewSource(from.getId(), from.getSource());
+                callbacks.onNewSource(from.getPlaylistPosition(), "TODO");
                 break;
             case GOTO:
                 callbacks.gotoPosition(from.getPosition());
