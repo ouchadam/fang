@@ -1,9 +1,5 @@
 package com.ouchadam.fang.audio;
 
-import android.net.Uri;
-
-import com.ouchadam.fang.domain.PodcastPosition;
-
 import java.util.List;
 
 class Playlist {
@@ -54,13 +50,4 @@ class Playlist {
         return !isLast();
     }
 
-    static class PlayItem {
-        Uri source;
-        long id;
-        PodcastPosition position;
-
-        public boolean isValid() {
-            return source != null && id != MISSING_ID;
-        }
-    }
 }

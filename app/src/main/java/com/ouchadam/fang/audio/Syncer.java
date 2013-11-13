@@ -1,7 +1,5 @@
 package com.ouchadam.fang.audio;
 
-import android.util.Log;
-
 class Syncer {
 
     private final PlayerHandler playerHandler;

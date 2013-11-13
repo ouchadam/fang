@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ouchadam.fang.FangBroadcaster;
-import com.ouchadam.fang.presentation.PlayerEvent;
+import com.ouchadam.fang.audio.event.PlayerEvent;
 
 public class PodcastPlayerNotificationEventBroadcaster extends FangBroadcaster<PlayerEvent> {
 

@@ -1,10 +1,11 @@
-package com.ouchadam.fang.presentation;
+package com.ouchadam.fang.audio.event;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
 
 import com.ouchadam.fang.domain.PodcastPosition;
+import com.ouchadam.fang.presentation.IntentMarshaller;
 
 import java.io.Serializable;
 

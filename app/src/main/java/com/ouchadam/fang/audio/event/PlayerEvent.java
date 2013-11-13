@@ -1,7 +1,8 @@
-package com.ouchadam.fang.presentation;
+package com.ouchadam.fang.audio.event;
 
 import android.net.Uri;
 
+import com.ouchadam.fang.audio.PlayItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 
 public class PlayerEvent {
@@ -77,9 +78,13 @@ public class PlayerEvent {
             return build();
         }
 
-        public PlayerEvent newSource(long itemId, Uri source) {
+        public PlayerEvent newSource(PlayItem playItem) {
+            return newSource(playItem.getId(), playItem.getSource());
+        }
+
+        public PlayerEvent newSource(long id, Uri source) {
             playerEvent.event = Event.NEW_SOURCE;
-            playerEvent.id = itemId;
+            playerEvent.id = id;
             playerEvent.source = validate(source);
             return build();
         }

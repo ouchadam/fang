@@ -7,8 +7,8 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.telephony.TelephonyManager;
 
-import com.ouchadam.fang.presentation.PlayerEvent;
-import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 
 class ExternalReceiver extends BroadcastReceiver {
 

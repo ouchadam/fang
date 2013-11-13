@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.PositionPersister;
@@ -45,8 +44,8 @@ public class PlayingItemStateManager {
         preferences.edit().putLong("id", itemId).apply();
     }
 
-    public Playlist.PlayItem getStoredItem() {
-        Playlist.PlayItem playItem = new Playlist.PlayItem();
+    public PlayItem getStoredItem() {
+        PlayItem playItem = new PlayItem();
         playItem.id = getStoredPlayingId();
         playItem.source = getSource();
         return playItem;

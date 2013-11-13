@@ -9,8 +9,8 @@ import android.os.IBinder;
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.notification.NotificationService;
 import com.ouchadam.fang.notification.PodcastPlayerNotificationEventBroadcaster;
-import com.ouchadam.fang.presentation.PlayerEvent;
-import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 
 public class AudioService extends Service implements ServiceManipulator {
 

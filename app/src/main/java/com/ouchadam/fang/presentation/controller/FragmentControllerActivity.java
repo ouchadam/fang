@@ -1,13 +1,10 @@
 package com.ouchadam.fang.presentation.controller;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
@@ -16,8 +13,8 @@ import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.domain.PodcastPosition;
-import com.ouchadam.fang.presentation.PlayerEvent;
-import com.ouchadam.fang.presentation.PodcastPlayerEventBroadcaster;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.LatestFragment;
 import com.ouchadam.fang.setting.SettingsActivity;

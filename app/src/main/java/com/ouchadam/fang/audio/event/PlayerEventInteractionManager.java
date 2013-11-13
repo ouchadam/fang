@@ -1,8 +1,7 @@
-package com.ouchadam.fang.presentation.panel;
+package com.ouchadam.fang.audio.event;
 
 import com.ouchadam.fang.Broadcaster;
 import com.ouchadam.fang.domain.PodcastPosition;
-import com.ouchadam.fang.presentation.PlayerEvent;
 
 public class PlayerEventInteractionManager {
 

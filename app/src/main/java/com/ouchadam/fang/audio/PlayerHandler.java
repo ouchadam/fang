@@ -4,13 +4,12 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
 
 import com.novoda.notils.logger.Novogger;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.presentation.AudioFocusManager;
-import com.ouchadam.fang.presentation.PlayerEvent;
+import com.ouchadam.fang.audio.event.PlayerEvent;
 
 import java.io.IOException;
 
@@ -65,7 +64,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     private void onNewSource() {
-        Playlist.PlayItem playItem = playlist.get();
+        PlayItem playItem = playlist.get();
         setAudioSource(playItem.source);
         sync(new PlayerEvent.Factory().newSource(playItem.id, playItem.source));
     }
@@ -99,7 +98,6 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onPause() {
-        Log.e("???", "onPause");
         pauseAudio();
         saveCurrentPlayState();
         sync(new PlayerEvent.Factory().pause());
@@ -135,7 +133,6 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onStop() {
-        Log.e("???", "onStop");
         stopAudio();
         notification.dismiss();
         serviceManipulator.stop();
@@ -183,7 +180,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     public void restoreItem() {
-        Playlist.PlayItem playItem = itemStateManager.getStoredItem();
+        PlayItem playItem = itemStateManager.getStoredItem();
         if (playItem.isValid()) {
             playlist.setCurrent(playItem.id);
             onNewSource(playItem.id, playItem.source);
