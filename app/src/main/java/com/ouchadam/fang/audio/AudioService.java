@@ -11,6 +11,7 @@ import com.ouchadam.fang.notification.NotificationService;
 import com.ouchadam.fang.notification.PodcastPlayerNotificationEventBroadcaster;
 import com.ouchadam.fang.audio.event.PlayerEvent;
 import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
+import com.woodblockwithoutco.remotemetadataprovider.v18.media.RemoteMetadataProvider;
 
 public class AudioService extends Service implements ServiceManipulator {
 
@@ -23,6 +24,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     private boolean configChanged;
     private AudioCompletionHandler audioCompletionHandler;
+    private RemoteMetadataProvider instance;
 
     public AudioService() {
         this.binder = new LocalBinder();
@@ -36,6 +38,8 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void fangBind() {
+        instance = RemoteMetadataProvider.getInstance(this);
+        instance.acquireRemoteControls();
         configChanged = false;
         serviceLocation.binding();
         dismissNotification();
@@ -47,6 +51,7 @@ public class AudioService extends Service implements ServiceManipulator {
 
     @Override
     public void stop() {
+        instance.dropRemoteControls(false);
         stopSelf();
     }
 
