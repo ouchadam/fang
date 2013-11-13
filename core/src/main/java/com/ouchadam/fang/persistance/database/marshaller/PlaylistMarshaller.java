@@ -28,6 +28,7 @@ public class PlaylistMarshaller extends BaseMarshaller<ItemToPlaylist>  {
         ContentProviderOperationValues itemBuilder = newInsertFor(Uris.PLAYLIST);
         itemBuilder.withValue(Tables.Playlist.ITEM_ID.name(), item.getItemId());
         itemBuilder.withValue(Tables.Playlist.DOWNLOAD_ID.name(), item.getDownloadId());
+        itemBuilder.withValue(Tables.Playlist.LIST_POSITION.name(), item.getListPosition());
         operations.add(itemBuilder);
     }
 

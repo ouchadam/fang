@@ -1,21 +1,23 @@
 package com.ouchadam.fang.audio;
 
+import com.novoda.notils.java.Collections;
+
 import java.util.List;
 
 class Playlist {
 
     static final long MISSING_ID = -1L;
 
+    private final List<PlayItem> list;
     private long playingItemId;
 
-    List<PlayItem> list;
-
     public Playlist() {
+        this.list = Collections.newArrayList();
         this.playingItemId = MISSING_ID;
     }
 
     public boolean isLast() {
-        return list.size() == 1;
+        return list.size() == 1 || list.isEmpty();
     }
 
     public void add(long itemId) {

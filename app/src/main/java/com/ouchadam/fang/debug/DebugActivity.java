@@ -77,7 +77,7 @@ public class DebugActivity extends BasePreferenceActivity {
     private final Preference.OnPreferenceClickListener addToPlaylist = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L);
+            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L, 0);
             new AddToPlaylistPersister(getContentResolver()).persist(itemToPlaylist);
             Toast.makeText(DebugActivity.this, "Added to playlist", Toast.LENGTH_SHORT).show();
             return false;

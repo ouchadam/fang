@@ -42,7 +42,8 @@ public class Tables {
         DOWNLOADED,
         DOWNLOAD_ID,
         PLAY_POSITION,
-        MAX_DURATION;
+        MAX_DURATION,
+        LIST_POSITION;
     }
 
 }

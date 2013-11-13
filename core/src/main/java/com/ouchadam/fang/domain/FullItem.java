@@ -12,14 +12,16 @@ public class FullItem {
     private final long downloadId;
     private final boolean isDownloaded;
     private final PodcastPosition playPosition;
+    private final int playlistPosition;
 
-    public FullItem(Item item, String channelTitle, Image image, long downloadId, boolean downloaded, PodcastPosition playPosition) {
+    public FullItem(Item item, String channelTitle, Image image, long downloadId, boolean downloaded, PodcastPosition playPosition, int playlistPosition) {
         this.item = item;
         this.channelTitle = channelTitle;
         this.image = image;
         this.downloadId = downloadId;
         isDownloaded = downloaded;
         this.playPosition = playPosition;
+        this.playlistPosition = playlistPosition;
     }
 
     public Item getItem() {
@@ -54,4 +56,7 @@ public class FullItem {
         return playPosition.isHeard(PodcastPosition.MAX_PERCENT);
     }
 
+    public int getPlaylistPosition() {
+        return playlistPosition;
+    }
 }

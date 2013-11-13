@@ -32,6 +32,7 @@ import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
+import com.ouchadam.fang.presentation.controller.ItemDownloader;
 import com.ouchadam.fang.presentation.panel.DurationFormatter;
 
 public class DetailsFragment extends Fragment {
@@ -100,12 +101,8 @@ public class DetailsFragment extends Fragment {
     private void downloadCurrent() {
         FullItem item = getItem();
         if (item != null) {
-            ItemDownload downloadable = ItemDownload.from(item.getItem());
-            DownloadId downloadId = downloader.keep(downloadable);
-            downloader.store(downloadId, getItemId());
-
-            new AddToPlaylistPersister(getActivity().getContentResolver()).persist(ItemToPlaylist.from(item.getItem(), downloadId.value()));
-            downloader.watch(downloadId, new NotificationWatcher(getActivity(), downloadable, downloadId));
+            ItemDownloader itemDownloader = new ItemDownloader(downloader, getActivity());
+            itemDownloader.downloadItem(item.getItem());
         }
     }
 

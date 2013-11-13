@@ -18,7 +18,6 @@ public abstract class BaseMarshaller<T> implements Marshaller<T, List<ContentPro
         return operationWrapper.newInsert(uris);
     }
 
-
     protected ContentProviderOperationValues newUpdateFor(Uris uris) {
         return operationWrapper.newUpdate(uris);
     }

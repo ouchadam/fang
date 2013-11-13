@@ -97,18 +97,10 @@ public abstract class SecondLevelFangActivity extends FragmentActivity implement
     private final SlidingPanelViewManipulator.OnDownloadClickListener onDownload = new SlidingPanelViewManipulator.OnDownloadClickListener() {
         @Override
         public void onDownloadClicked(FullItem fullItem) {
-            downloadItem(fullItem.getItem(), fullItem.getItemId());
+            ItemDownloader itemDownloader = new ItemDownloader(SecondLevelFangActivity.this, SecondLevelFangActivity.this);
+            itemDownloader.downloadItem(fullItem.getItem());
         }
     };
-
-    private void downloadItem(Item item, long itemId) {
-        ItemDownload downloadable = ItemDownload.from(item);
-        DownloadId downloadId = keep(downloadable);
-        store(downloadId, itemId);
-
-        new AddToPlaylistPersister(getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value()));
-        watch(downloadId, new NotificationWatcher(this, downloadable, downloadId));
-    }
 
     private View getRoot() {
         return Views.findById(this, android.R.id.content);
