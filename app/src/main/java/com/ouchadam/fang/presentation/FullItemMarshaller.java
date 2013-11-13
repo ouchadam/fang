@@ -22,10 +22,7 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
         boolean isDownloaded = cursorUtil.getBoolean(Tables.Playlist.DOWNLOADED);
         int playPosition = cursorUtil.getInt(Tables.Playlist.PLAY_POSITION);
         int maxDuration = cursorUtil.getInt(Tables.Playlist.MAX_DURATION);
-
         int playlistPosition = cursorUtil.getInt(Tables.Playlist.LIST_POSITION);
-
-        Log.e("???", "Playlist position : " + playlistPosition);
 
         PodcastPosition podcastPosition = new PodcastPosition(playPosition, maxDuration);
 

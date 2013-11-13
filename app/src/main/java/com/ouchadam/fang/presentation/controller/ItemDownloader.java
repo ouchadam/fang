@@ -17,6 +17,7 @@ import com.ouchadam.fang.persistance.database.Uris;
 
 public class ItemDownloader {
 
+    private static final int NEXT_POSITION_OFFSET = 1;
     private final Downloader downloader;
     private final Context context;
 
@@ -34,18 +35,23 @@ public class ItemDownloader {
         downloader.watch(downloadId, new NotificationWatcher(context, downloadable, downloadId));
     }
 
-    private void addToPlaylist(Item item, DownloadId downloadId) {
-        int listPosition = getListPosition() + 1;
-        new AddToPlaylistPersister(context.getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value(), listPosition));
+    private void addToPlaylist(final Item item, final DownloadId downloadId) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int listPosition = getPlaylistTotal() + NEXT_POSITION_OFFSET;
+                new AddToPlaylistPersister(context.getContentResolver()).persist(ItemToPlaylist.from(item, downloadId.value(), listPosition));
+            }
+        }).start();
     }
 
-    private int getListPosition() {
-
+    private int getPlaylistTotal() {
         return new PlaylistQuery(context.getContentResolver()).getCurrentCount();
     }
 
     private static class PlaylistQuery {
 
+        private static final int ZERO_COUNT = 0;
         private final ContentResolver contentResolver;
 
         private PlaylistQuery(ContentResolver contentResolver) {
@@ -53,21 +59,22 @@ public class ItemDownloader {
         }
 
         public int getCurrentCount() {
+            Cursor cursor = getQuery();
+            return isValid(cursor) ? cursor.getCount() : ZERO_COUNT;
+        }
 
-            Cursor cursor = contentResolver.query(
+        private Cursor getQuery() {
+            return contentResolver.query(
                     FangProvider.getUri(Uris.PLAYLIST),
                     new String[]{Tables.Playlist.ITEM_ID.name()},
                     null,
                     null,
                     null
             );
+        }
 
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getCount();
-            } else {
-                return 0;
-            }
-
+        private boolean isValid(Cursor cursor) {
+            return cursor != null && cursor.moveToFirst();
         }
     }
 
