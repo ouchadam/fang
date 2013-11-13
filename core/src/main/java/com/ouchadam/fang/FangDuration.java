@@ -11,7 +11,11 @@ public class FangDuration extends NovodaCalendar {
 
     private final String rawTime;
 
-    public FangDuration(String time) {
+    public static FangDuration from(String duration) {
+        return duration == null ? missing() : new FangDuration(duration);
+    }
+
+    private FangDuration(String time) {
         super(time);
         rawTime = time;
     }
@@ -28,9 +32,11 @@ public class FangDuration extends NovodaCalendar {
 
     private int getColonCount(String date) {
         int colonCount = 0;
-        for (int i = 0; i < date.length(); i++) {
-            if (date.charAt(i) == ':') {
-                colonCount++;
+        if (date != null) {
+            for (int i = 0; i < date.length(); i++) {
+                if (date.charAt(i) == ':') {
+                    colonCount++;
+                }
             }
         }
         return colonCount;
@@ -46,5 +52,9 @@ public class FangDuration extends NovodaCalendar {
 
     public int getMinutes() {
         return get(DateInteger.MINUTE);
+    }
+
+    public static FangDuration missing() {
+        return new FangDuration("10:00");
     }
 }

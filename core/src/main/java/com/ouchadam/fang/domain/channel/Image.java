@@ -12,6 +12,10 @@ public class Image {
         return new Image("", "", "", 0, 0);
     }
 
+    public static Image basic(String url) {
+        return new Image(url, "", "", 0, 0);
+    }
+
     public Image(String url, String link, String title, Integer width, Integer height) {
         this.url = url;
         this.link = link;

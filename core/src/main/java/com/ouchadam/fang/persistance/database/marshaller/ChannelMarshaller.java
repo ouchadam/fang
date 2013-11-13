@@ -41,7 +41,6 @@ public class ChannelMarshaller extends BaseMarshaller<Channel> {
 
         buildWithItems(channel.getTitle(), channel.getItems());
         buildWithImage(channel.getTitle(), channel.getImage());
-        System.out.println("??? : " + "inserting channel with image : " + channel.getImage().getUrl());
     }
 
     private void buildWithItems(String channelTitle, List<Item> items) {

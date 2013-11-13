@@ -97,7 +97,7 @@ class ItemParser implements Parser<Item> {
         private String summary;
 
         Item asItem() {
-            return new Item(title, link, heroImage, new FangCalendar(pubDate), new FangDuration(duration), audio, subtitle, summary);
+            return new Item(title, link, heroImage, new FangCalendar(pubDate), FangDuration.from(duration), audio, subtitle, summary);
         }
     }
 

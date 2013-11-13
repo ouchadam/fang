@@ -33,6 +33,6 @@ public class HeroHolder {
 
 
     private boolean isValid(String url) {
-        return url != null;
+        return url != null && !url.isEmpty();
     }
 }

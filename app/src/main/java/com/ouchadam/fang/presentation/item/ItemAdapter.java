@@ -87,8 +87,8 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     }
 
     private void setHolderImage(ViewHolder holder, final FullItem fullItem) {
-        if (holder.channelImage != null) {
-            String imageUrl = fullItem.getImageUrl();
+        String imageUrl = fullItem.getImageUrl();
+        if (holder.channelImage != null && isValid(imageUrl)) {
             if (fullItem.isListenedTo()) {
                 holder.channelImage.setAlpha(0.5f);
                 Picasso.with(context).load(imageUrl).transform(new GreyscaleTransformation(imageUrl)).resize(200, 200).centerCrop().into(holder.channelImage);
@@ -97,6 +97,10 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
                 Picasso.with(context).load(imageUrl).resize(200, 200).centerCrop().into(holder.channelImage);
             }
         }
+    }
+
+    private boolean isValid(String url) {
+        return url != null && !url.isEmpty();
     }
 
 

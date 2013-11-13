@@ -17,18 +17,20 @@ import org.xml.sax.Attributes;
 
 class ChannelParser implements Parser<Channel> {
 
+    private static final String NAMESPACE_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd";
+
     private static final String TAG_TITLE = "title";
     private static final String TAG_CATEGORY = "category";
     private static final String TAG_IMAGE = "image";
     private static final String TAG_ITEM = "item";
     private static final String TAG_SUMMARY = "summary";
 
-    private static final String TAG_NAMESPACE_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd";
 
     private final ElementFinder<String> titleFinder;
     private final ElementFinder<String> categoryFinder;
     private final ElementFinder<Image> imageFinder;
     private final ElementFinder<Item> itemFinder;
+    private final ElementFinder<String> imageUrlFinder;
     private final ElementFinder<String> summaryFinder;
 
     private ParseWatcher<Channel> listener;
@@ -37,6 +39,7 @@ class ChannelParser implements Parser<Channel> {
     ChannelParser(ElementFinderFactory finderFactory) {
         titleFinder = finderFactory.getStringFinder();
         categoryFinder = finderFactory.getStringFinder();
+        imageUrlFinder = finderFactory.getAttributeFinder(new HrefAttributeMarshaller(), HrefAttributeMarshaller.HREF_TAG);
         imageFinder = finderFactory.getTypeFinder(new ImageParser(finderFactory));
         summaryFinder = finderFactory.getStringFinder();
         itemFinder = finderFactory.getListElementFinder(new ItemParser(finderFactory), parseWatcher);
@@ -56,7 +59,8 @@ class ChannelParser implements Parser<Channel> {
         titleFinder.find(element, TAG_TITLE);
         categoryFinder.find(element, TAG_CATEGORY);
         imageFinder.find(element, TAG_IMAGE);
-        summaryFinder.find(element, TAG_NAMESPACE_ITUNES, TAG_SUMMARY);
+        imageUrlFinder.find(element, NAMESPACE_ITUNES, TAG_IMAGE);
+        summaryFinder.find(element, NAMESPACE_ITUNES, TAG_SUMMARY);
         itemFinder.find(element, TAG_ITEM);
     }
 
@@ -71,11 +75,20 @@ class ChannelParser implements Parser<Channel> {
         public void end() {
             channelHolder.title = titleFinder.getResult();
             channelHolder.setCategory(categoryFinder.getResult());
-            channelHolder.setImage(imageFinder.getResult());
+            channelHolder.setImage(getChannelImage());
             channelHolder.setSummary(summaryFinder.getResult());
             listener.onParsed(channelHolder.asChannel());
         }
     };
+
+    private Image getChannelImage() {
+        Image image = imageFinder.getResult();
+        return validImage(image) ? image : Image.basic(imageUrlFinder.getResult());
+    }
+
+    private boolean validImage(Image result) {
+        return result != null && (result.getUrl() != null && !result.getUrl().isEmpty());
+    }
 
     private static class ChannelHolder {
         String title = "";
