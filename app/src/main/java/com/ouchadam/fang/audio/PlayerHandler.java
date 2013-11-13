@@ -135,7 +135,6 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private void pauseAudio() {
         remoteHelper.setPaused();
         podcastPlayer.pause();
-        audioFocusManager.abandonFocus();
     }
 
     private void saveCompletedState() {

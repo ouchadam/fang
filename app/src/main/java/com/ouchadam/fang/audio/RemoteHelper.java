@@ -82,7 +82,7 @@ public class RemoteHelper {
     }
 
     public void setPaused() {
-        remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+        remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
     }
 
     public void unregister() {
