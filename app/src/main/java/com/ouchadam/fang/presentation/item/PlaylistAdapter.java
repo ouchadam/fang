@@ -1,12 +1,14 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
@@ -30,46 +32,46 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        View view = createView(convertView, viewGroup, position);
+        View view = createView(convertView, viewGroup);
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        progressDelegate.handleDownloadProgress(position, viewHolder);
+
         ListItemProgress.Stage stage = progressDelegate.getStage(position);
         if (stage == ListItemProgress.Stage.IDLE) {
-            updateViewHolder(viewHolder, getItem(position));
+            updateIdleViewHolder(viewHolder, getItem(position));
+        } else {
+            progressDelegate.handleDownloadProgress(position, viewHolder);
         }
+        setHolderImage(viewHolder, getItem(position).getImageUrl());
         return view;
     }
 
-    private View createView(View convertView, ViewGroup viewGroup, int position) {
-        return convertView == null ? createNewView(viewGroup, position) : convertView;
+    private View createView(View convertView, ViewGroup viewGroup) {
+        return convertView == null ? createNewView(viewGroup) : convertView;
     }
 
-    private View createNewView(ViewGroup viewGroup, int position) {
+    private View createNewView(ViewGroup viewGroup) {
         View newView = layoutInflater.inflate(R.layout.download_item_adapter, viewGroup, false);
-        initViewTag(newView, position);
+        initViewTag(newView);
         return newView;
     }
 
-    private void initViewTag(View newView, int position) {
+    private void initViewTag(View newView) {
         ViewHolder tag = new ViewHolder();
-        initHolder(newView, tag, position);
+        initHolder(newView, tag);
         newView.setTag(tag);
     }
 
-    private void initHolder(View newView, ViewHolder tag, int position) {
+    private void initHolder(View newView, ViewHolder tag) {
         tag.progressBar = (ProgressBar) newView.findViewById(R.id.progress);
         tag.title = Views.findById(newView, R.id.text);
         tag.channelTitle = Views.findById(newView, R.id.channel_title);
         tag.channelImage = Views.findById(newView, R.id.channel_image);
         tag.itemTime = Views.findById(newView, R.id.item_time);
         tag.listened = Views.findById(newView, R.id.listened);
-        tag.position = position;
-
     }
 
-    private void updateViewHolder(ViewHolder holder, FullItem item) {
+    private void updateIdleViewHolder(ViewHolder holder, FullItem item) {
         setHolderText(holder, item);
-        setHolderImage(holder, item.getImageUrl());
     }
 
     private void setHolderImage(ViewHolder holder, String imageUrl) {
@@ -82,7 +84,8 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         holder.title.setText(item.getItem().getTitle());
         holder.channelTitle.setText(item.getChannelTitle());
         holder.itemTime.setText(item.getItem().getPubDate().getTimeAgo());
-        holder.listened.setText(item.getInitialPlayPosition().asPercentage() +"%" + " listened");
+        holder.listened.setText(item.getInitialPlayPosition().asPercentage() + "%" + " listened");
+        holder.progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,7 +96,6 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     @Override
     public void updateProgressValuesFor(long itemId, ProgressValues progressValues) {
         progressDelegate.updateProgressValuesFor(itemId, progressValues);
-
     }
 
     @Override
@@ -112,7 +114,6 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         TextView itemTime;
         TextView listened;
         ImageView channelImage;
-        int position;
         ProgressBar progressBar;
     }
 

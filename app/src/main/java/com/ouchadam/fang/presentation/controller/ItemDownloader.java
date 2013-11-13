@@ -60,7 +60,13 @@ public class ItemDownloader {
 
         public int getCurrentCount() {
             Cursor cursor = getQuery();
-            return isValid(cursor) ? cursor.getCount() : ZERO_COUNT;
+            try {
+                return isValid(cursor) ? cursor.getCount() : ZERO_COUNT;
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
         }
 
         private Cursor getQuery() {

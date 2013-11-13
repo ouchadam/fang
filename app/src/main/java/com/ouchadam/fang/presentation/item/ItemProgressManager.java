@@ -1,5 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.util.Log;
 import android.view.View;
 import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.adapter.ListItemProgress;
@@ -23,6 +24,7 @@ class ItemProgressManager extends ListItemProgress<FullItem, PlaylistAdapter.Vie
     @Override
     protected void onUpdate(FullItem what, PlaylistAdapter.ViewHolder viewHolder, ProgressValues progressValues) {
         viewHolder.title.setText("Downloading...");
+        viewHolder.listened.setText(progressValues.getPercentage() + "%");
         viewHolder.channelTitle.setText(what.getItem().getTitle());
         viewHolder.progressBar.setVisibility(View.VISIBLE);
         viewHolder.progressBar.setMax(100);
@@ -33,6 +35,7 @@ class ItemProgressManager extends ListItemProgress<FullItem, PlaylistAdapter.Vie
     protected void onStop(FullItem what, PlaylistAdapter.ViewHolder viewHolder) {
         viewHolder.title.setText(what.getItem().getTitle());
         viewHolder.channelTitle.setText(what.getChannelTitle());
+        viewHolder.listened.setText(what.getInitialPlayPosition().asPercentage() +"%" + " listened");
         viewHolder.progressBar.setVisibility(View.GONE);
     }
 
