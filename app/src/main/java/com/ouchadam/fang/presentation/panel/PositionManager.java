@@ -58,7 +58,6 @@ class PositionManager {
     }
 
     public void update(PodcastPosition position) {
-        Log.e("!!!!", "Updating position with : " + position.value() + " : " + position.getDuration());
         positionController.update(positionChanging, position);
     }
 

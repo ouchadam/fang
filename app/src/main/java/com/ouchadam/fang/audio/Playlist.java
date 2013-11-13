@@ -18,6 +18,7 @@ import java.util.List;
 class Playlist {
 
     static final long MISSING_ID = -1L;
+    private static final int ZERO_INDEX_OFFSET = 1;
 
     private final List<PlaylistItem> list;
     private final ItemSourceFetcher itemSourceFetcher;
@@ -38,11 +39,11 @@ class Playlist {
     }
 
     public boolean isLast() {
-        return list.size() == 1 || list.isEmpty();
+        return this.currentPosition == list.size();
     }
 
     public PlaylistItem get() {
-        return list.get(currentPosition - 1);
+        return list.get(currentPosition - ZERO_INDEX_OFFSET);
     }
 
     public boolean currentItemIsValid() {
@@ -70,7 +71,11 @@ class Playlist {
     }
 
     public void moveTo(int playlistPosition) {
-        this.currentPosition = playlistPosition;
+        this.currentPosition = validatePosition(playlistPosition);
+    }
+
+    private int validatePosition(int playlistPosition) {
+        return (playlistPosition - ZERO_INDEX_OFFSET) < list.size() && (playlistPosition - ZERO_INDEX_OFFSET) > 0 ? playlistPosition : ZERO_INDEX_OFFSET;
     }
 
     public void load() {
@@ -82,6 +87,7 @@ class Playlist {
             } while (cursor.moveToNext());
             cursor.close();
         }
+        list.clear();
         list.addAll(playlistItems);
     }
 
@@ -103,6 +109,7 @@ class Playlist {
         playlistItem.listPosition = cursorUtils.getInt(Tables.Playlist.LIST_POSITION);
 
         playlistItem.downloadId = cursorUtils.getLong(Tables.Playlist.DOWNLOAD_ID);
+        playlistItem.channel = cursorUtils.getString(Tables.Item.CHANNEL);
 
         int playPosition = cursorUtils.getInt(Tables.Playlist.PLAY_POSITION);
         int duration = cursorUtils.getInt(Tables.Playlist.MAX_DURATION);
@@ -110,8 +117,6 @@ class Playlist {
         playlistItem.podcastPosition = new PodcastPosition(playPosition, duration);
 
         playlistItem.source = itemSourceFetcher.getSourceUri(playlistItem.downloadId);
-
-        Log.e("!!!", "Adding to playlist : " + cursorUtils.getString(Tables.Channel.CHANNEL_TITLE));
 
         return playlistItem;
     }
@@ -127,6 +132,7 @@ class Playlist {
         PodcastPosition podcastPosition;
         long downloadId;
         Uri source;
+        String channel;
 
         public boolean isDownloaded() {
             return source != null;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 
 import com.novoda.notils.logger.Novogger;
 import com.ouchadam.fang.domain.PodcastPosition;
@@ -58,6 +59,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onNewSource(int playlistPosition, String playlistName) {
+        Log.e("!!!", "wants to play position : " + playlistPosition);
         playlist.load();
         playlist.moveTo(playlistPosition);
         setSource();
