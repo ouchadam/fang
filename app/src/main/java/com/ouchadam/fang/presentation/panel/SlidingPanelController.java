@@ -128,6 +128,7 @@ public class SlidingPanelController implements SlidingPanelExposer, SlidingPanel
     }
 
     public void sync(SyncEvent syncEvent) {
+        Log.e("???", "onSync");
         slidingPanelViewManipulator.show();
         slidingPanelViewManipulator.setPlayingState(syncEvent.isPlaying);
         slidingPanelViewManipulator.update(syncEvent.position);

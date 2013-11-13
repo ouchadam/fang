@@ -1,5 +1,7 @@
 package com.ouchadam.fang.audio;
 
+import android.util.Log;
+
 class Syncer {
 
     private final PlayerHandler playerHandler;
@@ -15,8 +17,8 @@ class Syncer {
     }
 
     public void sync() {
-        boolean canSync = playerHandler.asSyncEvent().isFresh();
-        if (!canSync) {
+        boolean canSync = !playerHandler.asSyncEvent().isFresh();
+        if (canSync) {
             listener.onSync(playerHandler.asSyncEvent());
         }
     }

@@ -16,8 +16,6 @@ import java.io.IOException;
 
 class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
-    static final long MISSING_ID = -1L;
-
     private final PodcastPlayer podcastPlayer;
     private final AudioFocusManager audioFocusManager;
     private final AudioSync audioSync;
@@ -25,8 +23,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final FangNotification notification;
     private final ServiceManipulator serviceManipulator;
     private final AudioCompletionHandler audioCompletionHandler;
-
-    private long playingItemId;
+    private final Playlist playlist;
 
     interface AudioSync {
         void onSync(long itemId, PlayerEvent playerEvent);
@@ -37,10 +34,11 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         AudioFocusManager focusManager = new AudioFocusManager((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         FangNotification notification = FangNotification.from(context);
-        return new PlayerHandler(player, focusManager, audioSync, itemStateManager, audioCompletionHandler, notification, serviceManipulator);
+        Playlist playlist = new Playlist();
+        return new PlayerHandler(player, focusManager, audioSync, itemStateManager, audioCompletionHandler, notification, serviceManipulator, playlist);
     }
 
-    PlayerHandler(PodcastPlayer podcastPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, PlayingItemStateManager itemStateManager, AudioCompletionHandler audioCompletionHandler, FangNotification notification, ServiceManipulator serviceManipulator) {
+    PlayerHandler(PodcastPlayer podcastPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, PlayingItemStateManager itemStateManager, AudioCompletionHandler audioCompletionHandler, FangNotification notification, ServiceManipulator serviceManipulator, Playlist playlist) {
         this.podcastPlayer = podcastPlayer;
         this.audioFocusManager = audioFocusManager;
         this.audioSync = audioSync;
@@ -48,7 +46,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         this.audioCompletionHandler = audioCompletionHandler;
         this.notification = notification;
         this.serviceManipulator = serviceManipulator;
-        this.playingItemId = itemStateManager.getStoredPlayingId();
+        this.playlist = playlist;
         podcastPlayer.setCompletionListener(onCompletionWrapper);
     }
 
@@ -61,9 +59,15 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onNewSource(long itemId, Uri source) {
-        this.playingItemId = itemId;
+        playlist.setCurrent(itemId);
         setAudioSource(source);
         sync(new PlayerEvent.Factory().newSource(itemId, source));
+    }
+
+    private void onNewSource() {
+        Playlist.PlayItem playItem = playlist.get();
+        setAudioSource(playItem.source);
+        sync(new PlayerEvent.Factory().newSource(playItem.id, playItem.source));
     }
 
     private void setAudioSource(Uri uri) {
@@ -82,6 +86,12 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         sync(new PlayerEvent.Factory().play(position));
     }
 
+    private void onPlay() {
+        PodcastPosition position = playlist.get().position;
+        play(position);
+        sync(new PlayerEvent.Factory().play(position));
+    }
+
     private void play(PodcastPosition position) {
         audioFocusManager.requestFocus();
         podcastPlayer.play(position);
@@ -93,6 +103,19 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         pauseAudio();
         saveCurrentPlayState();
         sync(new PlayerEvent.Factory().pause());
+    }
+
+    public boolean lastInPlaylist() {
+        return playlist.isLast();
+    }
+
+    public void completeAndPlayNext() {
+        if (playlist.hasNext()) {
+            completeAudio();
+            playlist.moveToNext();
+            onNewSource();
+            onPlay();
+        }
     }
 
     public void completeAudio() {
@@ -107,7 +130,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     private void saveCompletedState() {
-        itemStateManager.persist(playingItemId, podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
+        itemStateManager.persist(playlist.getCurrentId(), podcastPlayer.getCompletedPosition(), podcastPlayer.getSource());
     }
 
     @Override
@@ -120,7 +143,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     private void saveCurrentPlayState() {
         if (podcastPlayer.isPrepared() && podcastPlayer.hasChanged()) {
-            itemStateManager.persist(playingItemId, podcastPlayer.getPosition(), podcastPlayer.getSource());
+            itemStateManager.persist(playlist.getCurrentId(), podcastPlayer.getPosition(), podcastPlayer.getSource());
         }
     }
 
@@ -140,35 +163,30 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     public void onReset() {
         stopAudio();
         itemStateManager.resetCurrentItem();
-        playingItemId = MISSING_ID;
+        playlist.resetCurrent();
     }
 
     private void sync(PlayerEvent playerEvent) {
-        audioSync.onSync(playingItemId, playerEvent);
+        audioSync.onSync(playlist.getCurrentId(), playerEvent);
     }
 
     public SyncEvent asSyncEvent() {
-        return currentItemIsValid() ? createValidSyncEvent() : SyncEvent.fresh();
-    }
-
-    private boolean currentItemIsValid() {
-        return playingItemId != MISSING_ID;
+        return playlist.currentItemIsValid() ? createValidSyncEvent() : SyncEvent.fresh();
     }
 
     private SyncEvent createValidSyncEvent() {
-        return podcastPlayer.isNotPrepared() ? SyncEvent.idle(playingItemId) : createCurrentSyncEvent();
+        return podcastPlayer.isNotPrepared() ? SyncEvent.idle(playlist.getCurrentId()) : createCurrentSyncEvent();
     }
 
     private SyncEvent createCurrentSyncEvent() {
-        return new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playingItemId);
+        return new SyncEvent(podcastPlayer.isPlaying(), podcastPlayer.getPosition(), playlist.getCurrentId());
     }
 
     public void restoreItem() {
-        long playingId = itemStateManager.getStoredPlayingId();
-        Uri source = itemStateManager.getSource();
-        if (source != null) {
-            setAudioSource(source);
-            audioSync.onSync(playingId, new PlayerEvent.Factory().newSource(playingId, source));
+        Playlist.PlayItem playItem = itemStateManager.getStoredItem();
+        if (playItem.isValid()) {
+            playlist.setCurrent(playItem.id);
+            onNewSource(playItem.id, playItem.source);
         }
     }
 

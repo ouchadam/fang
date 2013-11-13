@@ -11,11 +11,15 @@ public class AudioCompletionHandler implements OnPlayCompletionListener {
 
     @Override
     public void onCompletion(PlayerHandler playerHandler) {
-        if (serviceLocation.isWithinApp()) {
-            playerHandler.completeAudio();
-            onCompletionListener.onComplete();
+        if (playerHandler.lastInPlaylist()) {
+            if (serviceLocation.isWithinApp()) {
+                playerHandler.completeAudio();
+                onCompletionListener.onComplete();
+            } else {
+                playerHandler.onStop();
+            }
         } else {
-            playerHandler.onStop();
+            playerHandler.completeAndPlayNext();
         }
     }
 
