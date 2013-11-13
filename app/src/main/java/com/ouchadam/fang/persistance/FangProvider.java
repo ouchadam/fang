@@ -25,6 +25,15 @@ public class FangProvider extends SQLiteContentProviderImpl {
     }
 
     @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        int result = super.delete(uri, selection, selectionArgs);
+        if (uri.equals(getUri(Uris.PLAYLIST))) {
+            notifyUriChange(getUri(Uris.FULL_ITEM));
+        }
+        return result;
+    }
+
+    @Override
     public Uri insert(Uri uri, ContentValues values) {
         Uri result = super.insert(uri, values);
         if (uri.equals(getUri(Uris.ITEM))) {

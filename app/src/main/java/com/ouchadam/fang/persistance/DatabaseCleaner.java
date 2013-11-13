@@ -22,6 +22,10 @@ public class DatabaseCleaner {
         return delete(Uris.CHANNEL, Uris.ITEM, Uris.IMAGE, Uris.PLAYLIST);
     }
 
+    public boolean deletePlaylist() {
+        return delete(Uris.PLAYLIST);
+    }
+
     private boolean delete(Uris... uris) {
         List<ContentProviderOperation> operations = Collections.newArrayList();
         for (Uris uri : uris) {

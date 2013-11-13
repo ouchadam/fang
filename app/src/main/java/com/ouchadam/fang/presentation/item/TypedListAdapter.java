@@ -29,4 +29,8 @@ public abstract class TypedListAdapter<T> extends TypedBaseAdapter<T> {
         return data.get(position).hashCode();
     }
 
+    public List<T> getAll() {
+        return data;
+    }
+
 }
