@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="210dp"
                 android:background="@drawable/card_background">
 
   <ImageView
@@ -9,6 +9,26 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/ab_trans_white">
+
+        <TextView
+            android:id="@+id/channel_new_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="12dp"
+            android:layout_centerVertical="true"
+            android:textSize="21dp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="italic"
+            android:textColor="@color/fang_ascent"/>
+
+    </RelativeLayout>
 
   <RelativeLayout
     android:orientation="vertical"
@@ -34,29 +54,9 @@
         android:textStyle="bold"
         android:fontFamily="sans-serif-thin"
         android:ellipsize="end"
-        android:textSize="16sp"/>
-
-      <ImageView
-        android:id="@+id/channel_overflow"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/abc_ic_menu_moreoverflow_normal_holo_light"/>
+        android:textSize="18sp"/>
 
     </LinearLayout>
-
-    <TextView
-      android:id="@+id/channel_new_count"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/title_container"
-      android:maxLines="1"
-      android:ellipsize="end"
-      android:textSize="13sp"
-      android:fontFamily="sans-serif-medium"
-      android:textStyle="italic"
-      android:textColor="#089983"
-      android:paddingTop="4dp"/>
 
   </RelativeLayout>
 

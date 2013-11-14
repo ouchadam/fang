@@ -107,7 +107,6 @@ public class ChannelFeedDownloadService extends Service {
             podcastParser.parse(urlInputStream);
             new ChannelPersister(getContentResolver()).persist(podcastParser.getResult(), feed.url, currentItemCount);
             Log.e("!!!", "Fetched : " + feed);
-            // TODO broadcast channel?
         } catch (IOException e) {
             broadcastFailure(e.getMessage());
         }
@@ -161,6 +160,7 @@ public class ChannelFeedDownloadService extends Service {
     private final ThreadTracker.OnAllThreadsComplete threadsCompleteListener = new ThreadTracker.OnAllThreadsComplete() {
         @Override
         public void onFinish() {
+            // TODO show notification with how many new items
             dismissNotification();
             stopSelf();
         }
