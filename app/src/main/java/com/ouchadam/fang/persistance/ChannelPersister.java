@@ -16,16 +16,16 @@ public class ChannelPersister {
         this.contentResolver = contentResolver;
     }
 
-    public void persist(Channel channel, String channelUrl) {
+    public void persist(Channel channel, String channelUrl, int currentItemCount) {
         try {
-            new Persister<Channel>(getExecutor(), getChannelMarshaller(channelUrl)).persist(channel);
+            new Persister<Channel>(getExecutor(), getChannelMarshaller(channelUrl, currentItemCount)).persist(channel);
         } catch (Executable.ExecutionFailure executionFailure) {
             executionFailure.printStackTrace();
         }
     }
 
-    private BaseMarshaller<Channel> getChannelMarshaller(String channelUrl) {
-        return new ChannelMarshaller(new OperationWrapperImpl(), channelUrl);
+    private BaseMarshaller<Channel> getChannelMarshaller(String channelUrl, int currentItemCount) {
+        return new ChannelMarshaller(new OperationWrapperImpl(), channelUrl, currentItemCount);
     }
 
     private ContentProviderOperationExecutable getExecutor() {

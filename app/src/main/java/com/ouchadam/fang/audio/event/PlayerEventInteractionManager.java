@@ -23,7 +23,6 @@ public class PlayerEventInteractionManager {
         playerBroadcaster.broadcast(new PlayerEvent.Factory().rewind());
     }
 
-
     public void fastForward() {
         playerBroadcaster.broadcast(new PlayerEvent.Factory().fastForward());
     }

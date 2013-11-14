@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.channel.Channel;
@@ -52,6 +53,7 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
     private ViewHolder createViewHolder(View view, int position) {
         ViewHolder holder = new ViewHolder();
         holder.title = Views.findById(view, R.id.channel_text);
+        holder.newCount = Views.findById(view, R.id.channel_new_count);
         holder.image = Views.findById(view, R.id.channel_image);
         holder.position = position;
         return holder;
@@ -68,6 +70,11 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
 
     private void setHolderText(ViewHolder holder, Channel channel) {
         holder.title.setText(channel.getTitle());
+        if (channel.getNewItemCount() > 0) {
+            holder.newCount.setText(channel.getNewItemCount() + "!");
+        } else {
+            holder.newCount.setText("");
+        }
     }
 
     private void setHolderImage(ViewHolder holder, String imageUrl) {
@@ -83,6 +90,7 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
 
     static class ViewHolder {
         TextView title;
+        TextView newCount;
         ImageView image;
         int position;
     }

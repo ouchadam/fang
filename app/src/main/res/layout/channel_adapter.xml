@@ -46,7 +46,7 @@
     </LinearLayout>
 
     <TextView
-      android:id="@+id/channel_last"
+      android:id="@+id/channel_new_count"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/title_container"
@@ -56,8 +56,7 @@
       android:fontFamily="sans-serif-medium"
       android:textStyle="italic"
       android:textColor="#089983"
-      android:paddingTop="4dp"
-      android:text="!"/>
+      android:paddingTop="4dp"/>
 
   </RelativeLayout>
 

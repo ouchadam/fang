@@ -39,8 +39,13 @@ public class ItemMarshaller extends BaseMarshaller<Item>  {
         itemBuilder.withValue(Tables.Item.HERO_IMAGE.name(), item.getHeroImage());
         itemBuilder.withValue(Tables.Item.SUBTITLE.name(), item.getSubtitle());
         itemBuilder.withValue(Tables.Item.SUMMARY.name(), item.getSummary());
+        itemBuilder.withValue(Tables.Item.UNIQUEID.name(), createUniqueValue(item));
         buildWithAudio(itemBuilder, item.getAudio());
         operations.add(itemBuilder);
+    }
+
+    private String createUniqueValue(Item item) {
+        return item.getAudio().getUrl() + ":" + item.getPubDate() + ":" + item.getTitle();
     }
 
     private void buildWithAudio(ContentProviderOperationValues itemBuilder, Audio audio) {

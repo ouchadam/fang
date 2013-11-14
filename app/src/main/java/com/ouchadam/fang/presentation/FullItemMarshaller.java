@@ -22,10 +22,11 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
         int playPosition = cursorUtil.getInt(Tables.Playlist.PLAY_POSITION);
         int maxDuration = cursorUtil.getInt(Tables.Playlist.MAX_DURATION);
         int playlistPosition = cursorUtil.getInt(Tables.Playlist.LIST_POSITION);
+        int newItemCount = cursorUtil.getInt(Tables.Channel.NEW_ITEM_COUNT);
 
         PodcastPosition podcastPosition = new PodcastPosition(playPosition, maxDuration);
 
-        return new FullItem(item, channelTitle, image, downloadId, isDownloaded, podcastPosition, playlistPosition);
+        return new FullItem(item, channelTitle, image, downloadId, isDownloaded, podcastPosition, playlistPosition, newItemCount);
     }
 
     private static class ImageCursorMarshaller implements CursorMarshaller<Image> {

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.parsing.ChannelFinder;
 import com.ouchadam.fang.parsing.PodcastParser;
@@ -36,7 +35,7 @@ public class ParseHelper {
         PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
             podcastParser.parse(activity.getAssets().open(fileName));
-            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), fileName);
+            new ChannelPersister(contentResolver).persist(podcastParser.getResult(), fileName, 0);
             onCallback(podcastParser.getResult());
         } catch (IOException e) {
             e.printStackTrace();

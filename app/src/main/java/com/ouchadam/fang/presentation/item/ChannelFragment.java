@@ -58,7 +58,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
     protected Query getQueryValues() {
         return new Query.Builder()
                 .withUri(FangProvider.getUri(Uris.FULL_CHANNEL))
-                .withProjection(new String[] { Tables.Channel.CHANNEL_TITLE.name(), Tables.ChannelImage.IMAGE_URL.name() })
+                .withProjection(new String[]{Tables.Channel.CHANNEL_TITLE.name(), Tables.Channel.NEW_ITEM_COUNT.name(), Tables.ChannelImage.IMAGE_URL.name()})
                 .build();
     }
 
@@ -77,8 +77,9 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
         public Channel marshall(Cursor cursor) {
             String title = cursor.getString(cursor.getColumnIndexOrThrow(Tables.Channel.CHANNEL_TITLE.name()));
             String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.ChannelImage.IMAGE_URL.name()));
+            int newItemCount = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Channel.NEW_ITEM_COUNT.name()));
 
-            return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), "", null);
+            return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), "", newItemCount, null, -1);
         }
     }
 }

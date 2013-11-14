@@ -90,19 +90,13 @@ public class Item {
 
         Item item = (Item) o;
 
-        if (id != item.id) return false;
         if (audio != null ? !audio.equals(item.audio) : item.audio != null) return false;
-        if (link != null ? !link.equals(item.link) : item.link != null) return false;
-        if (pubDate != null ? !pubDate.equals(item.pubDate) : item.pubDate != null) return false;
-        if (subtitle != null ? !subtitle.equals(item.subtitle) : item.subtitle != null) return false;
-        if (summary != null ? !summary.equals(item.summary) : item.summary != null) return false;
-        if (title != null ? !title.equals(item.title) : item.title != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return title != null ? title.hashCode() : 0;
+        return audio != null ? audio.hashCode() : 0;
     }
 }

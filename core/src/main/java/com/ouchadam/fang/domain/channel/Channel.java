@@ -7,23 +7,26 @@ import java.util.List;
 public class Channel {
 
     private static final int INVALID_ID = -1;
+    private static final int NO_COUNT = 0;
 
     private final String title;
     private final String category;
     private final Image image;
+    private final int newItemCount;
     private final List<Item> items;
     private final String summary;
     private final int id;
 
     public Channel(String title, String category, Image image, String summary, List<Item> items) {
-        this(title, category, image, summary, items, INVALID_ID);
+        this(title, category, image, summary, NO_COUNT, items, INVALID_ID);
     }
 
-    public Channel(String title, String category, Image image, String summary, List<Item> items, int id) {
+    public Channel(String title, String category, Image image, String summary, int newItemCount, List<Item> items, int id) {
         this.title = title;
         this.category = category;
         this.image = image;
         this.summary = summary;
+        this.newItemCount = newItemCount;
         this.items = items;
         this.id = id;
     }
@@ -54,5 +57,9 @@ public class Channel {
 
     public int getId() {
         return id;
+    }
+
+    public int getNewItemCount() {
+        return newItemCount;
     }
 }

@@ -11,7 +11,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.novoda.notils.java.Collections;
-import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.parsing.ChannelFinder;
 import com.ouchadam.fang.parsing.PodcastParser;
@@ -20,6 +19,7 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+import com.ouchadam.fang.presentation.item.DatabaseCounter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,20 +37,20 @@ public class ChannelFeedDownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        List<String> urls = Collections.newArrayList();
+        List<Feed> feeds = Collections.newArrayList();
         FeedServiceInfo from = FeedServiceInfo.from(intent.getExtras());
         switch (from.getType()) {
-            case ADD :
-                urls = from.getUrlsToAdd();
+            case ADD:
+                feeds = from.getUrlsToAdd();
                 break;
             case REFRESH:
-                urls = getSubscribedChannelUrls();
+                feeds = getSubscribedChannelUrls();
                 break;
         }
 
-        if (!urls.isEmpty()) {
+        if (!feeds.isEmpty()) {
             showNotification();
-            downloadAndPersistPodcastFeeds(urls);
+            downloadAndPersistPodcastFeeds(feeds);
         }
         return START_STICKY;
     }
@@ -61,52 +61,70 @@ public class ChannelFeedDownloadService extends Service {
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
-    private List<String> getSubscribedChannelUrls() {
+    private List<Feed> getSubscribedChannelUrls() {
         Query query = getQueryValues();
         Cursor cursor = getContentResolver().query(query.uri, query.projection, query.selection, query.selectionArgs, query.sortOrder);
 
-        List<String> urls = Collections.newArrayList();
+        List<Feed> feeds = Collections.newArrayList();
         if (cursor != null && cursor.moveToFirst()) {
-            while (cursor.moveToNext()) {
-                urls.add(cursor.getString(cursor.getColumnIndex(Tables.Channel.URL.name())));
-            }
+            do {
+                Feed feed = new Feed();
+                feed.url = cursor.getString(cursor.getColumnIndex(Tables.Channel.URL.name()));
+                feed.channelTitle = cursor.getString(cursor.getColumnIndex(Tables.Channel.CHANNEL_TITLE.name()));
+                feed.oldItemCount = cursor.getInt(cursor.getColumnIndex(Tables.Channel.NEW_ITEM_COUNT.name()));
+                feeds.add(feed);
+            } while (cursor.moveToNext());
         }
         if (cursor != null) {
             cursor.close();
         }
-        return urls;
+        return feeds;
     }
 
     private Query getQueryValues() {
         return new Query.Builder().withUri(FangProvider.getUri(Uris.CHANNEL)).build();
     }
 
-    public void downloadAndPersistPodcastFeeds(List<String> urls) {
+    public void downloadAndPersistPodcastFeeds(List<Feed> feeds) {
         // TODO Move to thread pool
-        final ThreadTracker threadTracker = new ThreadTracker(urls.size(), threadsCompleteListener);
-        for (final String url : urls) {
+        final ThreadTracker threadTracker = new ThreadTracker(feeds.size(), threadsCompleteListener);
+        for (final Feed feed : feeds) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    getPodcastFrom(url, threadTracker);
+                    getPodcastFrom(feed, threadTracker);
                 }
             }).start();
         }
     }
 
-    private void getPodcastFrom(String url, ThreadTracker threadTracker) {
+    private void getPodcastFrom(Feed feed, ThreadTracker threadTracker) {
+        int currentItemCount = getCurrentItemCount(feed) - feed.oldItemCount;
         PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
-            Log.e("!!!", "Fetching : " + url);
-            InputStream urlInputStream = getInputStreamFrom(url);
+            Log.e("!!!", "Fetching : " + feed);
+            InputStream urlInputStream = getInputStreamFrom(feed.url);
             podcastParser.parse(urlInputStream);
-            new ChannelPersister(getContentResolver()).persist(podcastParser.getResult(), url);
-            Log.e("!!!", "Fetched : " + url);
+            new ChannelPersister(getContentResolver()).persist(podcastParser.getResult(), feed.url, currentItemCount);
+            Log.e("!!!", "Fetched : " + feed);
             // TODO broadcast channel?
         } catch (IOException e) {
             broadcastFailure(e.getMessage());
         }
         threadTracker.threadFinished();
+    }
+
+    private int getCurrentItemCount(Feed feed) {
+        if (!feed.hasChannelTitle()) {
+            return 0;
+        }
+        return new DatabaseCounter(
+                getContentResolver(),
+                Uris.FULL_ITEM,
+                new String[]{Tables.Item.CHANNEL.name()},
+                Tables.Channel.CHANNEL_TITLE.name() + "=?",
+                new String[]{feed.channelTitle}
+        ).getCurrentCount();
     }
 
     private InputStream getInputStreamFrom(String url) throws IOException {

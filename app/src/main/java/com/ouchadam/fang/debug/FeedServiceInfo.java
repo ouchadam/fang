@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.novoda.notils.java.Collections;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class FeedServiceInfo {
 
@@ -31,8 +34,15 @@ public class FeedServiceInfo {
         return Type.valueOf(bundle.getString(TYPE));
     }
 
-    public ArrayList<String> getUrlsToAdd() {
-        return bundle.getStringArrayList(URLS);
+    public List<Feed> getUrlsToAdd() {
+        ArrayList<String> urls = bundle.getStringArrayList(URLS);
+        List<Feed> feeds = Collections.newArrayList();
+        for (String url : urls) {
+            Feed feed = new Feed();
+            feed.url = url;
+            feeds.add(feed);
+        }
+        return feeds;
     }
 
     public static Intent refresh(Context context) {

@@ -11,7 +11,8 @@ public class Tables {
         CHANNEL_TITLE,
         CATEGORY,
         SUMMARY,
-        URL;
+        URL,
+        NEW_ITEM_COUNT;
     }
 
     public enum ChannelImage {
@@ -34,7 +35,8 @@ public class Tables {
         LINK,
         HERO_IMAGE,
         SUBTITLE,
-        SUMMARY;
+        SUMMARY,
+        UNIQUEID;
     }
 
     public enum Playlist {
