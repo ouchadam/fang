@@ -13,6 +13,7 @@ import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
+import com.ouchadam.fang.persistance.RemoveNewItemCountPersister;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 
@@ -69,7 +70,9 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
 
     @Override
     public void onItemClick(TypedListAdapter<Channel> adapter, int position, long itemId) {
-        new Navigator(getActivity()).toChannel(adapter.getItem(position).getTitle());
+        Channel channel = adapter.getItem(position);
+        new RemoveNewItemCountPersister(getActivity().getContentResolver()).persist(channel.getTitle());
+        new Navigator(getActivity()).toChannel(channel.getTitle());
     }
 
     private static class ChannelSummaryMarshaller implements CursorMarshaller<Channel> {
