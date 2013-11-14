@@ -20,6 +20,7 @@ import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.item.DatabaseCounter;
+import com.ouchadam.fang.presentation.item.LastUpdatedManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -161,6 +162,7 @@ public class ChannelFeedDownloadService extends Service {
         @Override
         public void onFinish() {
             // TODO show notification with how many new items
+            LastUpdatedManager.from(ChannelFeedDownloadService.this).setLastUpdated();
             dismissNotification();
             stopSelf();
         }

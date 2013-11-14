@@ -32,6 +32,10 @@ public class FangCalendar extends NovodaCalendar {
         }
     }
 
+    public long getHoursDifference() {
+        return getDateDiff(System.currentTimeMillis(), getTimeInMillis(), TimeUnit.HOURS);
+    }
+
     public static long getDateDiff(long newer, long older, TimeUnit timeUnit) {
         long diffInMillies = newer - older;
         return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
