@@ -46,7 +46,7 @@ public class NotificationService extends IntentService {
         if (isValid(intent)) {
             long itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L);
             boolean isPlaying = intent.getBooleanExtra(EXTRA_IS_PLAYING, true);
-            Log.e("!!!!" , "Acting on event : " + itemId + " with isPlaying? : " + isPlaying);
+            Log.e("!!!!", "Acting on event : " + itemId + " with isPlaying? : " + isPlaying);
 
             FullItem item = getFullItem(itemId);
             if (item != null) {
@@ -73,6 +73,8 @@ public class NotificationService extends IntentService {
         FullItem item = null;
         if (cursor != null && cursor.moveToFirst()) {
             item = new FullItemMarshaller().marshall(cursor);
+        }
+        if (cursor != null) {
             cursor.close();
         }
         return item;

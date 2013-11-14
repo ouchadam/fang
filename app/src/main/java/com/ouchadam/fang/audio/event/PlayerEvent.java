@@ -8,7 +8,6 @@ import com.ouchadam.fang.domain.PodcastPosition;
 public class PlayerEvent {
 
     private Event event;
-    private Uri source;
     private PodcastPosition position;
     private long id;
     private int playlistPosition;
@@ -22,10 +21,6 @@ public class PlayerEvent {
 
     public PodcastPosition getPosition() {
         return position;
-    }
-
-    public Uri getSource() {
-        return source;
     }
 
     public long getId() {
@@ -42,6 +37,8 @@ public class PlayerEvent {
         PLAY_PAUSE,
         STOP,
         GOTO,
+        FAST_FORWARD,
+        REWIND,
         NEW_SOURCE,
         RESET;
 
@@ -94,13 +91,6 @@ public class PlayerEvent {
             return build();
         }
 
-        private <T> T validate(T what) {
-            if (what == null) {
-                throw new NullPointerException("Don't pass nulls to the builder!");
-            }
-            return what;
-        }
-
         public PlayerEvent goTo(PodcastPosition position) {
             playerEvent.event = Event.GOTO;
             playerEvent.position = position;
@@ -122,8 +112,18 @@ public class PlayerEvent {
             return build();
         }
 
+        public PlayerEvent fastForward() {
+            playerEvent.event = Event.FAST_FORWARD;
+            return build();
+        }
+
         private PlayerEvent build() {
             return playerEvent;
+        }
+
+        public PlayerEvent rewind() {
+            playerEvent.event = Event.REWIND;
+            return build();
         }
     }
 

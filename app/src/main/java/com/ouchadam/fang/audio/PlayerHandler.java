@@ -16,6 +16,8 @@ import java.io.IOException;
 
 class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
+    private static final int FORWARD_REWIND_AMOUNT = 10000;
+
     private final PodcastPlayer podcastPlayer;
     private final AudioFocusManager audioFocusManager;
     private final AudioSync audioSync;
@@ -74,6 +76,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         playlist.setCurrent(playItem.id);
         remoteHelper.update(playItem);
         setAudioSource(playItem.source);
+        gotoPosition(playItem.podcastPosition);
         sync(new PlayerEvent.Factory().newSource(playlist.getCurrentPosition(), "PLAYLIST"));
     }
 
@@ -157,6 +160,31 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         stopAudio();
         notification.dismiss();
         serviceManipulator.stop();
+    }
+
+    @Override
+    public void onFastForward() {
+        PodcastPosition currentPosition = podcastPlayer.getPosition();
+        if (canFastForward(currentPosition)) {
+            PodcastPosition forwardPosition = new PodcastPosition(currentPosition.value() + FORWARD_REWIND_AMOUNT, currentPosition.getDuration());
+            gotoPosition(forwardPosition);
+        }
+    }
+
+    private boolean canFastForward(PodcastPosition currentPosition) {
+        return currentPosition.value() + FORWARD_REWIND_AMOUNT < currentPosition.getDuration();
+    }
+
+    @Override
+    public void onRewind() {
+        PodcastPosition currentPosition = podcastPlayer.getPosition();
+        PodcastPosition rewindPosition = new PodcastPosition(moderateRewind(currentPosition), currentPosition.getDuration());
+        gotoPosition(rewindPosition);
+    }
+
+    private int moderateRewind(PodcastPosition currentPosition) {
+        int rewindPosition = currentPosition.value() - FORWARD_REWIND_AMOUNT;
+        return rewindPosition > 0 ? rewindPosition : 0;
     }
 
     private void saveCurrentPlayState() {

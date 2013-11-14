@@ -77,6 +77,40 @@
 
     </ViewSwitcher>
 
+      <RelativeLayout
+          android:id="@+id/rewind"
+          android:layout_height="match_parent"
+          android:layout_width="67dp"
+          android:layout_toLeftOf="@id/bottom_media_switcher"
+          android:background="@android:drawable/list_selector_background">
+
+          <ImageView
+              android:layout_height="50dp"
+              android:layout_width="50dp"
+              android:scaleType="fitXY"
+              android:background="@null"
+              android:layout_centerInParent="true"
+              android:src="@drawable/ic_media_rew"/>
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:id="@+id/fast_forward"
+          android:layout_height="match_parent"
+          android:layout_width="67dp"
+          android:layout_toRightOf="@id/bottom_media_switcher"
+          android:background="@android:drawable/list_selector_background">
+
+          <ImageView
+              android:layout_height="50dp"
+              android:layout_width="50dp"
+              android:scaleType="fitXY"
+              android:background="@null"
+              android:layout_centerInParent="true"
+              android:src="@drawable/ic_media_ff"/>
+
+      </RelativeLayout>
+
   </RelativeLayout>
 
   <RelativeLayout

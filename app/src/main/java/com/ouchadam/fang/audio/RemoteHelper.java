@@ -41,8 +41,7 @@ public class RemoteHelper {
         audioManager.registerRemoteControlClient(remoteControlClient);
 
         remoteControlClient.setTransportControlFlags(
-                RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE | RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
-                        RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
+                RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
     }
 
     public void update(Playlist.PlaylistItem playlistItem) {
@@ -92,10 +91,11 @@ public class RemoteHelper {
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                         eventBroadcaster.broadcast(new PlayerEvent.Factory().playPause());
                         break;
-                    case KeyEvent.KEYCODE_MEDIA_NEXT:
-                        break;
                     case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                        // TODO: ensure that doing this in rapid succession actually plays the previous song
+                        eventBroadcaster.broadcast(new PlayerEvent.Factory().rewind());
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_NEXT:
+                        eventBroadcaster.broadcast(new PlayerEvent.Factory().fastForward());
                         break;
                 }
             }

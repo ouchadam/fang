@@ -39,4 +39,13 @@ public class PlayerEventInteractionManager {
             throw new IllegalAccessError("You must call setData before trying to play or load");
         }
     }
+
+    public void rewind() {
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().rewind());
+    }
+
+
+    public void fastForward() {
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().fastForward());
+    }
 }

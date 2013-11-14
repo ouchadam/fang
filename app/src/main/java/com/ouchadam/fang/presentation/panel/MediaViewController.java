@@ -11,14 +11,18 @@ class MediaViewController implements PanelComponent {
     private final View playBottom;
     private final View pauseTop;
     private final View pauseBottom;
+    private final View rewind;
+    private final View fastForward;
     private final ViewSwitcher topMediaSwitcher;
     private final ViewSwitcher bottomMediaSwitcher;
 
-    MediaViewController(View playTop, View playBottom, View pauseTop, View pauseBottom, ViewSwitcher topMediaSwitcher, ViewSwitcher bottomMediaSwitcher) {
+    MediaViewController(View playTop, View playBottom, View pauseTop, View pauseBottom, View rewind, View fastForward, ViewSwitcher topMediaSwitcher, ViewSwitcher bottomMediaSwitcher) {
         this.playTop = playTop;
         this.playBottom = playBottom;
         this.pauseTop = pauseTop;
         this.pauseBottom = pauseBottom;
+        this.rewind = rewind;
+        this.fastForward = fastForward;
         this.topMediaSwitcher = topMediaSwitcher;
         this.bottomMediaSwitcher = bottomMediaSwitcher;
     }
@@ -54,6 +58,11 @@ class MediaViewController implements PanelComponent {
         playBottom.setOnClickListener(onPlayClicked);
         pauseTop.setOnClickListener(onPauseClicked);
         pauseBottom.setOnClickListener(onPauseClicked);
+    }
+
+    public void setRewindFastForwardListeners(View.OnClickListener onRewind, View.OnClickListener onFastForward) {
+        rewind.setOnClickListener(onRewind);
+        fastForward.setOnClickListener(onFastForward);
     }
 
     public void showNext() {

@@ -71,6 +71,9 @@ public class ChannelFeedDownloadService extends Service {
                 urls.add(cursor.getString(cursor.getColumnIndex(Tables.Channel.URL.name())));
             }
         }
+        if (cursor != null) {
+            cursor.close();
+        }
         return urls;
     }
 

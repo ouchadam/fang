@@ -24,7 +24,6 @@ public class PodcastPlayer {
 
     private boolean hasChanged;
 
-
     public PodcastPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster) {
         this.context = context;
         this.positionBroadcaster = positionBroadcaster;

@@ -41,9 +41,9 @@ class PositionManager {
         public void onStopTrackingTouch(SeekBar seekBar) {
             PodcastPosition position = new PodcastPosition(seekBar.getProgress(), seekBar.getMax());
             positionController.update(positionChanging, position);
-            if (playing) {
+//            if (playing) {
                 onSeekChanged.onSeekChanged(position);
-            }
+//            }
             positionChanging = false;
         }
     };

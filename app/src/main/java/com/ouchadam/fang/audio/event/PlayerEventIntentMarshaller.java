@@ -11,7 +11,6 @@ import java.io.Serializable;
 
 public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent> {
 
-    private static final String SOURCE = "source";
     private static final String POSITION = "position";
     private static final String playListPosition = "playlistPosition";
 
@@ -24,7 +23,6 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
     @Override
     public Intent to(long itemId, PlayerEvent what) {
         Intent intent = new Intent(what.getEvent().toAction(actionPrefix));
-        putExtraIfAvailable(intent, SOURCE, what.getSource());
         intent.putExtra(playListPosition, what.getPlaylistPosition());
         putExtraIfAvailable(intent, POSITION, what.getPosition());
         return intent;
@@ -33,12 +31,6 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
     private void putExtraIfAvailable(Intent intent, String key, Serializable serializable) {
         if (serializable != null) {
             intent.putExtra(key, serializable);
-        }
-    }
-
-    private void putExtraIfAvailable(Intent intent, String key, Parcelable parcelable) {
-        if (parcelable != null) {
-            intent.putExtra(key, parcelable);
         }
     }
 
@@ -58,6 +50,10 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
                 return factory.playPause();
             case STOP:
                 return factory.stop();
+            case REWIND:
+                return factory.rewind();
+            case FAST_FORWARD:
+                return factory.fastForward();
             case GOTO:
                 return factory.goTo((PodcastPosition) intent.getSerializableExtra(POSITION));
             case RESET:

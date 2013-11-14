@@ -6,7 +6,9 @@ public class MediaClickManager {
 
     public enum MediaPressed {
         PLAY,
-        PAUSE;
+        PAUSE,
+        REWIND,
+        FAST_FORWARD;
     }
 
     public interface OnMediaClickListener {
@@ -20,6 +22,7 @@ public class MediaClickManager {
         this.listener = listener;
         this.mediaController = mediaController;
         mediaController.setPlayPauseListeners(onPlayClicked, onPauseClicked);
+        mediaController.setRewindFastForwardListeners(onRewindClicked, onFastForwardClicked);
     }
 
     private final View.OnClickListener onPlayClicked = new View.OnClickListener() {
@@ -30,14 +33,32 @@ public class MediaClickManager {
         }
     };
 
-    private void mediaNext() {
-        mediaController.showNext();
-    }
-
     private final View.OnClickListener onPauseClicked = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             listener.onMediaClicked(MediaPressed.PAUSE);
+            mediaNext();
+        }
+    };
+
+    private void mediaNext() {
+        mediaController.showNext();
+    }
+
+
+    private final View.OnClickListener onRewindClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            listener.onMediaClicked(MediaPressed.REWIND);
+            mediaNext();
+        }
+    };
+
+
+    private final View.OnClickListener onFastForwardClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            listener.onMediaClicked(MediaPressed.FAST_FORWARD);
             mediaNext();
         }
     };

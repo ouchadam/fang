@@ -37,19 +37,14 @@ public class PlayerEventReceiver extends BroadcastReceiver {
 
     interface PlayerEventCallbacks {
         void onPlay();
-
         void onPlay(PodcastPosition position);
-
         void onPause();
-
         void onPlayPause();
-
         void onStop();
-
+        void onFastForward();
+        void onRewind();
         void onNewSource(int playlistPosition, String playlist);
-
         void gotoPosition(PodcastPosition position);
-
         void onReset();
     }
 
@@ -70,6 +65,12 @@ public class PlayerEventReceiver extends BroadcastReceiver {
                 break;
             case STOP:
                 callbacks.onStop();
+                break;
+            case FAST_FORWARD:
+                callbacks.onFastForward();
+                break;
+            case REWIND:
+                callbacks.onRewind();
                 break;
             case NEW_SOURCE:
                 callbacks.onNewSource(from.getPlaylistPosition(), "TODO");

@@ -86,6 +86,8 @@ class Playlist {
             do {
                 playlistItems.add(createPlaylistItem(cursor, itemSourceFetcher));
             } while (cursor.moveToNext());
+        }
+        if (cursor != null) {
             cursor.close();
         }
         list.clear();

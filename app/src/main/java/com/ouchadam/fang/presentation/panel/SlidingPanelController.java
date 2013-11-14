@@ -66,10 +66,26 @@ public class SlidingPanelController implements SlidingPanelExposer {
     private final MediaClickManager.OnMediaClickListener onMediaClicked = new MediaClickManager.OnMediaClickListener() {
         @Override
         public void onMediaClicked(MediaClickManager.MediaPressed mediaPressed) {
-            if (mediaPressed == MediaClickManager.MediaPressed.PLAY) {
-                playerEventInteractionManager.play(slidingPanelViewManipulator.getPosition());
-            } else {
-                playerEventInteractionManager.pause();
+            switch (mediaPressed) {
+
+                case PLAY:
+                    playerEventInteractionManager.play(slidingPanelViewManipulator.getPosition());
+                    break;
+
+                case PAUSE:
+                    playerEventInteractionManager.pause();
+                    break;
+
+                case REWIND:
+                    playerEventInteractionManager.rewind();
+                    break;
+
+                case FAST_FORWARD:
+                    playerEventInteractionManager.fastForward();
+                    break;
+
+                default:
+                    throw new IllegalAccessError("Unhandled media pressed state" + mediaPressed.name());
             }
         }
     };
