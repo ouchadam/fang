@@ -64,7 +64,9 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         Log.e("!!!", "wants to play position : " + playlistPosition);
         playlist.load();
         playlist.moveTo(playlistPosition);
-        setSource();
+        if (playlist.isValid()) {
+            setSource();
+        }
     }
 
     private void setSource() {

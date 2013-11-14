@@ -71,5 +71,6 @@ public class PlayingItemStateManager {
 
     public void resetCurrentItem() {
         preferences.edit().remove("id").apply();
+        preferences.edit().remove("playlistPosition").apply();
     }
 }

@@ -1,14 +1,7 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,16 +16,10 @@ import android.widget.Toast;
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.Downloader;
-import com.ouchadam.bookkeeper.domain.DownloadId;
-import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
-import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.ItemQueryer;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
-import com.ouchadam.fang.persistance.AddToPlaylistPersister;
-import com.ouchadam.fang.presentation.controller.ItemDownloader;
 import com.ouchadam.fang.presentation.panel.DurationFormatter;
 
 public class DetailsFragment extends Fragment {

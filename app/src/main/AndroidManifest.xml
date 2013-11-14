@@ -31,7 +31,9 @@
 
         </activity>
 
-        <activity android:name=".presentation.controller.SearchActivity" android:label="Search">
+        <activity
+            android:name=".presentation.controller.SearchActivity"
+            android:label="Search">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -65,12 +67,11 @@
             </intent-filter>
         </receiver>
 
-
-      <receiver android:name=".audio.RemoteHelper$MusicIntentReceiver">
-        <intent-filter>
-          <action android:name="android.intent.action.MEDIA_BUTTON" />
-        </intent-filter>
-      </receiver>
+        <receiver android:name=".audio.RemoteHelper$MusicIntentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
 
         <!-- PROVIDERS -->
         <provider

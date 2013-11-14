@@ -132,6 +132,10 @@ class Playlist {
         return currentPosition;
     }
 
+    public boolean isValid() {
+        return !list.isEmpty();
+    }
+
     static class PlaylistItem {
 
         long id;

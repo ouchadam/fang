@@ -1,4 +1,4 @@
-package com.ouchadam.fang.presentation.controller;
+package com.ouchadam.fang.presentation.item;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
-import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
+import com.ouchadam.bookkeeper.watcher.AsyncNotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
@@ -32,7 +32,8 @@ public class ItemDownloader {
         downloader.store(downloadId, item.getId());
 
         addToPlaylist(item, downloadId);
-        downloader.watch(downloadId, new NotificationWatcher(context, downloadable, downloadId));
+        AsyncNotificationWatcher asyncNotificationWatcher = new AsyncNotificationWatcher(context, downloadable, downloadId);
+        asyncNotificationWatcher.startWatching();
     }
 
     private void addToPlaylist(final Item item, final DownloadId downloadId) {

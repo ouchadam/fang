@@ -34,6 +34,7 @@ import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
+import com.ouchadam.fang.presentation.item.ItemDownloader;
 import com.ouchadam.fang.presentation.item.Navigator;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
 import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
@@ -61,7 +62,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.drawer);
-        fangBookKeeer = FangBookKeeer.newInstance(this);
+        fangBookKeeer = FangBookKeeer.getInstance(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
