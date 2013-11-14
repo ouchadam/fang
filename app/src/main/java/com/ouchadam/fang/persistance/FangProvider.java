@@ -18,9 +18,14 @@ public class FangProvider extends SQLiteContentProviderImpl {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int result = super.update(uri, values, selection, selectionArgs);
-        if (uri.equals(getUri(Uris.PLAYLIST)) || uri.equals(getUri(Uris.CHANNEL))) {
+        if (uri.equals(getUri(Uris.PLAYLIST))) {
             notifyUriChange(getUri(Uris.FULL_ITEM));
         }
+
+        if (uri.equals(getUri(Uris.CHANNEL))) {
+            notifyUriChange(getUri(Uris.FULL_CHANNEL));
+        }
+
         return result;
     }
 

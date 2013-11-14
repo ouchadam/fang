@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.presentation.SingleChannelFragment;
 
-public class ChannelActivity extends FangActivity {
+public class ChannelActivity extends SecondLevelFangActivity {
 
     public static final String EXTRA_CHANNEL = "channel_extra";
 
