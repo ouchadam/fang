@@ -14,6 +14,7 @@ import android.widget.RemoteViews;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.presentation.controller.FragmentControllerActivity;
 
 import java.util.Random;
 
@@ -93,8 +94,9 @@ public class FangNotification {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         builder.setContentTitle(fullItem.getItem().getTitle());
-        builder.setContentText("This is my content");
+        builder.setContentText(fullItem.getChannelTitle());
         builder.setSmallIcon(R.drawable.play_button);
+        builder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, FragmentControllerActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
 
         builder.setLargeIcon(channelImage);
 
