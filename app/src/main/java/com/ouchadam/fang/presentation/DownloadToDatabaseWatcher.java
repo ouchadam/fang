@@ -22,12 +22,10 @@ class DownloadToDatabaseWatcher implements DownloadWatcher {
 
     @Override
     public void onStart() {
-
     }
 
     @Override
     public void onUpdate(ProgressValues progressValues) {
-
     }
 
     @Override

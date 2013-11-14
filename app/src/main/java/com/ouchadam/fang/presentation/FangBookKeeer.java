@@ -17,14 +17,8 @@ public class FangBookKeeer implements Downloader {
     private final RestoreableBookKeeper bookKeeper;
     private final ContentResolver contentResolver;
 
-    private static FangBookKeeer fangBookKeeer;
-
     public static FangBookKeeer getInstance(Context context) {
-        if (fangBookKeeer == null) {
-            Context applicationContext = context.getApplicationContext();
-            fangBookKeeer = new FangBookKeeer(RestoreableBookKeeper.newInstance(applicationContext), applicationContext.getContentResolver());
-        }
-        return fangBookKeeer;
+        return new FangBookKeeer(RestoreableBookKeeper.newInstance(context), context.getContentResolver());
     }
 
     public FangBookKeeer(RestoreableBookKeeper bookKeeper, ContentResolver contentResolver) {
