@@ -48,12 +48,14 @@ public class FangNotification {
         PendingIntent closeIntent = new RemoteClick().createPendingIntent(context, new PlayerEvent.Factory().stop());
         PendingIntent pauseIntent = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().playPause(), fullItem.getItemId());
         PendingIntent playIntent = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().playPause(), fullItem.getItemId());
+        PendingIntent rewind = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().rewind(), fullItem.getItemId());
+        PendingIntent fastForward = new RemoteClick().createMediaPendingIntent(context, new PlayerEvent.Factory().fastForward(), fullItem.getItemId());
 
         customNotifView.setOnClickPendingIntent(R.id.notification_close, closeIntent);
         customNotifView.setOnClickPendingIntent(R.id.play, playIntent);
         customNotifView.setOnClickPendingIntent(R.id.pause, pauseIntent);
-
-        Log.e("!!!!", "show notification : " + "playling? : " + playing);
+        customNotifView.setOnClickPendingIntent(R.id.rewind, rewind);
+        customNotifView.setOnClickPendingIntent(R.id.fast_forward, fastForward);
 
         customNotifView.setViewVisibility(R.id.play, playing ? View.GONE : View.VISIBLE);
         customNotifView.setViewVisibility(R.id.pause, playing ? View.VISIBLE : View.GONE);
