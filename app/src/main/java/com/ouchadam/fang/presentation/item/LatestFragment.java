@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Classes;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -23,6 +25,8 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     private final ActionBarTitleSetter actionBarTitleSetter;
     private DetailsDisplayManager detailsDisplayManager;
+    private View lastUpdatedContainer;
+    private TextView lastUpdateText;
 
     public LatestFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
@@ -37,20 +41,35 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Bundles.restoreInstanceState(this, savedInstanceState);
-        actionBarTitleSetter.set("Latest");
-    }
-
-    @Override
     protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_item_list, container, false);
     }
 
     @Override
+    protected void onCreateViewExtra(View root) {
+        super.onCreateViewExtra(root);
+        lastUpdatedContainer = Views.findById(root, R.id.last_updated_container);
+        lastUpdateText = Views.findById(root, R.id.last_updated_text);
+        Views.findById(root, R.id.last_updated_close).setOnClickListener(onLastUpdatedClose);
+    }
+
+    private final View.OnClickListener onLastUpdatedClose = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            lastUpdatedContainer.setVisibility(View.GONE);
+        }
+    };
+
+    @Override
     protected TypedListAdapter<FullItem> createAdapter() {
         return new ItemAdapter(LayoutInflater.from(getActivity()), getActivity());
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundles.restoreInstanceState(this, savedInstanceState);
+        actionBarTitleSetter.set("Latest");
     }
 
     @Override

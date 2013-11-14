@@ -5,11 +5,43 @@
 
   <include android:id="@+id/dummy_action_bar" layout="@layout/blank_action_bar"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/last_updated_container"
+        android:layout_below="@id/dummy_action_bar"
+        android:visibility="visible"
+        android:layout_marginTop="6dp">
+
+        <ImageButton
+            android:id="@+id/last_updated_close"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_remove"
+            android:background="@android:drawable/list_selector_background"/>
+
+        <TextView
+            android:id="@+id/last_updated_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/last_updated_close"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="24sp"
+            android:text="Last updated 2 hours ago"/>
+
+    </RelativeLayout>
+
   <ListView
       android:id="@+id/list"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_below="@id/dummy_action_bar"
+      android:layout_below="@id/last_updated_container"
       android:divider="@android:color/transparent"
       android:dividerHeight="3dp"
       android:padding="6dp"

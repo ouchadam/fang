@@ -41,8 +41,11 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         AbsListView absListView = Views.findById(root, R.id.list);
         absListView.setAdapter(adapter);
         absListView.setOnItemClickListener(innerItemClickListener);
+        onCreateViewExtra(root);
         return root;
     }
+
+    protected void onCreateViewExtra(View root) {};
 
     private final AdapterView.OnItemClickListener innerItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
