@@ -76,8 +76,12 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         playlist.setCurrent(playItem.id);
         remoteHelper.update(playItem);
         setAudioSource(playItem.source);
-        gotoPosition(playItem.podcastPosition);
+        gotoPosition(getInitialPosition(playItem));
         sync(new PlayerEvent.Factory().newSource(playlist.getCurrentPosition(), "PLAYLIST"));
+    }
+
+    private PodcastPosition getInitialPosition(Playlist.PlaylistItem playItem) {
+        return playItem.podcastPosition.isCompleted() ? PodcastPosition.idle() : playItem.podcastPosition;
     }
 
     private void setAudioSource(Uri uri) {
@@ -92,7 +96,11 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onPlay() {
-        onPlay(playlist.get().podcastPosition);
+        onPlay(getPosition());
+    }
+
+    private PodcastPosition getPosition() {
+        return podcastPlayer.hasChanged() ? podcastPlayer.getPosition() : playlist.get().podcastPosition;
     }
 
     @Override

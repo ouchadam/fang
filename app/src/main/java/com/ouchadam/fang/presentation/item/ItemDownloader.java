@@ -20,18 +20,19 @@ public class ItemDownloader {
     private static final int NEXT_POSITION_OFFSET = 1;
     private final Downloader downloader;
     private final Context context;
+    private final PlaylistQuery playlistQuery;
 
     public ItemDownloader(Downloader downloader, Context context) {
         this.downloader = downloader;
         this.context = context;
+        playlistQuery = new PlaylistQuery(context.getContentResolver());
     }
 
     public void downloadItem(Item item) {
         ItemDownload downloadable = ItemDownload.from(item);
         DownloadId downloadId = downloader.keep(downloadable);
-        downloader.store(downloadId, item.getId());
-
         addToPlaylist(item, downloadId);
+        downloader.store(downloadId, item.getId());
         downloader.watch(downloadId);
         AsyncNotificationWatcher asyncNotificationWatcher = new AsyncNotificationWatcher(context, downloadable, downloadId);
         asyncNotificationWatcher.startWatching();
@@ -48,7 +49,7 @@ public class ItemDownloader {
     }
 
     private int getPlaylistTotal() {
-        return new PlaylistQuery(context.getContentResolver()).getCurrentCount();
+        return playlistQuery.getCurrentCount();
     }
 
     private static class PlaylistQuery {
@@ -63,7 +64,13 @@ public class ItemDownloader {
         public int getCurrentCount() {
             Cursor cursor = getQuery();
             try {
-                return isValid(cursor) ? cursor.getCount() : ZERO_COUNT;
+                int count = 0;
+                if (isValid(cursor)) {
+                    do {
+                        count++;
+                    } while (cursor.moveToNext());
+                }
+                return count;
             } finally {
                 if (cursor != null) {
                     cursor.close();

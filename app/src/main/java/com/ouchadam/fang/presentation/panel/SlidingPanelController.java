@@ -48,12 +48,6 @@ public class SlidingPanelController implements SlidingPanelExposer {
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
         public void onItem(FullItem item) {
-            if (item.isDownloaded()) {
-                PlayItem playItem = PlayItem.from(item, context);
-                PlayerEvent sourceEvent = new PlayerEvent.Factory().newSource(playItem);
-                PlayerEvent gotoEvent = new PlayerEvent.Factory().goTo(item.getInitialPlayPosition());
-                playerEventInteractionManager.setData(sourceEvent, gotoEvent);
-            }
             initialiseViews(item);
         }
     };
@@ -69,7 +63,7 @@ public class SlidingPanelController implements SlidingPanelExposer {
             switch (mediaPressed) {
 
                 case PLAY:
-                    playerEventInteractionManager.play(slidingPanelViewManipulator.getPosition());
+                    playerEventInteractionManager.play();
                     break;
 
                 case PAUSE:

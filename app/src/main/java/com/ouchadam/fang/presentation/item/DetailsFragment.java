@@ -3,6 +3,7 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,6 +100,7 @@ public class DetailsFragment extends Fragment {
 
     private void playCurrent() {
         FullItem item = getItem();
+        Log.e("???", "Play current : " + item.getChannelTitle() + " with playlist position : " + item.getPlaylistPosition());
         new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getPlaylistPosition(), "PLAYLIST");
     }
 
