@@ -54,7 +54,10 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             default:
-                return fangDrawer.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+                if (hasFangDrawer()) {
+                    return fangDrawer.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+                }
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -67,10 +70,17 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        initDrawer();
+        fangInitActionBar();
+        if (hasFangDrawer()) {
+            initDrawer();
+        }
         initSlidingPaneController();
         startAudioService();
         onFangCreate(savedInstanceState);
+    }
+
+    protected boolean hasFangDrawer() {
+        return true;
     }
 
     protected void setFangContentView() {
@@ -99,7 +109,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     };
 
     private void initDrawer() {
-        fangInitActionBar();
         DrawerNavigator drawerNavigator = new DrawerNavigator(getSupportFragmentManager());
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, drawerNavigator.toArray());
         initDrawer(adapter, drawerNavigator);
@@ -152,19 +161,25 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        fangDrawer.onPostCreate();
+        if (hasFangDrawer()) {
+            fangDrawer.onPostCreate();
+        }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        fangDrawer.onConfigurationChanged(newConfig);
+        if (hasFangDrawer()) {
+            fangDrawer.onConfigurationChanged(newConfig);
+        }
     }
 
     @Override
     public void setTitle(String title) {
         getActionBar().setTitle(title);
-        fangDrawer.setOnCloseTitle(title);
+        if (hasFangDrawer()) {
+            fangDrawer.setOnCloseTitle(title);
+        }
         refresh();
     }
 
@@ -273,7 +288,9 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     @Override
     public void onDismissDrawer() {
-        fangDrawer.enable();
+        if (hasFangDrawer()) {
+            fangDrawer.enable();
+        }
         hidePanel();
     }
 

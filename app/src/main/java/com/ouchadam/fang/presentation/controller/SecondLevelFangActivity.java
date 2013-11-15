@@ -41,7 +41,6 @@ public abstract class SecondLevelFangActivity extends FangActivity implements Ac
     @Override
     protected void setFangContentView() {
         setContentView(R.layout.second_level);
-        super.setFangContentView();
     }
 
     @Override
@@ -53,6 +52,11 @@ public abstract class SecondLevelFangActivity extends FangActivity implements Ac
             default:
                 return  super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected boolean hasFangDrawer() {
+        return false;
     }
 
     @Override
