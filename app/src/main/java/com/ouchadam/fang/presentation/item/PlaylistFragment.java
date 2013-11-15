@@ -136,8 +136,6 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
         if (!playlistActionMode.isInActionMode()) {
             detailsDisplayManager.displayItem(itemId);
-        } else {
-            setChecked(position);
         }
     }
 
@@ -148,7 +146,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         } else {
             playlistActionMode.onStart();
             allowChecking();
-            setChecked(position);
+            setLongPressChecked(position);
             return true;
         }
     }

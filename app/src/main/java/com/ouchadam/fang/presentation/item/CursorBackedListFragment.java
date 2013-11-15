@@ -110,8 +110,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         return adapter;
     }
 
-    protected void setChecked(int position) {
-        Log.e("???", "set checked : " + position);
+    protected void setLongPressChecked(int position) {
         listView.setItemChecked(position, true);
     }
 
@@ -136,7 +135,6 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
                 int position = rawCheckedItems.keyAt(index);
                 boolean checked = rawCheckedItems.valueAt(index);
                 if (checked) {
-                    Log.e("???", "get checked : " + position);
                     checkedItems.add(adapter.getItem(position));
                 }
             }
