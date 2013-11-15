@@ -6,6 +6,7 @@
   <color name="trans_white">#E4FFFFFF</color>
   <color name="details_trans_white">#DAFFFFFF</color>
   <color name="ab_trans_white">#33FFFFFF</color>
+  <color name="ab_trans_medium_white">#99FFFFFF</color>
   <color name="white">#FFFFFF</color>
   <color name="holo_blue">#4433b5e5</color>
 

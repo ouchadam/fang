@@ -188,4 +188,7 @@ class AudioHandler {
         return fangPlayer.getPosition().asCompleted();
     }
 
+    public boolean isPrepared() {
+        return fangPlayer.isPrepared();
+    }
 }

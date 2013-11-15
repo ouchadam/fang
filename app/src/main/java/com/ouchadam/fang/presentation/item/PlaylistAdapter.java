@@ -65,7 +65,12 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
 
     private void initPlayButton(ViewHolder viewHolder, FullItem item) {
         long itemId = item.getItemId();
-        viewHolder.playButton.setImageDrawable(isPlayingFetcher.isPlaying(itemId) ? getPauseDrawable() : getPlayDrawable());
+        if (item.isDownloaded()) {
+            viewHolder.playButton.setVisibility(View.VISIBLE);
+            viewHolder.playButton.setImageDrawable(isPlayingFetcher.isPlaying(itemId) ? getPauseDrawable() : getPlayDrawable());
+        } else {
+            viewHolder.playButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private Drawable getPauseDrawable() {
@@ -112,11 +117,10 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         @Override
         public void onClick(View view) {
             PositionHolder position = (PositionHolder) view.getTag();
-
-            Log.e("???", "clicked on position : " + position.position);
-
             FullItem item = getItem(position.position);
-            PlaylistAdapter.this.onPlayListener.onPlayPause(item);
+            if (item.isDownloaded()) {
+                PlaylistAdapter.this.onPlayListener.onPlayPause(item);
+            }
         }
     };
 

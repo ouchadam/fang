@@ -52,8 +52,10 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onPause() {
-        audioHandler.onPause();
-        saveCurrentPlayState();
+        if (audioHandler.isPrepared()) {
+            audioHandler.onPause();
+            saveCurrentPlayState();
+        }
     }
 
     @Override

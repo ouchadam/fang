@@ -54,6 +54,7 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
         ViewHolder holder = new ViewHolder();
         holder.title = Views.findById(view, R.id.channel_text);
         holder.newCount = Views.findById(view, R.id.channel_new_count);
+        holder.newCountContainer = Views.findById(view, R.id.new_count_container);
         holder.image = Views.findById(view, R.id.channel_image);
         holder.position = position;
         return holder;
@@ -71,10 +72,16 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
     private void setHolderText(ViewHolder holder, Channel channel) {
         holder.title.setText(channel.getTitle());
         if (channel.getNewItemCount() > 0) {
+            setNewCountVisibility(holder, View.VISIBLE);
             holder.newCount.setText(channel.getNewItemCount() + "!");
         } else {
-            holder.newCount.setText("");
+            setNewCountVisibility(holder, View.INVISIBLE);
         }
+    }
+
+    private void setNewCountVisibility(ViewHolder holder, int visibility) {
+        holder.newCount.setVisibility(visibility);
+        holder.newCountContainer.setVisibility(visibility);
     }
 
     private void setHolderImage(ViewHolder holder, String imageUrl) {
@@ -91,6 +98,7 @@ public class ChannelAdapter extends TypedListAdapter<Channel> {
     static class ViewHolder {
         TextView title;
         TextView newCount;
+        View newCountContainer;
         ImageView image;
         int position;
     }

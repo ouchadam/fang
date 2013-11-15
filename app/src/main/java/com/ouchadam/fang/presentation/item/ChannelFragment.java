@@ -101,7 +101,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
         if (selectedChannels != null && !selectedChannels.isEmpty()) {
             DownloadDeleter.from(getActivity()).deleteChannels(selectedChannels);
         } else {
-            Toast.makeText(getActivity(), "Failed to delete, couldn't find and podcasts", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Failed to delete, couldn't find and channels", Toast.LENGTH_SHORT).show();
         }
     }
 
