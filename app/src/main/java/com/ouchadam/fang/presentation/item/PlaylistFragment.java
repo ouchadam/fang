@@ -20,7 +20,6 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
-import com.ouchadam.fang.presentation.DiskUtils;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
@@ -116,14 +115,9 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         actionBarTitleSetter.set("Playlist");
-        spaceUsageText.setText(getSpaceUsed());
+        spaceUsageText.setText(new AvailableSpaceFetcher().formatted());
     }
 
-    private String getSpaceUsed() {
-        DiskUtils.IDiskUtils diskUtils = DiskUtils.getInstance();
-        long freeSpaceMb = diskUtils.freeSpace(DiskUtils.DiskLocation.EXTERNAL);
-        return "Free : " + freeSpaceMb + "mb";
-    }
 
     @Override
     public void onDataUpdated(List<FullItem> data) {
