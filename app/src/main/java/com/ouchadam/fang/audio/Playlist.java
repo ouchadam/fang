@@ -4,10 +4,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.novoda.notils.java.Collections;
-import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.database.Tables;
@@ -47,7 +45,7 @@ class Playlist {
         return list.get(currentPosition - ZERO_INDEX_OFFSET);
     }
 
-    public boolean currentItemIsValid() {
+    public boolean currentItemIdIsValid() {
         return playingItemId != MISSING_ID;
     }
 
@@ -136,6 +134,11 @@ class Playlist {
 
     public boolean isValid() {
         return !list.isEmpty();
+    }
+
+    public boolean currentItemIsValid() {
+        PlaylistItem playlistItem = get();
+        return playlistItem != null && playlistItem.source != null;
     }
 
     static class PlaylistItem {

@@ -5,7 +5,7 @@
     android:id="@+id/ab_download"
     android:title="Download"
     android:visible="false"
-    android:icon="@drawable/ic_menu_save"
+    android:icon="@drawable/ic_download"
     android:showAsAction="always"/>
 
   <item

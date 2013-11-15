@@ -25,9 +25,10 @@ import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
+public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>,PlaylistActionMode.OnPlaylistActionMode {
 
     private final ActionBarTitleSetter actionBarTitleSetter;
 
@@ -35,6 +36,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private boolean hasRestored;
     private DetailsDisplayManager detailsDisplayManager;
     private TextView spaceUsageText;
+    private PlaylistActionMode playlistActionMode;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -73,6 +75,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         actionBarTitleSetter.onAttach(activity);
         SlidingPanelExposer panelController = Classes.from(activity);
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
+        playlistActionMode = new PlaylistActionMode(activity, this);
     }
 
     @Override
@@ -108,6 +111,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setOnItemClickListener(this);
+        setOnItemLongClickListener(this);
     }
 
     @Override
@@ -130,7 +134,36 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        detailsDisplayManager.displayItem(itemId);
+        if (playlistActionMode.isInActionMode()) {
+            setSelected(position);
+        } else {
+            detailsDisplayManager.displayItem(itemId);
+        }
     }
 
+    @Override
+    public boolean onItemLongClick(TypedListAdapter<FullItem> adapterView, View view, int position, long itemId) {
+        if (playlistActionMode.isInActionMode()) {
+            return false;
+        } else {
+            playlistActionMode.onStart();
+            setSelected(position);
+            return true;
+        }
+    }
+
+    @Override
+    public void onDelete() {
+        List<FullItem> selectedItems = getSelectedItems();
+        DownloadDeleter.from(getActivity()).deleteItems(selectedItems);
+    }
+
+    private List<FullItem> getSelectedItems() {
+        return getAllCheckedPositions();
+    }
+
+    @Override
+    public void onActionModeFinish() {
+        deselectAll();
+    }
 }

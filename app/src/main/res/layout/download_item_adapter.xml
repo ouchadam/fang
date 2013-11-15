@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ouchadam.fang.view.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -81,4 +81,4 @@
     android:paddingRight="12dp"
     android:visibility="gone"/>
 
-</RelativeLayout>
+</com.ouchadam.fang.view.CheckableRelativeLayout>

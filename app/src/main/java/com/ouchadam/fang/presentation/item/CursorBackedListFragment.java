@@ -3,6 +3,8 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.java.Collections;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.persistance.DataUpdater;
 import com.ouchadam.fang.persistance.Query;
@@ -23,6 +26,8 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     private TypedListAdapter<T> adapter;
     private DataQueryer<T> dataQueryer;
     private OnItemClickListener<T> onItemClickListener;
+    private OnLongClickListener<T> onLongClickListener;
+    private AbsListView listView;
 
     @Override
     public void onAttach(Activity activity) {
@@ -38,14 +43,18 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = getRootLayout(inflater, container);
         adapter = createAdapter();
-        AbsListView absListView = Views.findById(root, R.id.list);
-        absListView.setAdapter(adapter);
-        absListView.setOnItemClickListener(innerItemClickListener);
+        listView = Views.findById(root, R.id.list);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(innerItemClickListener);
+        listView.setOnItemLongClickListener(innerItemLongClickListener);
         onCreateViewExtra(root);
         return root;
     }
 
-    protected void onCreateViewExtra(View root) {};
+    protected void onCreateViewExtra(View root) {
+    }
+
+    ;
 
     private final AdapterView.OnItemClickListener innerItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -56,8 +65,27 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         }
     };
 
+    private final AdapterView.OnItemLongClickListener innerItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long itemId) {
+            if (onLongClickListener != null) {
+                return onLongClickListener.onItemLongClick(adapter, view, position, itemId);
+            }
+            return false;
+        }
+    };
+
     protected void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnLongClickListener<T> {
+        boolean onItemLongClick(TypedListAdapter<T> adapterView, View view, int position, long itemId);
+    }
+
+    protected void setOnItemLongClickListener(OnLongClickListener<T> onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
     }
 
     protected abstract View getRootLayout(LayoutInflater inflater, ViewGroup container);
@@ -81,6 +109,31 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     protected TypedListAdapter<T> getAdapter() {
         return adapter;
+    }
+
+    protected void setSelected(int position) {
+        listView.setItemChecked(position, !listView.isItemChecked(position));
+    }
+
+    protected List<T> getAllCheckedPositions() {
+        SparseBooleanArray rawCheckedItems = listView.getCheckedItemPositions();
+        List<T> checkedItems = Collections.newArrayList();
+        if (rawCheckedItems != null) {
+            for (int index = 0; index < rawCheckedItems.size(); index++) {
+                int position = rawCheckedItems.keyAt(index);
+                boolean checked = rawCheckedItems.valueAt(index);
+                if (checked) {
+                    checkedItems.add(adapter.getItem(position));
+                }
+            }
+        }
+        return checkedItems;
+    }
+
+    protected void deselectAll() {
+        for (int index = 0; index < adapter.getCount(); index ++) {
+            listView.setItemChecked(index, false);
+        }
     }
 
 }

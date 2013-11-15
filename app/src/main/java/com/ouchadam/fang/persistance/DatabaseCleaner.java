@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 
 import com.novoda.notils.java.Collections;
 import com.ouchadam.fang.persistance.database.Executable;
+import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 
 import java.util.List;
@@ -19,14 +20,14 @@ public class DatabaseCleaner {
     }
 
     public boolean deleteTestData() {
-        return delete(Uris.CHANNEL, Uris.ITEM, Uris.IMAGE, Uris.PLAYLIST);
+        return deleteEntireTable(Uris.CHANNEL, Uris.ITEM, Uris.IMAGE, Uris.PLAYLIST);
     }
 
     public boolean deletePlaylist() {
-        return delete(Uris.PLAYLIST);
+        return deleteEntireTable(Uris.PLAYLIST);
     }
 
-    private boolean delete(Uris... uris) {
+    private boolean deleteEntireTable(Uris... uris) {
         List<ContentProviderOperation> operations = Collections.newArrayList();
         for (Uris uri : uris) {
             ContentProviderOperation operation = newDelete(FangProvider.getUri(uri)).build();
@@ -43,5 +44,15 @@ public class DatabaseCleaner {
             executionFailure.printStackTrace();
         }
         return false;
+    }
+
+    public void deleteIdsFromPlaylist(long[] itemIds) {
+        List<ContentProviderOperation> operations = Collections.newArrayList();
+        ContentProviderOperation.Builder builder = newDelete(FangProvider.getUri(Uris.PLAYLIST));
+        for (long itemId : itemIds) {
+            builder.withSelection(Tables.Playlist.ITEM_ID + "=?", new String[] { Long.toString(itemId) });
+        }
+        operations.add(builder.build());
+        execute(operations);
     }
 }

@@ -24,18 +24,42 @@ class DownloadDeleter {
         this.databaseCleaner = databaseCleaner;
     }
 
-    public void deleteAll(List<FullItem> items) {
-        long[] itemDownloadIds = new long[items.size()];
+    public void deleteItems(List<FullItem> items) {
+        long[] itemDownloadIds = getDownloadIds(items);
+        long[] itemIds = getItemIds(items);
+        deleteSelected(itemDownloadIds, itemIds);
+    }
 
+    private long[] getItemIds(List<FullItem> items) {
+        long[] itemIds = new long[items.size()];
+        for (int index = 0; index < items.size(); index ++) {
+            long itemId = items.get(index).getItemId();
+            itemIds[index] = itemId;
+        }
+        return itemIds;
+    }
+
+    private void deleteSelected(long[] itemDownloadIds, long[] itemIds) {
+        downloadManager.remove(itemDownloadIds);
+        databaseCleaner.deleteIdsFromPlaylist(itemIds);
+    }
+
+    public void deleteAll(List<FullItem> items) {
+        long[] itemDownloadIds = getDownloadIds(items);
+        deleteAll(itemDownloadIds);
+    }
+
+    private long[] getDownloadIds(List<FullItem> items) {
+        long[] itemDownloadIds = new long[items.size()];
         for (int index = 0; index < items.size(); index ++) {
             long downloadId = items.get(index).getDownloadId();
             itemDownloadIds[index] = downloadId;
         }
-        deleteAll(itemDownloadIds);
+        return itemDownloadIds;
     }
 
-    public void deleteAll(long... downloadId) {
-        downloadManager.remove(downloadId);
+    public void deleteAll(long[] itemDownloadIds) {
+        downloadManager.remove(itemDownloadIds);
         databaseCleaner.deletePlaylist();
     }
 }

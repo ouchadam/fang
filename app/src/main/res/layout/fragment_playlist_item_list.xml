@@ -34,8 +34,8 @@
       android:divider="@android:color/transparent"
       android:dividerHeight="3dp"
       android:padding="6dp"
+      android:choiceMode="singleChoice"
       android:clipToPadding="false"
-      android:scrollbars="none"/>
-
+      android:scrollbars="vertical"/>
 
 </RelativeLayout>

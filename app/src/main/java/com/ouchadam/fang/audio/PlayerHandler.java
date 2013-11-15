@@ -66,7 +66,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         Log.e("!!!", "wants to play position : " + playlistPosition);
         playlist.load();
         playlist.moveTo(playlistPosition);
-        if (playlist.isValid()) {
+        if (playlist.isValid() && playlist.currentItemIsValid()) {
             setSource();
         }
     }
@@ -225,7 +225,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     }
 
     public SyncEvent asSyncEvent() {
-        return playlist.currentItemIsValid() ? createValidSyncEvent() : SyncEvent.fresh();
+        return playlist.currentItemIdIsValid() ? createValidSyncEvent() : SyncEvent.fresh();
     }
 
     private SyncEvent createValidSyncEvent() {
