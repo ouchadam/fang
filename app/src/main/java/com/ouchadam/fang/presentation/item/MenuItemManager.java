@@ -3,6 +3,7 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 
 import com.novoda.notils.caster.Classes;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 
 class MenuItemManager implements ActivityCallback {
@@ -10,10 +11,12 @@ class MenuItemManager implements ActivityCallback {
     private ActionBarRefresher actionBarRefresher;
     private boolean isDownloading;
     private boolean isDownloaded;
+    private long itemId;
 
     MenuItemManager() {
         this.isDownloading = false;
         this.isDownloaded = false;
+        this.itemId = -1;
     }
 
     @Override
@@ -26,7 +29,12 @@ class MenuItemManager implements ActivityCallback {
         refresh();
     }
 
-    public void setDownloaded(boolean isDownloaded) {
+    public void initFrom(FullItem fullItem) {
+        this.itemId = fullItem.getItemId();
+        setDownloaded(fullItem.isDownloaded());
+    }
+
+    private void setDownloaded(boolean isDownloaded) {
         this.isDownloaded = isDownloaded;
         refresh();
     }
@@ -44,5 +52,9 @@ class MenuItemManager implements ActivityCallback {
 
     public boolean isDownloaded() {
         return isDownloaded;
+    }
+
+    public long currentId() {
+        return itemId;
     }
 }

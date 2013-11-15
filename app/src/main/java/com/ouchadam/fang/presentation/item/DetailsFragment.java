@@ -157,7 +157,7 @@ public class DetailsFragment extends Fragment {
     };
 
     private void initActionBarFrom(FullItem item) {
-        menuItemManager.setDownloaded(item.isDownloaded());
+        menuItemManager.initFrom(item);
     }
 
 }
