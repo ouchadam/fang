@@ -40,6 +40,7 @@ public class PlayerEvent {
         FAST_FORWARD,
         REWIND,
         NEW_SOURCE,
+        COMPLETE,
         RESET;
 
         public static final String ACTION_PREFIX = "com.fang.action.";
@@ -123,6 +124,11 @@ public class PlayerEvent {
 
         public PlayerEvent rewind() {
             playerEvent.event = Event.REWIND;
+            return build();
+        }
+
+        public PlayerEvent complete() {
+            playerEvent.event = Event.COMPLETE;
             return build();
         }
     }

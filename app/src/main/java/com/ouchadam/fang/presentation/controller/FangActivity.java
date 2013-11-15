@@ -75,7 +75,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private final CompletionListener onCompletion = new CompletionListener() {
         @Override
         public void onComplete() {
-            hidePanel();
+            onDismissDrawer();
         }
     };
 
@@ -273,7 +273,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
-    public void onDismissDrawer(FullItem fullItem) {
+    public void onDismissDrawer() {
         fangDrawer.enable();
         hidePanel();
     }

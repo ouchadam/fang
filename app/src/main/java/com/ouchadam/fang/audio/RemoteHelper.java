@@ -44,7 +44,7 @@ public class RemoteHelper {
                 RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
     }
 
-    public void update(Playlist.PlaylistItem playlistItem) {
+    public void setData(Playlist.PlaylistItem playlistItem) {
         update(playlistItem.imageUrl, playlistItem.title, playlistItem.channel);
     }
 

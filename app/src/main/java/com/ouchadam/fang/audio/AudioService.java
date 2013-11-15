@@ -22,13 +22,14 @@ public class AudioService extends Service implements ServiceManipulator {
     private Syncer syncer;
 
     private boolean configChanged;
-    private AudioCompletionHandler audioCompletionHandler;
+    private ActivityCompletionCallback activityCompletionCallback;
     private RemoteHelper remoteHelper;
 
     public AudioService() {
         this.binder = new LocalBinder();
         this.serviceLocation = new ServiceLocation();
         this.configChanged = false;
+        this.activityCompletionCallback = new ActivityCompletionCallback();
     }
 
     @Override
@@ -63,8 +64,7 @@ public class AudioService extends Service implements ServiceManipulator {
         super.onCreate();
         remoteHelper = new RemoteHelper(this);
         remoteHelper.init();
-        audioCompletionHandler = new AudioCompletionHandler(serviceLocation);
-        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, audioCompletionHandler, this, remoteHelper);
+        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, this, remoteHelper, activityCompletionCallback, serviceLocation);
         this.syncer = new Syncer(playerHandler);
         playerHandler.restoreItem();
         initReceivers(playerHandler);
@@ -102,7 +102,7 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     public void setCompletionListener(CompletionListener onCompletionListener) {
-        audioCompletionHandler.setActivityListener(onCompletionListener);
+        activityCompletionCallback.setActivityListener(onCompletionListener);
     }
 
     public void setSyncListener(OnStateSync listener) {
@@ -127,7 +127,7 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     private void removeListeners() {
-        audioCompletionHandler.removeListener();
+        activityCompletionCallback.removeListener();
         removeSyncListener();
     }
 

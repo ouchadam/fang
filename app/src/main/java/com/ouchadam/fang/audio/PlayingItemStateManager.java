@@ -24,12 +24,12 @@ public class PlayingItemStateManager {
         this.preferences = preferences;
     }
 
-    public void persist(long itemId, PodcastPosition position, Uri source, int currentPosition) {
+    public void persist(long itemId, PodcastPosition position, Uri source, int currentPlaylistPosition) {
         if (itemId != Playlist.MISSING_ID) {
             persistPosition(itemId, position);
             persistId(itemId);
             persistSource(source);
-            persistPlaylistPosition(currentPosition);
+            persistPlaylistPosition(currentPlaylistPosition);
         }
     }
 

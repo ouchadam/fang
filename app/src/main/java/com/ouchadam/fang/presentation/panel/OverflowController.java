@@ -63,7 +63,7 @@ class OverflowController implements PanelComponent, PopupMenu.OnMenuItemClickLis
                 return true;
 
             case R.id.ab_close_panel :
-                overflowCallback.onDismissDrawer(fullItem);
+                overflowCallback.onDismissDrawer();
                 return true;
 
             default:

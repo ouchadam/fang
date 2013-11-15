@@ -6,5 +6,5 @@ public interface OverflowCallback {
     void onMarkHeard(FullItem fullItem);
     void onGoToChannel(FullItem fullItem);
     void onRemove(FullItem fullItem);
-    void onDismissDrawer(FullItem fullItem);
+    void onDismissDrawer();
 }

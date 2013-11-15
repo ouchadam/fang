@@ -56,6 +56,8 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
                 return factory.fastForward();
             case GOTO:
                 return factory.goTo((PodcastPosition) intent.getSerializableExtra(POSITION));
+            case COMPLETE:
+                return factory.complete();
             case RESET:
                 return factory.reset();
             default:

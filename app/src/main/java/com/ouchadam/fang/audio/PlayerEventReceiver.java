@@ -45,6 +45,7 @@ public class PlayerEventReceiver extends BroadcastReceiver {
         void onRewind();
         void onNewSource(int playlistPosition, String playlist);
         void gotoPosition(PodcastPosition position);
+        void onComplete();
         void onReset();
     }
 
@@ -77,6 +78,9 @@ public class PlayerEventReceiver extends BroadcastReceiver {
                 break;
             case GOTO:
                 callbacks.gotoPosition(from.getPosition());
+                break;
+            case COMPLETE:
+                callbacks.onComplete();
                 break;
             case RESET:
                 callbacks.onReset();
