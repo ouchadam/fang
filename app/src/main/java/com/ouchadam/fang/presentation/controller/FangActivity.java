@@ -274,6 +274,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
 
     @Override
     public void onDismissDrawer(FullItem fullItem) {
+        fangDrawer.enable();
         hidePanel();
     }
 }
