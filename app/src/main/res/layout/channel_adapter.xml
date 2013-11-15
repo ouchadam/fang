@@ -11,12 +11,11 @@
     android:scaleType="fitXY"/>
 
     <RelativeLayout
-        android:id="@+id/new_count_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:visibility="invisible"
-        android:background="@color/ab_trans_medium_white">
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/channel_new_count"
@@ -24,12 +23,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:paddingRight="12dp"
+            android:paddingLeft="12dp"
             android:layout_centerVertical="true"
             android:visibility="invisible"
             android:textSize="21dp"
             android:fontFamily="sans-serif-medium"
             android:textStyle="italic"
-            android:textColor="@color/fang_ascent"/>
+            android:textColor="@color/white"
+            android:background="@color/fang_ascent"/>
 
     </RelativeLayout>
 

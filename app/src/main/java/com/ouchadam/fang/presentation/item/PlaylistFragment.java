@@ -35,12 +35,12 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private final ActionBarTitleSetter actionBarTitleSetter;
 
     private Downloader downloader;
-    private boolean hasRestored;
     private DetailsDisplayManager detailsDisplayManager;
-    private TextView spaceUsageText;
     private PlaylistActionMode playlistActionMode;
     private SlidingPanelExposer panelController;
     private PodcastPlayerEventBroadcaster eventBroadcaster;
+    private TextView spaceUsageText;
+    private boolean hasRestored;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -79,6 +79,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         actionBarTitleSetter.onAttach(activity);
         panelController = Classes.from(activity);
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
+        eventBroadcaster = new PodcastPlayerEventBroadcaster(activity);
         playlistActionMode = new PlaylistActionMode(activity, this);
     }
 
@@ -178,7 +179,6 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     public void onPlayPause(FullItem fullItem) {
-        eventBroadcaster = new PodcastPlayerEventBroadcaster(getActivity());
         if (panelController.getId() == fullItem.getItemId()) {
             eventBroadcaster.broadcast(new PlayerEvent.Factory().playPause());
         } else {
