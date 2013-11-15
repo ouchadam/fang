@@ -34,15 +34,15 @@ public class DiskUtils {
         long busySpace(DiskLocation location);
     }
 
-    public IDiskUtils getInstance() {
+    public static IDiskUtils getInstance() {
         return isJellyBeanMR2() ? new JellyBeanMR2DiskUtils() : new DeprecatedDiskUtils();
     }
 
-    private boolean isJellyBeanMR2() {
+    private static boolean isJellyBeanMR2() {
         return getApiLevel() >= Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
 
-    private int getApiLevel() {
+    private static int getApiLevel() {
         return android.os.Build.VERSION.SDK_INT;
     }
 
