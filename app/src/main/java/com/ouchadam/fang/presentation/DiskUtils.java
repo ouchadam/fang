@@ -22,7 +22,19 @@ public class DiskUtils {
             StatFs getStats() {
                 return new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
             }
+        },
+        CUSTOM {
+            @Override
+            StatFs getStats() {
+                return new StatFs(this.customLocation);
+            }
         };
+
+        String customLocation;
+
+        public void setCustomLocation(String customLocation) {
+            this.customLocation = customLocation;
+        }
 
         abstract StatFs getStats();
 
@@ -46,6 +58,7 @@ public class DiskUtils {
         return android.os.Build.VERSION.SDK_INT;
     }
 
+    private DiskUtils() {}
 
     private static class DeprecatedDiskUtils implements IDiskUtils {
 

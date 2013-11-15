@@ -8,8 +8,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.novoda.notils.caster.Classes;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
@@ -18,6 +20,7 @@ import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+import com.ouchadam.fang.presentation.DiskUtils;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
@@ -32,6 +35,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private Downloader downloader;
     private boolean hasRestored;
     private DetailsDisplayManager detailsDisplayManager;
+    private TextView spaceUsageText;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -40,7 +44,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_item_list, container, false);
+        return inflater.inflate(R.layout.fragment_playlist_item_list, container, false);
     }
 
     @Override
@@ -70,6 +74,12 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         actionBarTitleSetter.onAttach(activity);
         SlidingPanelExposer panelController = Classes.from(activity);
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
+    }
+
+    @Override
+    protected void onCreateViewExtra(View root) {
+        super.onCreateViewExtra(root);
+        spaceUsageText = Views.findById(root, R.id.space_usage);
     }
 
     @Override
@@ -106,6 +116,13 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         actionBarTitleSetter.set("Playlist");
+        spaceUsageText.setText(getSpaceUsed());
+    }
+
+    private String getSpaceUsed() {
+        DiskUtils.IDiskUtils diskUtils = DiskUtils.getInstance();
+        long freeSpaceMb = diskUtils.freeSpace(DiskUtils.DiskLocation.EXTERNAL);
+        return "Free : " + freeSpaceMb + "mb";
     }
 
     @Override
