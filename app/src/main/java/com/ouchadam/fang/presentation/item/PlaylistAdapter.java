@@ -1,10 +1,12 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,11 +24,23 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
 
     private final LayoutInflater layoutInflater;
     private final Context context;
+    private final IsPlayingFetcher isPlayingFetcher;
+    private final OnPlayListener onPlayListener;
     private final ProgressDelegate<ViewHolder> progressDelegate;
 
-    public PlaylistAdapter(LayoutInflater layoutInflater, Context context) {
+    public interface IsPlayingFetcher {
+        boolean isPlaying(long itemId);
+    }
+
+    public interface OnPlayListener {
+        void onPlayPause(FullItem fullItem);
+    }
+
+    public PlaylistAdapter(LayoutInflater layoutInflater, Context context, IsPlayingFetcher isPlayingFetcher, OnPlayListener onPlayListener) {
         this.layoutInflater = layoutInflater;
         this.context = context;
+        this.isPlayingFetcher = isPlayingFetcher;
+        this.onPlayListener = onPlayListener;
         this.progressDelegate = new ItemProgressManager(this);
     }
 
@@ -34,15 +48,36 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         View view = createView(convertView, viewGroup);
         ViewHolder viewHolder = (ViewHolder) view.getTag();
+        PositionHolder positionHolder = (PositionHolder) viewHolder.playButton.getTag();
+        positionHolder.position = position;
 
         ListItemProgress.Stage stage = progressDelegate.getStage(position);
+        FullItem item = getItem(position);
         if (stage == ListItemProgress.Stage.IDLE) {
-            updateIdleViewHolder(viewHolder, getItem(position));
+            updateIdleViewHolder(viewHolder, item);
         } else {
             progressDelegate.handleDownloadProgress(position, viewHolder);
         }
-        setHolderImage(viewHolder, getItem(position).getImageUrl());
+        setHolderImage(viewHolder, item.getImageUrl());
+        initPlayButton(viewHolder, item);
         return view;
+    }
+
+    private void initPlayButton(ViewHolder viewHolder, FullItem item) {
+        long itemId = item.getItemId();
+        viewHolder.playButton.setImageDrawable(isPlayingFetcher.isPlaying(itemId) ? getPauseDrawable() : getPlayDrawable());
+    }
+
+    private Drawable getPauseDrawable() {
+        return getDrawable(R.drawable.ic_pause_over_video);
+    }
+
+    private Drawable getPlayDrawable() {
+        return getDrawable(R.drawable.ic_play_over_video);
+    }
+
+    private Drawable getDrawable(int id) {
+        return context.getResources().getDrawable(id);
     }
 
     private View createView(View convertView, ViewGroup viewGroup) {
@@ -68,7 +103,22 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         tag.channelImage = Views.findById(newView, R.id.channel_image);
         tag.itemTime = Views.findById(newView, R.id.item_time);
         tag.listened = Views.findById(newView, R.id.listened);
+        tag.playButton = Views.findById(newView, R.id.image_play_button);
+        tag.playButton.setTag(new PositionHolder());
+        tag.playButton.setOnClickListener(onClickListener);
     }
+
+    private final View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            PositionHolder position = (PositionHolder) view.getTag();
+
+            Log.e("???", "clicked on position : " + position.position);
+
+            FullItem item = getItem(position.position);
+            PlaylistAdapter.this.onPlayListener.onPlayPause(item);
+        }
+    };
 
     private void updateIdleViewHolder(ViewHolder holder, FullItem item) {
         setHolderText(holder, item);
@@ -113,8 +163,13 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         TextView channelTitle;
         TextView itemTime;
         TextView listened;
+        ImageView playButton;
         ImageView channelImage;
         ProgressBar progressBar;
+    }
+
+    private static class PositionHolder {
+        int position;
     }
 
 }

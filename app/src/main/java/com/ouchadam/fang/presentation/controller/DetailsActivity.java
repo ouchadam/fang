@@ -1,6 +1,5 @@
 package com.ouchadam.fang.presentation.controller;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -47,4 +46,5 @@ public class DetailsActivity extends SecondLevelFangActivity {
         showPanel();
         setData(playingItemId);
     }
+
 }

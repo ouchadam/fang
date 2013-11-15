@@ -98,6 +98,11 @@ public class SlidingPanelController implements SlidingPanelExposer {
     }
 
     @Override
+    public boolean isPlaying(long itemId) {
+        return getId() == itemId ? slidingPanelViewManipulator.isPlaying() : false;
+    }
+
+    @Override
     public void showPanel() {
         slidingPanelViewManipulator.show();
     }

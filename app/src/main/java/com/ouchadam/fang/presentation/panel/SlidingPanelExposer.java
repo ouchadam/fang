@@ -5,4 +5,5 @@ public interface SlidingPanelExposer {
     void showExpanded();
     void showPanel();
     long getId();
+    boolean isPlaying(long itemId);
 }

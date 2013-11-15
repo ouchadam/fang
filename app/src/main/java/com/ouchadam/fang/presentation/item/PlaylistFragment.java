@@ -16,6 +16,8 @@ import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
@@ -28,7 +30,7 @@ import novoda.android.typewriter.cursor.CursorMarshaller;
 
 import java.util.List;
 
-public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>, PlaylistActionMode.OnPlaylistActionMode {
+public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>, PlaylistActionMode.OnPlaylistActionMode, PlaylistAdapter.IsPlayingFetcher, PlaylistAdapter.OnPlayListener {
 
     private final ActionBarTitleSetter actionBarTitleSetter;
 
@@ -37,6 +39,8 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private DetailsDisplayManager detailsDisplayManager;
     private TextView spaceUsageText;
     private PlaylistActionMode playlistActionMode;
+    private SlidingPanelExposer panelController;
+    private PodcastPlayerEventBroadcaster eventBroadcaster;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -50,7 +54,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
-        return new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity());
+        return new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, this);
     }
 
     @Override
@@ -73,7 +77,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         super.onAttach(activity);
         downloader = Classes.from(activity);
         actionBarTitleSetter.onAttach(activity);
-        SlidingPanelExposer panelController = Classes.from(activity);
+        panelController = Classes.from(activity);
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
         playlistActionMode = new PlaylistActionMode(activity, this);
     }
@@ -167,4 +171,20 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         disallowChecking();
     }
 
+    @Override
+    public boolean isPlaying(long itemId) {
+        return panelController.isPlaying(itemId);
+    }
+
+    @Override
+    public void onPlayPause(FullItem fullItem) {
+        eventBroadcaster = new PodcastPlayerEventBroadcaster(getActivity());
+        if (panelController.getId() == fullItem.getItemId()) {
+            eventBroadcaster.broadcast(new PlayerEvent.Factory().playPause());
+        } else {
+            eventBroadcaster.broadcast(new PlayerEvent.Factory().pause());
+            eventBroadcaster.broadcast(new PlayerEvent.Factory().newSource(fullItem.getPlaylistPosition(), "PLAYLIST"));
+            eventBroadcaster.broadcast(new PlayerEvent.Factory().play());
+        }
+    }
 }

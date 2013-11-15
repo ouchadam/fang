@@ -18,8 +18,47 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
     private final DownloadClickAttacher downloadClickAttacher;
     private final PositionManager positionManager;
     private final DrawerDisEnabler drawerDisEnabler;
+    private boolean isPlaying;
+
+    public interface OnDownloadClickListener {
+        void onDownloadClicked(FullItem fullItem);
+    }
+
+    public interface OnSeekChanged {
+        void onSeekChanged(PodcastPosition position);
+    }
+
+    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root, DrawerDisEnabler drawerDisEnabler, OnDownloadClickListener onDownload, OverflowCallback overflowCallback) {
+        SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
+        slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
+        PanelViewHolder panelViewHolder = PanelViewHolder.from(slidingPanel, overflowCallback);
+        return new SlidingPanelViewManipulator(actionBarManipulator, onSeekChanged, panelViewHolder, onDownload, drawerDisEnabler);
+    }
+
+    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, PanelViewHolder panelViewHolder, OnDownloadClickListener onDownload, DrawerDisEnabler drawerDisEnabler) {
+        this.actionBarManipulator = actionBarManipulator;
+        this.panelViewHolder = panelViewHolder;
+        this.drawerDisEnabler = drawerDisEnabler;
+        this.downloadClickAttacher = new DownloadClickAttacher(panelViewHolder.downloadController(), onDownload);
+        positionManager = new PositionManager(onSeekChanged, new SeekbarReceiver(seekUpdate), panelViewHolder.positionController());
+        this.isPlaying = false;
+
+        setOnPanelExpandListener(this);
+    }
+
+    private final SeekbarReceiver.OnSeekUpdate seekUpdate = new SeekbarReceiver.OnSeekUpdate() {
+        @Override
+        public void onUpdate(PodcastPosition position) {
+            positionManager.update(position);
+        }
+    };
+
+    private void setOnPanelExpandListener(final OnPanelChangeListener onPanelChangeListener) {
+        panelViewHolder.setPanelSlideListener(new PanelChangeHandler(actionBarManipulator, onPanelChangeListener));
+    }
 
     public void setPlayingState(boolean playing) {
+        this.isPlaying = playing;
         panelViewHolder.updatePlayingState(playing);
         positionManager.upatePlayingState(playing);
     }
@@ -46,40 +85,8 @@ public class SlidingPanelViewManipulator implements OnPanelChangeListener {
         panelViewHolder.hide();
     }
 
-    public interface OnDownloadClickListener {
-        void onDownloadClicked(FullItem fullItem);
-    }
-
-    public interface OnSeekChanged {
-        void onSeekChanged(PodcastPosition position);
-    }
-
-    public static SlidingPanelViewManipulator from(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, View root, DrawerDisEnabler drawerDisEnabler, OnDownloadClickListener onDownload, OverflowCallback overflowCallback) {
-        SlidingUpPanelLayout slidingPanel = Views.findById(root, R.id.sliding_layout);
-        slidingPanel.setShadowDrawable(root.getResources().getDrawable(R.drawable.above_shadow));
-        PanelViewHolder panelViewHolder = PanelViewHolder.from(slidingPanel, overflowCallback);
-        return new SlidingPanelViewManipulator(actionBarManipulator, onSeekChanged, panelViewHolder, onDownload, drawerDisEnabler);
-    }
-
-    SlidingPanelViewManipulator(ActionBarManipulator actionBarManipulator, OnSeekChanged onSeekChanged, PanelViewHolder panelViewHolder, OnDownloadClickListener onDownload, DrawerDisEnabler drawerDisEnabler) {
-        this.actionBarManipulator = actionBarManipulator;
-        this.panelViewHolder = panelViewHolder;
-        this.drawerDisEnabler = drawerDisEnabler;
-        this.downloadClickAttacher = new DownloadClickAttacher(panelViewHolder.downloadController(), onDownload);
-        positionManager = new PositionManager(onSeekChanged, new SeekbarReceiver(seekUpdate), panelViewHolder.positionController());
-
-        setOnPanelExpandListener(this);
-    }
-
-    private final SeekbarReceiver.OnSeekUpdate seekUpdate = new SeekbarReceiver.OnSeekUpdate() {
-        @Override
-        public void onUpdate(PodcastPosition position) {
-            positionManager.update(position);
-        }
-    };
-
-    private void setOnPanelExpandListener(final OnPanelChangeListener onPanelChangeListener) {
-        panelViewHolder.setPanelSlideListener(new PanelChangeHandler(actionBarManipulator, onPanelChangeListener));
+    public boolean isPlaying() {
+        return this.isPlaying;
     }
 
     public void expand() {

@@ -224,4 +224,9 @@ public abstract class SecondLevelFangActivity extends FragmentActivity implement
         new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(position));
     }
 
+    @Override
+    public boolean isPlaying(long itemId) {
+        return false;
+    }
+
 }

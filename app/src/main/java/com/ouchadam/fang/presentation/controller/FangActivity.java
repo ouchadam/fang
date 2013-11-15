@@ -277,4 +277,9 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         fangDrawer.enable();
         hidePanel();
     }
+
+    @Override
+    public boolean isPlaying(long itemId) {
+        return slidingPanelController.isPlaying(itemId);
+    }
 }
