@@ -153,16 +153,12 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     public void onDelete() {
-        List<FullItem> selectedItems = getCheckedItems();
+        List<FullItem> selectedItems = getAllCheckedPositions();
         if (selectedItems != null && !selectedItems.isEmpty()) {
             DownloadDeleter.from(getActivity()).deleteItems(selectedItems);
         } else {
             Toast.makeText(getActivity(), "Failed to delete, couldn't find and podcasts", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private List<FullItem> getCheckedItems() {
-        return getAllCheckedPositions();
     }
 
     @Override

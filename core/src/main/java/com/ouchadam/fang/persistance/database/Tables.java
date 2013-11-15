@@ -16,7 +16,7 @@ public class Tables {
     }
 
     public enum ChannelImage {
-        CHANNEL,
+        IMAGE_CHANNEL,
         IMAGE_URL,
         LINK,
         TITLE,
@@ -26,7 +26,7 @@ public class Tables {
 
     public enum Item {
         _id,
-        CHANNEL,
+        ITEM_CHANNEL,
         TITLE,
         PUBDATE,
         DURATION,

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ouchadam.fang.domain.FullItem;
+import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.persistance.ContentProviderOperationExecutable;
 import com.ouchadam.fang.persistance.DatabaseCleaner;
 
@@ -63,4 +64,18 @@ class DownloadDeleter {
         downloadManager.remove(itemDownloadIds);
         databaseCleaner.deletePlaylist();
     }
+
+    public void deleteChannels(List<Channel> selectedChannels) {
+        databaseCleaner.deleteChannels(getChannelTitles(selectedChannels));
+    }
+
+    private String[] getChannelTitles(List<Channel> channels) {
+        String[] channelTitles = new String[channels.size()];
+        for (int index = 0; index < channels.size(); index ++) {
+            String channelTitle = channels.get(index).getTitle();
+            channelTitles[index] = channelTitle;
+        }
+        return channelTitles;
+    }
+
 }

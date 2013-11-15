@@ -55,4 +55,29 @@ public class DatabaseCleaner {
         }
         execute(operations);
     }
+
+    public void deleteChannels(String[] channelTitles) {
+        List<ContentProviderOperation> operations = Collections.newArrayList();
+        for (String channelTitle : channelTitles) {
+            operations.addAll(deleteChannel(channelTitle));
+        }
+        execute(operations);
+    }
+
+    private List<ContentProviderOperation> deleteChannel(String channelTitle) {
+        List<ContentProviderOperation> operations = Collections.newArrayList();
+
+        ContentProviderOperation.Builder builder = newDelete(FangProvider.getUri(Uris.CHANNEL));
+        builder.withSelection(Tables.Channel.CHANNEL_TITLE + "=?", new String[]{channelTitle});
+        operations.add(builder.build());
+
+        ContentProviderOperation.Builder itemBuilder = newDelete(FangProvider.getUri(Uris.ITEM));
+        itemBuilder.withSelection(Tables.Item.ITEM_CHANNEL + "=?", new String[]{channelTitle});
+        operations.add(itemBuilder.build());
+
+        ContentProviderOperation.Builder channelImage = newDelete(FangProvider.getUri(Uris.IMAGE));
+        channelImage.withSelection(Tables.ChannelImage.IMAGE_CHANNEL + "=?", new String[]{channelTitle});
+        operations.add(channelImage.build());
+        return operations;
+    }
 }

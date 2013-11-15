@@ -35,6 +35,11 @@ public class FangProvider extends SQLiteContentProviderImpl {
         if (uri.equals(getUri(Uris.PLAYLIST))) {
             notifyUriChange(getUri(Uris.FULL_ITEM));
         }
+
+        if (uri.equals(getUri(Uris.IMAGE)) || uri.equals(getUri(Uris.ITEM)) || uri.equals(getUri(Uris.CHANNEL))) {
+            notifyUriChange(getUri(Uris.FULL_CHANNEL));
+        }
+
         return result;
     }
 

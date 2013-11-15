@@ -121,7 +121,7 @@ public class ChannelFeedDownloadService extends Service {
         return new DatabaseCounter(
                 getContentResolver(),
                 Uris.FULL_ITEM,
-                new String[]{Tables.Item.CHANNEL.name()},
+                new String[]{Tables.Item.ITEM_CHANNEL.name()},
                 Tables.Channel.CHANNEL_TITLE.name() + "=?",
                 new String[]{feed.channelTitle}
         ).getCurrentCount();

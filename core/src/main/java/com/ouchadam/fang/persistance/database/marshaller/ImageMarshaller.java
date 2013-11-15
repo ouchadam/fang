@@ -28,7 +28,7 @@ public class ImageMarshaller extends BaseMarshaller<Image> {
 
     private void insertItem(Image image) {
         ContentProviderOperationValues itemBuilder = newInsertFor(Uris.IMAGE);
-        itemBuilder.withValue(Tables.ChannelImage.CHANNEL.name(), channelTitle);
+        itemBuilder.withValue(Tables.ChannelImage.IMAGE_CHANNEL.name(), channelTitle);
         itemBuilder.withValue(Tables.ChannelImage.TITLE.name(), image.getTitle());
         itemBuilder.withValue(Tables.ChannelImage.IMAGE_URL.name(), image.getUrl());
         itemBuilder.withValue(Tables.ChannelImage.LINK.name(), image.getLink());

@@ -4,7 +4,7 @@ public enum Uris {
     CHANNEL,
     IMAGE,
     ITEM,
+    PLAYLIST,
     FULL_CHANNEL,
-    FULL_ITEM,
-    PLAYLIST,;
+    FULL_ITEM;
 }

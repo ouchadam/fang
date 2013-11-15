@@ -43,7 +43,7 @@ public class SingleChannelFragment extends CursorBackedListFragment<FullItem> {
     protected Query getQueryValues() {
         return new Query.Builder()
                 .withUri(FangProvider.getUri(Uris.FULL_ITEM))
-                .withSelection(Tables.Item.CHANNEL + "=?")
+                .withSelection(Tables.Item.ITEM_CHANNEL + "=?")
                 .withSelectionArgs(new String[] { getChannel() })
                 .withSorter(" CAST (" + Tables.Item.PUBDATE + " AS DECIMAL)" + " DESC")
                 .build();

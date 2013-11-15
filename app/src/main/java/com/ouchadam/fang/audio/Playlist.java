@@ -110,7 +110,7 @@ class Playlist {
         playlistItem.listPosition = cursorUtils.getInt(Tables.Playlist.LIST_POSITION);
 
         playlistItem.downloadId = cursorUtils.getLong(Tables.Playlist.DOWNLOAD_ID);
-        playlistItem.channel = cursorUtils.getString(Tables.Item.CHANNEL);
+        playlistItem.channel = cursorUtils.getString(Tables.Item.ITEM_CHANNEL);
         playlistItem.title = cursorUtils.getString(Tables.Item.TITLE);
         playlistItem.imageUrl = getImageUrl(cursorUtils.getString(Tables.Item.HERO_IMAGE), cursorUtils.getString(Tables.ChannelImage.IMAGE_URL));
 
