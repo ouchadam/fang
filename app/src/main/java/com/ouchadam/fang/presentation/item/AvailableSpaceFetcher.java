@@ -5,9 +5,9 @@ import com.ouchadam.fang.presentation.DiskUtils;
 class AvailableSpaceFetcher {
 
     private static final String AVAILABLE_SPACE = "Available space : ";
+    private static final int ONE_GB_IN_MEGABYTES = 1000;
     private static final String UNIT_MB = "mb";
     private static final String UNIT_GB = "gb";
-    public static final int ONE_GB_IN_MEGABYTES = 1000;
 
     public String formatted() {
         long freeSpaceMb = getFreeSpaceMb();
@@ -24,7 +24,12 @@ class AvailableSpaceFetcher {
     }
 
     private String getAmount(long freeSpaceMb) {
-        return freeSpaceMb > ONE_GB_IN_MEGABYTES ? String.valueOf(freeSpaceMb / ONE_GB_IN_MEGABYTES) : String.valueOf(freeSpaceMb);
+        return freeSpaceMb > ONE_GB_IN_MEGABYTES ? getInGbs(freeSpaceMb) : String.valueOf(freeSpaceMb);
+    }
+
+    private String getInGbs(long freeSpaceMb) {
+        float gbs = freeSpaceMb / ONE_GB_IN_MEGABYTES;
+        return String.format("%.2g%n", gbs);
     }
 
     private String getUnit(long freeSpaceMb) {
