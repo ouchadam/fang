@@ -103,11 +103,11 @@ public class ChannelFeedDownloadService extends Service {
         int currentItemCount = getCurrentItemCount(feed) - feed.oldItemCount;
         PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
-            Log.e("!!!", "Fetching : " + feed);
+            Log.e("!!!", "Fetching : " + feed.url);
             InputStream urlInputStream = getInputStreamFrom(feed.url);
             podcastParser.parse(urlInputStream);
             new ChannelPersister(getContentResolver()).persist(podcastParser.getResult(), feed.url, currentItemCount);
-            Log.e("!!!", "Fetched : " + feed);
+            Log.e("!!!", "Fetched : " + feed.url);
         } catch (IOException e) {
             broadcastFailure(e.getMessage());
         }
