@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Classes;
-import com.novoda.notils.caster.Views;
-import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -26,9 +23,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
 
     private final ActionBarTitleSetter actionBarTitleSetter;
     private DetailsDisplayManager detailsDisplayManager;
-    private View lastUpdatedContainer;
-    private TextView lastUpdateText;
-    private LastUpdatedManager lastUpdatedManager;
+    private LastUpdateController lastUpdateController;
 
     public LatestFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
@@ -40,7 +35,6 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
         actionBarTitleSetter.onAttach(activity);
         SlidingPanelExposer panelController = Classes.from(activity);
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
-        lastUpdatedManager = LastUpdatedManager.from(activity);
     }
 
     @Override
@@ -51,18 +45,8 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
     @Override
     protected void onCreateViewExtra(View root) {
         super.onCreateViewExtra(root);
-        lastUpdatedContainer = Views.findById(root, R.id.last_updated_container);
-        lastUpdateText = Views.findById(root, R.id.last_updated_text);
-        Views.findById(root, R.id.last_updated_close).setOnClickListener(onLastUpdatedClose);
+        lastUpdateController = LastUpdateController.from(root);
     }
-
-    private final View.OnClickListener onLastUpdatedClose = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            lastUpdatedManager.setSeen(true);
-            lastUpdatedContainer.setVisibility(View.GONE);
-        }
-    };
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
@@ -74,22 +58,7 @@ public class LatestFragment extends CursorBackedListFragment<FullItem> implement
         super.onActivityCreated(savedInstanceState);
         Bundles.restoreInstanceState(this, savedInstanceState);
         actionBarTitleSetter.set("Latest");
-        handleLastUpdated();
-    }
-
-    private void handleLastUpdated() {
-        String lastUpdatedText = getLastUpdatedText();
-        lastUpdateText.setText(lastUpdatedText);
-        lastUpdatedContainer.setVisibility(shouldShowLastUpdated() ? View.VISIBLE : View.GONE);
-    }
-
-    private String getLastUpdatedText() {
-        long lastUpdatedMs = lastUpdatedManager.getLastUpdatedMs();
-        return "Last updated " + new FangCalendar(lastUpdatedMs).getTimeAgo();
-    }
-
-    private boolean shouldShowLastUpdated() {
-        return lastUpdatedManager.canShow();
+        lastUpdateController.handleLastUpdated();
     }
 
     @Override
