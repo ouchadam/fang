@@ -17,10 +17,14 @@ import android.widget.Toast;
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.Downloader;
+import com.ouchadam.bookkeeper.domain.DownloadId;
+import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
+import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.fang.ItemQueryer;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.item.Item;
+import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.panel.DurationFormatter;
 
 public class DetailsFragment extends Fragment {
@@ -34,10 +38,12 @@ public class DetailsFragment extends Fragment {
     private ImageView heroImage;
 
     private boolean isDownloaded;
+
     private FullItem item;
     private HeroManager heroManager;
     private TextView channelText;
     private TextView itemTitleText;
+    private MenuItemManager menuItemManager;
 
     public static DetailsFragment newInstance(long itemId) {
         DetailsFragment detailsFragment = new DetailsFragment();
@@ -58,6 +64,10 @@ public class DetailsFragment extends Fragment {
         super.onAttach(activity);
         setHasOptionsMenu(true);
         downloader = Classes.from(activity);
+
+        ActionBarRefresher actionBarRefresher = Classes.from(activity);
+        menuItemManager = new MenuItemManager(actionBarRefresher);
+
         actionBarTitleSetter.onAttach(activity);
     }
 
@@ -65,6 +75,14 @@ public class DetailsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.details, menu);
+
+        boolean isDownloading = menuItemManager.isDownloading();
+        Log.e("???", "isDownloading : " + isDownloading);
+        if (isDownloading) {
+            menu.findItem(R.id.ab_download).setEnabled(false);
+        } else {
+            menu.findItem(R.id.ab_download).setEnabled(true);
+        }
         menu.findItem(R.id.ab_play).setVisible(isDownloaded);
         menu.findItem(R.id.ab_download).setVisible(!isDownloaded);
     }
@@ -90,6 +108,7 @@ public class DetailsFragment extends Fragment {
         FullItem item = getItem();
         if (item != null) {
             ItemDownloader itemDownloader = new ItemDownloader(downloader, getActivity());
+            itemDownloader.setWatchers(new MenuWatcher.LazyMenuWatcher(menuItemManager));
             itemDownloader.downloadItem(item.getItem());
         }
     }
@@ -151,6 +170,27 @@ public class DetailsFragment extends Fragment {
         actionBarTitleSetter.set("Details");
         heroManager = new HeroManager(new HeroHolder(), heroImage, getActivity());
         heroManager.loadDimensions();
+        downloader.restore(new MenuWatcher.LazyMenuWatcher(menuItemManager));
+    }
+
+    public static class MenuItemManager {
+
+        private final ActionBarRefresher actionBarRefresher;
+        private boolean isDownloading;
+
+        private MenuItemManager(ActionBarRefresher actionBarRefresher) {
+            this.actionBarRefresher = actionBarRefresher;
+            this.isDownloading = false;
+        }
+
+        public void setDownloading(boolean isDownloading) {
+            this.isDownloading = isDownloading;
+            actionBarRefresher.refresh();
+        }
+
+        public boolean isDownloading() {
+            return isDownloading;
+        }
     }
 
     @Override
