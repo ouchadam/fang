@@ -34,6 +34,7 @@ import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
+import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.ItemDownloader;
 import com.ouchadam.fang.presentation.item.Navigator;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
@@ -61,7 +62,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        setContentView(R.layout.drawer);
+        setFangContentView();
         fangBookKeeer = FangBookKeeer.getInstance(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -70,6 +71,10 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         initSlidingPaneController();
         startAudioService();
         onFangCreate(savedInstanceState);
+    }
+
+    protected void setFangContentView() {
+        setContentView(R.layout.drawer);
     }
 
     private final CompletionListener onCompletion = new CompletionListener() {
@@ -94,13 +99,13 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     };
 
     private void initDrawer() {
-        initActionBar();
+        fangInitActionBar();
         DrawerNavigator drawerNavigator = new DrawerNavigator(getSupportFragmentManager());
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, drawerNavigator.toArray());
         initDrawer(adapter, drawerNavigator);
     }
 
-    private void initActionBar() {
+    protected void fangInitActionBar() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
     }
@@ -233,12 +238,6 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        startAudioService();
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         startAudioService();
@@ -282,4 +281,25 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     public boolean isPlaying(long itemId) {
         return slidingPanelController.isPlaying(itemId);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        startAudioService();
+        ActivityResultHandler activityResultHandler = new ActivityResultHandler();
+        activityResultHandler.handleResult(requestCode, resultCode, data, onResult);
+    }
+
+    private final ActivityResultHandler.OnResult onResult = new ActivityResultHandler.OnResult() {
+        @Override
+        public void onPlaySelected(long itemId, int playlistPosition, String playlist) {
+            showPanel();
+            setData(itemId);
+            // TODO auto Expand or just play?
+            PodcastPlayerEventBroadcaster broadcaster = new PodcastPlayerEventBroadcaster(FangActivity.this);
+            broadcaster.broadcast(new PlayerEvent.Factory().newSource(playlistPosition, playlist));
+            broadcaster.broadcast(new PlayerEvent.Factory().play());
+        }
+    };
+
 }

@@ -36,11 +36,13 @@ import com.ouchadam.fang.presentation.panel.SlidingPanelController;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
 
-public abstract class SecondLevelFangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged {
+public abstract class SecondLevelFangActivity extends FangActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged {
 
-    private SlidingPanelController slidingPanelController;
-    private FangBookKeeer fangBookKeeer;
-    private AudioServiceBinder audioServiceBinder;
+    @Override
+    protected void setFangContentView() {
+        setContentView(R.layout.second_level);
+        super.setFangContentView();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -54,179 +56,11 @@ public abstract class SecondLevelFangActivity extends FragmentActivity implement
     }
 
     @Override
-    public final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        setContentView(R.layout.second_level);
-        fangBookKeeer = FangBookKeeer.getInstance(this);
-        audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        initSlidingPaneController();
-        initActionBar();
-        startAudioService();
-        onFangCreate(savedInstanceState);
-    }
-
-    private final CompletionListener onCompletion = new CompletionListener() {
-        @Override
-        public void onComplete() {
-            slidingPanelController.hidePanel();
-            PlayingItemStateManager playingItemStateManager = PlayingItemStateManager.from(SecondLevelFangActivity.this);
-            playingItemStateManager.resetCurrentItem();
-        }
-    };
-
-    private final OnStateSync onStateSync = new OnStateSync() {
-        @Override
-        public void onSync(SyncEvent syncEvent) {
-            slidingPanelController.sync(syncEvent);
-        }
-    };
-
-    private void initSlidingPaneController() {
-        SlidingPanelViewManipulator slidingPanelViewManipulator = SlidingPanelViewManipulator.from(this, this, getRoot(), null, onDownload, null);
-        PlayerEventInteractionManager playerEventManager = new PlayerEventInteractionManager(new PodcastPlayerEventBroadcaster(this));
-        slidingPanelController = new SlidingPanelController(this, getSupportLoaderManager(), slidingPanelViewManipulator, playerEventManager);
-    }
-
-    private final SlidingPanelViewManipulator.OnDownloadClickListener onDownload = new SlidingPanelViewManipulator.OnDownloadClickListener() {
-        @Override
-        public void onDownloadClicked(FullItem fullItem) {
-            ItemDownloader itemDownloader = new ItemDownloader(SecondLevelFangActivity.this, SecondLevelFangActivity.this);
-            itemDownloader.downloadItem(fullItem.getItem());
-        }
-    };
-
-    private View getRoot() {
-        return Views.findById(this, android.R.id.content);
-    }
-
-    private void initActionBar() {
+    protected void fangInitActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void startAudioService() {
-        if (!audioServiceIsRunning()) {
-            startService(new Intent(this, AudioService.class));
-        }
-    }
-
-    private boolean audioServiceIsRunning() {
-        return AndroidUtils.isServiceRunning(AudioService.class, this);
-    }
-
-    protected void onFangCreate(Bundle savedInstanceState) {
-        // template
-    }
-
-
-    @Override
-    public void setTitle(String title) {
-        getActionBar().setTitle(title);
-        refresh();
-    }
-
-    @Override
-    public void refresh() {
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void setData(long itemId) {
-        slidingPanelController.setData(itemId);
-    }
-
-    @Override
-    public boolean isActionBarShowing() {
-        return getActionBar().isShowing();
-    }
-
-    @Override
-    public void hideActionBar() {
-        getActionBar().hide();
-    }
-
-    @Override
-    public void showActionBar() {
-        getActionBar().show();
-    }
-
-    @Override
-    public void showExpanded() {
-        slidingPanelController.showExpanded();
-    }
-
-    @Override
-    public void showPanel() {
-        slidingPanelController.showPanel();
-    }
-
-    @Override
-    public long getId() {
-        return slidingPanelController.getId();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (slidingPanelController.isShowing()) {
-            slidingPanelController.close();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void watch(DownloadId downloadId, DownloadWatcher... downloadWatchers) {
-        fangBookKeeer.watch(downloadId, downloadWatchers);
-    }
-
-    @Override
-    public void store(DownloadId downloadId, long itemId) {
-        fangBookKeeer.store(downloadId, itemId);
-    }
-
-    @Override
-    public DownloadId keep(Downloadable downloadable) {
-        return fangBookKeeer.keep(downloadable);
-    }
-
-    @Override
-    public void restore(LazyWatcher lazyWatcher) {
-        fangBookKeeer.restore(lazyWatcher);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        startAudioService();
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startAudioService();
-        audioServiceBinder.bindService();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        audioServiceBinder.unbind();
-        slidingPanelController.resetItem();
-    }
-
-    @Override
-    public void onSeekChanged(PodcastPosition position) {
-        new PodcastPlayerEventBroadcaster(this).broadcast(new PlayerEvent.Factory().goTo(position));
-    }
-
-    @Override
-    public boolean isPlaying(long itemId) {
-        return false;
     }
 
 }

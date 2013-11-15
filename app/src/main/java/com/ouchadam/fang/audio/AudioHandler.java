@@ -27,10 +27,17 @@ class AudioHandler {
     }
 
     public void setSource(int playlistPosition) {
+        handleCurrentlyPlaying();
         playlist.load();
         playlist.moveTo(playlistPosition);
         if (playlist.isValid() && playlist.currentItemIsValid()) {
             setSource();
+        }
+    }
+
+    private void handleCurrentlyPlaying() {
+        if (fangPlayer.isPrepared() && audioStateManager.isPlayling()) {
+            pauseAudio();
         }
     }
 
