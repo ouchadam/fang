@@ -1,10 +1,12 @@
 package com.ouchadam.fang.presentation;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.novoda.notils.caster.Classes;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -12,14 +14,19 @@ import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.item.CursorBackedListFragment;
+import com.ouchadam.fang.presentation.item.DetailsDisplayManager;
 import com.ouchadam.fang.presentation.item.ItemAdapter;
+import com.ouchadam.fang.presentation.item.NavigatorForResult;
+import com.ouchadam.fang.presentation.item.OnItemClickListener;
 import com.ouchadam.fang.presentation.item.TypedListAdapter;
+import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-public class SingleChannelFragment extends CursorBackedListFragment<FullItem> {
+public class SingleChannelFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 
     private static final String CHANNEL = "channel";
+    private DetailsDisplayManager detailsDisplayManager;
 
     public static SingleChannelFragment newInstance(String channelTitle) {
         SingleChannelFragment singleChannelFragment = new SingleChannelFragment();
@@ -30,8 +37,21 @@ public class SingleChannelFragment extends CursorBackedListFragment<FullItem> {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        SlidingPanelExposer panelController = Classes.from(activity);
+        detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
+    }
+
+    @Override
     protected View getRootLayout(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_item_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setOnItemClickListener(this);
     }
 
     @Override
@@ -58,6 +78,10 @@ public class SingleChannelFragment extends CursorBackedListFragment<FullItem> {
         return new FullItemMarshaller();
     }
 
+    @Override
+    public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
+        detailsDisplayManager.displayItem(itemId);
+    }
 }
 
 

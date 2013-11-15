@@ -2,12 +2,12 @@ package com.ouchadam.fang.presentation.item;
 
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
-class DetailsDisplayManager {
+public class DetailsDisplayManager {
 
     private final SlidingPanelExposer panelController;
     private final NavigatorForResult navigator;
 
-    DetailsDisplayManager(SlidingPanelExposer panelController, NavigatorForResult navigator) {
+    public DetailsDisplayManager(SlidingPanelExposer panelController, NavigatorForResult navigator) {
         this.panelController = panelController;
         this.navigator = navigator;
     }

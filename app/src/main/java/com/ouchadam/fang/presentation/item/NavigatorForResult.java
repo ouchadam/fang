@@ -9,7 +9,7 @@ public class NavigatorForResult {
 
     private final Activity activity;
 
-    NavigatorForResult(Activity activity) {
+    public NavigatorForResult(Activity activity) {
         this.activity = activity;
     }
 
