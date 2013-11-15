@@ -12,12 +12,12 @@ class AudioHandler {
 
     private final FangPlayer fangPlayer;
     private final AudioFocusManager audioFocusManager;
-    private final PlayerHandler.AudioSync audioSync;
+    private final AudioSync audioSync;
     private final Playlist playlist;
     private final AudioStateManager audioStateManager;
     private final RemoteHelper remoteHelper;
 
-    AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, PlayerHandler.AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper) {
+    AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper) {
         this.fangPlayer = fangPlayer;
         this.audioFocusManager = audioFocusManager;
         this.audioSync = audioSync;
@@ -102,10 +102,6 @@ class AudioHandler {
         }
     }
 
-    public boolean lastInPlaylist() {
-        return playlist.isLast();
-    }
-
     public void onStop() {
         stopAudio();
     }
@@ -121,13 +117,13 @@ class AudioHandler {
         playlist.resetCurrent();
     }
 
-    public void completeAndPlayNext() {
+    public void playNext() {
         playlist.moveToNext();
         setSource();
         onPlay();
     }
 
-    public void completeAudio() {
+    public void completeCurrent() {
         pauseAudio();
         sync(new PlayerEvent.Factory().pause());
     }

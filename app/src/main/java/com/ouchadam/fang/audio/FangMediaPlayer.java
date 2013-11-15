@@ -29,6 +29,10 @@ public class FangMediaPlayer implements FangPlayer {
         void onBadSource(Exception e);
     }
 
+    public static FangPlayer from(Context context) {
+        return new FangMediaPlayer(context, new PodcastPositionBroadcaster(context), null, new PodcastPlayerEventBroadcaster(context));
+    }
+
     public FangMediaPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster, OnBadSourceHandler onBadSourceHandler, PodcastPlayerEventBroadcaster playerEventBroadcaster) {
         this.context = context;
         this.positionBroadcaster = positionBroadcaster;

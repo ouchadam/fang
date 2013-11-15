@@ -70,7 +70,7 @@ public class AudioService extends Service implements ServiceManipulator {
         initReceivers(playerHandler);
     }
 
-    private final PlayerHandler.AudioSync onSync = new PlayerHandler.AudioSync() {
+    private final AudioSync onSync = new AudioSync() {
         @Override
         public void onSync(long itemId, PlayerEvent playerEvent) {
             handleSyncRequest(itemId, playerEvent);

@@ -37,10 +37,6 @@ class Playlist {
         this.playingItemId = MISSING_ID;
     }
 
-    public boolean isLast() {
-        return this.currentPosition == list.size();
-    }
-
     public PlaylistItem get() {
         return list.get(currentPosition - ZERO_INDEX_OFFSET);
     }
@@ -67,6 +63,10 @@ class Playlist {
 
     public boolean hasNext() {
         return !isLast();
+    }
+
+    private boolean isLast() {
+        return this.currentPosition == list.size();
     }
 
     public void moveTo(int playlistPosition) {

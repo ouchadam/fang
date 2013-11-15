@@ -1,6 +1,8 @@
 package com.ouchadam.fang.presentation;
 
 import android.app.Activity;
+import android.content.ContentProviderOperation;
+import android.content.Context;
 import android.media.AudioManager;
 
 public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListener {
@@ -17,7 +19,11 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
         }
     }
 
-    public AudioFocusManager(AudioManager audioManager) {
+    public static AudioFocusManager from(Context context) {
+        return new AudioFocusManager((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
+    }
+
+    private AudioFocusManager(AudioManager audioManager) {
         this.audioManager = audioManager;
     }
 

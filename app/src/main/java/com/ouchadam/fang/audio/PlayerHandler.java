@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.util.Log;
 
-import com.ouchadam.fang.audio.event.PlayerEvent;
 import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.notification.FangNotification;
@@ -17,22 +16,12 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final ServiceManipulator serviceManipulator;
     private final ActivityCompletionCallback completionCallback;
     private final ServiceLocation serviceLocation;
-
     private final AudioHandler audioHandler;
 
-    interface AudioSync {
-        void onSync(long itemId, PlayerEvent playerEvent);
-    }
-
     static PlayerHandler from(Context context, AudioSync audioSync, ServiceManipulator serviceManipulator, RemoteHelper remoteHelper, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation) {
-        FangPlayer fangPlayer = new FangMediaPlayer(context, new PodcastPositionBroadcaster(context), null, new PodcastPlayerEventBroadcaster(context));
-        AudioFocusManager focusManager = new AudioFocusManager((AudioManager) context.getSystemService(Context.AUDIO_SERVICE));
-        PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
+        AudioHandler audioHandler = new AudioHandler(FangMediaPlayer.from(context), AudioFocusManager.from(context), audioSync, Playlist.from(context), new AudioStateManager(), remoteHelper);
         FangNotification notification = FangNotification.from(context);
-        Playlist playlist = Playlist.from(context);
-
-        AudioHandler audioHandler = new AudioHandler(fangPlayer, focusManager, audioSync, playlist, new AudioStateManager(), remoteHelper);
-
+        PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         return new PlayerHandler(audioHandler, itemStateManager, notification, serviceManipulator, completionCallback, serviceLocation);
     }
 
@@ -50,7 +39,6 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         Log.e("!!!", "wants to play position : " + playlistPosition);
         audioHandler.setSource(playlistPosition);
     }
-
 
     @Override
     public void onPlay() {
@@ -103,25 +91,31 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onComplete() {
-        if (audioHandler.lastInPlaylist()) {
+        if (audioHandler.hasNext()) {
+            completeCurrentAndPlayNext();
+        } else {
             if (serviceLocation.isWithinApp()) {
-                audioHandler.completeAudio();
-                saveCompletedState();
-                completionCallback.onComplete();
+                lastItemComplete();
             } else {
+                completeCurrent();
                 audioHandler.onStop();
             }
-        } else {
-            completeAndPlayNext();
         }
     }
 
-    private void completeAndPlayNext() {
-        if (audioHandler.hasNext()) {
-            saveCompletedState();
-            audioHandler.completeAudio();
-            audioHandler.completeAndPlayNext();
-        }
+    private void lastItemComplete() {
+        completeCurrent();
+        completionCallback.onComplete();
+    }
+
+    private void completeCurrentAndPlayNext() {
+        completeCurrent();
+        audioHandler.playNext();
+    }
+
+    private void completeCurrent() {
+        audioHandler.completeCurrent();
+        saveCompletedState();
     }
 
     private void saveCompletedState() {
