@@ -77,9 +77,11 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
 
     @Override
     public void onItemClick(TypedListAdapter<Channel> adapter, int position, long itemId) {
-        Channel channel = adapter.getItem(position);
-        new RemoveNewItemCountPersister(getActivity().getContentResolver()).persist(channel.getTitle());
-        new Navigator(getActivity()).toChannel(channel.getTitle());
+        if (!channelListActionMode.isInActionMode()) {
+            Channel channel = adapter.getItem(position);
+            new RemoveNewItemCountPersister(getActivity().getContentResolver()).persist(channel.getTitle());
+            new Navigator(getActivity()).toChannel(channel.getTitle());
+        }
     }
 
     @Override
