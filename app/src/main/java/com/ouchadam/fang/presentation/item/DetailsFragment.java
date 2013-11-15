@@ -10,40 +10,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.Downloader;
-import com.ouchadam.bookkeeper.domain.DownloadId;
-import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
-import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.fang.ItemQueryer;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
-import com.ouchadam.fang.presentation.panel.DurationFormatter;
 
 public class DetailsFragment extends Fragment {
 
     private final ActionBarTitleSetter actionBarTitleSetter;
+    private final MenuItemManager menuItemManager;
+
     private Downloader downloader;
-
     private ItemQueryer itemQueryer;
-    private TextView descriptionText;
-    private TextView durationText;
-    private ImageView heroImage;
-
-    private boolean isDownloaded;
 
     private FullItem item;
-    private HeroManager heroManager;
-    private TextView channelText;
-    private TextView itemTitleText;
-    private MenuItemManager menuItemManager;
+    private DetailsViewManager detailsViewManager;
 
     public static DetailsFragment newInstance(long itemId) {
         DetailsFragment detailsFragment = new DetailsFragment();
@@ -55,7 +41,7 @@ public class DetailsFragment extends Fragment {
 
     public DetailsFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
-        this.isDownloaded = false;
+        this.menuItemManager = new MenuItemManager();
         this.item = null;
     }
 
@@ -64,10 +50,7 @@ public class DetailsFragment extends Fragment {
         super.onAttach(activity);
         setHasOptionsMenu(true);
         downloader = Classes.from(activity);
-
-        ActionBarRefresher actionBarRefresher = Classes.from(activity);
-        menuItemManager = new MenuItemManager(actionBarRefresher);
-
+        menuItemManager.onAttach(activity);
         actionBarTitleSetter.onAttach(activity);
     }
 
@@ -77,14 +60,13 @@ public class DetailsFragment extends Fragment {
         inflater.inflate(R.menu.details, menu);
 
         boolean isDownloading = menuItemManager.isDownloading();
-        Log.e("???", "isDownloading : " + isDownloading);
-        if (isDownloading) {
-            menu.findItem(R.id.ab_download).setEnabled(false);
-        } else {
-            menu.findItem(R.id.ab_download).setEnabled(true);
-        }
-        menu.findItem(R.id.ab_play).setVisible(isDownloaded);
-        menu.findItem(R.id.ab_download).setVisible(!isDownloaded);
+        boolean isDownloaded = menuItemManager.isDownloaded();
+        MenuItem downloadItem = menu.findItem(R.id.ab_download);
+        downloadItem.setEnabled(!isDownloading);
+        downloadItem.setVisible(!isDownloaded);
+
+        MenuItem playItem = menu.findItem(R.id.ab_play);
+        playItem.setVisible(isDownloaded);
     }
 
     @Override
@@ -105,32 +87,37 @@ public class DetailsFragment extends Fragment {
     }
 
     private void downloadCurrent() {
-        FullItem item = getItem();
-        if (item != null) {
+        try {
+            FullItem item = getItem();
             ItemDownloader itemDownloader = new ItemDownloader(downloader, getActivity());
             itemDownloader.setWatchers(new MenuWatcher.LazyMenuWatcher(menuItemManager));
             itemDownloader.downloadItem(item.getItem());
+        } catch (IllegalAccessException e) {
+            Toast.makeText(getActivity(), "Oops... no podcast found!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private FullItem getItem() {
-        return item;
+    private void playCurrent() {
+        try {
+            FullItem item = getItem();
+            Log.e("???", "Play current : " + item.getChannelTitle() + " with playlist position : " + item.getPlaylistPosition());
+            new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getPlaylistPosition(), "PLAYLIST");
+        } catch (IllegalAccessException e) {
+            Toast.makeText(getActivity(), "Oops... no podcast found!", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void playCurrent() {
-        FullItem item = getItem();
-        Log.e("???", "Play current : " + item.getChannelTitle() + " with playlist position : " + item.getPlaylistPosition());
-        new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getPlaylistPosition(), "PLAYLIST");
+    private FullItem getItem() throws IllegalAccessException {
+        if (item != null) {
+            return item;
+        }
+        throw new IllegalAccessException("Podcast has not been set, but has been asked for");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_details, container, false);
-        heroImage = Views.findById(root, R.id.content_image);
-        descriptionText = Views.findById(root, R.id.fragment_item_description);
-        durationText = Views.findById(root, R.id.fragment_item_duration);
-        channelText = Views.findById(root, R.id.fragment_channel_title);
-        itemTitleText = Views.findById(root, R.id.fragment_item_title);
+        detailsViewManager = DetailsViewManager.from(root);
         Views.findById(root, R.id.details_parent).setOnClickListener(detailsClickListener);
         return root;
     }
@@ -168,29 +155,8 @@ public class DetailsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarTitleSetter.set("Details");
-        heroManager = new HeroManager(new HeroHolder(), heroImage, getActivity());
-        heroManager.loadDimensions();
+        detailsViewManager.loadHeroDimensions();
         downloader.restore(new MenuWatcher.LazyMenuWatcher(menuItemManager));
-    }
-
-    public static class MenuItemManager {
-
-        private final ActionBarRefresher actionBarRefresher;
-        private boolean isDownloading;
-
-        private MenuItemManager(ActionBarRefresher actionBarRefresher) {
-            this.actionBarRefresher = actionBarRefresher;
-            this.isDownloading = false;
-        }
-
-        public void setDownloading(boolean isDownloading) {
-            this.isDownloading = isDownloading;
-            actionBarRefresher.refresh();
-        }
-
-        public boolean isDownloading() {
-            return isDownloading;
-        }
     }
 
     @Override
@@ -214,24 +180,14 @@ public class DetailsFragment extends Fragment {
     private final ItemQueryer.OnItemListener onItem = new ItemQueryer.OnItemListener() {
         @Override
         public void onItem(FullItem item) {
-            initialiseViews(item);
+            DetailsFragment.this.item = item;
+            detailsViewManager.initialiseViews(item);
+            initActionBarFrom(item);
         }
     };
 
-    private void initialiseViews(final FullItem item) {
-        this.item = item;
-        Item baseItem = item.getItem();
-        initActionBarFrom(item);
-        channelText.setText(item.getChannelTitle());
-        itemTitleText.setText(baseItem.getTitle());
-        descriptionText.setText(baseItem.getSummary());
-        durationText.setText(new DurationFormatter(getResources()).format(baseItem.getDuration()));
-        heroManager.setBackgroundImage(item);
-    }
-
     private void initActionBarFrom(FullItem item) {
-        isDownloaded = item.isDownloaded();
-        getActivity().invalidateOptionsMenu();
+        menuItemManager.setDownloaded(item.isDownloaded());
     }
 
 }

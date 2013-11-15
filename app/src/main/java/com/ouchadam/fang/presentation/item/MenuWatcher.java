@@ -4,14 +4,13 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
-import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 
 class MenuWatcher implements DownloadWatcher {
 
-    private final DetailsFragment.MenuItemManager menuItemManager;
+    private final MenuItemManager menuItemManager;
     private final DownloadId downloadId;
 
-    MenuWatcher(DetailsFragment.MenuItemManager menuItemManager, DownloadId downloadId) {
+    MenuWatcher(MenuItemManager menuItemManager, DownloadId downloadId) {
         this.menuItemManager = menuItemManager;
         this.downloadId = downloadId;
     }
@@ -37,9 +36,9 @@ class MenuWatcher implements DownloadWatcher {
 
     static class LazyMenuWatcher implements LazyWatcher {
 
-        private final DetailsFragment.MenuItemManager menuItemManager;
+        private final MenuItemManager menuItemManager;
 
-        LazyMenuWatcher(DetailsFragment.MenuItemManager menuItemManager) {
+        LazyMenuWatcher(MenuItemManager menuItemManager) {
             this.menuItemManager = menuItemManager;
         }
 
