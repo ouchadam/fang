@@ -48,11 +48,11 @@ public class DatabaseCleaner {
 
     public void deleteIdsFromPlaylist(long[] itemIds) {
         List<ContentProviderOperation> operations = Collections.newArrayList();
-        ContentProviderOperation.Builder builder = newDelete(FangProvider.getUri(Uris.PLAYLIST));
         for (long itemId : itemIds) {
-            builder.withSelection(Tables.Playlist.ITEM_ID + "=?", new String[] { Long.toString(itemId) });
+            ContentProviderOperation.Builder builder = newDelete(FangProvider.getUri(Uris.PLAYLIST));
+            builder.withSelection(Tables.Playlist.ITEM_ID + "=?", new String[]{Long.toString(itemId)});
+            operations.add(builder.build());
         }
-        operations.add(builder.build());
         execute(operations);
     }
 }

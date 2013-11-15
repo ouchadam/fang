@@ -47,14 +47,13 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(innerItemClickListener);
         listView.setOnItemLongClickListener(innerItemLongClickListener);
+        disallowChecking();
         onCreateViewExtra(root);
         return root;
     }
 
     protected void onCreateViewExtra(View root) {
     }
-
-    ;
 
     private final AdapterView.OnItemClickListener innerItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -111,8 +110,22 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         return adapter;
     }
 
-    protected void setSelected(int position) {
-        listView.setItemChecked(position, !listView.isItemChecked(position));
+    protected void setChecked(int position) {
+        Log.e("???", "set checked : " + position);
+        listView.setItemChecked(position, true);
+    }
+
+    protected void allowChecking() {
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+    }
+
+    protected void disallowChecking() {
+        listView.post(new Runnable() {
+            @Override
+            public void run() {
+                listView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+            }
+        });
     }
 
     protected List<T> getAllCheckedPositions() {
@@ -123,6 +136,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
                 int position = rawCheckedItems.keyAt(index);
                 boolean checked = rawCheckedItems.valueAt(index);
                 if (checked) {
+                    Log.e("???", "get checked : " + position);
                     checkedItems.add(adapter.getItem(position));
                 }
             }
@@ -131,7 +145,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     }
 
     protected void deselectAll() {
-        for (int index = 0; index < adapter.getCount(); index ++) {
+        for (int index = 0; index < listView.getCount(); index++) {
             listView.setItemChecked(index, false);
         }
     }

@@ -2,8 +2,11 @@ package com.ouchadam.fang.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Checkable;
 import android.widget.RelativeLayout;
+
+import com.ouchadam.fang.R;
 
 public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
 
@@ -25,6 +28,16 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
     @Override
     public void setChecked(boolean checked) {
         this.isChecked = checked;
+        setBackground(checked);
+    }
+
+    private void setBackground(boolean checked) {
+        if (checked) {
+            setBackgroundColor(getResources().getColor(R.color.holo_blue));
+        } else {
+            setBackground(getResources().getDrawable(R.drawable.card_background));
+//            setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background));
+        }
     }
 
     @Override
@@ -34,6 +47,6 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
 
     @Override
     public void toggle() {
-
+        setChecked(!isChecked);
     }
 }

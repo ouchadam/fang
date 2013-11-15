@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation.item;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.util.Log;
 
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.ContentProviderOperationExecutable;
@@ -27,6 +28,11 @@ class DownloadDeleter {
     public void deleteItems(List<FullItem> items) {
         long[] itemDownloadIds = getDownloadIds(items);
         long[] itemIds = getItemIds(items);
+
+        Log.e("???", "Input size : " + items.size());
+        Log.e("???", "download ids : " + itemDownloadIds.length);
+        Log.e("???", "item ids : " + itemIds.length);
+
         deleteSelected(itemDownloadIds, itemIds);
     }
 

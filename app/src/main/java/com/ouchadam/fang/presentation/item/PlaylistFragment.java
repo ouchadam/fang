@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
@@ -25,10 +26,9 @@ import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>,PlaylistActionMode.OnPlaylistActionMode {
+public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>, PlaylistActionMode.OnPlaylistActionMode {
 
     private final ActionBarTitleSetter actionBarTitleSetter;
 
@@ -134,10 +134,10 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     public void onItemClick(TypedListAdapter<FullItem> adapter, int position, long itemId) {
-        if (playlistActionMode.isInActionMode()) {
-            setSelected(position);
-        } else {
+        if (!playlistActionMode.isInActionMode()) {
             detailsDisplayManager.displayItem(itemId);
+        } else {
+            setChecked(position);
         }
     }
 
@@ -147,23 +147,30 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
             return false;
         } else {
             playlistActionMode.onStart();
-            setSelected(position);
+            allowChecking();
+            setChecked(position);
             return true;
         }
     }
 
     @Override
     public void onDelete() {
-        List<FullItem> selectedItems = getSelectedItems();
-        DownloadDeleter.from(getActivity()).deleteItems(selectedItems);
+        List<FullItem> selectedItems = getCheckedItems();
+        if (selectedItems != null && !selectedItems.isEmpty()) {
+            DownloadDeleter.from(getActivity()).deleteItems(selectedItems);
+        } else {
+            Toast.makeText(getActivity(), "Failed to delete, couldn't find and podcasts", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private List<FullItem> getSelectedItems() {
+    private List<FullItem> getCheckedItems() {
         return getAllCheckedPositions();
     }
 
     @Override
     public void onActionModeFinish() {
         deselectAll();
+        disallowChecking();
     }
+
 }
