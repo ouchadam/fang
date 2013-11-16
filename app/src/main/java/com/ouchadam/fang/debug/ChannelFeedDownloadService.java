@@ -26,11 +26,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ChannelFeedDownloadService extends Service {
 
     public static final String ACTION_CHANNEL_FEED_COMPLETE = "channelFeedComplete";
     private static final int NOTIFICATION_ID = 0xAC;
+
+    private ThreadExecutor threadExecutor;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -92,16 +97,30 @@ public class ChannelFeedDownloadService extends Service {
     }
 
     public void downloadAndPersistPodcastFeeds(List<Feed> feeds) {
-        // TODO Move to thread pool
+        if (threadExecutor == null) {
+            threadExecutor = new ThreadExecutor();
+        }
+
         final ThreadTracker threadTracker = new ThreadTracker(feeds.size(), threadsCompleteListener);
         for (final Feed feed : feeds) {
-            new Thread(new Runnable() {
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
                     getPodcastFrom(feed, threadTracker);
                 }
-            }).start();
+            };
+            threadExecutor.run(runnable);
         }
+    }
+
+    private static class ThreadExecutor {
+
+        private final static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(5, 15, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(25));
+
+        public void run(Runnable runnable) {
+            threadPool.execute(runnable);
+        }
+
     }
 
     private void getPodcastFrom(Feed feed, ThreadTracker threadTracker) {
