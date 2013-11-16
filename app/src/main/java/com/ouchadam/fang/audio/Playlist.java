@@ -1,16 +1,10 @@
 package com.ouchadam.fang.audio;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 
 import com.novoda.notils.java.Collections;
 import com.ouchadam.fang.domain.PodcastPosition;
-import com.ouchadam.fang.persistance.FangProvider;
-import com.ouchadam.fang.persistance.database.Tables;
-import com.ouchadam.fang.persistance.database.Uris;
-import com.ouchadam.fang.presentation.CursorUtils;
 
 import java.util.List;
 
@@ -20,19 +14,22 @@ class Playlist {
     private static final int ZERO_INDEX_OFFSET = 1;
 
     private final List<PlaylistItem> list;
-    private final ItemSourceFetcher itemSourceFetcher;
-    private final ContentResolver contentResolver;
+    private final PlaylistLoader playlistLoader;
 
     private long playingItemId;
     private int currentPosition;
+    private OnPlaylistPrepared onPlaylistPrepared;
 
-    public static Playlist from(Context context) {
-        return new Playlist(ItemSourceFetcher.from(context), context.getContentResolver());
+    public interface OnPlaylistPrepared {
+        void onPrepared();
     }
 
-    public Playlist(ItemSourceFetcher itemSourceFetcher, ContentResolver contentResolver) {
-        this.itemSourceFetcher = itemSourceFetcher;
-        this.contentResolver = contentResolver;
+    public static Playlist from(Context context) {
+        return new Playlist(new PlaylistLoader(context.getContentResolver(), ItemSourceFetcher.from(context)));
+    }
+
+    public Playlist(PlaylistLoader playlistLoader) {
+        this.playlistLoader = playlistLoader;
         this.list = Collections.newArrayList();
         this.playingItemId = MISSING_ID;
     }
@@ -77,55 +74,23 @@ class Playlist {
         return (playlistPosition - ZERO_INDEX_OFFSET) < list.size() && (playlistPosition - ZERO_INDEX_OFFSET) > 0 ? playlistPosition : ZERO_INDEX_OFFSET;
     }
 
-    public void load() {
-        Cursor cursor = getQuery(contentResolver);
-        List<PlaylistItem> playlistItems = Collections.newArrayList();
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                playlistItems.add(createPlaylistItem(cursor, itemSourceFetcher));
-            } while (cursor.moveToNext());
+    public void load(OnPlaylistPrepared onPlaylistPrepared) {
+        this.onPlaylistPrepared = onPlaylistPrepared;
+        playlistLoader.load(onPlaylistLoad);
+    }
+
+    private final PlaylistLoader.OnPlaylistLoad onPlaylistLoad = new PlaylistLoader.OnPlaylistLoad() {
+        @Override
+        public void onPlaylistLoad(List<PlaylistItem> playlistItems) {
+            handleNewPlaylist(playlistItems);
         }
-        if (cursor != null) {
-            cursor.close();
-        }
+    };
+
+    private void handleNewPlaylist(List<PlaylistItem> playlistItems) {
         list.clear();
         list.addAll(playlistItems);
-    }
-
-    private Cursor getQuery(ContentResolver contentResolver) {
-        return contentResolver.query(
-                FangProvider.getUri(Uris.FULL_ITEM),
-                null,
-                Tables.Playlist.DOWNLOAD_ID + "!=?",
-                new String[]{"0"},
-                " CAST (" + Tables.Playlist.LIST_POSITION + " AS DECIMAL)" + " ASC"
-        );
-    }
-
-    private PlaylistItem createPlaylistItem(Cursor cursor, ItemSourceFetcher itemSourceFetcher) {
-        PlaylistItem playlistItem = new PlaylistItem();
-        CursorUtils cursorUtils = new CursorUtils(cursor);
-
-        playlistItem.id = cursorUtils.getLong(Tables.Playlist.ITEM_ID);
-        playlistItem.listPosition = cursorUtils.getInt(Tables.Playlist.LIST_POSITION);
-
-        playlistItem.downloadId = cursorUtils.getLong(Tables.Playlist.DOWNLOAD_ID);
-        playlistItem.channel = cursorUtils.getString(Tables.Item.ITEM_CHANNEL);
-        playlistItem.title = cursorUtils.getString(Tables.Item.TITLE);
-        playlistItem.imageUrl = getImageUrl(cursorUtils.getString(Tables.Item.HERO_IMAGE), cursorUtils.getString(Tables.ChannelImage.IMAGE_URL));
-
-        int playPosition = cursorUtils.getInt(Tables.Playlist.PLAY_POSITION);
-        int duration = cursorUtils.getInt(Tables.Playlist.MAX_DURATION);
-
-        playlistItem.podcastPosition = new PodcastPosition(playPosition, duration);
-
-        playlistItem.source = itemSourceFetcher.getSourceUri(playlistItem.downloadId);
-
-        return playlistItem;
-    }
-
-    private String getImageUrl(String heroImage, String channelImage) {
-        return heroImage == null ? channelImage : heroImage;
+        onPlaylistPrepared.onPrepared();
+        onPlaylistPrepared = null;
     }
 
     public int getCurrentPosition() {

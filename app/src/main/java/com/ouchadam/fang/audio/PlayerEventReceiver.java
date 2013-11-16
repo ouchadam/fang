@@ -52,8 +52,6 @@ public class PlayerEventReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         PlayerEvent from = new PlayerEventIntentMarshaller(PlayerEvent.Event.ACTION_PREFIX).from(intent);
-        Log.e("!!!", "onReceive : " + from.getEvent().name() + " : id : " + from.getId());
-
         switch (from.getEvent()) {
             case PLAY:
                 handlePlay(from);

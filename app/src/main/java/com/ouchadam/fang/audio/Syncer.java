@@ -1,7 +1,11 @@
 package com.ouchadam.fang.audio;
 
+import android.os.Handler;
+import android.os.Looper;
+
 class Syncer {
 
+    private static final Handler MAIN_THREAD = new Handler(Looper.getMainLooper());
     private final PlayerHandler playerHandler;
 
     private OnStateSync listener;
@@ -17,8 +21,17 @@ class Syncer {
     public void sync() {
         boolean canSync = !playerHandler.asSyncEvent().isFresh();
         if (canSync) {
-            listener.onSync(playerHandler.asSyncEvent());
+            startSync();
         }
+    }
+
+    private void startSync() {
+        MAIN_THREAD.post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onSync(playerHandler.asSyncEvent());
+            }
+        });
     }
 
     public void removeSyncListener() {

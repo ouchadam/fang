@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.novoda.notils.caster.Views;
+import com.novoda.notils.logger.Novogger;
 import com.novoda.notils.meta.AndroidUtils;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
@@ -66,6 +67,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setFangContentView();
+        Novogger.enable(this);
         fangBookKeeer = FangBookKeeer.getInstance(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);

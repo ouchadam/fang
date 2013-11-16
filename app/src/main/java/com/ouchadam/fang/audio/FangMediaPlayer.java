@@ -134,7 +134,8 @@ public class FangMediaPlayer implements FangPlayer {
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
-        mediaPlayer = null;
+        this.source = null;
+        this.mediaPlayer = null;
     }
 
 }

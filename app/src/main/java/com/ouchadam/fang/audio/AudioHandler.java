@@ -18,6 +18,9 @@ class AudioHandler {
     private final AudioStateManager audioStateManager;
     private final RemoteHelper remoteHelper;
     private final PauseRewinder pauseRewinder;
+    private final EventQueue eventQueue;
+
+    private int playlistPosition;
 
     AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper, PauseRewinder pauseRewinder) {
         this.fangPlayer = fangPlayer;
@@ -27,22 +30,64 @@ class AudioHandler {
         this.audioStateManager = audioStateManager;
         this.remoteHelper = remoteHelper;
         this.pauseRewinder = pauseRewinder;
+        this.eventQueue = new EventQueue();
     }
 
     public void setSource(int playlistPosition) {
-        handleCurrentlyPlaying();
-        playlist.load();
-        playlist.moveTo(playlistPosition);
-        if (playlist.isValid() && playlist.currentItemIsValid()) {
-            setSource();
+        Log.e("XXX", "onNewSource with position : " + playlistPosition);
+        this.playlistPosition = playlistPosition;
+        removeCurrentlyPlaying();
+        playlist.load(onPlaylistPrepared);
+    }
+
+    private void removeCurrentlyPlaying() {
+        if (fangPlayer.isPrepared()) {
+            eventQueue.clear();
+            if (audioStateManager.isPlayling()) {
+                pauseAudio();
+            }
+            fangPlayer.release();
+            Log.e("XXX", "releasing player... " + "is prepared? : " + fangPlayer.isPrepared());
         }
     }
 
-    private void handleCurrentlyPlaying() {
-        if (fangPlayer.isPrepared() && audioStateManager.isPlayling()) {
-            pauseAudio();
+    private final Playlist.OnPlaylistPrepared onPlaylistPrepared = new Playlist.OnPlaylistPrepared() {
+        @Override
+        public void onPrepared() {
+            playlist.moveTo(playlistPosition);
+            if (playlist.isValid() && playlist.currentItemIsValid()) {
+                setSource();
+                triggerQueue();
+            }
         }
+    };
+
+    private void triggerQueue() {
+        Log.e("XXX", "Triggering queue");
+        eventQueue.dequeue(onEventHandler);
+        Log.e("XXX", "Queue finished");
     }
+
+    private final EventQueue.OnEvent onEventHandler = new EventQueue.OnEvent() {
+        @Override
+        public void onEvent(PlayerEvent playerEvent) {
+            switch (playerEvent.getEvent()) {
+                case PLAY:
+                    if (playerEvent.getPosition() == null) {
+                        onPlay();
+                    } else {
+                        onPlay(playerEvent.getPosition());
+                    }
+                    break;
+
+                case GOTO:
+                    goToPosition(playerEvent.getPosition());
+                    break;
+                default:
+                    throw new IllegalAccessError("Event queue handler Not yet implemented for : " + playerEvent.getEvent().name());
+            }
+        }
+    };
 
     private void setSource() {
         Playlist.PlaylistItem playItem = playlist.get();
@@ -67,13 +112,24 @@ class AudioHandler {
     }
 
     public void goToPosition(PodcastPosition position) {
-        audioStateManager.setPositionShifted();
-        fangPlayer.goTo(position);
-        sync(new PlayerEvent.Factory().goTo(position));
+        Log.e("XXX", "onGoToPosition");
+        PlayerEvent playerEvent = new PlayerEvent.Factory().goTo(position);
+        if (fangPlayer.isPrepared()) {
+            audioStateManager.setPositionShifted();
+            fangPlayer.goTo(position);
+            sync(playerEvent);
+        } else {
+            eventQueue.add(playerEvent);
+        }
     }
 
     public void onPlay() {
-        onPlay(getPosition());
+        Log.e("XXX", "onPlay : isPrepared? " + fangPlayer.isPrepared());
+        if (fangPlayer.isPrepared()) {
+            onPlay(getPosition());
+        } else {
+            eventQueue.add(new PlayerEvent.Factory().play());
+        }
     }
 
     private PodcastPosition getPosition() {
@@ -81,8 +137,14 @@ class AudioHandler {
     }
 
     public void onPlay(PodcastPosition position) {
-        play(position);
-        sync(new PlayerEvent.Factory().play(position));
+        Log.e("XXX", "onPlay with position" + "is prepared? " + isPrepared());
+        PlayerEvent playerEvent = new PlayerEvent.Factory().play(position);
+        if (fangPlayer.isPrepared()) {
+            play(position);
+            sync(playerEvent);
+        } else {
+            eventQueue.add(playerEvent);
+        }
     }
 
     private void play(PodcastPosition position) {
@@ -94,6 +156,7 @@ class AudioHandler {
     }
 
     public void onPause() {
+        Log.e("XXX", "onPause");
         pauseAudio();
         sync(new PlayerEvent.Factory().pause());
         pauseRewinder.handle(this);
@@ -106,6 +169,7 @@ class AudioHandler {
     }
 
     public void onPlayPause() {
+        Log.e("XXX", "onPlayPause");
         if (audioStateManager.isPlayling()) {
             onPause();
         } else {
@@ -114,6 +178,7 @@ class AudioHandler {
     }
 
     public void onStop() {
+        Log.e("XXX", "onStop");
         stopAudio();
     }
 
@@ -124,6 +189,7 @@ class AudioHandler {
     }
 
     public void onReset() {
+        Log.e("XXX", "onReset");
         stopAudio();
         playlist.resetCurrent();
     }
@@ -140,6 +206,7 @@ class AudioHandler {
     }
 
     public void onRewind() {
+        Log.e("XXX", "onRewind");
         onRewind(FORWARD_REWIND_AMOUNT);
     }
 
@@ -155,6 +222,7 @@ class AudioHandler {
     }
 
     public void onFastForward() {
+        Log.e("XXX", "onFastForward");
         PodcastPosition currentPosition = fangPlayer.getPosition();
         if (canFastForward(currentPosition)) {
             PodcastPosition forwardPosition = new PodcastPosition(currentPosition.value() + FORWARD_REWIND_AMOUNT, currentPosition.getDuration());

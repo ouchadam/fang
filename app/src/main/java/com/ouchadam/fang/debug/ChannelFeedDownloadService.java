@@ -44,22 +44,25 @@ public class ChannelFeedDownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        List<Feed> feeds = Collections.newArrayList();
-        FeedServiceInfo from = FeedServiceInfo.from(intent.getExtras());
-        switch (from.getType()) {
-            case ADD:
-                feeds = from.getUrlsToAdd();
-                break;
-            case REFRESH:
-                feeds = getSubscribedChannelUrls();
-                break;
-        }
+        if (intent != null) {
+            List<Feed> feeds = Collections.newArrayList();
+            FeedServiceInfo from = FeedServiceInfo.from(intent.getExtras());
+            switch (from.getType()) {
+                case ADD:
+                    feeds = from.getUrlsToAdd();
+                    break;
+                case REFRESH:
+                    feeds = getSubscribedChannelUrls();
+                    break;
+            }
 
-        if (!feeds.isEmpty()) {
-            showNotification(from.getType());
-            downloadAndPersistPodcastFeeds(feeds);
+            if (!feeds.isEmpty()) {
+                showNotification(from.getType());
+                downloadAndPersistPodcastFeeds(feeds);
+            }
+            return START_STICKY;
         }
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     private void showNotification(FeedServiceInfo.Type type) {
