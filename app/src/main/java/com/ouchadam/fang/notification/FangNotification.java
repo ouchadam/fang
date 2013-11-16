@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -40,7 +41,14 @@ public class FangNotification {
 
     private void showNotification(Bitmap channelImage, FullItem fullItem, boolean playing) {
         NotificationCompat.Builder normal = createNormal(channelImage, fullItem);
+        Notification notification = normal.build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notification.bigContentView = createBigContentNotification(channelImage, fullItem, playing);
+        }
+        notificationManager.notify(ID, notification);
+    }
 
+    private RemoteViews createBigContentNotification(Bitmap channelImage, FullItem fullItem, boolean playing) {
         RemoteViews customNotifView = new RemoteViews(context.getPackageName(), R.layout.notification_big);
         customNotifView.setTextViewText(R.id.title, fullItem.getItem().getTitle());
         customNotifView.setTextViewText(R.id.channel, fullItem.getChannelTitle());
@@ -60,18 +68,13 @@ public class FangNotification {
 
         customNotifView.setViewVisibility(R.id.play, playing ? View.GONE : View.VISIBLE);
         customNotifView.setViewVisibility(R.id.pause, playing ? View.VISIBLE : View.GONE);
-
-        Notification notification = normal.build();
-        notification.bigContentView = customNotifView;
-
-        notificationManager.notify(ID, notification);
+        return customNotifView;
     }
 
     private static class RemoteClick {
 
         public PendingIntent createMediaPendingIntent(Context context, PlayerEvent event, long itemId) {
             Intent intent = createIntent(event);
-//            intent.setAction(event.getEvent().toNotification());
             intent.putExtra("itemId", itemId);
             return addClickListener(context, intent);
         }
