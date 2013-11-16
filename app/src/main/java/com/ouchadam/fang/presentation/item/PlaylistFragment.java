@@ -24,6 +24,7 @@ import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
+import com.ouchadam.fang.presentation.panel.OverflowCallback;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
@@ -41,6 +42,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private PodcastPlayerEventBroadcaster eventBroadcaster;
     private TextView spaceUsageText;
     private boolean hasRestored;
+    private OverflowCallback overflowCallback;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -81,6 +83,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
         eventBroadcaster = new PodcastPlayerEventBroadcaster(activity);
         playlistActionMode = new PlaylistActionMode(activity, this);
+        overflowCallback = Classes.from(activity);
     }
 
     @Override
@@ -159,10 +162,20 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     @Override
     public void onDelete() {
         List<FullItem> selectedItems = getAllCheckedPositions();
+        dismissCurrent(selectedItems);
         if (selectedItems != null && !selectedItems.isEmpty()) {
             DownloadDeleter.from(getActivity()).deleteItems(selectedItems);
         } else {
             Toast.makeText(getActivity(), "Failed to delete, couldn't find and podcasts", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void dismissCurrent(List<FullItem> selectedItems) {
+        for (FullItem selectedItem : selectedItems) {
+            if (panelController.getId() == selectedItem.getItemId()) {
+                overflowCallback.onDismissDrawer();
+                return;
+            }
         }
     }
 
