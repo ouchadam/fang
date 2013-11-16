@@ -47,15 +47,19 @@
         android:id="@+id/play_bottom"
         android:layout_height="match_parent"
         android:layout_width="67dp"
-        android:background="@android:drawable/list_selector_background">
+        android:background="@drawable/fang_selector_background">
 
         <ImageView
           android:layout_height="50dp"
           android:layout_width="50dp"
           android:scaleType="fitXY"
           android:background="@null"
+          android:paddingTop="6dp"
+          android:paddingBottom="6dp"
+          android:paddingRight="6dp"
+          android:paddingLeft="8dp"
           android:layout_centerInParent="true"
-          android:src="@drawable/ic_play_dark"/>
+          android:src="@drawable/ic_media_play"/>
 
       </RelativeLayout>
 
@@ -63,15 +67,17 @@
         android:id="@+id/pause_bottom"
         android:layout_height="match_parent"
         android:layout_width="67dp"
-        android:background="@android:drawable/list_selector_background">
+        android:background="@drawable/fang_selector_background">
 
         <ImageView
           android:layout_height="50dp"
           android:layout_width="50dp"
           android:background="@null"
           android:scaleType="fitXY"
+          android:paddingTop="3dp"
+          android:paddingBottom="3dp"
           android:layout_centerInParent="true"
-          android:src="@drawable/ic_pause_dark"/>
+          android:src="@drawable/ic_media_pause_2"/>
 
       </RelativeLayout>
 
@@ -82,13 +88,14 @@
           android:layout_height="match_parent"
           android:layout_width="67dp"
           android:layout_toLeftOf="@id/bottom_media_switcher"
-          android:background="@android:drawable/list_selector_background">
+          android:background="@drawable/fang_selector_background">
 
           <ImageView
               android:layout_height="50dp"
               android:layout_width="50dp"
               android:scaleType="fitXY"
               android:background="@null"
+              android:padding="6dp"
               android:layout_centerInParent="true"
               android:src="@drawable/ic_media_rew"/>
 
@@ -99,17 +106,54 @@
           android:layout_height="match_parent"
           android:layout_width="67dp"
           android:layout_toRightOf="@id/bottom_media_switcher"
-          android:background="@android:drawable/list_selector_background">
+          android:background="@drawable/fang_selector_background">
 
           <ImageView
               android:layout_height="50dp"
               android:layout_width="50dp"
               android:scaleType="fitXY"
               android:background="@null"
+              android:padding="6dp"
               android:layout_centerInParent="true"
               android:src="@drawable/ic_media_ff"/>
 
       </RelativeLayout>
+
+    <RelativeLayout
+      android:id="@+id/next"
+      android:layout_height="match_parent"
+      android:layout_width="67dp"
+      android:layout_toRightOf="@id/fast_forward"
+      android:background="@drawable/fang_selector_background">
+
+      <ImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:padding="6dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_media_next"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+      android:id="@+id/previous"
+      android:layout_height="match_parent"
+      android:layout_width="67dp"
+      android:layout_toLeftOf="@id/rewind"
+      android:background="@drawable/fang_selector_background">
+
+      <ImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:padding="6dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_media_previous"/>
+
+    </RelativeLayout>
 
   </RelativeLayout>
 
