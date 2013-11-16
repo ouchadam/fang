@@ -68,7 +68,9 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onStop() {
-        saveCurrentPlayState();
+        if (audioHandler.isPrepared()) {
+            saveCurrentPlayState();
+        }
         audioHandler.onStop();
         notification.dismiss();
         serviceManipulator.stop();

@@ -31,7 +31,6 @@ public class HeroHolder {
         return dimen != INVALID;
     }
 
-
     private boolean isValid(String url) {
         return url != null && !url.isEmpty();
     }

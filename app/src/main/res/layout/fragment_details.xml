@@ -9,7 +9,7 @@
     android:id="@+id/content_image"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:scaleType="centerInside"
+    android:scaleType="fitXY"
     android:contentDescription="@null"/>
 
     <include
