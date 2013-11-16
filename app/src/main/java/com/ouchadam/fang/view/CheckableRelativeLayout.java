@@ -1,6 +1,7 @@
 package com.ouchadam.fang.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Checkable;
@@ -35,8 +36,11 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
         if (checked) {
             setBackgroundColor(getResources().getColor(R.color.holo_blue));
         } else {
-            setBackground(getResources().getDrawable(R.drawable.card_background));
-//            setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(getResources().getDrawable(R.drawable.card_background));
+            } else {
+                setBackgroundDrawable(getResources().getDrawable(R.drawable.card_background));
+            }
         }
     }
 
