@@ -5,19 +5,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Fragments;
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.setting.SettingsActivity;
 
-public class FragmentControllerActivity extends FangActivity {
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+
+public class FragmentControllerActivity extends FangActivity implements PullToRefreshExposer {
 
     @Icicle
     public String activityTitle;
+    private PullToRefreshAttacher pullToRefreshAttacher;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,6 +65,7 @@ public class FragmentControllerActivity extends FangActivity {
     @Override
     protected void onFangCreate(Bundle savedInstanceState) {
         Bundles.restoreInstanceState(this, savedInstanceState);
+        pullToRefreshAttacher = PullToRefreshAttacher.get(this);
         initActionBar();
         if (hasEmptyContent()) {
             showDefaultFragment();
@@ -92,4 +98,8 @@ public class FragmentControllerActivity extends FangActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public PullToRefreshAttacher getPullToRefresh() {
+        return pullToRefreshAttacher;
+    }
 }

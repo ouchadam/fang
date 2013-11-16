@@ -29,6 +29,7 @@ import java.util.List;
 
 public class ChannelFeedDownloadService extends Service {
 
+    public static final String ACTION_CHANNEL_FEED_COMPLETE = "channelFeedComplete";
     private static final int NOTIFICATION_ID = 0xAC;
 
     @Override
@@ -168,6 +169,7 @@ public class ChannelFeedDownloadService extends Service {
             // TODO show notification with how many new items
             LastUpdatedManager.from(ChannelFeedDownloadService.this).setLastUpdated();
             dismissNotification();
+            sendBroadcast(new Intent(ACTION_CHANNEL_FEED_COMPLETE));
             stopSelf();
         }
     };

@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <com.ouchadam.fang.view.SlidingUpPanelLayout
-      android:id="@+id/sliding_layout"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <com.ouchadam.fang.view.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <include layout="@layout/player_drawer"/>
+            <FrameLayout
+                android:id="@+id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-  </com.ouchadam.fang.view.SlidingUpPanelLayout>
+        <include layout="@layout/player_drawer" />
 
-  <RelativeLayout
-      android:id="@+id/drawer_content"
-      android:layout_width="240dp"
-      android:layout_height="match_parent"
-      android:layout_gravity="start">
+    </com.ouchadam.fang.view.SlidingUpPanelLayout>
 
-    <include
-        android:id="@+id/dummy_action_bar"
-        layout="@layout/blank_action_bar"/>
-
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/drawer_content"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_below="@id/dummy_action_bar"
-        android:choiceMode="singleChoice"
-        android:dividerHeight="1dp"
-        android:background="@android:color/white"/>
+        android:layout_gravity="start">
 
-  </RelativeLayout>
+        <include
+            android:id="@+id/dummy_action_bar"
+            layout="@layout/blank_action_bar" />
+
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/dummy_action_bar"
+            android:choiceMode="singleChoice"
+            android:dividerHeight="1dp"
+            android:background="@android:color/white" />
+
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>
