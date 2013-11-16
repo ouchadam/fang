@@ -50,16 +50,20 @@ public class ChannelFeedDownloadService extends Service {
         }
 
         if (!feeds.isEmpty()) {
-            showNotification();
+            showNotification(from.getType());
             downloadAndPersistPodcastFeeds(feeds);
         }
         return START_STICKY;
     }
 
-    private void showNotification() {
-        Notification notification = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.play_button).setContentTitle("Refreshing podcast feeds").build();
+    private void showNotification(FeedServiceInfo.Type type) {
+        Notification notification = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.stat_notify_sync).setContentTitle(getNotificationTitle(type)).build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private String getNotificationTitle(FeedServiceInfo.Type type) {
+        return type == FeedServiceInfo.Type.ADD ? "Adding podcast feed" : "Updating podcast feeds";
     }
 
     private List<Feed> getSubscribedChannelUrls() {

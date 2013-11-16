@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Settings">
-
-        <MultiSelectListPreference
-            android:key="item_touch_behaviour"
-            android:title="Item touch behaviour"
-            android:summary="What happens when you touch an item"
-            android:entries="@array/touch_behaviours"
-            android:entryValues="@array/touch_behaviours"
-            android:dialogTitle="title" />
+    <PreferenceCategory android:title="General">
 
         <ListPreference
             android:key="defaultFragment"
@@ -22,7 +14,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Pause rewind">
+    <PreferenceCategory android:title="Playback">
 
         <CheckBoxPreference
             android:key="enablePauseRewind"

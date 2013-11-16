@@ -67,6 +67,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
         return new Query.Builder()
                 .withUri(FangProvider.getUri(Uris.FULL_CHANNEL))
                 .withProjection(new String[]{Tables.Channel.CHANNEL_TITLE.name(), Tables.Channel.NEW_ITEM_COUNT.name(), Tables.ChannelImage.IMAGE_URL.name()})
+                .withSorter(" CAST (" + Tables.Channel.NEW_ITEM_COUNT + " AS DECIMAL)" + " DESC")
                 .build();
     }
 
