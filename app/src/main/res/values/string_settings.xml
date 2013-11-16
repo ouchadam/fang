@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <array name="touch_behaviours">
+    <string-array name="touch_behaviours">
         <item>Expand details - Everywhere</item>
         <item>Expand details - Feeds only</item>
         <item>Expand details - Playlist only </item>
         <item>Don\'t expand</item>
-    </array>
+    </string-array>
+
+    <string-array name="landing_pages">
+        <item>Latest</item>
+        <item>Channels</item>
+        <item>Playlist</item>
+    </string-array>
+
+    <string-array name="landing_pages_values">
+        <item>LATEST</item>
+        <item>CHANNELS</item>
+        <item>PLAYLIST</item>
+    </string-array>
 
 </resources>

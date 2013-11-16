@@ -11,6 +11,15 @@
         android:entryValues="@array/touch_behaviours"
         android:dialogTitle="title"/>
 
+      <ListPreference
+          android:key="defaultFragment"
+          android:title="Landing page"
+          android:summary="Which page the app launches into"
+          android:entries="@array/landing_pages"
+          android:entryValues="@array/landing_pages_values"
+          android:dialogTitle="Landing page"
+          android:defaultValue="LATEST"/>
+
   </PreferenceCategory>
 
 </PreferenceScreen>

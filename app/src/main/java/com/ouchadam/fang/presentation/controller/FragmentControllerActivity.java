@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,10 +12,6 @@ import com.novoda.notils.caster.Fragments;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.debug.DebugActivity;
 import com.ouchadam.fang.debug.FeedServiceInfo;
-import com.ouchadam.fang.audio.event.PlayerEvent;
-import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
-import com.ouchadam.fang.presentation.item.ActivityResultHandler;
-import com.ouchadam.fang.presentation.item.LatestFragment;
 import com.ouchadam.fang.setting.SettingsActivity;
 
 public class FragmentControllerActivity extends FangActivity {
@@ -81,9 +78,10 @@ public class FragmentControllerActivity extends FangActivity {
     }
 
     private void showDefaultFragment() {
-        invalidateOptionsMenu();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new LatestFragment()).commit();
+        Fragment defaultFragment = DefaultFragmentManager.from(this).getDefaultFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, defaultFragment).commit();
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
