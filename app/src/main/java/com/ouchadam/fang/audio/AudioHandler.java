@@ -1,6 +1,7 @@
 package com.ouchadam.fang.audio;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.ouchadam.fang.audio.event.PlayerEvent;
 import com.ouchadam.fang.domain.PodcastPosition;
@@ -16,14 +17,16 @@ class AudioHandler {
     private final Playlist playlist;
     private final AudioStateManager audioStateManager;
     private final RemoteHelper remoteHelper;
+    private final PauseRewinder pauseRewinder;
 
-    AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper) {
+    AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper, PauseRewinder pauseRewinder) {
         this.fangPlayer = fangPlayer;
         this.audioFocusManager = audioFocusManager;
         this.audioSync = audioSync;
         this.playlist = playlist;
         this.audioStateManager = audioStateManager;
         this.remoteHelper = remoteHelper;
+        this.pauseRewinder = pauseRewinder;
     }
 
     public void setSource(int playlistPosition) {
@@ -93,6 +96,7 @@ class AudioHandler {
     public void onPause() {
         pauseAudio();
         sync(new PlayerEvent.Factory().pause());
+        pauseRewinder.handle(this);
     }
 
     private void pauseAudio() {
@@ -136,13 +140,17 @@ class AudioHandler {
     }
 
     public void onRewind() {
+        onRewind(FORWARD_REWIND_AMOUNT);
+    }
+
+    public void onRewind(int amountMs) {
         PodcastPosition currentPosition = fangPlayer.getPosition();
-        PodcastPosition rewindPosition = new PodcastPosition(moderateRewind(currentPosition), currentPosition.getDuration());
+        PodcastPosition rewindPosition = new PodcastPosition(moderateRewind(amountMs, currentPosition), currentPosition.getDuration());
         goToPosition(rewindPosition);
     }
 
-    private int moderateRewind(PodcastPosition currentPosition) {
-        int rewindPosition = currentPosition.value() - FORWARD_REWIND_AMOUNT;
+    private int moderateRewind(int amountMs, PodcastPosition currentPosition) {
+        int rewindPosition = currentPosition.value() - amountMs;
         return rewindPosition > 0 ? rewindPosition : 0;
     }
 

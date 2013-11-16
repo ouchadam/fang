@@ -1,10 +1,8 @@
 package com.ouchadam.fang.audio;
 
 import android.content.Context;
-import android.media.AudioManager;
 import android.util.Log;
 
-import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.presentation.AudioFocusManager;
@@ -19,7 +17,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final AudioHandler audioHandler;
 
     static PlayerHandler from(Context context, AudioSync audioSync, ServiceManipulator serviceManipulator, RemoteHelper remoteHelper, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation) {
-        AudioHandler audioHandler = new AudioHandler(FangMediaPlayer.from(context), AudioFocusManager.from(context), audioSync, Playlist.from(context), new AudioStateManager(), remoteHelper);
+        AudioHandler audioHandler = new AudioHandler(FangMediaPlayer.from(context), AudioFocusManager.from(context), audioSync, Playlist.from(context), new AudioStateManager(), remoteHelper, PauseRewinder.from(context));
         FangNotification notification = FangNotification.from(context);
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         return new PlayerHandler(audioHandler, itemStateManager, notification, serviceManipulator, completionCallback, serviceLocation);

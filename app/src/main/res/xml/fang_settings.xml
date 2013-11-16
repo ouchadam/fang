@@ -1,25 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <PreferenceCategory android:title="Settings">
+    <PreferenceCategory android:title="Settings">
 
-    <MultiSelectListPreference
-        android:key="item_touch_behaviour"
-        android:title="Item touch behaviour"
-        android:summary="What happens when you touch an item"
-        android:entries="@array/touch_behaviours"
-        android:entryValues="@array/touch_behaviours"
-        android:dialogTitle="title"/>
+        <MultiSelectListPreference
+            android:key="item_touch_behaviour"
+            android:title="Item touch behaviour"
+            android:summary="What happens when you touch an item"
+            android:entries="@array/touch_behaviours"
+            android:entryValues="@array/touch_behaviours"
+            android:dialogTitle="title" />
 
-      <ListPreference
-          android:key="defaultFragment"
-          android:title="Landing page"
-          android:summary="Which page the app launches into"
-          android:entries="@array/landing_pages"
-          android:entryValues="@array/landing_pages_values"
-          android:dialogTitle="Landing page"
-          android:defaultValue="LATEST"/>
+        <ListPreference
+            android:key="defaultFragment"
+            android:title="Landing page"
+            android:summary="Which page the app launches into"
+            android:entries="@array/landing_pages"
+            android:entryValues="@array/landing_pages_values"
+            android:dialogTitle="Landing page"
+            android:defaultValue="LATEST" />
 
-  </PreferenceCategory>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Pause rewind">
+
+        <CheckBoxPreference
+            android:key="enablePauseRewind"
+            android:title="Enable pause rewind"
+            android:summary="Rewind the audio when pausing"
+            android:defaultValue="false" />
+
+        <ListPreference
+            android:key="pauseRewindAmount"
+            android:title="Pause rewind amount"
+            android:summary="How far to rewind when pausing"
+            android:entries="@array/rewind_pause_times"
+            android:entryValues="@array/rewind_pause_values"
+            android:dialogTitle="Pause rewind amount"
+            android:defaultValue="5"
+            android:enabled="false" />
+
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
