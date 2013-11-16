@@ -1,5 +1,6 @@
 package com.ouchadam.fang.parsing.helper;
 
+import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.domain.item.Audio;
 
@@ -11,7 +12,7 @@ public interface XmlValues {
     int itemCount();
     String firstItemTitle();
     String firstItemLink();
-    String firstItemPubDate();
+    FangCalendar firstItemPubDate();
     Audio firstItemAudio();
     String firstItemSubtitle();
     String firstItemSummary();

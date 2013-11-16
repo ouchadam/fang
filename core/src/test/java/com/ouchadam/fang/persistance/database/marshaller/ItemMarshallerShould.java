@@ -1,5 +1,6 @@
 package com.ouchadam.fang.persistance.database.marshaller;
 
+import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.item.Audio;
 import com.ouchadam.fang.domain.item.Item;
 import com.ouchadam.fang.persistance.database.Tables;
@@ -53,7 +54,7 @@ public class ItemMarshallerShould {
         itemMarshaller = createItemMarshall(channel);
         itemMarshaller.marshall(item);
 
-        verify(operationValues).withValue(Tables.Item.CHANNEL.name(), channel);
+        verify(operationValues).withValue(Tables.Item.ITEM_CHANNEL.name(), channel);
     }
 
     @Test
@@ -68,12 +69,12 @@ public class ItemMarshallerShould {
 
     @Test
     public void add_the_pubDate_to_the_operation_list() throws Exception {
-        String pubDate = "pubDate";
+        FangCalendar pubDate = new FangCalendar("Thu, 25 Jul 2013 11:59:02 +0100");
         when(item.getPubDate()).thenReturn(pubDate);
 
         itemMarshaller.marshall(item);
 
-        verify(operationValues).withValue(Tables.Item.PUBDATE.name(), pubDate);
+        verify(operationValues).withValue(Tables.Item.PUBDATE.name(), pubDate.getTimeInMillis());
     }
 
     @Test

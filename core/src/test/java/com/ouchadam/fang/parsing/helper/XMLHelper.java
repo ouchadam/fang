@@ -21,6 +21,9 @@ public class XMLHelper {
 
     public static XML get(XmlResource xml) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(xml.fileName);
+
+        System.out.println("Url is : " + url);
+
         File file = new File(url.getPath());
         return new XML(file, xml.xmlValues);
     }

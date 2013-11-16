@@ -33,7 +33,7 @@ public class ChannelMarshallerShould {
     public void setUp() throws Exception {
         initMocks(this);
         when(operationWrapper.newInsert(any(Uris.class))).thenReturn(operationValues);
-        channelMarshaller = new ChannelMarshaller(operationWrapper, "Channel url", currentItemCount);
+        channelMarshaller = new ChannelMarshaller(operationWrapper, "Channel url", 0);
     }
 
     @Test

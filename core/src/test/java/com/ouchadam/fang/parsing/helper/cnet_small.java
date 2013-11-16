@@ -1,5 +1,6 @@
 package com.ouchadam.fang.parsing.helper;
 
+import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.domain.item.Audio;
 
@@ -49,8 +50,8 @@ public class cnet_small implements XmlValues {
     }
 
     @Override
-    public String firstItemPubDate() {
-        return "Thu, 25 Jul 2013 11:59:02 +0100";
+    public FangCalendar firstItemPubDate() {
+        return new FangCalendar("Thu, 25 Jul 2013 11:59:02 +0100");
     }
 
     @Override

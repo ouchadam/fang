@@ -166,4 +166,20 @@ public abstract class NovodaCalendar implements Serializable, Cloneable {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NovodaCalendar that = (NovodaCalendar) o;
+
+        if (time != null ? !time.equals(that.time) : that.time != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return time != null ? time.hashCode() : 0;
+    }
 }

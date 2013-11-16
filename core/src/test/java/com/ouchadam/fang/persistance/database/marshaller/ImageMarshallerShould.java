@@ -54,7 +54,7 @@ public class ImageMarshallerShould {
         itemMarshaller = createImageMarshall(channel);
         itemMarshaller.marshall(image);
 
-        verify(operationValues).withValue(Tables.ChannelImage.CHANNEL.name(), channel);
+        verify(operationValues).withValue(Tables.ChannelImage.IMAGE_CHANNEL.name(), channel);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ImageMarshallerShould {
 
         itemMarshaller.marshall(image);
 
-        verify(operationValues).withValue(Tables.ChannelImage.URL.name(), url);
+        verify(operationValues).withValue(Tables.ChannelImage.IMAGE_URL.name(), url);
     }
 
     @Test
