@@ -3,14 +3,15 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.persistance.FangProvider;
@@ -30,6 +31,31 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
 
     public ChannelFragment() {
         this.actionBarTitleSetter = new ActionBarTitleSetter();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.channels, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ab_clear_new_count:
+                onClearAllNewCount();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void onClearAllNewCount() {
+        RemoveNewItemCountPersister itemCountRemover = new RemoveNewItemCountPersister(getActivity().getContentResolver());
+        for (int index = 0; index < getAdapter().getCount(); index++) {
+            String channelTitle = getAdapter().getItem(index).getTitle();
+            itemCountRemover.persist(channelTitle);
+        }
     }
 
     @Override
@@ -54,6 +80,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
         actionBarTitleSetter.set("Channels");
     }
 
