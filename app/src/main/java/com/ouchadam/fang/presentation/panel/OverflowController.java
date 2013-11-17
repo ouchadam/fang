@@ -50,19 +50,15 @@ class OverflowController implements PanelComponent, PopupMenu.OnMenuItemClickLis
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.ab_mark_heard :
+            case R.id.ab_mark_heard:
                 overflowCallback.onMarkHeard(fullItem);
                 return true;
 
-            case R.id.ab_remove_podcast :
-                overflowCallback.onRemove(fullItem);
+            case R.id.ab_go_to_details:
+                overflowCallback.onGoToDetails(fullItem);
                 return true;
 
-            case R.id.ab_go_to_channel :
-                overflowCallback.onGoToChannel(fullItem);
-                return true;
-
-            case R.id.ab_close_panel :
+            case R.id.ab_close_panel:
                 overflowCallback.onDismissDrawer();
                 return true;
 

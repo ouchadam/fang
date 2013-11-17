@@ -1,47 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="@null">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null">
 
-    <ImageView
-        android:id="@+id/drawer_content_image"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:scaleType="centerInside"
-        android:contentDescription="@null"/>
+  <ImageView
+    android:id="@+id/drawer_content_image"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:scaleType="centerInside"
+    android:contentDescription="@null"/>
 
   <include
     android:id="@+id/top_bar_container"
-    layout="@layout/player_top_bar" />
-
-  <RelativeLayout
-    android:id="@+id/content"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:layout_below="@id/top_bar_container"
-    android:padding="24dp"
-    android:clickable="true">
-
-      <TextView
-          android:id="@+id/item_description"
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          style="@style/DrawerTextShadow"
-          android:layout_alignParentTop="true"
-          android:textSize="16sp"/>
-
-      <TextView
-          android:id="@+id/item_duration"
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          android:layout_below="@id/item_description"
-          android:gravity="right"
-          android:textSize="18sp"
-          style="@style/DrawerTextShadow"
-          android:textStyle="italic"/>
-
-  </RelativeLayout>
+    layout="@layout/player_top_bar"/>
 
   <include
     layout="@layout/player_main"

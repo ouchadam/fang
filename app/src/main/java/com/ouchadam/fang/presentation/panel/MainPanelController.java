@@ -37,8 +37,6 @@ class MainPanelController {
     public void updateFrom(FullItem fullItem) {
         Item item = fullItem.getItem();
         setBarTitle(item.getTitle());
-        setDescription(item.getSummary());
-        setDuration(item.getDuration());
         setBarSubtitle(fullItem.getChannelTitle());
         heroManager.setBackgroundImage(fullItem);
     }
@@ -49,15 +47,6 @@ class MainPanelController {
 
     private void setBarSubtitle(CharSequence text) {
         setTextViewText(text, R.id.bar_sub_title);
-    }
-
-    private void setDescription(CharSequence summary) {
-        setTextViewText(summary, R.id.item_description);
-    }
-
-    private void setDuration(FangDuration duration) {
-        String formattedDuration = durationFormatter.format(duration);
-        setTextViewText(formattedDuration, R.id.item_duration);
     }
 
     private void setTextViewText(CharSequence text, int viewId) {

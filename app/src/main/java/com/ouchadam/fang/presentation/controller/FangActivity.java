@@ -38,6 +38,7 @@ import com.ouchadam.fang.presentation.drawer.FangDrawer;
 import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.ItemDownloader;
 import com.ouchadam.fang.presentation.item.Navigator;
+import com.ouchadam.fang.presentation.item.NavigatorForResult;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
 import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
 import com.ouchadam.fang.presentation.panel.SlidingPanelController;
@@ -283,8 +284,12 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     }
 
     @Override
-    public void onGoToChannel(FullItem fullItem) {
-        new Navigator(this).toChannel(fullItem.getChannelTitle());
+    public void onGoToDetails(FullItem fullItem) {
+        showItemDetails(fullItem.getItemId(), getId());
+    }
+
+    private void showItemDetails(long itemId, long panelId) {
+        new NavigatorForResult(this).toItemDetails(itemId, panelId);
     }
 
     @Override
