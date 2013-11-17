@@ -1,8 +1,8 @@
 package com.ouchadam.fang.audio;
 
 import android.net.Uri;
-import android.util.Log;
 
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.audio.event.PlayerEvent;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.AudioFocusManager;
@@ -34,7 +34,7 @@ class AudioHandler {
     }
 
     public void setSource(int playlistPosition) {
-        Log.e("XXX", "onNewSource with position : " + playlistPosition);
+        Log.d("onNewSource with position : " + playlistPosition);
         this.playlistPosition = playlistPosition;
         removeCurrentlyPlaying();
         playlist.load(onPlaylistPrepared);
@@ -47,7 +47,7 @@ class AudioHandler {
                 pauseAudio();
             }
             fangPlayer.release();
-            Log.e("XXX", "releasing player... " + "is prepared? : " + fangPlayer.isPrepared());
+            Log.d("releasing player... " + "is prepared? : " + fangPlayer.isPrepared());
         }
     }
 
@@ -63,9 +63,9 @@ class AudioHandler {
     };
 
     private void triggerQueue() {
-        Log.e("XXX", "Triggering queue");
+        Log.d("Triggering queue");
         eventQueue.dequeue(onEventHandler);
-        Log.e("XXX", "Queue finished");
+        Log.d("Queue finished");
     }
 
     private final EventQueue.OnEvent onEventHandler = new EventQueue.OnEvent() {
@@ -112,7 +112,7 @@ class AudioHandler {
     }
 
     public void goToPosition(PodcastPosition position) {
-        Log.e("XXX", "onGoToPosition");
+        Log.d("onGoToPosition");
         PlayerEvent playerEvent = new PlayerEvent.Factory().goTo(position);
         if (fangPlayer.isPrepared()) {
             audioStateManager.setPositionShifted();
@@ -124,7 +124,7 @@ class AudioHandler {
     }
 
     public void onPlay() {
-        Log.e("XXX", "onPlay : isPrepared? " + fangPlayer.isPrepared());
+        Log.d("onPlay : isPrepared? " + fangPlayer.isPrepared());
         if (fangPlayer.isPrepared()) {
             onPlay(getPosition());
         } else {
@@ -137,7 +137,7 @@ class AudioHandler {
     }
 
     public void onPlay(PodcastPosition position) {
-        Log.e("XXX", "onPlay with position" + "is prepared? " + isPrepared());
+        Log.d("onPlay with position" + "is prepared? " + isPrepared());
         PlayerEvent playerEvent = new PlayerEvent.Factory().play(position);
         if (fangPlayer.isPrepared()) {
             play(position);
@@ -156,7 +156,7 @@ class AudioHandler {
     }
 
     public void onPause() {
-        Log.e("XXX", "onPause");
+        Log.d("onPause");
         pauseAudio();
         sync(new PlayerEvent.Factory().pause());
         pauseRewinder.handle(this);
@@ -169,16 +169,20 @@ class AudioHandler {
     }
 
     public void onPlayPause() {
-        Log.e("XXX", "onPlayPause");
-        if (audioStateManager.isPlayling()) {
-            onPause();
+        Log.d("onPlayPause");
+        if (isPrepared()) {
+            if (audioStateManager.isPlayling()) {
+                onPause();
+            } else {
+                onPlay(fangPlayer.getPosition());
+            }
         } else {
-            onPlay(fangPlayer.getPosition());
+
         }
     }
 
     public void onStop() {
-        Log.e("XXX", "onStop");
+        Log.d("onStop");
         stopAudio();
     }
 
@@ -189,7 +193,7 @@ class AudioHandler {
     }
 
     public void onReset() {
-        Log.e("XXX", "onReset");
+        Log.d("onReset");
         stopAudio();
         playlist.resetCurrent();
     }
@@ -206,7 +210,7 @@ class AudioHandler {
     }
 
     public void onRewind() {
-        Log.e("XXX", "onRewind");
+        Log.d("onRewind");
         onRewind(FORWARD_REWIND_AMOUNT);
     }
 
@@ -222,7 +226,7 @@ class AudioHandler {
     }
 
     public void onFastForward() {
-        Log.e("XXX", "onFastForward");
+        Log.d("onFastForward");
         PodcastPosition currentPosition = fangPlayer.getPosition();
         if (canFastForward(currentPosition)) {
             PodcastPosition forwardPosition = new PodcastPosition(currentPosition.value() + FORWARD_REWIND_AMOUNT, currentPosition.getDuration());

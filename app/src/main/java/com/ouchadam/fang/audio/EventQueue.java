@@ -1,9 +1,7 @@
 package com.ouchadam.fang.audio;
 
-import android.util.Log;
-
 import com.novoda.notils.java.Collections;
-import com.novoda.notils.logger.Novogger;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.audio.event.PlayerEvent;
 
 import java.util.List;
@@ -21,7 +19,7 @@ class EventQueue {
     }
 
     public void add(PlayerEvent playerEvent) {
-        Log.e("XXX", "Queuing : " + playerEvent.getEvent().name());
+        Log.d("Queuing : " + playerEvent.getEvent().name());
         this.events.add(playerEvent);
     }
 

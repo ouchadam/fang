@@ -1,17 +1,11 @@
 package com.ouchadam.fang.audio;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.novoda.notils.java.Collections;
-import com.novoda.notils.logger.Novogger;
-import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.notification.FangNotification;
 import com.ouchadam.fang.presentation.AudioFocusManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
@@ -98,7 +92,7 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
 
     @Override
     public void onComplete() {
-        Log.e("XXX", "onComplete");
+        Log.d("onComplete");
         if (audioHandler.hasNext()) {
             completeCurrentAndPlayNext();
         } else {

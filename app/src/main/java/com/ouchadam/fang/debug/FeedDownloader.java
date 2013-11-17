@@ -1,8 +1,8 @@
 package com.ouchadam.fang.debug;
 
 import android.content.ContentResolver;
-import android.util.Log;
 
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.parsing.ChannelFinder;
 import com.ouchadam.fang.parsing.PodcastParser;
 import com.ouchadam.fang.persistance.ChannelPersister;
@@ -39,11 +39,11 @@ class FeedDownloader {
         int currentItemCount = getCurrentItemCount(feed) - feed.oldItemCount;
         PodcastParser podcastParser = PodcastParser.newInstance(ChannelFinder.newInstance());
         try {
-            Log.e("!!!", "Fetching : " + feed.url);
+            Log.d("Fetching : " + feed.url);
             InputStream urlInputStream = getInputStreamFrom(feed.url);
             podcastParser.parse(urlInputStream);
             new ChannelPersister(contentResolver).persist(podcastParser.getResult(), feed.url, currentItemCount);
-            Log.e("!!!", "Fetched : " + feed.url);
+            Log.d("Fetched : " + feed.url);
         } catch (IOException e) {
             broadcastFailure(e.getMessage());
         }

@@ -2,18 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
-    android:id="@+id/ab_debug"
-    android:title="debug"
-    android:showAsAction="never" />
+    android:id="@+id/ab_settings"
+    android:title="Settings"
+    android:showAsAction="never"/>
 
   <item
-    android:id="@+id/ab_refresh"
-    android:title="Refresh"
-    android:showAsAction="never" />
-
-    <item
-        android:id="@+id/ab_settings"
-        android:title="Settings"
-        android:showAsAction="never" />
+    android:id="@+id/ab_debug"
+    android:title="Debug"
+    android:showAsAction="never"/>
 
 </menu>

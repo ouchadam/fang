@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.util.Log;
+
+import com.ouchadam.fang.Log;
 
 public class AudioServiceBinder {
 
@@ -69,7 +70,7 @@ public class AudioServiceBinder {
             if (audioService != null) {
                 audioService.fangUnbind();
             } else {
-                Log.e("!!!!", "Tried to unbind but service has already disconnected");
+                Log.e("Tried to unbind from audio service but service has already disconnected");
             }
         }
 

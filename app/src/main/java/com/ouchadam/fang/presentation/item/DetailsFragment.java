@@ -3,7 +3,6 @@ package com.ouchadam.fang.presentation.item;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.novoda.notils.caster.Classes;
-import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.fang.ItemQueryer;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 
 public class DetailsFragment extends Fragment {
 
@@ -100,7 +98,7 @@ public class DetailsFragment extends Fragment {
     private void playCurrent() {
         try {
             FullItem item = getItem();
-            Log.e("???", "Play current : " + item.getChannelTitle() + " with playlist position : " + item.getPlaylistPosition());
+            Log.d("Asked to play current : " + item.getChannelTitle() + " with playlist position : " + item.getPlaylistPosition());
             new ActivityResultHandler().returnWithPlayingItem(getActivity(), getItemId(), item.getPlaylistPosition(), "PLAYLIST");
         } catch (IllegalAccessException e) {
             Toast.makeText(getActivity(), "Oops... no podcast found!", Toast.LENGTH_SHORT).show();

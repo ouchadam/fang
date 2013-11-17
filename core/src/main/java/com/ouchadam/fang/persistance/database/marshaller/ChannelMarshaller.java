@@ -61,7 +61,6 @@ public class ChannelMarshaller extends BaseMarshaller<Channel> {
 
     private int getNewCount(int channelItemCount, String channelTitle) {
         int result = channelItemCount - currentItemCount;
-        System.out.println("??? : Channel : " + channelTitle + " channel has : " + channelItemCount + " || stored has " + currentItemCount + " new count : "  + result);
         return result < 0 ? 0 : result;
     }
 

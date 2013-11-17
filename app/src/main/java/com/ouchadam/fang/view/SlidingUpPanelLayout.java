@@ -329,10 +329,10 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
         final int childCount = getChildCount();
 
-        if (childCount > 2) {
-            Log.e(TAG, "onMeasure: More than two child views are not supported.");
-        } else if (getChildAt(1).getVisibility() == GONE) {
-            panelHeight = 0;
+        if (childCount <= 2) {
+            if (getChildAt(1).getVisibility() == GONE) {
+                panelHeight = 0;
+            }
         }
 
         // We'll find the current one below.

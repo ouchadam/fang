@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.util.Log;
 
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
@@ -46,7 +46,7 @@ public class NotificationService extends IntentService {
         if (isValid(intent)) {
             long itemId = intent.getLongExtra(EXTRA_ITEM_ID, -1L);
             boolean isPlaying = intent.getBooleanExtra(EXTRA_IS_PLAYING, true);
-            Log.e("!!!!", "Acting on event : " + itemId + " with isPlaying? : " + isPlaying);
+            Log.d("Notification acting on event : " + itemId + " with isPlaying? : " + isPlaying);
 
             FullItem item = getFullItem(itemId);
             if (item != null) {
