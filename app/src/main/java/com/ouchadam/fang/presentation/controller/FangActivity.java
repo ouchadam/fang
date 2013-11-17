@@ -44,12 +44,15 @@ import com.ouchadam.fang.presentation.panel.SlidingPanelController;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
 
-public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged, OverflowCallback {
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+
+public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged, OverflowCallback, PullToRefreshExposer {
 
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
     private FangBookKeeer fangBookKeeer;
     private AudioServiceBinder audioServiceBinder;
+    private PullToRefreshAttacher pullToRefreshAttacher;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -70,6 +73,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         Novogger.enable(this);
         fangBookKeeer = FangBookKeeer.getInstance(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
+        pullToRefreshAttacher = PullToRefreshAttacher.get(this);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         fangInitActionBar();
@@ -320,5 +324,26 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
             broadcaster.broadcast(new PlayerEvent.Factory().play());
         }
     };
+
+
+    @Override
+    public void setRefreshing(boolean refreshing) {
+        pullToRefreshAttacher.setRefreshing(refreshing);
+    }
+
+    @Override
+    public void setRefreshComplete() {
+        pullToRefreshAttacher.setRefreshComplete();
+    }
+
+    @Override
+    public void addRefreshableView(View view, PullToRefreshAttacher.OnRefreshListener onRefreshListener) {
+        pullToRefreshAttacher.addRefreshableView(view, onRefreshListener);
+    }
+
+    @Override
+    public void setEnabled(boolean canRefresh) {
+        pullToRefreshAttacher.setEnabled(canRefresh);
+    }
 
 }

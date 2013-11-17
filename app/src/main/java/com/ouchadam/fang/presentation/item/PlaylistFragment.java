@@ -200,4 +200,9 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
             eventBroadcaster.broadcast(new PlayerEvent.Factory().play());
         }
     }
+
+    @Override
+    protected boolean canRefresh() {
+        return false;
+    }
 }
