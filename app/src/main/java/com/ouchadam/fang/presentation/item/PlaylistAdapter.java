@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -61,6 +63,21 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         setHolderImage(viewHolder, item.getImageUrl());
         initPlayButton(viewHolder, item);
         return view;
+    }
+
+    public void setPlaying(AbsListView listView, long itemId, boolean isPlaying) {
+        View v = listView.getChildAt(getPositionFor(itemId) - listView.getFirstVisiblePosition());
+        ImageView playButton = (ImageView) v.findViewById(R.id.image_play_button);
+        playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
+    }
+
+    private int getPositionFor(long itemId) {
+        for (int index = 0; index < getCount(); index++) {
+            if (getItem(index).getItemId() == itemId) {
+                return index;
+            }
+        }
+        return 0;
     }
 
     private void initPlayButton(ViewHolder viewHolder, FullItem item) {

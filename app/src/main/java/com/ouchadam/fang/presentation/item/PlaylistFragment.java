@@ -43,6 +43,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     private TextView spaceUsageText;
     private boolean hasRestored;
     private OverflowCallback overflowCallback;
+    private PlaylistAdapter playlistAdapter;
 
     public PlaylistFragment() {
         this.hasRestored = false;
@@ -56,7 +57,8 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
-        return new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, this);
+        playlistAdapter = new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, this);
+        return playlistAdapter;
     }
 
     @Override
@@ -205,4 +207,11 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     protected boolean canRefresh() {
         return false;
     }
+
+    public void setItemPlaying(long itemId, boolean isPlaying) {
+        if (playlistAdapter != null) {
+            playlistAdapter.setPlaying(getList(), itemId, isPlaying);
+        }
+    }
+
 }

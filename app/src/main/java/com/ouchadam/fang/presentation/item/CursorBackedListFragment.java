@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
@@ -193,6 +194,10 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     protected boolean canRefresh() {
         return true;
+    }
+
+    public AbsListView getList() {
+        return listView;
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
@@ -39,6 +41,7 @@ import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.ItemDownloader;
 import com.ouchadam.fang.presentation.item.Navigator;
 import com.ouchadam.fang.presentation.item.NavigatorForResult;
+import com.ouchadam.fang.presentation.item.PlaylistFragment;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
 import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
 import com.ouchadam.fang.presentation.panel.SlidingPanelController;
@@ -112,8 +115,16 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         @Override
         public void onSync(SyncEvent syncEvent) {
             slidingPanelController.sync(syncEvent);
+            updatePlaylistAdapter(syncEvent);
         }
     };
+
+    private void updatePlaylistAdapter(SyncEvent syncEvent) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        if (currentFragment != null && currentFragment instanceof PlaylistFragment) {
+            ((PlaylistFragment) currentFragment).setItemPlaying(syncEvent.itemId, syncEvent.isPlaying);
+        }
+    }
 
     private void initDrawer() {
         DrawerNavigator drawerNavigator = new DrawerNavigator(getSupportFragmentManager());
