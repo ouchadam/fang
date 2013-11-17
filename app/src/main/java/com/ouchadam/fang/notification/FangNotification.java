@@ -8,20 +8,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.presentation.controller.FragmentControllerActivity;
 
 import java.util.Random;
 
 public class FangNotification {
 
-    private static final int ID = 0xA3;
+    public static final int ID = 0xA3;
     private final NotificationManager notificationManager;
     private final Context context;
 
@@ -33,6 +32,10 @@ public class FangNotification {
     private FangNotification(NotificationManager notificationManager, Context context) {
         this.notificationManager = notificationManager;
         this.context = context;
+    }
+
+    public Notification get() {
+        return createBase().build();
     }
 
     public void show(Bitmap image, FullItem fullItem, boolean playing) {
@@ -94,14 +97,17 @@ public class FangNotification {
     }
 
     private NotificationCompat.Builder createNormal(Bitmap channelImage, FullItem fullItem) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-
+        NotificationCompat.Builder builder = createBase();
         builder.setContentTitle(fullItem.getItem().getTitle());
         builder.setContentText(fullItem.getChannelTitle());
+        builder.setLargeIcon(channelImage);
+        return builder;
+    }
+
+    private NotificationCompat.Builder createBase() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(R.drawable.play_button);
         builder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, FragmentControllerActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
-
-        builder.setLargeIcon(channelImage);
 
         builder.setAutoCancel(false);
         builder.setOngoing(true);

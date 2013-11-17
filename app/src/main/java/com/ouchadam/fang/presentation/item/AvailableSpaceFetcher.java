@@ -33,7 +33,6 @@ class AvailableSpaceFetcher {
 
     private String getInGbs(long freeSpaceMb) {
         float gbs = (float) freeSpaceMb / (float) ONE_GB_IN_MEGABYTES;
-        Log.e("XXX", "Free space in MB : " + freeSpaceMb + " Free space in GB : " + gbs);
         return new DecimalFormat("#.##").format(gbs);
     }
 

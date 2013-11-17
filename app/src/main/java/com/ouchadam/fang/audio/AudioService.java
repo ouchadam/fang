@@ -24,6 +24,7 @@ public class AudioService extends Service implements ServiceManipulator {
     private boolean configChanged;
     private ActivityCompletionCallback activityCompletionCallback;
     private RemoteHelper remoteHelper;
+    private boolean foregroundModeStarted;
 
     public AudioService() {
         this.binder = new LocalBinder();
@@ -44,7 +45,8 @@ public class AudioService extends Service implements ServiceManipulator {
     }
 
     private void dismissNotification() {
-        FangNotification.from(this).dismiss();
+        stopForeground(true);
+        foregroundModeStarted = false;
     }
 
     @Override
@@ -144,6 +146,10 @@ public class AudioService extends Service implements ServiceManipulator {
 
     private void showNotification(boolean isPlaying) {
         if (isPlaying) {
+            if (!foregroundModeStarted) {
+                startForeground(FangNotification.ID, FangNotification.from(this).get());
+                foregroundModeStarted = true;
+            }
             NotificationService.start(this, syncer.getItemId(), isPlaying);
         }
     }
