@@ -11,6 +11,7 @@
   <style name="FangActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
     <item name="android:background">@color/fang_ascent</item>
     <item name="android:titleTextStyle">@style/FangTextStyle</item>
+    <item name="android:icon">@drawable/fang_flat_icon</item>
   </style>
 
   <style name="FangTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">

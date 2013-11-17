@@ -106,7 +106,7 @@ public class FangNotification {
 
     private NotificationCompat.Builder createBase() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setSmallIcon(R.drawable.play_button);
+        builder.setSmallIcon(R.drawable.fang_notification);
         builder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, FragmentControllerActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
 
         builder.setAutoCancel(false);
