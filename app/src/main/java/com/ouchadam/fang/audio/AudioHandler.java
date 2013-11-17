@@ -9,7 +9,7 @@ import com.ouchadam.fang.presentation.AudioFocusManager;
 
 class AudioHandler {
 
-    private static final int FORWARD_REWIND_AMOUNT = 10000;
+    private static final int FORWARD_REWIND_AMOUNT = 15000;
 
     private final FangPlayer fangPlayer;
     private final AudioFocusManager audioFocusManager;
@@ -43,7 +43,7 @@ class AudioHandler {
     private void removeCurrentlyPlaying() {
         if (fangPlayer.isPrepared()) {
             eventQueue.clear();
-            if (audioStateManager.isPlayling()) {
+            if (audioStateManager.isPlaying()) {
                 pauseAudio();
             }
             fangPlayer.release();
@@ -171,7 +171,7 @@ class AudioHandler {
     public void onPlayPause() {
         Log.d("onPlayPause");
         if (isPrepared()) {
-            if (audioStateManager.isPlayling()) {
+            if (audioStateManager.isPlaying()) {
                 onPause();
             } else {
                 onPlay(fangPlayer.getPosition());
@@ -258,7 +258,7 @@ class AudioHandler {
     }
 
     private SyncEvent createCurrentSyncEvent() {
-        return new SyncEvent(audioStateManager.isPlayling(), fangPlayer.getPosition(), playlist.getCurrentId());
+        return new SyncEvent(audioStateManager.isPlaying(), fangPlayer.getPosition(), playlist.getCurrentId());
     }
 
     public void saveCurrentPlayState(PlayingItemStateManager itemStateManager) {
@@ -277,5 +277,40 @@ class AudioHandler {
 
     public boolean isPrepared() {
         return fangPlayer.isPrepared();
+    }
+
+    public void onNext() {
+        Log.d("onNext" + "current playlist position : " + playlistPosition);
+        int nextPosition = playlistPosition + 1;
+        movePosition(nextPosition);
+    }
+
+    public void onPrevious(PlayingItemStateManager playingItemStateManager) {
+        Log.d("onPrevious : " + " current playlist position : " + playlistPosition);
+        int previousPosition = playlistPosition - 1;
+        if (canMoveToPrevious()) {
+            movePosition(previousPosition);
+        } else {
+            goToPosition(PodcastPosition.idle());
+            saveCurrentPlayState(playingItemStateManager);
+        }
+    }
+
+    private boolean canMoveToPrevious() {
+        return fangPlayer.getPosition().asPercentage() <= 1;
+    }
+
+    public void movePosition(int newPosition) {
+        boolean isPlaying = audioStateManager.isPlaying();
+        if (playlist.hasPosition(newPosition)) {
+            setSource(newPosition);
+            replay(isPlaying);
+        }
+    }
+
+    private void replay(boolean isPlaying) {
+        if (isPlaying) {
+            onPlay();
+        }
     }
 }

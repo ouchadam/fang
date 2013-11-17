@@ -21,9 +21,9 @@ class Playlist {
     private OnPlaylistPrepared onPlaylistPrepared;
 
     public interface OnPlaylistPrepared {
+
         void onPrepared();
     }
-
     public static Playlist from(Context context) {
         return new Playlist(new PlaylistLoader(context.getContentResolver(), ItemSourceFetcher.from(context)));
     }
@@ -104,6 +104,10 @@ class Playlist {
     public boolean currentItemIsValid() {
         PlaylistItem playlistItem = get();
         return playlistItem != null && playlistItem.source != null;
+    }
+
+    public boolean hasPosition(int position) {
+        return list.size() >= position && position > 0;
     }
 
     static class PlaylistItem {

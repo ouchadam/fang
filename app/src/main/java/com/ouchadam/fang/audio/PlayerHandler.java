@@ -80,6 +80,16 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
         audioHandler.onRewind();
     }
 
+    @Override
+    public void onNext() {
+        audioHandler.onNext();
+    }
+
+    @Override
+    public void onPrevious() {
+        audioHandler.onPrevious(itemStateManager);
+    }
+
     private void saveCurrentPlayState() {
         audioHandler.saveCurrentPlayState(itemStateManager);
     }

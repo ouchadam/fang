@@ -39,6 +39,8 @@ public class PlayerEvent {
         GOTO,
         FAST_FORWARD,
         REWIND,
+        NEXT,
+        PREVIOUS,
         NEW_SOURCE,
         COMPLETE,
         RESET;
@@ -80,10 +82,6 @@ public class PlayerEvent {
         public PlayerEvent pause() {
             playerEvent.event = Event.PAUSE;
             return build();
-        }
-
-        public PlayerEvent newSource(PlayItem playItem) {
-            return newSource(playItem.getPlaylistPosition(), "TODO");
         }
 
         public PlayerEvent newSource(int playlistPosition, String playlistName) {
@@ -131,6 +129,17 @@ public class PlayerEvent {
             playerEvent.event = Event.COMPLETE;
             return build();
         }
+
+        public PlayerEvent next() {
+            playerEvent.event = Event.NEXT;
+            return build();
+        }
+
+        public PlayerEvent previous() {
+            playerEvent.event = Event.PREVIOUS;
+            return build();
+        }
+
     }
 
     public static class Builder {

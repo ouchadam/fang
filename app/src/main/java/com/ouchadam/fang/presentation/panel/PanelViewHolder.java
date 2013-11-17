@@ -32,8 +32,10 @@ class PanelViewHolder {
         View pauseBottom = Views.findById(panel, R.id.pause_bottom);
         View rewind = Views.findById(panel, R.id.rewind);
         View fastForward = Views.findById(panel, R.id.fast_forward);
+        View next = Views.findById(panel, R.id.next);
+        View previous = Views.findById(panel, R.id.previous);
 
-        MediaViewController mediaController = new MediaViewController(playTop, playBottom, pauseTop, pauseBottom, rewind, fastForward, topMediaSwitcher, bottomMediaSwitcher);
+        MediaViewController mediaController = new MediaViewController(playTop, playBottom, pauseTop, pauseBottom, rewind, fastForward, next, previous, topMediaSwitcher, bottomMediaSwitcher);
 
         ImageButton downloadButton = Views.findById(panel, R.id.download);
         DownloadController downloadController = new DownloadController(downloadButton);

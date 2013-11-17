@@ -78,6 +78,14 @@ public class SlidingPanelController implements SlidingPanelExposer {
                     playerEventInteractionManager.fastForward();
                     break;
 
+                case NEXT:
+                    playerEventInteractionManager.next();
+                    break;
+
+                case PREVIOUS:
+                    playerEventInteractionManager.previous();
+                    break;
+
                 default:
                     throw new IllegalAccessError("Unhandled media pressed state" + mediaPressed.name());
             }

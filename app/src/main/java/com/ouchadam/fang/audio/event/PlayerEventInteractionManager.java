@@ -26,4 +26,12 @@ public class PlayerEventInteractionManager {
     public void fastForward() {
         playerBroadcaster.broadcast(new PlayerEvent.Factory().fastForward());
     }
+
+    public void next() {
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().next());
+    }
+
+    public void previous() {
+        playerBroadcaster.broadcast(new PlayerEvent.Factory().previous());
+    }
 }

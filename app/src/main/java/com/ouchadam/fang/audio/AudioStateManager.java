@@ -28,7 +28,7 @@ class AudioStateManager {
         this.playState = PlayState.IDLE;
     }
 
-    public boolean isPlayling() {
+    public boolean isPlaying() {
         return this.playState == PlayState.PLAYING;
     }
 
