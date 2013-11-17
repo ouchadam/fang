@@ -35,10 +35,6 @@ public class FragmentControllerActivity extends FangActivity {
                 onDebugClicked();
                 break;
 
-            case R.id.ab_refresh:
-                onRefreshClicked();
-                break;
-
             case R.id.ab_settings:
                 onSettingsClicked();
                 break;
@@ -48,11 +44,6 @@ public class FragmentControllerActivity extends FangActivity {
 
     private void onDebugClicked() {
         startActivity(new Intent(this, DebugActivity.class));
-    }
-
-    private void onRefreshClicked() {
-        Intent refreshIntent = FeedServiceInfo.refresh(this);
-        startService(refreshIntent);
     }
 
     private void onSettingsClicked() {
