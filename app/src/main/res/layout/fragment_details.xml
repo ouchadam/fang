@@ -27,7 +27,7 @@
     <RelativeLayout
       android:id="@+id/details_container"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:paddingLeft="24dp"
       android:paddingRight="24dp"
       android:paddingBottom="12dp"
