@@ -1,6 +1,10 @@
 package com.ouchadam.fang.presentation.item;
 
+import android.util.Log;
+
 import com.ouchadam.fang.presentation.DiskUtils;
+
+import java.text.DecimalFormat;
 
 class AvailableSpaceFetcher {
 
@@ -28,8 +32,9 @@ class AvailableSpaceFetcher {
     }
 
     private String getInGbs(long freeSpaceMb) {
-        float gbs = freeSpaceMb / ONE_GB_IN_MEGABYTES;
-        return String.format("%.2g%n", gbs);
+        float gbs = (float) freeSpaceMb / (float) ONE_GB_IN_MEGABYTES;
+        Log.e("XXX", "Free space in MB : " + freeSpaceMb + " Free space in GB : " + gbs);
+        return new DecimalFormat("#.##").format(gbs);
     }
 
     private String getUnit(long freeSpaceMb) {
