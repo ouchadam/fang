@@ -31,7 +31,8 @@ public class FeedServiceInfo {
     }
 
     public Type getType() {
-        return Type.valueOf(bundle.getString(TYPE));
+        String type = bundle.getString(TYPE);
+        return type == null ? Type.REFRESH : Type.valueOf(type);
     }
 
     public List<Feed> getUrlsToAdd() {

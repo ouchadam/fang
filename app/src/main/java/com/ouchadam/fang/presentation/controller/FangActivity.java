@@ -21,7 +21,6 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
-import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;
@@ -39,7 +38,6 @@ import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
 import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.ItemDownloader;
-import com.ouchadam.fang.presentation.item.Navigator;
 import com.ouchadam.fang.presentation.item.NavigatorForResult;
 import com.ouchadam.fang.presentation.item.PlaylistFragment;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
@@ -47,16 +45,22 @@ import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
 import com.ouchadam.fang.presentation.panel.SlidingPanelController;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
+import com.ouchadam.fang.sync.FangSyncLifecycle;
 
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged, OverflowCallback, PullToRefreshExposer {
 
+    private final FangSyncLifecycle fangSyncLifecycle;
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
     private FangBookKeeer fangBookKeeer;
     private AudioServiceBinder audioServiceBinder;
     private PullToRefreshAttacher pullToRefreshAttacher;
+
+    public FangActivity() {
+        fangSyncLifecycle = new FangSyncLifecycle();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -75,6 +79,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setFangContentView();
         Novogger.enable(this);
+        fangSyncLifecycle.init(this, this);
         fangBookKeeer = FangBookKeeer.getInstance(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
         pullToRefreshAttacher = PullToRefreshAttacher.get(this);
@@ -360,6 +365,18 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     public void setEnabled(boolean canRefresh) {
         pullToRefreshAttacher.setEnabled(canRefresh);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fangSyncLifecycle.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        fangSyncLifecycle.onPause();
     }
 
 }

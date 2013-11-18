@@ -23,6 +23,7 @@ import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.persistance.DataUpdater;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.presentation.controller.PullToRefreshExposer;
+import com.ouchadam.fang.sync.FangSyncHelper;
 
 import java.util.List;
 
@@ -185,11 +186,17 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         getActivity().unregisterReceiver(channelRefreshCompleteReceiver);
     }
 
+    public static final String TYPE = "type";
+
     @Override
     public void onRefreshStarted(View view) {
-        pullToRefreshExposer.setRefreshing(true);
-        Intent refreshIntent = FeedServiceInfo.refresh(getActivity());
-        getActivity().startService(refreshIntent);
+        Bundle bundle = new Bundle();
+        bundle.putString(TYPE, FeedServiceInfo.Type.REFRESH.name());
+        FangSyncHelper.forceRefresh(bundle);
+
+//        pullToRefreshExposer.setRefreshing(true);
+//        Intent refreshIntent = FeedServiceInfo.refresh(getActivity());
+//        getActivity().startService(refreshIntent);
     }
 
     protected boolean canRefresh() {
