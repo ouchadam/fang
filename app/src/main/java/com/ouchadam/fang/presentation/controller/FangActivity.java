@@ -21,6 +21,7 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.Downloadable;
 import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.audio.AudioService;
 import com.ouchadam.fang.audio.AudioServiceBinder;

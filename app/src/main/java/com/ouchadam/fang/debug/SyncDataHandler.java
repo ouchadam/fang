@@ -27,22 +27,22 @@ public class SyncDataHandler {
     private final NotificationManager notificationManager;
     private final ContentResolver contentResolver;
     private final Context context;
-    private SyncResult syncResult;
+    private final ThreadTracker.OnAllThreadsComplete threadsCompleteListener;
 
-    public static SyncDataHandler from(Context context) {
+    public static SyncDataHandler from(Context context, ThreadTracker.OnAllThreadsComplete onAllThreadsComplete) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         ContentResolver contentResolver = context.getContentResolver();
-        return new SyncDataHandler(notificationManager, contentResolver, context);
+        return new SyncDataHandler(notificationManager, contentResolver, context, onAllThreadsComplete);
     }
 
-    SyncDataHandler(NotificationManager notificationManager, ContentResolver contentResolver, Context context) {
+    SyncDataHandler(NotificationManager notificationManager, ContentResolver contentResolver, Context context, ThreadTracker.OnAllThreadsComplete threadsCompleteListener) {
         this.notificationManager = notificationManager;
         this.contentResolver = contentResolver;
         this.context = context;
+        this.threadsCompleteListener = threadsCompleteListener;
     }
 
     public void handleSync(Bundle extras, SyncResult syncResult) {
-        this.syncResult = syncResult;
         init(extras);
     }
 
@@ -98,7 +98,7 @@ public class SyncDataHandler {
     }
 
     private void downloadAndPersistPodcastFeeds(List<Feed> feeds) {
-        ThreadTracker threadTracker = new ThreadTracker(feeds.size(), threadsCompleteListener);
+        ThreadTracker threadTracker = new ThreadTracker(feeds.size(), innerThreadListener);
         FeedDownloader feedDownloader = new FeedDownloader(new ThreadExecutor(), threadTracker, contentResolver);
 
         for (Feed feed : feeds) {
@@ -106,15 +106,15 @@ public class SyncDataHandler {
         }
     }
 
-    private final ThreadTracker.OnAllThreadsComplete threadsCompleteListener = new ThreadTracker.OnAllThreadsComplete() {
+    private final ThreadTracker.OnAllThreadsComplete innerThreadListener = new ThreadTracker.OnAllThreadsComplete() {
         @Override
         public void onFinish() {
             // TODO show notification with how many new items
             LastUpdatedManager.from(context).setLastUpdated();
             dismissNotification();
-            syncResult.
             context.sendBroadcast(new Intent(ChannelFeedDownloadService.ACTION_CHANNEL_FEED_COMPLETE));
 //                stopSelf();
+            threadsCompleteListener.onFinish();
         }
     };
 

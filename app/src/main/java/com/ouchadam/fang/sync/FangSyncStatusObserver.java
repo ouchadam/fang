@@ -37,6 +37,7 @@ public class FangSyncStatusObserver implements SyncStatusObserver {
                 if (account == null) {
                     // GetAccount() returned an invalid value. This shouldn't happen, but
                     // we'll set the status to "not refreshing".
+                    Log.e("XXX : Account doesn't exist. forcing refresh = false");
                     pullToRefreshExposer.setRefreshing(false);
                     return;
                 }
@@ -45,7 +46,9 @@ public class FangSyncStatusObserver implements SyncStatusObserver {
                 // Set the state of the refresh button accordingly.
                 boolean syncActive = ContentResolver.isSyncActive(account, FangProvider.AUTHORITY);
                 boolean syncPending = ContentResolver.isSyncPending(account, FangProvider.AUTHORITY);
-                pullToRefreshExposer.setRefreshing(syncActive || syncPending);
+
+                boolean refreshing = syncActive || syncPending;
+                pullToRefreshExposer.setRefreshing(refreshing);
             }
         });
     }

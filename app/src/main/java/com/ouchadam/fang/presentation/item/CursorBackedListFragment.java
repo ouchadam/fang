@@ -113,7 +113,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     }
 
     private void initPullToRefresh() {
-        pullToRefreshExposer.setRefreshing(downloadServiceIsRunning());
+//        pullToRefreshExposer.setRefreshing(downloadServiceIsRunning());
         pullToRefreshExposer.setEnabled(canRefresh());
         channelRefreshCompleteReceiver = new ChannelRefreshCompleteReceiver(pullToRefreshExposer);
         getActivity().registerReceiver(channelRefreshCompleteReceiver, new IntentFilter(ChannelFeedDownloadService.ACTION_CHANNEL_FEED_COMPLETE));
@@ -177,13 +177,11 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(channelRefreshCompleteReceiver, new IntentFilter(ChannelFeedDownloadService.ACTION_CHANNEL_FEED_COMPLETE));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(channelRefreshCompleteReceiver);
     }
 
     public static final String TYPE = "type";
@@ -193,10 +191,6 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         Bundle bundle = new Bundle();
         bundle.putString(TYPE, FeedServiceInfo.Type.REFRESH.name());
         FangSyncHelper.forceRefresh(bundle);
-
-//        pullToRefreshExposer.setRefreshing(true);
-//        Intent refreshIntent = FeedServiceInfo.refresh(getActivity());
-//        getActivity().startService(refreshIntent);
     }
 
     protected boolean canRefresh() {
