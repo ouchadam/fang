@@ -38,10 +38,12 @@ public class FeedServiceInfo {
     public List<Feed> getUrlsToAdd() {
         ArrayList<String> urls = bundle.getStringArrayList(URLS);
         List<Feed> feeds = Collections.newArrayList();
-        for (String url : urls) {
-            Feed feed = new Feed();
-            feed.url = url;
-            feeds.add(feed);
+        if (urls != null) {
+            for (String url : urls) {
+                Feed feed = new Feed();
+                feed.url = url;
+                feeds.add(feed);
+            }
         }
         return feeds;
     }

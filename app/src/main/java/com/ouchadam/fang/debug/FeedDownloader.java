@@ -19,11 +19,13 @@ class FeedDownloader {
     private final ThreadExecutor threadExecutor;
     private final ThreadTracker threadTracker;
     private final ContentResolver contentResolver;
+    private SyncDataHandler.SyncError syncError;
 
-    FeedDownloader(ThreadExecutor threadExecutor, ThreadTracker threadTracker, ContentResolver contentResolver) {
+    FeedDownloader(ThreadExecutor threadExecutor, ThreadTracker threadTracker, ContentResolver contentResolver, SyncDataHandler.SyncError syncError) {
         this.threadExecutor = threadExecutor;
         this.threadTracker = threadTracker;
         this.contentResolver = contentResolver;
+        this.syncError = syncError;
     }
 
     public void download(final Feed feed) {
@@ -45,7 +47,7 @@ class FeedDownloader {
             new ChannelPersister(contentResolver).persist(podcastParser.getResult(), feed.url, currentItemCount);
             Log.d("Fetched : " + feed.url);
         } catch (IOException e) {
-            broadcastFailure(e.getMessage());
+            syncError.onError(e);
         }
         threadTracker.threadFinished();
     }
@@ -66,10 +68,6 @@ class FeedDownloader {
     private InputStream getInputStreamFrom(String url) throws IOException {
         URL urlForStream = new URL(url);
         return urlForStream.openStream();
-    }
-
-    private void broadcastFailure(String failureMessage) {
-        // TODO
     }
 
 }

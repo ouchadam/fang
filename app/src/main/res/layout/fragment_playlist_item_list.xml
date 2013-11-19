@@ -3,38 +3,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-  <include android:id="@+id/dummy_action_bar" layout="@layout/blank_action_bar"/>
+  <include
+    android:id="@+id/dummy_action_bar"
+    layout="@layout/blank_action_bar"/>
 
-    <RelativeLayout
-        android:id="@+id/space_usage_container"
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="6dp">
+  <RelativeLayout
+    android:id="@+id/space_usage_container"
+    android:layout_width="match_parent"
+    android:layout_height="26dp"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="6dp">
 
-        <TextView
-            android:id="@+id/space_usage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:paddingRight="12dp"
-            android:textStyle="italic"
-            android:fontFamily="sans-serif-thin"
-            android:textSize="16sp"/>
+    <TextView
+      android:id="@+id/space_usage"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_alignParentRight="true"
+      android:paddingRight="12dp"
+      android:textStyle="italic"
+      android:fontFamily="sans-serif-thin"
+      android:textSize="16sp"/>
 
-    </RelativeLayout>
+  </RelativeLayout>
 
   <ListView
-      android:id="@+id/list"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_below="@id/dummy_action_bar"
-      android:layout_above="@id/space_usage_container"
-      android:divider="@android:color/transparent"
-      android:dividerHeight="3dp"
-      android:padding="6dp"
-      android:clipToPadding="false"
-      android:scrollbars="vertical"/>
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/dummy_action_bar"
+    android:layout_above="@id/space_usage_container"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="3dp"
+    android:padding="6dp"
+    android:clipToPadding="false"
+    android:scrollbars="vertical"/>
 
 </RelativeLayout>

@@ -1,8 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseBooleanArray;
@@ -11,40 +9,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.java.Collections;
-import com.novoda.notils.meta.AndroidUtils;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.debug.ChannelFeedDownloadService;
 import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.persistance.DataUpdater;
 import com.ouchadam.fang.persistance.Query;
-import com.ouchadam.fang.presentation.controller.PullToRefreshExposer;
 import com.ouchadam.fang.sync.FangSyncHelper;
+import com.ouchadam.fang.sync.PullToRefreshExposer;
 
 import java.util.List;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public abstract class CursorBackedListFragment<T> extends Fragment implements DataUpdater.DataUpdatedListener<T>, PullToRefreshAttacher.OnRefreshListener {
+public abstract class CursorBackedListFragment<T> extends Fragment implements DataUpdater.DataUpdatedListener<T>, OnRefreshListener, PullToRefreshExposer {
 
     private TypedListAdapter<T> adapter;
     private DataQueryer<T> dataQueryer;
     private OnItemClickListener<T> onItemClickListener;
     private OnLongClickListener<T> onLongClickListener;
     private AbsListView listView;
-
-    private ChannelRefreshCompleteReceiver channelRefreshCompleteReceiver;
-    private PullToRefreshExposer pullToRefreshExposer;
+    private PullToRefreshLayout pullToRefreshLayout;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        pullToRefreshExposer = Classes.from(activity);
         dataQueryer = new DataQueryer<T>(activity, getQueryValues(), getMarshaller(), getLoaderManager(), this);
     }
 
@@ -61,12 +55,38 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
         listView.setOnItemClickListener(innerItemClickListener);
         listView.setOnItemLongClickListener(innerItemLongClickListener);
         disallowChecking();
-        pullToRefreshExposer.addRefreshableView(Views.findById(root, R.id.list), this);
+
         onCreateViewExtra(root);
         return root;
     }
 
+    @Override
+    public void setRefreshing() {
+        Log.e("!!!Set refreshing");
+        pullToRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void refreshComplete() {
+        if (pullToRefreshLayout.isRefreshing()) {
+            Log.e("!!!Refreshing complete");
+            pullToRefreshLayout.setRefreshComplete();
+        }
+    }
+
     protected void onCreateViewExtra(View root) {
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        pullToRefreshLayout = new PullToRefreshLayout(view.getContext());
+        pullToRefreshLayout.setEnabled(true);
+        ActionBarPullToRefresh.from(getActivity())
+                .insertLayoutInto((ViewGroup) view)
+                .theseChildrenArePullable(R.id.list)
+                .listener(this)
+                .setup(pullToRefreshLayout);
     }
 
     private final AdapterView.OnItemClickListener innerItemClickListener = new AdapterView.OnItemClickListener() {
@@ -113,14 +133,7 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     }
 
     private void initPullToRefresh() {
-//        pullToRefreshExposer.setRefreshing(downloadServiceIsRunning());
-        pullToRefreshExposer.setEnabled(canRefresh());
-        channelRefreshCompleteReceiver = new ChannelRefreshCompleteReceiver(pullToRefreshExposer);
-        getActivity().registerReceiver(channelRefreshCompleteReceiver, new IntentFilter(ChannelFeedDownloadService.ACTION_CHANNEL_FEED_COMPLETE));
-    }
-
-    private boolean downloadServiceIsRunning() {
-        return AndroidUtils.isServiceRunning(ChannelFeedDownloadService.class, getActivity());
+        pullToRefreshLayout.setEnabled(canRefresh());
     }
 
     @Override
@@ -175,22 +188,8 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    public static final String TYPE = "type";
-
-    @Override
     public void onRefreshStarted(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString(TYPE, FeedServiceInfo.Type.REFRESH.name());
-        FangSyncHelper.forceRefresh(bundle);
+        FangSyncHelper.forceRefresh(FeedServiceInfo.Type.REFRESH);
     }
 
     protected boolean canRefresh() {

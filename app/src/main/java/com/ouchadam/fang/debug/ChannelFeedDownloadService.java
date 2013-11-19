@@ -6,6 +6,8 @@ import android.os.IBinder;
 
 import com.ouchadam.fang.presentation.item.LastUpdatedManager;
 
+import java.io.IOException;
+
 public class ChannelFeedDownloadService extends Service {
 
     public static final String ACTION_CHANNEL_FEED_COMPLETE = "channelFeedComplete";
@@ -18,7 +20,7 @@ public class ChannelFeedDownloadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
-            SyncDataHandler.from(this, onAllThreadsComplete).handleSync(intent.getExtras(), null);
+            SyncDataHandler.from(this, onAllThreadsComplete, syncError).handleSync(intent.getExtras());
             return START_STICKY;
         }
         return START_NOT_STICKY;
@@ -28,6 +30,13 @@ public class ChannelFeedDownloadService extends Service {
         @Override
         public void onFinish() {
                 stopSelf();
+        }
+    };
+
+    private final SyncDataHandler.SyncError syncError = new SyncDataHandler.SyncError() {
+        @Override
+        public void onError(IOException e) {
+            stopSelf();
         }
     };
 

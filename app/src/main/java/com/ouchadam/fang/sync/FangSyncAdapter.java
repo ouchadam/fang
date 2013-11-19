@@ -20,6 +20,7 @@ import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 
@@ -27,45 +28,44 @@ import com.ouchadam.fang.Log;
 import com.ouchadam.fang.debug.SyncDataHandler;
 import com.ouchadam.fang.debug.ThreadTracker;
 
+import java.io.IOException;
+
 public class FangSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private final Context context;
-    private boolean syncing;
 
     public FangSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         this.context = context;
-        this.syncing = false;
     }
 
     public FangSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         this.context = context;
-        this.syncing = false;
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        SyncDataHandler.from(context, threadsCompleteListener).handleSync(extras, syncResult);
-        syncing = true;
-
-        long syncStart = System.currentTimeMillis();
-        Log.e("XXX : " + "syncing start : " + syncResult);
-        while (syncing) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.e("XXX : " + "syncing end : " + (System.currentTimeMillis() - syncStart));
+        SyncDataHandler syncDataHandler = SyncDataHandler.from(context, threadsCompleteListener, syncError);
+        syncDataHandler.handleSync(extras);
     }
 
     private final ThreadTracker.OnAllThreadsComplete threadsCompleteListener = new ThreadTracker.OnAllThreadsComplete() {
         @Override
         public void onFinish() {
-            syncing = false;
+            endSync();
         }
     };
+
+    private final SyncDataHandler.SyncError syncError = new SyncDataHandler.SyncError() {
+        @Override
+        public void onError(IOException e) {
+            endSync();
+        }
+    };
+
+    private synchronized void endSync() {
+        context.sendBroadcast(new Intent("complete"));
+    }
 
 }

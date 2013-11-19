@@ -5,12 +5,12 @@ import android.app.NotificationManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.novoda.notils.java.Collections;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
@@ -18,6 +18,7 @@ import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.item.LastUpdatedManager;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SyncDataHandler {
@@ -28,40 +29,56 @@ public class SyncDataHandler {
     private final ContentResolver contentResolver;
     private final Context context;
     private final ThreadTracker.OnAllThreadsComplete threadsCompleteListener;
+    private final SyncError syncError;
 
-    public static SyncDataHandler from(Context context, ThreadTracker.OnAllThreadsComplete onAllThreadsComplete) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        ContentResolver contentResolver = context.getContentResolver();
-        return new SyncDataHandler(notificationManager, contentResolver, context, onAllThreadsComplete);
+    public interface SyncError {
+        void onError(IOException e);
     }
 
-    SyncDataHandler(NotificationManager notificationManager, ContentResolver contentResolver, Context context, ThreadTracker.OnAllThreadsComplete threadsCompleteListener) {
+    public static SyncDataHandler from(Context context, ThreadTracker.OnAllThreadsComplete onAllThreadsComplete, SyncError syncError) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        ContentResolver contentResolver = context.getContentResolver();
+        return new SyncDataHandler(notificationManager, contentResolver, context, onAllThreadsComplete, syncError);
+    }
+
+    SyncDataHandler(NotificationManager notificationManager, ContentResolver contentResolver, Context context, ThreadTracker.OnAllThreadsComplete threadsCompleteListener, SyncError syncError) {
         this.notificationManager = notificationManager;
         this.contentResolver = contentResolver;
         this.context = context;
         this.threadsCompleteListener = threadsCompleteListener;
+        this.syncError = syncError;
     }
 
-    public void handleSync(Bundle extras, SyncResult syncResult) {
-        init(extras);
+    public void handleSync(Bundle extras) {
+        Log.e("Asked to handle Sync");
+        FeedServiceInfo serviceInfo = FeedServiceInfo.from(extras);
+        List<Feed> feeds = getFeeds(serviceInfo);
+        if (feeds.isEmpty()) {
+            Log.e("No feeds, ending sync");
+            syncError.onError(new IOException());
+            return;
+        } else {
+            startSync(serviceInfo, feeds);
+        }
     }
 
-    private void init(Bundle extras) {
-        List<Feed> feeds = Collections.newArrayList();
-        FeedServiceInfo from = FeedServiceInfo.from(extras);
-        switch (from.getType()) {
+    private List<Feed> getFeeds(FeedServiceInfo serviceInfo) {
+        switch (serviceInfo.getType()) {
             case ADD:
-                feeds = from.getUrlsToAdd();
-                break;
-            case REFRESH:
-                feeds = getSubscribedChannelUrls();
-                break;
-        }
+                return serviceInfo.getUrlsToAdd();
 
-        if (!feeds.isEmpty()) {
-            showNotification(from.getType());
-            downloadAndPersistPodcastFeeds(feeds);
+            case REFRESH:
+                return getSubscribedChannelUrls();
+
+            default:
+                syncError.onError(new IOException("Refresh type not handled"));
+                return Collections.newArrayList();
         }
+    }
+
+    private void startSync(FeedServiceInfo serviceInfo, List<Feed> feeds) {
+        showNotification(serviceInfo.getType());
+        downloadAndPersistPodcastFeeds(feeds);
     }
 
     private void showNotification(FeedServiceInfo.Type type) {
@@ -99,7 +116,7 @@ public class SyncDataHandler {
 
     private void downloadAndPersistPodcastFeeds(List<Feed> feeds) {
         ThreadTracker threadTracker = new ThreadTracker(feeds.size(), innerThreadListener);
-        FeedDownloader feedDownloader = new FeedDownloader(new ThreadExecutor(), threadTracker, contentResolver);
+        FeedDownloader feedDownloader = new FeedDownloader(new ThreadExecutor(), threadTracker, contentResolver, syncError);
 
         for (Feed feed : feeds) {
             feedDownloader.download(feed);
@@ -113,7 +130,6 @@ public class SyncDataHandler {
             LastUpdatedManager.from(context).setLastUpdated();
             dismissNotification();
             context.sendBroadcast(new Intent(ChannelFeedDownloadService.ACTION_CHANNEL_FEED_COMPLETE));
-//                stopSelf();
             threadsCompleteListener.onFinish();
         }
     };

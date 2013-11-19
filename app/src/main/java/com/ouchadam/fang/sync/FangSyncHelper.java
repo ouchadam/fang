@@ -23,12 +23,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.sync.accounts.GenericAccountService;
 
 public class FangSyncHelper {
 
-    private static final long SYNC_FREQUENCY = 60 * 60;  // 1 hour (in seconds)
+    private static final long HOUR_IN_SECONDS = 60 * 60;
+    private static final long DAY_IN_SECONDS = HOUR_IN_SECONDS * 24;
+
     private static final String CONTENT_AUTHORITY = FangProvider.AUTHORITY;
     private static final String PREF_SETUP_COMPLETE = "setup_complete";
     private static final int SYNCABLE = 1;
@@ -37,35 +40,27 @@ public class FangSyncHelper {
         boolean newAccount = false;
         boolean setupComplete = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREF_SETUP_COMPLETE, false);
 
-        // Create account, if it's missing. (Either first run, or user has deleted account.)
         Account account = GenericAccountService.GetAccount();
         AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
-            // Inform the system that this account supports sync
             ContentResolver.setIsSyncable(account, CONTENT_AUTHORITY, SYNCABLE);
-            // Inform the system that this account is eligible for auto sync when the network is up
             ContentResolver.setSyncAutomatically(account, CONTENT_AUTHORITY, true);
-            // Recommend a schedule for automatic synchronization. The system may modify this based
-            // on other scheduled syncs and network utilization.
-            ContentResolver.addPeriodicSync(account, CONTENT_AUTHORITY, new Bundle(), SYNC_FREQUENCY);
+            ContentResolver.addPeriodicSync(account, CONTENT_AUTHORITY, new Bundle(), DAY_IN_SECONDS);
             newAccount = true;
         }
 
-        // Schedule an initial sync if we detect problems with either our account or our local
-        // data has been deleted. (Note that it's possible to clear app data WITHOUT affecting
-        // the account list, so wee need to check both.)
         if (newAccount || !setupComplete) {
-            forceRefresh();
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(PREF_SETUP_COMPLETE, true).commit();
         }
     }
 
-    public static void forceRefresh() {
-        forceRefresh(new Bundle());
+    public static void forceRefresh(FeedServiceInfo.Type type) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type.name());
+        forceRefresh(bundle);
     }
 
     public static void forceRefresh(Bundle extras) {
-        // Disable sync backoff and ignore sync preferences. In other words...perform sync NOW!
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(GenericAccountService.GetAccount(), CONTENT_AUTHORITY, extras);                                      // Extras

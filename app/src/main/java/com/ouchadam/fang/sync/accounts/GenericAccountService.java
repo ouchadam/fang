@@ -28,16 +28,10 @@ import android.os.IBinder;
 
 public class GenericAccountService extends Service {
 
-    private static final String ACCOUNT_TYPE = "com.ouchadam.fang.feedsync";
+    public static final String ACCOUNT_TYPE = "com.ouchadam.fang.feedsync";
     public static final String ACCOUNT_NAME = "sync";
     private Authenticator mAuthenticator;
 
-    /**
-     * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.
-     *
-     * @return Handle to application's account (not guaranteed to resolve unless createSyncAccount()
-     *         has been called)
-     */
     public static Account GetAccount() {
         final String accountName = ACCOUNT_NAME;
         return new Account(accountName, ACCOUNT_TYPE);

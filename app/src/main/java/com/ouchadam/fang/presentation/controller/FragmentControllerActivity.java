@@ -76,7 +76,6 @@ public class FragmentControllerActivity extends FangActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, defaultFragment).commit();
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (getActionBar() != null && getActionBar().getTitle() != null) {
