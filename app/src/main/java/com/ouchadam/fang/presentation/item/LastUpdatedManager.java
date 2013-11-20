@@ -41,10 +41,14 @@ public class LastUpdatedManager {
     }
 
     public boolean canShow() {
-        if (getHour(getLastUpdatedMs()) > 5 && !getSeen()) {
+        if (hasValidLastUpdatedMs() && !getSeen()) {
             return true;
         }
         return false;
+    }
+
+    private boolean hasValidLastUpdatedMs() {
+        return getHour(getLastUpdatedMs()) > 5 && getLastUpdatedMs() != 0L;
     }
 
     private long getHour(long time) {
