@@ -66,9 +66,11 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     }
 
     public void setPlaying(AbsListView listView, long itemId, boolean isPlaying) {
-        View v = listView.getChildAt(getPositionFor(itemId) - listView.getFirstVisiblePosition());
-        ImageView playButton = (ImageView) v.findViewById(R.id.image_play_button);
-        playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
+        View root = listView.getChildAt(getPositionFor(itemId) - listView.getFirstVisiblePosition());
+        if (root != null && root.findViewById(R.id.image_play_button) != null) {
+            ImageView playButton = (ImageView) root.findViewById(R.id.image_play_button);
+            playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
+        }
     }
 
     private int getPositionFor(long itemId) {
