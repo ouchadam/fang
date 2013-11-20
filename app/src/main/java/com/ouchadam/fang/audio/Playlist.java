@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.novoda.notils.java.Collections;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.domain.PodcastPosition;
 
 import java.util.List;
@@ -24,6 +25,7 @@ class Playlist {
 
         void onPrepared();
     }
+
     public static Playlist from(Context context) {
         return new Playlist(new PlaylistLoader(context.getContentResolver(), ItemSourceFetcher.from(context)));
     }
@@ -89,8 +91,12 @@ class Playlist {
     private void handleNewPlaylist(List<PlaylistItem> playlistItems) {
         list.clear();
         list.addAll(playlistItems);
-        onPlaylistPrepared.onPrepared();
-        onPlaylistPrepared = null;
+        if (onPlaylistPrepared != null) {
+            onPlaylistPrepared.onPrepared();
+            onPlaylistPrepared = null;
+        } else {
+            Log.e("onPlaylistPrepared listener is null, skipping callback");
+        }
     }
 
     public int getCurrentPosition() {
