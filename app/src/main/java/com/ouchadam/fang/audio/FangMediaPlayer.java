@@ -50,14 +50,15 @@ public class FangMediaPlayer implements FangPlayer {
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
-        mediaPlayer = newMediaPlayer(context, source);
-        prepare(source);
+        mediaPlayer = MediaPlayer.create(context, source);
+        if (mediaPlayer != null) {
+            initMediaPlayer(mediaPlayer);
+            prepare(source);
+        }
     }
 
-    private MediaPlayer newMediaPlayer(Context context, Uri source) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, source);
+    private void initMediaPlayer(MediaPlayer mediaPlayer) {
         mediaPlayer.setOnCompletionListener(onCompletionWrapper);
-        return mediaPlayer;
     }
 
     private void prepare(Uri source) {

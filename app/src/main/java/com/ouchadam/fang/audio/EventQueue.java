@@ -23,7 +23,7 @@ class EventQueue {
         this.events.add(playerEvent);
     }
 
-    public void dequeue(OnEvent forEach) {
+    public synchronized void dequeue(OnEvent forEach) {
         for (PlayerEvent event : events) {
             forEach.onEvent(event);
         }
