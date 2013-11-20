@@ -630,7 +630,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         final int topBound = getPaddingTop();
         int y = (int) (topBound + slideOffset * mSlideRange);
 
-        if (mDragHelper.smoothSlideViewTo(mSlideableView, mSlideableView.getLeft(), y)) {
+        if (mSlideableView != null && mDragHelper.smoothSlideViewTo(mSlideableView, mSlideableView.getLeft(), y)) {
             setAllChildrenVisible();
             ViewCompat.postInvalidateOnAnimation(this);
             return true;
