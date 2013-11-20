@@ -28,35 +28,38 @@ import com.ouchadam.fang.audio.AudioServiceBinder;
 import com.ouchadam.fang.audio.CompletionListener;
 import com.ouchadam.fang.audio.OnStateSync;
 import com.ouchadam.fang.audio.SyncEvent;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.presentation.ActionBarManipulator;
 import com.ouchadam.fang.presentation.FangBookKeeer;
-import com.ouchadam.fang.audio.event.PlayerEvent;
-import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.presentation.drawer.ActionBarRefresher;
 import com.ouchadam.fang.presentation.drawer.DrawerNavigator;
 import com.ouchadam.fang.presentation.drawer.FangDrawer;
 import com.ouchadam.fang.presentation.item.ActivityResultHandler;
 import com.ouchadam.fang.presentation.item.ItemDownloader;
-import com.ouchadam.fang.presentation.item.Navigator;
 import com.ouchadam.fang.presentation.item.NavigatorForResult;
 import com.ouchadam.fang.presentation.item.PlaylistFragment;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
-import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
 import com.ouchadam.fang.presentation.panel.SlidingPanelController;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelViewManipulator;
-
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import com.ouchadam.fang.sync.FangSyncLifecycle;
+import com.ouchadam.fang.sync.PullToRefreshExposer;
 
 public abstract class FangActivity extends FragmentActivity implements ActionBarRefresher, ActionBarManipulator, SlidingPanelExposer, Downloader, SlidingPanelViewManipulator.OnSeekChanged, OverflowCallback, PullToRefreshExposer {
 
+    private final FangSyncLifecycle fangSyncLifecycle;
     private FangDrawer fangDrawer;
     private SlidingPanelController slidingPanelController;
     private FangBookKeeer fangBookKeeer;
     private AudioServiceBinder audioServiceBinder;
-    private PullToRefreshAttacher pullToRefreshAttacher;
+
+    public FangActivity() {
+        fangSyncLifecycle = new FangSyncLifecycle();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -75,9 +78,10 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setFangContentView();
         Novogger.enable(this);
+        fangSyncLifecycle.init(this, this);
         fangBookKeeer = FangBookKeeer.getInstance(this);
         audioServiceBinder = new AudioServiceBinder(this, onStateSync, onCompletion);
-        pullToRefreshAttacher = PullToRefreshAttacher.get(this);
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         fangInitActionBar();
@@ -341,25 +345,46 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         }
     };
 
-
     @Override
-    public void setRefreshing(boolean refreshing) {
-        pullToRefreshAttacher.setRefreshing(refreshing);
+    protected void onResume() {
+        super.onResume();
+        fangSyncLifecycle.onResume(this);
     }
 
     @Override
-    public void setRefreshComplete() {
-        pullToRefreshAttacher.setRefreshComplete();
+    protected void onPause() {
+        super.onPause();
+        fangSyncLifecycle.onPause(this);
     }
 
     @Override
-    public void addRefreshableView(View view, PullToRefreshAttacher.OnRefreshListener onRefreshListener) {
-        pullToRefreshAttacher.addRefreshableView(view, onRefreshListener);
+    public void setRefreshing() {
+        try {
+            getPullToRefresh().setRefreshing();
+        } catch (IllegalAccessException e) {
+            Log.e("Tried to access pull to refresh but does not exist", e);
+        }
     }
 
     @Override
-    public void setEnabled(boolean canRefresh) {
-        pullToRefreshAttacher.setEnabled(canRefresh);
+    public void refreshComplete() {
+        try {
+            getPullToRefresh().refreshComplete();
+        } catch (IllegalAccessException e) {
+            Log.e("Tried to access pull to refresh but does not exist", e);
+        }
+    }
+
+    private PullToRefreshExposer getPullToRefresh() throws IllegalAccessException {
+        Fragment currentFragment = getCurrentFragment();
+        if (currentFragment != null && currentFragment instanceof PullToRefreshExposer) {
+            return (PullToRefreshExposer) currentFragment;
+        }
+        throw new IllegalAccessException("");
+    }
+
+    private Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.content_frame);
     }
 
 }

@@ -2,6 +2,7 @@ package com.ouchadam.fang.persistance;
 
 import android.content.ContentValues;
 import android.net.Uri;
+import android.widget.AbsListView;
 
 import com.ouchadam.fang.persistance.database.Uris;
 
@@ -9,10 +10,11 @@ import novoda.lib.sqliteprovider.provider.SQLiteContentProviderImpl;
 
 public class FangProvider extends SQLiteContentProviderImpl {
 
-    public static final Uri AUTHORITY = Uri.parse("content://com.ouchadam.fang/");
+    public static final String AUTHORITY = "com.ouchadam.fang";
+    public static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
 
     public static Uri getUri(Uris uri) {
-        return AUTHORITY.buildUpon().appendPath(uri.name()).build();
+        return BASE_URI.buildUpon().appendPath(uri.name()).build();
     }
 
     @Override

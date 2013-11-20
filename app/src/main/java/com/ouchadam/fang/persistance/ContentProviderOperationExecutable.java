@@ -35,7 +35,7 @@ public class ContentProviderOperationExecutable implements Executable<List<Conte
     }
 
     private ContentProviderClient getContentProviderClient() {
-        return resolver.acquireContentProviderClient(FangProvider.AUTHORITY);
+        return resolver.acquireContentProviderClient(FangProvider.BASE_URI);
     }
 
     public ContentResolver getContentResolver() {

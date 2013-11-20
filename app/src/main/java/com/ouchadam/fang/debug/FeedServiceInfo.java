@@ -31,16 +31,19 @@ public class FeedServiceInfo {
     }
 
     public Type getType() {
-        return Type.valueOf(bundle.getString(TYPE));
+        String type = bundle.getString(TYPE);
+        return type == null ? Type.REFRESH : Type.valueOf(type);
     }
 
     public List<Feed> getUrlsToAdd() {
         ArrayList<String> urls = bundle.getStringArrayList(URLS);
         List<Feed> feeds = Collections.newArrayList();
-        for (String url : urls) {
-            Feed feed = new Feed();
-            feed.url = url;
-            feeds.add(feed);
+        if (urls != null) {
+            for (String url : urls) {
+                Feed feed = new Feed();
+                feed.url = url;
+                feeds.add(feed);
+            }
         }
         return feeds;
     }

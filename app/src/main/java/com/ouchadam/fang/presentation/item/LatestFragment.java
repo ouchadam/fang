@@ -1,8 +1,6 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +8,16 @@ import android.view.ViewGroup;
 
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.novoda.notils.caster.Classes;
-import com.novoda.notils.caster.Views;
-import com.novoda.notils.meta.AndroidUtils;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.debug.ChannelFeedDownloadService;
-import com.ouchadam.fang.debug.FeedServiceInfo;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
-import com.ouchadam.fang.presentation.controller.PullToRefreshExposer;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class LatestFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem> {
 

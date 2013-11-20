@@ -1,11 +1,11 @@
 package com.ouchadam.fang.debug;
 
-class ThreadTracker {
+public class ThreadTracker {
 
     private final OnAllThreadsComplete onAllThreadsComplete;
     private int threadCount;
 
-    interface OnAllThreadsComplete {
+    public interface OnAllThreadsComplete {
         void onFinish();
     }
 
