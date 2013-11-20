@@ -16,8 +16,8 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final ServiceLocation serviceLocation;
     private final AudioHandler audioHandler;
 
-    static PlayerHandler from(Context context, AudioSync audioSync, ServiceManipulator serviceManipulator, RemoteHelper remoteHelper, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation) {
-        AudioHandler audioHandler = new AudioHandler(FangMediaPlayer.from(context), AudioFocusManager.from(context), audioSync, Playlist.from(context), new AudioStateManager(), remoteHelper, PauseRewinder.from(context));
+    static PlayerHandler from(Context context, AudioSync audioSync, FangMediaPlayer.OnBadSourceHandler onBadSourceHandler, ServiceManipulator serviceManipulator, RemoteHelper remoteHelper, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation) {
+        AudioHandler audioHandler = new AudioHandler(FangMediaPlayer.from(context, onBadSourceHandler), AudioFocusManager.from(context), audioSync, Playlist.from(context), new AudioStateManager(), remoteHelper, PauseRewinder.from(context));
         FangNotification notification = FangNotification.from(context);
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
         return new PlayerHandler(audioHandler, itemStateManager, notification, serviceManipulator, completionCallback, serviceLocation);

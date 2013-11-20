@@ -15,6 +15,7 @@ import java.io.IOException;
 public class FangMediaPlayer implements FangPlayer {
 
     private static final int ONE_SECOND_MS = 1000;
+    private static final int MAX_RETRIES = 2;
 
     private final Handler seekHandler = new Handler();
     private final Context context;
@@ -24,13 +25,14 @@ public class FangMediaPlayer implements FangPlayer {
 
     private MediaPlayer mediaPlayer;
     private Uri source;
+    private int retryCount;
 
     public interface OnBadSourceHandler {
         void onBadSource(Exception e);
     }
 
-    public static FangPlayer from(Context context) {
-        return new FangMediaPlayer(context, new PodcastPositionBroadcaster(context), null, new PodcastPlayerEventBroadcaster(context));
+    public static FangPlayer from(Context context, OnBadSourceHandler onBadSourceHandler) {
+        return new FangMediaPlayer(context, new PodcastPositionBroadcaster(context), onBadSourceHandler, new PodcastPlayerEventBroadcaster(context));
     }
 
     public FangMediaPlayer(Context context, Broadcaster<PodcastPosition> positionBroadcaster, OnBadSourceHandler onBadSourceHandler, PodcastPlayerEventBroadcaster playerEventBroadcaster) {
@@ -39,28 +41,47 @@ public class FangMediaPlayer implements FangPlayer {
         this.onBadSourceHandler = onBadSourceHandler;
         this.playerEventBroadcaster = playerEventBroadcaster;
         this.source = null;
+        this.retryCount = 0;
     }
 
     @Override
     public void setSource(Uri source) {
         this.source = source;
         if (mediaPlayer != null) {
-            mediaPlayer.reset();
             mediaPlayer.release();
         }
-        mediaPlayer = newMediaPlayer();
+        mediaPlayer = newMediaPlayer(context, source);
+        prepare(source);
+    }
+
+    private MediaPlayer newMediaPlayer(Context context, Uri source) {
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, source);
+        mediaPlayer.setOnCompletionListener(onCompletionWrapper);
+        return mediaPlayer;
+    }
+
+    private void prepare(Uri source) {
         try {
-            mediaPlayer.setDataSource(context, source);
             mediaPlayer.prepare();
+            retryCount = 0;
+        } catch (IllegalStateException e) {
+            retrySetSource(source, e);
         } catch (IOException e) {
             onBadSourceHandler.onBadSource(e);
         }
     }
 
-    private MediaPlayer newMediaPlayer() {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(onCompletionWrapper);
-        return mediaPlayer;
+    private void retrySetSource(Uri source, IllegalStateException e) {
+        retryCount ++;
+        if (canRetry()) {
+            setSource(source);
+        } else {
+            onBadSourceHandler.onBadSource(e);
+        }
+    }
+
+    private boolean canRetry() {
+        return retryCount < MAX_RETRIES;
     }
 
     private final MediaPlayer.OnCompletionListener onCompletionWrapper = new MediaPlayer.OnCompletionListener() {

@@ -66,11 +66,18 @@ public class AudioService extends Service implements ServiceManipulator {
         super.onCreate();
         remoteHelper = new RemoteHelper(this);
         remoteHelper.init();
-        PlayerHandler playerHandler = PlayerHandler.from(this, onSync, this, remoteHelper, activityCompletionCallback, serviceLocation);
+        PlayerHandler playerHandler = PlayerHandler.from(this, onSync,onBadSourceHandler, this, remoteHelper, activityCompletionCallback, serviceLocation);
         this.syncer = new Syncer(playerHandler);
         playerHandler.restoreItem();
         initReceivers(playerHandler);
     }
+
+    private FangMediaPlayer.OnBadSourceHandler onBadSourceHandler = new FangMediaPlayer.OnBadSourceHandler() {
+        @Override
+        public void onBadSource(Exception e) {
+
+        }
+    };
 
     private final AudioSync onSync = new AudioSync() {
         @Override
