@@ -2,7 +2,8 @@
 <com.ouchadam.fang.view.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
                 android:background="@drawable/card_background">
 
   <RelativeLayout
@@ -10,8 +11,10 @@
     android:layout_height="wrap_content"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
-    android:layout_toLeftOf="@+id/channel_image"
-    android:layout_centerVertical="true">
+    android:layout_toLeftOf="@+id/channel_image_holder"
+    android:layout_centerVertical="true"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
     <TextView
       android:id="@+id/text"
@@ -21,7 +24,8 @@
       android:textStyle="bold"
       android:fontFamily="sans-serif-thin"
       android:ellipsize="end"
-      android:textSize="19sp"/>
+      android:textSize="19sp"
+      android:paddingBottom="2dp"/>
 
     <TextView
       android:id="@+id/channel_title"
@@ -63,18 +67,28 @@
 
   </RelativeLayout>
 
-  <ImageView
-    android:id="@id/channel_image"
-    android:layout_width="110dp"
-    android:layout_height="100dp"
-    android:scaleType="centerCrop"
-    android:layout_alignParentRight="true"/>
+    <FrameLayout
+        android:id="@id/channel_image_holder"
+        android:layout_width="110dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/channel_image"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:scaleType="fitXY"/>
+
+        </FrameLayout>
 
     <ImageView
         android:id="@+id/image_play_button"
         android:layout_width="110dp"
-        android:layout_height="100dp"
+        android:minHeight="100dp"
+        android:layout_height="match_parent"
         android:scaleType="center"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"/>
 
   <ProgressBar
