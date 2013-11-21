@@ -2,14 +2,10 @@ package com.ouchadam.fang.presentation.item;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +14,7 @@ import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.bookkeeper.watcher.adapter.ListItemProgress;
 import com.ouchadam.bookkeeper.watcher.adapter.ProgressDelegate;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.squareup.picasso.Picasso;
@@ -29,6 +26,7 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     private final IsPlayingFetcher isPlayingFetcher;
     private final OnPlayListener onPlayListener;
     private final ProgressDelegate<ViewHolder> progressDelegate;
+    private final ItemManipulator itemManipulator;
 
     public interface IsPlayingFetcher {
         boolean isPlaying(long itemId);
@@ -38,11 +36,12 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         void onPlayPause(FullItem fullItem);
     }
 
-    public PlaylistAdapter(LayoutInflater layoutInflater, Context context, IsPlayingFetcher isPlayingFetcher, OnPlayListener onPlayListener) {
+    public PlaylistAdapter(LayoutInflater layoutInflater, Context context, IsPlayingFetcher isPlayingFetcher, OnPlayListener onPlayListener, ItemManipulator itemManipulator) {
         this.layoutInflater = layoutInflater;
         this.context = context;
         this.isPlayingFetcher = isPlayingFetcher;
         this.onPlayListener = onPlayListener;
+        this.itemManipulator = itemManipulator;
         this.progressDelegate = new ItemProgressManager(this);
     }
 
@@ -55,31 +54,30 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
 
         ListItemProgress.Stage stage = progressDelegate.getStage(position);
         FullItem item = getItem(position);
-        if (stage == ListItemProgress.Stage.IDLE) {
-            updateIdleViewHolder(viewHolder, item);
-        } else {
-            progressDelegate.handleDownloadProgress(position, viewHolder);
-        }
+        updateViewHolder(position, viewHolder, stage, item);
         setHolderImage(viewHolder, item.getImageUrl());
         initPlayButton(viewHolder, item);
         return view;
     }
 
-    public void setPlaying(AbsListView listView, long itemId, boolean isPlaying) {
-        View root = listView.getChildAt(getPositionFor(itemId) - listView.getFirstVisiblePosition());
-        if (root != null && root.findViewById(R.id.image_play_button) != null) {
-            ImageView playButton = (ImageView) root.findViewById(R.id.image_play_button);
-            playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
+    private void updateViewHolder(int position, ViewHolder viewHolder, ListItemProgress.Stage stage, FullItem item) {
+        if (stage == ListItemProgress.Stage.IDLE) {
+            updateIdleViewHolder(viewHolder, item);
+        } else {
+            progressDelegate.handleDownloadProgress(position, viewHolder);
         }
     }
 
-    private int getPositionFor(long itemId) {
-        for (int index = 0; index < getCount(); index++) {
-            if (getItem(index).getItemId() == itemId) {
-                return index;
+    public void setPlaying(long itemId, boolean isPlaying) {
+        try {
+            ViewHolder viewHolder = itemManipulator.getItemViewHolder(getPositionFor(itemId));
+            if (viewHolder.playButton != null) {
+                viewHolder.playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
             }
+        } catch (ItemManipulator.ViewHolderNotFoundException e) {
+            Log.e("Tried to set playing but the view holder is not available");
+            e.printStackTrace();
         }
-        return 0;
     }
 
     private void initPlayButton(ViewHolder viewHolder, FullItem item) {
@@ -172,8 +170,33 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     }
 
     @Override
-    public void notifyAdapter() {
-        notifyDataSetChanged();
+    public void notifyItem(long itemId, ListItemProgress.Stage stage) {
+        try {
+            handleWatcherUpdate(itemId, stage);
+        } catch (ItemManipulator.ViewHolderNotFoundException e) {
+            Log.e("Tried to update via download watcher but the view holder is not available");
+            e.printStackTrace();
+        }
+    }
+
+    private void handleWatcherUpdate(long itemId, ListItemProgress.Stage stage) throws ItemManipulator.ViewHolderNotFoundException {
+        ViewHolder viewHolder = getItemViewHolder(itemId);
+        int position = getPositionFor(itemId);
+        FullItem item = getItem(position);
+        updateViewHolder(position, viewHolder, stage, item);
+    }
+
+    private ViewHolder getItemViewHolder(long itemId) throws ItemManipulator.ViewHolderNotFoundException {
+        return itemManipulator.getItemViewHolder(getPositionFor(itemId));
+    }
+
+    private int getPositionFor(long itemId) {
+        for (int index = 0; index < getCount(); index++) {
+            if (getItemId(index) == itemId) {
+                return index;
+            }
+        }
+        return 0;
     }
 
     @Override

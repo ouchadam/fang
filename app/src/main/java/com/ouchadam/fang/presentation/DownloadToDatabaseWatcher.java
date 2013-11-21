@@ -1,8 +1,8 @@
 package com.ouchadam.fang.presentation;
 
+import com.ouchadam.bookkeeper.DownloadWatcher;
 import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.domain.ProgressValues;
-import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.fang.persistance.DownloadedItemPersister;
 
 class DownloadToDatabaseWatcher implements DownloadWatcher {
