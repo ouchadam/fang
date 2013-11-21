@@ -2,11 +2,11 @@ package com.ouchadam.fang.presentation.item;
 
 import android.content.Context;
 
+import com.ouchadam.bookkeeper.DownloadWatcher;
 import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.domain.DownloadId;
-import com.ouchadam.bookkeeper.watcher.AsyncNotificationWatcher;
-import com.ouchadam.bookkeeper.watcher.DownloadWatcher;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
+import com.ouchadam.bookkeeper.watcher.notification.AsyncNotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;

@@ -57,9 +57,16 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
-        playlistAdapter = new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, this);
+        playlistAdapter = new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, this, new ItemManipulator(childFetcher));
         return playlistAdapter;
     }
+
+    private final ChildFetcher childFetcher = new ChildFetcher() {
+        @Override
+        public View getChildAt(int itemIdPosition) {
+            return getList().getChildAt(itemIdPosition - getList().getFirstVisiblePosition());
+        }
+    };
 
     @Override
     protected Query getQueryValues() {
@@ -210,7 +217,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     public void setItemPlaying(long itemId, boolean isPlaying) {
         if (playlistAdapter != null) {
-            playlistAdapter.setPlaying(getList(), itemId, isPlaying);
+            playlistAdapter.setPlaying(itemId, isPlaying);
         }
     }
 
