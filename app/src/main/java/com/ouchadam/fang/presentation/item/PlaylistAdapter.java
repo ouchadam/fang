@@ -70,9 +70,12 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
 
     public void setPlaying(long itemId, boolean isPlaying) {
         try {
-            ViewHolder viewHolder = itemManipulator.getItemViewHolder(getPositionFor(itemId));
-            if (viewHolder.playButton != null) {
-                viewHolder.playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
+            int position = getPositionFor(itemId);
+            if (position != -1) {
+                ViewHolder viewHolder = itemManipulator.getItemViewHolder(position);
+                if (viewHolder.playButton != null) {
+                    viewHolder.playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
+                }
             }
         } catch (ItemManipulator.ViewHolderNotFoundException e) {
             Log.e("Tried to set playing but the view holder is not available");
@@ -180,14 +183,16 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     }
 
     private void handleWatcherUpdate(long itemId, ListItemProgress.Stage stage) throws ItemManipulator.ViewHolderNotFoundException {
-        ViewHolder viewHolder = getItemViewHolder(itemId);
         int position = getPositionFor(itemId);
-        FullItem item = getItem(position);
-        updateViewHolder(position, viewHolder, stage, item);
+        if (position != -1) {
+            ViewHolder viewHolder = getItemViewHolder(position);
+            FullItem item = getItem(position);
+            updateViewHolder(position, viewHolder, stage, item);
+        }
     }
 
-    private ViewHolder getItemViewHolder(long itemId) throws ItemManipulator.ViewHolderNotFoundException {
-        return itemManipulator.getItemViewHolder(getPositionFor(itemId));
+    private ViewHolder getItemViewHolder(int position) throws ItemManipulator.ViewHolderNotFoundException {
+        return itemManipulator.getItemViewHolder(position);
     }
 
     private int getPositionFor(long itemId) {
@@ -196,7 +201,8 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
                 return index;
             }
         }
-        return 0;
+
+        return -1;
     }
 
     @Override
