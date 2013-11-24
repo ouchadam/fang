@@ -40,7 +40,6 @@ class EntryParser implements Parser<Entry> {
     public void parse(Element element, ParseWatcher<Entry> listener) {
         this.listener = listener;
         element.setElementListener(entryListener);
-        System.out.println("Entry parser init");
         titleFinder.find(element, TAG_TITLE);
         summaryFinder.find(element, TAG_SUMMARY);
         nameFinder.find(element, NAMESPACE_IM, TAG_NAME);
@@ -52,7 +51,6 @@ class EntryParser implements Parser<Entry> {
 
         @Override
         public void start(Attributes attributes) {
-            System.out.println("Entry parser start");
             entryHolder = new EntryHolder();
         }
 

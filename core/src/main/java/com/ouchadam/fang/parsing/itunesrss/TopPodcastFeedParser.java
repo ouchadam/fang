@@ -22,7 +22,6 @@ class TopPodcastFeedParser implements ParseWatcher<Entry> {
 
     @Override
     public void onParsed(Entry entry) {
-        System.out.println("got entry");
         feedHolder.entries.add(entry);
     }
 
