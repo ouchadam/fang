@@ -1,10 +1,7 @@
 package com.ouchadam.fang.parsing.itunesrss;
 
 import com.novoda.notils.java.Collections;
-import com.novoda.sax.Element;
-import com.novoda.sexp.finder.ElementFinder;
 import com.novoda.sexp.parser.ParseFinishWatcher;
-import com.novoda.sexp.parser.ParseWatcher;
 import com.ouchadam.fang.parsing.InstigatorResult;
 import com.ouchadam.fang.parsing.XmlParser;
 import com.ouchadam.fang.parsing.helper.XMLHelper;

@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,21 +11,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
-import com.novoda.notils.caster.Views;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.api.search.ItunesSearch;
-import com.ouchadam.fang.api.search.Result;
-import com.ouchadam.fang.api.search.SearchResult;
-import com.ouchadam.fang.debug.ParseHelper;
-import com.ouchadam.fang.domain.channel.Channel;
+import com.ouchadam.fang.parsing.itunesrss.Entry;
+import com.ouchadam.fang.parsing.itunesrss.TopPodcastFeed;
+import com.ouchadam.fang.parsing.itunesrss.TopPodcastParser;
 import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class ExploreFragment extends Fragment {
 
@@ -54,7 +48,7 @@ public class ExploreFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.ab_add :
+            case R.id.ab_add:
                 openAddDialog();
                 return true;
             default:
@@ -83,6 +77,41 @@ public class ExploreFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         actionBarTitleSetter.set("Explore");
+
+        getTopTen();
+    }
+
+    private void getTopTen() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TopPodcastFeed topTen = getTopTenFor("https://itunes.apple.com/gb/rss/toppodcasts/limit=10/genre=1310/xml");
+                topTen.forEach(forEach);
+            }
+        }).start();
+    }
+
+    private final TopPodcastFeed.ForEach forEach = new TopPodcastFeed.ForEach() {
+        @Override
+        public void onEach(Entry entry) {
+            Log.e("!!! : " + entry.getName());
+        }
+    };
+
+    private TopPodcastFeed getTopTenFor(String url) {
+        TopPodcastParser topPodcastParser = TopPodcastParser.newInstance();
+        try {
+            InputStream urlInputStream = getInputStreamFrom(url);
+            topPodcastParser.parse(urlInputStream);
+            return topPodcastParser.getResult();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    private InputStream getInputStreamFrom(String url) throws IOException {
+        URL urlForStream = new URL(url);
+        return urlForStream.openStream();
     }
 
 }

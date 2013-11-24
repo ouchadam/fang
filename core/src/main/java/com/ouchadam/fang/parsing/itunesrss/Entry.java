@@ -1,6 +1,6 @@
 package com.ouchadam.fang.parsing.itunesrss;
 
-class Entry {
+public class Entry {
 
     private final String fullTitle;
     private final String name;
