@@ -11,14 +11,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SearchView;
 
+import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.parsing.itunesrss.Entry;
 import com.ouchadam.fang.parsing.itunesrss.TopPodcastFeed;
 import com.ouchadam.fang.parsing.itunesrss.TopPodcastParser;
 import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
+import com.ouchadam.fang.presentation.item.Navigator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,50 +71,24 @@ public class ExploreFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View root = inflater.inflate(R.layout.fragment_explore, container, false);
+        Button musicButton = Views.findById(root, R.id.top_ten_music);
+        musicButton.setOnClickListener(musicOnClick);
         return root;
     }
+
+    private final View.OnClickListener musicOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            new Navigator(getActivity()).toTopTen();
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         actionBarTitleSetter.set("Explore");
-
-        getTopTen();
-    }
-
-    private void getTopTen() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                TopPodcastFeed topTen = getTopTenFor("https://itunes.apple.com/gb/rss/toppodcasts/limit=10/genre=1310/xml");
-                topTen.forEach(forEach);
-            }
-        }).start();
-    }
-
-    private final TopPodcastFeed.ForEach forEach = new TopPodcastFeed.ForEach() {
-        @Override
-        public void onEach(Entry entry) {
-            Log.e("!!! : " + entry.getName());
-        }
-    };
-
-    private TopPodcastFeed getTopTenFor(String url) {
-        TopPodcastParser topPodcastParser = TopPodcastParser.newInstance();
-        try {
-            InputStream urlInputStream = getInputStreamFrom(url);
-            topPodcastParser.parse(urlInputStream);
-            return topPodcastParser.getResult();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    private InputStream getInputStreamFrom(String url) throws IOException {
-        URL urlForStream = new URL(url);
-        return urlForStream.openStream();
     }
 
 }

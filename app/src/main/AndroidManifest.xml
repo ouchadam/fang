@@ -38,9 +38,15 @@
 
     </activity>
 
+
+      <activity
+          android:name=".presentation.controller.TopTenActivity"
+          android:label="Top Ten"/>
+
     <activity
       android:name=".presentation.controller.SearchActivity"
       android:label="Search">
+
 
       <intent-filter>
         <action android:name="android.intent.action.SEARCH"/>
