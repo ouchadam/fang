@@ -1,17 +1,19 @@
-package com.ouchadam.fang.parsing;
+package com.ouchadam.fang.parsing.podcast;
 
 import com.novoda.notils.java.Collections;
 import com.novoda.sexp.parser.ParseFinishWatcher;
 import com.ouchadam.fang.domain.channel.Channel;
+import com.ouchadam.fang.parsing.InstigatorResult;
+import com.ouchadam.fang.parsing.XmlParser;
 import com.ouchadam.fang.parsing.helper.XMLHelper;
-
-import java.util.Collection;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import java.util.Collection;
+import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -39,7 +41,7 @@ public class PodcastParserShould {
     @Before
     public void setUp()  {
         initMocks(this);
-        InstigatorResult <Channel> instigator = new PodcastIntigator(ChannelFinder.newInstance(), mock(ParseFinishWatcher.class));
+        InstigatorResult<Channel> instigator = new PodcastInstigator(ChannelFinder.newInstance(), mock(ParseFinishWatcher.class));
         podcastParser = new PodcastParser(instigator);
     }
 

@@ -1,4 +1,4 @@
-package com.ouchadam.fang.parsing;
+package com.ouchadam.fang.parsing.podcast;
 
 import com.novoda.sax.Element;
 import com.novoda.sax.ElementListener;
