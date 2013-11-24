@@ -21,11 +21,17 @@ import java.net.URL;
 
 public class TopTenFragment extends Fragment {
 
+    private static final String ARG_TYPE = "ARG_TYPE";
+
     private ListView listView;
     private TopTenAdapter adapter;
 
-    public static TopTenFragment newInstance() {
-        return new TopTenFragment();
+    public static TopTenFragment newInstance(TopTenType topTenType) {
+        TopTenFragment topTenFragment = new TopTenFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString(ARG_TYPE, topTenType.name());
+        topTenFragment.setArguments(arguments);
+        return topTenFragment;
     }
 
     @Override
@@ -40,16 +46,18 @@ public class TopTenFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getTopTen();
+        getTopTen(getType());
     }
 
-    private void getTopTen() {
+    private TopTenType getType() {
+        return TopTenType.valueOf(getArguments().getString(ARG_TYPE));
+    }
+
+    private void getTopTen(final TopTenType topTenType) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final TopPodcastFeed topTen = getTopTenFor("https://itunes.apple.com/gb/rss/toppodcasts/limit=10/genre=1310/xml");
-//                topTen.forEach(forEach);
-
+                final TopPodcastFeed topTen = getTopTenFor(topTenType.getUrl());
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
