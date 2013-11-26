@@ -54,7 +54,8 @@ public class DebugActivity extends BasePreferenceActivity {
                     "http://radiofrance-podcast.net/podcast09/rss_13104.xml",
                     "http://radiofrance-podcast.net/podcast09/rss_12581.xml",
                     "http://feeds.feedburner.com/ThisIsMyNextPodcast",
-                    "http://www.goingquantum.ca/podcastgen/feed.xml"
+                    "http://www.goingquantum.ca/podcastgen/feed.xml",
+                    "http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage"
             );
             return false;
         }
