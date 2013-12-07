@@ -58,14 +58,13 @@ public class TopTenFragment extends Fragment {
             @Override
             public void run() {
                 final TopPodcastFeed topTen = getTopTenFor(topTenType.getUrl());
+                topTen.forEach(forEach);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         adapter.updateData(topTen.getEntries());
                     }
                 });
-
-
             }
         }).start();
     }
@@ -73,7 +72,7 @@ public class TopTenFragment extends Fragment {
     private final TopPodcastFeed.ForEach forEach = new TopPodcastFeed.ForEach() {
         @Override
         public void onEach(Entry entry) {
-            Log.e("!!! : " + entry.getName());
+            Log.e("!!! : " + entry.getName() + " " + entry.getId());
         }
     };
 
@@ -81,6 +80,7 @@ public class TopTenFragment extends Fragment {
         TopPodcastParser topPodcastParser = TopPodcastParser.newInstance();
         try {
             InputStream urlInputStream = getInputStreamFrom(url);
+            Log.e("!!! : url : " + url);
             topPodcastParser.parse(urlInputStream);
             return topPodcastParser.getResult();
         } catch (IOException e) {

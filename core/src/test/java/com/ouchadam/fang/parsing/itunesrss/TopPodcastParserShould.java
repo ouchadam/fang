@@ -39,17 +39,36 @@ public class TopPodcastParserShould {
     }
 
     @Test
-    public void parse_the_correct_channel_title() {
+    public void parse_the_entries_from_top_rss() {
         topFeedParser.parse(new ByteArrayInputStream(topPodcastsXml.getBytes()));
 
         List<Entry> entries = topFeedParser.getResult().getEntries();
         assertThat(entries).isNotEmpty();
     }
 
+    @Test
+    public void parse_the_correct_title_id() {
+        topFeedParser.parse(new ByteArrayInputStream(topPodcastsXml.getBytes()));
+
+        List<Entry> entries = topFeedParser.getResult().getEntries();
+        assertThat(entries.get(0).getFullTitle()).isEqualTo("Mastertapes - BBC Radio 4");
+    }
+
+
+    @Test
+    public void parse_the_correct_id() {
+        topFeedParser.parse(new ByteArrayInputStream(topPodcastsXml.getBytes()));
+
+        List<Entry> entries = topFeedParser.getResult().getEntries();
+        assertThat(entries.get(0).getId()).isEqualTo("test_id_attr");
+    }
+
+
     //language=XML
     private final String topPodcastsXml =
             "<feed xmlns:im=\"http://itunes.apple.com/rss\" xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"en\">\n" +
                 "<entry>\n" +
+                "<id im:id=\"test_id_attr\">" + "test_id" + "</id>\n" +
                 "<updated>2013-11-24T11:34:45-07:00</updated>\n" +
                 "<title>Mastertapes - BBC Radio 4</title>\n" +
                 "<summary>\n" +
