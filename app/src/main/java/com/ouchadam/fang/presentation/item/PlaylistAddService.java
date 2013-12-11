@@ -21,11 +21,12 @@ public class PlaylistAddService extends IntentService {
 
 
     static void start(Context context, ItemToPlaylist itemToPlaylist) {
-        context.startService(createIntent(itemToPlaylist));
+        context.startService(createIntent(context, itemToPlaylist));
     }
 
-    private static Intent createIntent(ItemToPlaylist itemToPlaylist) {
-        Intent intent = new Intent(ACTION);
+    private static Intent createIntent(Context context, ItemToPlaylist itemToPlaylist) {
+        Intent intent = new Intent(context, PlaylistAddService.class);
+        intent.setAction(ACTION);
         intent.putExtra(EXTRA_PLAYLIST_ITEM, itemToPlaylist);
         return intent;
     }

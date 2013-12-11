@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import sun.rmi.runtime.Log;
-
 public class ChannelMarshaller extends BaseMarshaller<Channel> {
 
     private final OperationWrapper operationWrapper;

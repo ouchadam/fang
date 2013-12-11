@@ -9,6 +9,7 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.bookkeeper.watcher.notification.AsyncNotificationWatcher;
 import com.ouchadam.fang.ItemDownload;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.item.Item;
 
@@ -29,7 +30,7 @@ public class ItemDownloader {
     }
 
     public void downloadItem(Item item) throws LinkValidator.BadLinkException {
-        linkValidator.validateOrThrow(item.getLink());
+        linkValidator.validateOrThrow(item.getAudio().getUrl());
         ItemDownload downloadable = ItemDownload.from(item);
         DownloadId downloadId = downloader.keep(downloadable);
         addToPlaylist(context, item, downloadId);
@@ -61,6 +62,7 @@ public class ItemDownloader {
     public static class LinkValidator {
 
         public void validateOrThrow(String link) throws BadLinkException {
+            Log.d("Attmepting to download : " + link);
             if (link == null || TextUtils.isEmpty(link)) {
                 throw new BadLinkException(link);
             }
