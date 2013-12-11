@@ -21,6 +21,12 @@ class AudioHandler {
     private final EventQueue eventQueue;
 
     private int playlistPosition;
+    private MoveType lastMoveType;
+
+    private enum MoveType {
+        PREVIOUS,
+        NEXT;
+    }
 
     AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper, PauseRewinder pauseRewinder) {
         this.fangPlayer = fangPlayer;
@@ -61,11 +67,23 @@ class AudioHandler {
                     triggerQueue();
                 } else {
                     Log.d("play list is valid but item isn't, trying next");
-                    onNext();
+                    tryNext();
                 }
             }
         }
     };
+
+    private void tryNext() {
+        if (getLastMoveType() == MoveType.NEXT) {
+            onNext();
+        } else {
+            onPrevious();
+        }
+    }
+
+    private MoveType getLastMoveType() {
+        return this.lastMoveType;
+    }
 
     private void triggerQueue() {
         Log.d("Triggering queue");
@@ -285,6 +303,7 @@ class AudioHandler {
     }
 
     public void onNext() {
+        this.lastMoveType = MoveType.NEXT;
         Log.d("onNext" + "current playlist position : " + playlistPosition);
         int nextPosition = playlistPosition + 1;
         movePosition(nextPosition);
@@ -292,13 +311,18 @@ class AudioHandler {
 
     public void onPrevious(PlayingItemStateManager playingItemStateManager) {
         Log.d("onPrevious : " + " current playlist position : " + playlistPosition);
-        int previousPosition = playlistPosition - 1;
         if (canMoveToPrevious()) {
-            movePosition(previousPosition);
+            onPrevious();
         } else {
             goToPosition(PodcastPosition.idle());
             saveCurrentPlayState(playingItemStateManager);
         }
+    }
+
+    private void onPrevious() {
+        this.lastMoveType = MoveType.PREVIOUS;
+        int previousPosition = playlistPosition - 1;
+        movePosition(previousPosition);
     }
 
     private boolean canMoveToPrevious() {
