@@ -2,20 +2,22 @@ package com.ouchadam.fang.domain;
 
 import com.ouchadam.fang.domain.item.Item;
 
-public class ItemToPlaylist {
+import java.io.Serializable;
+
+public class ItemToPlaylist implements Serializable {
 
     private final long itemId;
     private final long downloadId;
-    private final int listPosition;
 
-    public static ItemToPlaylist from(Item item, long downloadId, int listPosition) {
-        return new ItemToPlaylist(item.getId(), downloadId, listPosition);
+    private int listPosition;
+
+    public static ItemToPlaylist from(Item item, long downloadId) {
+        return new ItemToPlaylist(item.getId(), downloadId);
     }
 
-    public ItemToPlaylist(long itemId, long downloadId, int listPosition) {
+    public ItemToPlaylist(long itemId, long downloadId) {
         this.itemId = itemId;
         this.downloadId = downloadId;
-        this.listPosition = listPosition;
     }
 
     public long getItemId() {
@@ -28,5 +30,9 @@ public class ItemToPlaylist {
 
     public int getListPosition() {
         return listPosition;
+    }
+
+    public void setListPosition(int listPosition) {
+        this.listPosition = listPosition;
     }
 }
