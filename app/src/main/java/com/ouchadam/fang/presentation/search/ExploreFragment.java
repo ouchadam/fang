@@ -11,21 +11,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.novoda.notils.caster.Views;
-import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.parsing.itunesrss.Entry;
-import com.ouchadam.fang.parsing.itunesrss.TopPodcastFeed;
-import com.ouchadam.fang.parsing.itunesrss.TopPodcastParser;
 import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
 import com.ouchadam.fang.presentation.item.Navigator;
+import com.ouchadam.fang.presentation.topten.TopTenType;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.util.Arrays;
 
 public class ExploreFragment extends Fragment {
 
@@ -72,15 +68,18 @@ public class ExploreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_explore, container, false);
-        Button musicButton = Views.findById(root, R.id.top_ten_music);
-        musicButton.setOnClickListener(musicOnClick);
+        ListView listView = Views.findById(root, R.id.top_ten_list);
+        TopTenTypeAdapter tenTypeAdapter = new TopTenTypeAdapter(inflater);
+        tenTypeAdapter.updateData(Arrays.asList(TopTenType.values()));
+        listView.setAdapter(tenTypeAdapter);
+        listView.setOnItemClickListener(onTopTen);
         return root;
     }
 
-    private final View.OnClickListener musicOnClick = new View.OnClickListener() {
+    private final ListView.OnItemClickListener onTopTen = new ListView.OnItemClickListener() {
         @Override
-        public void onClick(View view) {
-            new Navigator(getActivity()).toTopTen();
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            new Navigator(getActivity()).toTopTen(TopTenType.values()[position]);
         }
     };
 

@@ -6,10 +6,9 @@
 
     <include layout="@layout/blank_action_bar" />
 
-    <Button
-        android:id="@+id/top_ten_music"
+    <ListView
+        android:id="@+id/top_ten_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="go to music top ten"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
