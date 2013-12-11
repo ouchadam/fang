@@ -3,8 +3,8 @@ package com.ouchadam.fang.debug;
 import android.content.ContentResolver;
 
 import com.ouchadam.fang.Log;
-import com.ouchadam.fang.parsing.ChannelFinder;
-import com.ouchadam.fang.parsing.PodcastParser;
+import com.ouchadam.fang.parsing.podcast.ChannelFinder;
+import com.ouchadam.fang.parsing.podcast.PodcastParser;
 import com.ouchadam.fang.persistance.ChannelPersister;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;

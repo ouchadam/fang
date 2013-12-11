@@ -38,7 +38,6 @@ public class DebugActivity extends BasePreferenceActivity {
         }
     };
 
-
     private final Preference.OnPreferenceClickListener fetchLiveAndPersistData = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
@@ -80,7 +79,8 @@ public class DebugActivity extends BasePreferenceActivity {
     private final Preference.OnPreferenceClickListener addToPlaylist = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L, 0);
+            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L);
+            itemToPlaylist.setListPosition(0);
             new AddToPlaylistPersister(getContentResolver()).persist(itemToPlaylist);
             Toast.makeText(DebugActivity.this, "Added to playlist", Toast.LENGTH_SHORT).show();
             return false;

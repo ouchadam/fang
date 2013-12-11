@@ -1,4 +1,4 @@
-package com.ouchadam.fang.parsing;
+package com.ouchadam.fang.parsing.podcast;
 
 import com.novoda.sexp.marshaller.AttributeMarshaller;
 import com.ouchadam.fang.domain.item.Audio;

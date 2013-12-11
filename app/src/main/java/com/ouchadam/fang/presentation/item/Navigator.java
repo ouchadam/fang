@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ouchadam.fang.presentation.controller.ChannelActivity;
+import com.ouchadam.fang.presentation.controller.TopTenActivity;
 
 public class Navigator {
 
@@ -19,4 +20,8 @@ public class Navigator {
         context.startActivity(intent);
     }
 
+    public void toTopTen() {
+        Intent intent = new Intent(context, TopTenActivity.class);
+        context.startActivity(intent);
+    }
 }

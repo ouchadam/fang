@@ -9,8 +9,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.ouchadam.fang.domain.channel.Channel;
-import com.ouchadam.fang.parsing.ChannelFinder;
-import com.ouchadam.fang.parsing.PodcastParser;
+import com.ouchadam.fang.parsing.podcast.ChannelFinder;
+import com.ouchadam.fang.parsing.podcast.PodcastParser;
 import com.ouchadam.fang.persistance.ChannelPersister;
 
 import java.io.IOException;

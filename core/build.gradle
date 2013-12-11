@@ -6,7 +6,7 @@ targetCompatibility = 1.6
 dependencies {
 
     compile 'com.novoda.notils:java:1.0'
-    compile 'com.novoda.sexp:core:1.0.2-alpha'
+    compile 'com.novoda:sexp:1.0.2-SNAPSHOT'
     compile 'com.github.kevinsawicki:http-request:5.4.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.1.1'
