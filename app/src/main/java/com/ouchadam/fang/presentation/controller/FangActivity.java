@@ -157,7 +157,11 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         @Override
         public void onDownloadClicked(FullItem fullItem) {
             ItemDownloader itemDownloader = new ItemDownloader(FangActivity.this, FangActivity.this);
-            itemDownloader.downloadItem(fullItem.getItem());
+            try {
+                itemDownloader.downloadItem(fullItem.getItem());
+            } catch (ItemDownloader.LinkValidator.BadLinkException e) {
+                Toast.makeText(FangActivity.this, "Oops... " + e.getLink() + " is a bad url!", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 

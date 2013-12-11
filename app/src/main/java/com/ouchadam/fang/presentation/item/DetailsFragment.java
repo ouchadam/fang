@@ -92,6 +92,8 @@ public class DetailsFragment extends Fragment {
             itemDownloader.downloadItem(item.getItem());
         } catch (IllegalAccessException e) {
             Toast.makeText(getActivity(), "Oops... no podcast found!", Toast.LENGTH_SHORT).show();
+        } catch (ItemDownloader.LinkValidator.BadLinkException e) {
+            Toast.makeText(getActivity(), "Oops... " + e.getLink() + " is a bad url!", Toast.LENGTH_SHORT).show();
         }
     }
 

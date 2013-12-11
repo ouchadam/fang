@@ -1,6 +1,7 @@
 package com.ouchadam.fang.presentation.item;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.ouchadam.bookkeeper.DownloadWatcher;
 import com.ouchadam.bookkeeper.Downloader;
@@ -18,14 +19,17 @@ public class ItemDownloader {
 
     private final Downloader downloader;
     private final Context context;
+    private final LinkValidator linkValidator;
     private List<LazyWatcher> lazyWatchers;
 
     public ItemDownloader(Downloader downloader, Context context) {
         this.downloader = downloader;
         this.context = context;
+        this.linkValidator = new LinkValidator();
     }
 
-    public void downloadItem(Item item) {
+    public void downloadItem(Item item) throws LinkValidator.BadLinkException {
+        linkValidator.validateOrThrow(item.getLink());
         ItemDownload downloadable = ItemDownload.from(item);
         DownloadId downloadId = downloader.keep(downloadable);
         addToPlaylist(context, item, downloadId);
@@ -52,6 +56,28 @@ public class ItemDownloader {
 
     public void setWatchers(LazyWatcher... lazyWatchers) {
         this.lazyWatchers = Arrays.asList(lazyWatchers);
+    }
+
+    public static class LinkValidator {
+
+        public void validateOrThrow(String link) throws BadLinkException {
+            if (link == null || TextUtils.isEmpty(link)) {
+                throw new BadLinkException(link);
+            }
+        }
+
+        public static class BadLinkException extends Exception {
+            private String link;
+
+            public BadLinkException(String link) {
+                super("bad download link, got : " + "\"" + link + "\"");
+                this.link = link;
+            }
+
+            public String getLink() {
+                return "\"" + link + "\"";
+            }
+        }
     }
 
 }
