@@ -14,17 +14,14 @@ import android.widget.Toast;
 
 import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.api.search.ItunesSearch;
 import com.ouchadam.fang.api.search.Result;
-import com.ouchadam.fang.api.search.SearchResult;
 import com.ouchadam.fang.debug.ParseHelper;
 import com.ouchadam.fang.presentation.item.ActionBarTitleSetter;
 
 import java.util.List;
 
-public class ExploreResultsFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ExploreResultsFragment extends Fragment implements AdapterView.OnItemClickListener, ItunesApiHelper.OnSearch {
 
-    private final static Handler HANDLER = new Handler(Looper.getMainLooper());
     private final ActionBarTitleSetter actionBarTitleSetter;
     private SearchAdapter adapter;
 
@@ -86,31 +83,17 @@ public class ExploreResultsFragment extends Fragment implements AdapterView.OnIt
     }
 
     private void performSearch(final String searchTerm) {
-        // TODO give this horrible quick hack some love
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final SearchResult search;
-                try {
-                    search = new ItunesSearch().search(searchTerm);
-                    HANDLER.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateAdapter(search.getResults());
-                        }
-                    });
-                } catch (ItunesSearch.ItunesSearchException e) {
-                    e.printStackTrace();
-                    HANDLER.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "oopsies... search dun goofed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+        new ItunesApiHelper(this).search(searchTerm);
+    }
 
-            }
-        }).start();
+    @Override
+    public void onSearch(List<Result> results) {
+        updateAdapter(results);
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Toast.makeText(getActivity(), "oopsies... search dun goofed", Toast.LENGTH_SHORT).show();
     }
 
     private void updateAdapter(List<Result> results) {

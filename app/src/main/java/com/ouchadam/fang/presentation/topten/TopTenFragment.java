@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.novoda.notils.caster.Views;
 import com.ouchadam.fang.Log;
@@ -15,9 +17,15 @@ import com.ouchadam.fang.parsing.itunesrss.TopPodcastFeed;
 import com.ouchadam.fang.parsing.itunesrss.TopPodcastParser;
 import com.ouchadam.fang.presentation.search.TopTenAdapter;
 
+import org.apache.http.protocol.HTTP;
+import org.xml.sax.InputSource;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.Scanner;
 
 public class TopTenFragment extends Fragment {
 
@@ -40,7 +48,21 @@ public class TopTenFragment extends Fragment {
         listView = Views.findById(root, R.id.list);
         adapter = new TopTenAdapter(inflater, getActivity());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(onItemClickListener);
         return root;
+    }
+
+    private final ListView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            Entry entry = adapter.getItem(position);
+            subscribeToEntry(entry);
+        }
+    };
+
+    private void subscribeToEntry(Entry entry) {
+        Toast.makeText(getActivity(), "Adding : " + entry.getName(), Toast.LENGTH_SHORT).show();
+        new EntrySubscriber(entry, getActivity()).subscribe();
     }
 
     @Override
@@ -79,13 +101,19 @@ public class TopTenFragment extends Fragment {
     private TopPodcastFeed getTopTenFor(String url) {
         TopPodcastParser topPodcastParser = TopPodcastParser.newInstance();
         try {
-            InputStream urlInputStream = getInputStreamFrom(url);
             Log.e("!!! : url : " + url);
-            topPodcastParser.parse(urlInputStream);
+            InputSource source = new InputSource(new URL(url).openStream());
+            source.setEncoding(HTTP.UTF_8);
+            topPodcastParser.parse(source.getByteStream());
             return topPodcastParser.getResult();
         } catch (IOException e) {
             throw new RuntimeException();
         }
+    }
+
+    private void logUrl(InputStream urlInputStream) {
+        Scanner s = new java.util.Scanner(urlInputStream).useDelimiter("\\A");
+        Log.e(s.hasNext() ? s.next() : "");
     }
 
     private InputStream getInputStreamFrom(String url) throws IOException {

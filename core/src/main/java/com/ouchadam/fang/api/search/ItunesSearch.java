@@ -14,11 +14,10 @@ import java.util.Map;
 public class ItunesSearch {
 
     private static final String ITUNES_SEARCH_URL = "https://itunes.apple.com/search";
+    private static final String ITUNES_SEARCH_LOOKUP = "https://itunes.apple.com/lookup";
 
     public SearchResult search(String searchTerm) throws ItunesSearchException {
-
         searchTerm = searchTerm.replace(" ", "+");
-
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("term", searchTerm);
@@ -26,7 +25,27 @@ public class ItunesSearch {
 //        params.put("limit", "3");
 
         HttpRequest request = HttpRequest.get(ITUNES_SEARCH_URL, params, true);
+        SearchResult searchResult = getSearchResult(request);
+        if (searchResult != null) {
+            return searchResult;
+        }
+        throw new ItunesSearchException("Search failed");
+    }
 
+    public SearchResult lookup(String id) throws ItunesSearchException {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", id);
+
+        HttpRequest request = HttpRequest.get(ITUNES_SEARCH_LOOKUP, params, true);
+        SearchResult searchResult = getSearchResult(request);
+        if (searchResult != null) {
+            return searchResult;
+        }
+        throw new ItunesSearchException("Search failed");
+    }
+
+
+    private SearchResult getSearchResult(HttpRequest request) {
         if (request.ok()) {
             InputStream inputStream = request.buffer();
             try {
@@ -35,7 +54,7 @@ public class ItunesSearch {
                 e.printStackTrace();
             }
         }
-        throw new ItunesSearchException("Search failed");
+        return null;
     }
 
     public static class ItunesSearchException extends Exception {

@@ -13,7 +13,7 @@ import org.xml.sax.Attributes;
 class EntryParser implements Parser<Entry> {
 
     private static final String NAMESPACE_IM = "http://itunes.apple.com/rss";
-    public static final String NAMESPACE = "http://www.w3.org/2005/Atom";
+    private static final String NAMESPACE = "http://www.w3.org/2005/Atom";
 
     private static final String TAG_TITLE = "title";
     private static final String TAG_ID = "id";
