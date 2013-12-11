@@ -13,7 +13,7 @@ import com.ouchadam.fang.persistance.database.Uris;
 
 public class PlaylistAddService extends IntentService {
 
-    static final String ACTION = "action";
+    static final String ACTION = "playlistAddService";
     static final String EXTRA_PLAYLIST_ITEM = "key";
 
     private static final int NEXT_POSITION_OFFSET = 1;

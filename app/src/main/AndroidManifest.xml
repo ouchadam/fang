@@ -73,6 +73,12 @@
     <service android:name=".notification.NotificationService"/>
     <service android:name=".debug.ChannelFeedDownloadService"/>
 
+    <service android:name=".presentation.item.PlaylistAddService">
+        <intent-filter>
+            <action android:name="playlistAddService"/>
+        </intent-filter>
+    </service>
+
     <service
       android:name=".sync.FangSyncService"
       android:exported="true">
