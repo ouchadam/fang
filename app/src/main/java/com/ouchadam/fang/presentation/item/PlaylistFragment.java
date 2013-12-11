@@ -13,41 +13,39 @@ import android.widget.Toast;
 
 import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
-import com.ouchadam.bookkeeper.Downloader;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
-import com.ouchadam.fang.audio.event.PlayerEvent;
-import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+import com.ouchadam.fang.presentation.FastModeHandler;
 import com.ouchadam.fang.presentation.FullItemMarshaller;
 import com.ouchadam.fang.presentation.panel.OverflowCallback;
 import com.ouchadam.fang.presentation.panel.SlidingPanelExposer;
 
-import novoda.android.typewriter.cursor.CursorMarshaller;
-
 import java.util.List;
 
-public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>, PlaylistActionMode.OnPlaylistActionMode, PlaylistAdapter.IsPlayingFetcher, PlaylistAdapter.OnPlayListener {
+import novoda.android.typewriter.cursor.CursorMarshaller;
+
+public class PlaylistFragment extends CursorBackedListFragment<FullItem> implements OnItemClickListener<FullItem>, CursorBackedListFragment.OnLongClickListener<FullItem>, PlaylistActionMode.OnPlaylistActionMode, OnFastMode<FullItem> {
 
     private final ActionBarTitleSetter actionBarTitleSetter;
+    private final FastModeHandler fastModeHandler;
+    private final ListWatcherRestorer listWatcherRestorer;
 
-    private Downloader downloader;
     private DetailsDisplayManager detailsDisplayManager;
     private PlaylistActionMode playlistActionMode;
     private SlidingPanelExposer panelController;
-    private PodcastPlayerEventBroadcaster eventBroadcaster;
     private TextView spaceUsageText;
-    private boolean hasRestored;
     private OverflowCallback overflowCallback;
     private PlaylistAdapter playlistAdapter;
 
     public PlaylistFragment() {
-        this.hasRestored = false;
+        this.fastModeHandler = new FastModeHandler();
         this.actionBarTitleSetter = new ActionBarTitleSetter();
+        this.listWatcherRestorer = new ListWatcherRestorer();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
 
     @Override
     protected TypedListAdapter<FullItem> createAdapter() {
-        playlistAdapter = new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, this, new ItemManipulator(childFetcher));
+        playlistAdapter = new PlaylistAdapter(LayoutInflater.from(getActivity()), getActivity(), this, new ItemManipulator<PlaylistAdapter.ViewHolder>(childFetcher));
         return playlistAdapter;
     }
 
@@ -86,13 +84,13 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        downloader = Classes.from(activity);
+        listWatcherRestorer.onAttach(activity);
         actionBarTitleSetter.onAttach(activity);
         panelController = Classes.from(activity);
         detailsDisplayManager = new DetailsDisplayManager(panelController, new NavigatorForResult(activity));
-        eventBroadcaster = new PodcastPlayerEventBroadcaster(activity);
         playlistActionMode = new PlaylistActionMode(activity, this);
         overflowCallback = Classes.from(activity);
+        fastModeHandler.onAttach(activity);
     }
 
     @Override
@@ -143,9 +141,8 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     @Override
     public void onDataUpdated(List<FullItem> data) {
         super.onDataUpdated(data);
-        if (!data.isEmpty() && !hasRestored) {
-            downloader.restore(new LazyListItemWatcher((ListItemWatcher.ItemWatcher) getAdapter()));
-            hasRestored = true;
+        if (!data.isEmpty()) {
+            listWatcherRestorer.restoreWatcher((ListItemWatcher.ItemWatcher) getAdapter());
         }
     }
 
@@ -195,22 +192,6 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     }
 
     @Override
-    public boolean isPlaying(long itemId) {
-        return panelController.isPlaying(itemId);
-    }
-
-    @Override
-    public void onPlayPause(FullItem fullItem) {
-        if (panelController.getId() == fullItem.getItemId()) {
-            eventBroadcaster.broadcast(new PlayerEvent.Factory().playPause());
-        } else {
-            eventBroadcaster.broadcast(new PlayerEvent.Factory().pause());
-            eventBroadcaster.broadcast(new PlayerEvent.Factory().newSource(fullItem.getPlaylistPosition(), "PLAYLIST"));
-            eventBroadcaster.broadcast(new PlayerEvent.Factory().play());
-        }
-    }
-
-    @Override
     protected boolean canRefresh() {
         return false;
     }
@@ -221,4 +202,18 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         }
     }
 
+    @Override
+    public void onFastMode(FullItem what) {
+        fastModeHandler.onFastMode(what, new LazyListItemWatcher((ListItemWatcher.ItemWatcher) getAdapter()));
+    }
+
+    @Override
+    public boolean isPlaying(long itemId) {
+        return fastModeHandler.isPlaying(itemId);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return fastModeHandler.isEnabled();
+    }
 }

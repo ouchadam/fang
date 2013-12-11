@@ -35,9 +35,13 @@ public class ItemDownloader {
         DownloadId downloadId = downloader.keep(downloadable);
         addToPlaylist(context, item, downloadId);
         downloader.store(downloadId, item.getId());
-        downloader.watch(downloadId, buildWatchers(lazyWatchers, downloadId, item.getId()));
+        watchDownload(item, downloadId);
         AsyncNotificationWatcher asyncNotificationWatcher = new AsyncNotificationWatcher(context, downloadable, downloadId);
         asyncNotificationWatcher.startWatching();
+    }
+
+    private void watchDownload(Item item, DownloadId downloadId) {
+        downloader.watch(downloadId, buildWatchers(lazyWatchers, downloadId, item.getId()));
     }
 
     private void addToPlaylist(Context context, Item item, DownloadId downloadId) {
@@ -46,17 +50,27 @@ public class ItemDownloader {
     }
 
     private DownloadWatcher[] buildWatchers(List<LazyWatcher> lazyWatchers, DownloadId downloadId, long itemId) {
-        DownloadWatcher[] downloadWatchers = new DownloadWatcher[lazyWatchers.size()];
-        int index = 0;
-        for (LazyWatcher lazyWatcher : lazyWatchers) {
-            downloadWatchers[index] = lazyWatcher.create(downloadId, itemId);
-            index++;
+        if (areValid(lazyWatchers)) {
+            DownloadWatcher[] downloadWatchers = new DownloadWatcher[lazyWatchers.size()];
+            int index = 0;
+            for (LazyWatcher lazyWatcher : lazyWatchers) {
+                downloadWatchers[index] = lazyWatcher.create(downloadId, itemId);
+                index++;
+            }
+            return downloadWatchers;
+        } else {
+            return new DownloadWatcher[0];
         }
-        return downloadWatchers;
+    }
+
+    private boolean areValid(List<LazyWatcher> lazyWatchers) {
+        return lazyWatchers != null && !lazyWatchers.isEmpty() && !lazyWatchers.contains(null);
     }
 
     public void setWatchers(LazyWatcher... lazyWatchers) {
-        this.lazyWatchers = Arrays.asList(lazyWatchers);
+        if (lazyWatchers != null) {
+            this.lazyWatchers = Arrays.asList(lazyWatchers);
+        }
     }
 
     public static class LinkValidator {

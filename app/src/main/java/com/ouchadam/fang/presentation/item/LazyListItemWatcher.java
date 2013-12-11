@@ -5,11 +5,11 @@ import com.ouchadam.bookkeeper.domain.DownloadId;
 import com.ouchadam.bookkeeper.watcher.LazyWatcher;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 
-class LazyListItemWatcher implements LazyWatcher {
+public class LazyListItemWatcher implements LazyWatcher {
 
     private final ListItemWatcher.ItemWatcher itemWatcher;
 
-    LazyListItemWatcher(ListItemWatcher.ItemWatcher itemWatcher) {
+    public LazyListItemWatcher(ListItemWatcher.ItemWatcher itemWatcher) {
         this.itemWatcher = itemWatcher;
     }
 

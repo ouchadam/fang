@@ -62,14 +62,12 @@ public abstract class CursorBackedListFragment<T> extends Fragment implements Da
 
     @Override
     public void setRefreshing() {
-        Log.e("!!!Set refreshing");
         pullToRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void refreshComplete() {
         if (pullToRefreshLayout.isRefreshing()) {
-            Log.e("!!!Refreshing complete");
             pullToRefreshLayout.setRefreshComplete();
         }
     }

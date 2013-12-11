@@ -8,18 +8,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.novoda.notils.caster.Views;
+import com.ouchadam.bookkeeper.domain.ProgressValues;
+import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
+import com.ouchadam.bookkeeper.watcher.adapter.ListItemProgress;
+import com.ouchadam.bookkeeper.watcher.adapter.ProgressDelegate;
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.squareup.picasso.Picasso;
 
-public class ItemAdapter extends TypedListAdapter<FullItem> {
+public class ItemAdapter extends TypedListAdapter<FullItem> implements ListItemWatcher.ItemWatcher, ItemNotifier.WatcherUpdate<FullItem,ItemAdapter.ViewHolder> {
 
     private final LayoutInflater layoutInflater;
     private final Context context;
+    private final OnFastMode<FullItem> onFastModeListener;
+    private final ItemProgressManager progressDelegate;
+    private final ItemNotifier<FullItem, ViewHolder> itemNotifier;
 
-    public ItemAdapter(LayoutInflater layoutInflater, Context context) {
+    public ItemAdapter(LayoutInflater layoutInflater, Context context, OnFastMode<FullItem> onFastModeListener, ItemManipulator<ViewHolder> itemManipulator) {
         this.layoutInflater = layoutInflater;
         this.context = context;
+        this.onFastModeListener = onFastModeListener;
+        this.progressDelegate = new ItemProgressManager(this);
+        this.itemNotifier = new ItemNotifier<FullItem, ViewHolder>(itemManipulator, this, this);
     }
 
     @Override
@@ -28,48 +39,71 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
     }
 
     private View getItemView(int position, View view, ViewGroup viewGroup) {
+        Log.e("XXX getView");
+
         if (view == null) {
-            view = createAdapterView(layoutInflater, position, viewGroup);
+            view = createAdapterView(layoutInflater, viewGroup);
         }
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
+        PositionHolder positionHolder = (PositionHolder) viewHolder.fastModeContainer.getTag();
+        positionHolder.position = position;
+
         FullItem item = getItem(position);
-
-        updateViewPosition(viewHolder, position);
-        updateViewHolder(viewHolder, item);
+        ListItemProgress.Stage stage = progressDelegate.getStage(position);
+        updateViewHolder(position, viewHolder, stage, item);
+        setHolderTextColour(viewHolder, item);
+        setHolderImage(viewHolder, item);
+        setIndicator(viewHolder, item);
         return view;
     }
 
-    private View createAdapterView(LayoutInflater inflater, int position, ViewGroup parent) {
+    private View createAdapterView(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.item_adapter, parent, false);
-        initView(view, position);
+        initView(view);
         return view;
     }
 
-    private void initView(View view, int position) {
-        view.setTag(createViewHolder(view, position));
+    private void initView(View view) {
+        view.setTag(createViewHolder(view));
     }
 
-    private ViewHolder createViewHolder(View view, int position) {
+    private ViewHolder createViewHolder(View view) {
         ViewHolder holder = new ViewHolder();
         holder.title = Views.findById(view, R.id.text);
         holder.indicator = Views.findById(view, R.id.item_indicator);
         holder.channelTitle = Views.findById(view, R.id.channel_title);
         holder.channelImage = Views.findById(view, R.id.channel_image);
         holder.itemTime = Views.findById(view, R.id.item_time);
-        holder.position = position;
+        holder.fastModeContainer = Views.findById(view, R.id.fast_mode_container);
+        holder.fastModeContainer.setTag(new PositionHolder());
+        holder.fastModeContainer.setOnClickListener(onFastModeItemClick);
         return holder;
     }
 
-    private void updateViewPosition(ViewHolder viewHolder, int position) {
-        viewHolder.position = position;
+    private final View.OnClickListener onFastModeItemClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            if (onFastModeListener.isEnabled()) {
+                PositionHolder position = (PositionHolder) view.getTag();
+                FullItem item = getItem(position.position);
+                onFastModeListener.onFastMode(item);
+            }
+        }
+    };
+
+    private void updateViewHolder(int position, ViewHolder viewHolder, ListItemProgress.Stage stage, FullItem item) {
+        if (stage == ListItemProgress.Stage.IDLE) {
+            updateIdleViewHolder(viewHolder, item);
+        } else {
+            progressDelegate.handleDownloadProgress(position, viewHolder);
+        }
     }
 
-    private void updateViewHolder(ViewHolder holder, FullItem item) {
+
+    private void updateIdleViewHolder(ViewHolder holder, FullItem item) {
         setHolderText(holder, item);
-        setHolderTextColour(holder, item);
-        setHolderImage(holder, item);
-        setIndicator(holder, item);
     }
 
     private void setHolderTextColour(ViewHolder holder, FullItem item) {
@@ -135,13 +169,38 @@ public class ItemAdapter extends TypedListAdapter<FullItem> {
         return getItem(position).getItem().getId();
     }
 
-    static class ViewHolder {
+    @Override
+    public void setStageFor(long itemId, ListItemProgress.Stage stage) {
+        progressDelegate.setStageFor(itemId, stage);
+    }
+
+    @Override
+    public void updateProgressValuesFor(long itemId, ProgressValues progressValues) {
+        progressDelegate.updateProgressValuesFor(itemId, progressValues);
+    }
+
+    @Override
+    public void notifyItem(long itemId, ListItemProgress.Stage stage) {
+        itemNotifier.notifyItem(itemId, R.id.item_adapter_container, stage);
+    }
+
+    @Override
+    public void onWatcherUpdate(int position, ViewHolder viewHolder, ListItemProgress.Stage stage, FullItem item) {
+        updateViewHolder(position, viewHolder, stage, item);
+    }
+
+    public static class ViewHolder {
         View indicator;
         TextView title;
         TextView channelTitle;
         TextView itemTime;
         ImageView channelImage;
+        View fastModeContainer;
+    }
+
+    private static class PositionHolder {
         int position;
     }
+
 
 }
