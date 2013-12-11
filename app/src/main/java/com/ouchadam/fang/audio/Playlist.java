@@ -22,7 +22,6 @@ class Playlist {
     private OnPlaylistPrepared onPlaylistPrepared;
 
     public interface OnPlaylistPrepared {
-
         void onPrepared();
     }
 
@@ -93,7 +92,6 @@ class Playlist {
         list.addAll(playlistItems);
         if (onPlaylistPrepared != null) {
             onPlaylistPrepared.onPrepared();
-            onPlaylistPrepared = null;
         } else {
             Log.e("onPlaylistPrepared listener is null, skipping callback");
         }

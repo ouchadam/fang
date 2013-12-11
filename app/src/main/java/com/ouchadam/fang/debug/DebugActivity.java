@@ -38,7 +38,6 @@ public class DebugActivity extends BasePreferenceActivity {
         }
     };
 
-
     private final Preference.OnPreferenceClickListener fetchLiveAndPersistData = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {

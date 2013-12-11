@@ -55,9 +55,14 @@ class AudioHandler {
         @Override
         public void onPrepared() {
             playlist.moveTo(playlistPosition);
-            if (playlist.isValid() && playlist.currentItemIsValid()) {
-                setSource();
-                triggerQueue();
+            if (playlist.isValid()) {
+                if (playlist.currentItemIsValid()) {
+                    setSource();
+                    triggerQueue();
+                } else {
+                    Log.d("play list is valid but item isn't, trying next");
+                    onNext();
+                }
             }
         }
     };
