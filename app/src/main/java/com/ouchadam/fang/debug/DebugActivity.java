@@ -54,7 +54,8 @@ public class DebugActivity extends BasePreferenceActivity {
                     "http://radiofrance-podcast.net/podcast09/rss_13104.xml",
                     "http://radiofrance-podcast.net/podcast09/rss_12581.xml",
                     "http://feeds.feedburner.com/ThisIsMyNextPodcast",
-                    "http://www.goingquantum.ca/podcastgen/feed.xml"
+                    "http://www.goingquantum.ca/podcastgen/feed.xml",
+                    "http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage"
             );
             return false;
         }
@@ -79,7 +80,8 @@ public class DebugActivity extends BasePreferenceActivity {
     private final Preference.OnPreferenceClickListener addToPlaylist = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L, 0);
+            ItemToPlaylist itemToPlaylist = new ItemToPlaylist(1, 0L);
+            itemToPlaylist.setListPosition(0);
             new AddToPlaylistPersister(getContentResolver()).persist(itemToPlaylist);
             Toast.makeText(DebugActivity.this, "Added to playlist", Toast.LENGTH_SHORT).show();
             return false;
