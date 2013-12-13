@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ouchadam.fang.view.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/playlist_adapter_container"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="100dp"
-                android:background="@drawable/card_background">
-
-  <RelativeLayout
-    android:layout_width="wrap_content"
+    android:id="@+id/playlist_adapter_container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:layout_toLeftOf="@+id/channel_image_holder"
-    android:layout_centerVertical="true"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:minHeight="100dp"
+    android:background="@drawable/card_background">
 
-    <TextView
-      android:id="@+id/text"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:maxLines="2"
-      android:textStyle="bold"
-      android:fontFamily="sans-serif-thin"
-      android:ellipsize="end"
-      android:textSize="19sp"
-      android:paddingBottom="2dp"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_toLeftOf="@+id/channel_image_holder"
+        android:layout_centerVertical="true"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
-    <TextView
-      android:id="@+id/channel_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:maxLines="1"
-      android:ellipsize="end"
-      android:fontFamily="sans-serif-light"
-      android:textSize="14sp"
-      android:textColor="@android:color/darker_gray"
-      android:layout_below="@id/text"/>
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-thin"
+            android:ellipsize="end"
+            android:textSize="19sp"
+            android:paddingBottom="2dp" />
 
-    <TextView
-      android:id="@+id/item_time"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:maxLines="1"
-      android:ellipsize="end"
-      android:textSize="13sp"
-      android:fontFamily="sans-serif-medium"
-      android:textStyle="italic"
-      android:textColor="#089983"
-      android:paddingTop="6dp"
-      android:layout_below="@id/channel_title"/>
+        <TextView
+            android:id="@+id/channel_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_below="@id/text" />
 
-    <TextView
-      android:id="@+id/listened"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:maxLines="1"
-      android:ellipsize="end"
-      android:textSize="13sp"
-      android:fontFamily="sans-serif-medium"
-      android:textStyle="italic"
-      android:textColor="#089983"
-      android:paddingTop="6dp"
-      android:layout_below="@id/channel_title"
-      android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="italic"
+            android:textColor="#089983"
+            android:paddingTop="6dp"
+            android:layout_below="@id/channel_title" />
 
-  </RelativeLayout>
+        <TextView
+            android:id="@+id/listened"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="italic"
+            android:textColor="#089983"
+            android:paddingTop="6dp"
+            android:layout_below="@id/channel_title"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@id/channel_image_holder"
@@ -79,28 +79,19 @@
             android:id="@+id/channel_image"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
-        </FrameLayout>
+    </FrameLayout>
 
-    <ImageView
-        android:id="@+id/image_play_button"
-        android:layout_width="110dp"
-        android:minHeight="100dp"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
-
-  <ProgressBar
-    android:id="@+id/progress"
-    style="@style/FangProgressTheme"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_toLeftOf="@id/channel_image_holder"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:visibility="gone"/>
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/FangProgressTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/channel_image_holder"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:visibility="gone" />
 
 </com.ouchadam.fang.view.CheckableRelativeLayout>

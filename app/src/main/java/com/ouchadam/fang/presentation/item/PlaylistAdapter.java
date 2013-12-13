@@ -14,7 +14,6 @@ import com.ouchadam.bookkeeper.domain.ProgressValues;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.bookkeeper.watcher.adapter.ListItemProgress;
 import com.ouchadam.bookkeeper.watcher.adapter.ProgressDelegate;
-import com.ouchadam.fang.Log;
 import com.ouchadam.fang.R;
 import com.ouchadam.fang.domain.FullItem;
 import com.squareup.picasso.Picasso;
@@ -39,14 +38,13 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         View view = createView(convertView, viewGroup);
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        PositionHolder positionHolder = (PositionHolder) viewHolder.playButton.getTag();
+        PositionHolder positionHolder = (PositionHolder) viewHolder.fastMode.getTag();
         positionHolder.position = position;
 
         ListItemProgress.Stage stage = progressDelegate.getStage(position);
         FullItem item = getItem(position);
         updateViewHolder(position, viewHolder, stage, item);
         setHolderImage(viewHolder, item.getImageUrl());
-        initPlayButton(viewHolder, item);
         return view;
     }
 
@@ -56,28 +54,6 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         } else {
             progressDelegate.handleDownloadProgress(position, viewHolder);
         }
-    }
-
-    private void initPlayButton(ViewHolder viewHolder, FullItem item) {
-        long itemId = item.getItemId();
-        if (item.isDownloaded()) {
-            viewHolder.playButton.setVisibility(View.VISIBLE);
-            viewHolder.playButton.setImageDrawable(onFastModeListener.isPlaying(itemId) ? getPauseDrawable() : getPlayDrawable());
-        } else {
-            viewHolder.playButton.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private Drawable getPauseDrawable() {
-        return getDrawable(R.drawable.ic_pause_over_video);
-    }
-
-    private Drawable getPlayDrawable() {
-        return getDrawable(R.drawable.ic_play_over_video);
-    }
-
-    private Drawable getDrawable(int id) {
-        return context.getResources().getDrawable(id);
     }
 
     private View createView(View convertView, ViewGroup viewGroup) {
@@ -103,9 +79,9 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         tag.channelImage = Views.findById(newView, R.id.channel_image);
         tag.itemTime = Views.findById(newView, R.id.item_time);
         tag.listened = Views.findById(newView, R.id.listened);
-        tag.playButton = Views.findById(newView, R.id.image_play_button);
-        tag.playButton.setTag(new PositionHolder());
-        tag.playButton.setOnClickListener(onClickListener);
+        tag.fastMode = Views.findById(newView, R.id.channel_image_holder);
+        tag.fastMode.setTag(new PositionHolder());
+        tag.fastMode.setOnClickListener(onClickListener);
     }
 
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -157,18 +133,6 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         updateViewHolder(position, viewHolder, stage, item);
     }
 
-    public void setPlaying(long itemId, boolean isPlaying) {
-        try {
-            ViewHolder viewHolder = itemNotifier.getViewHolder(itemId, R.id.playlist_adapter_container);
-            if (viewHolder.playButton != null) {
-                viewHolder.playButton.setImageDrawable(isPlaying ? getPauseDrawable() : getPlayDrawable());
-            }
-        } catch (ItemManipulator.ViewHolderNotFoundException e) {
-            Log.e("Tried to set playing but the view holder is not available");
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public long getItemId(int position) {
         return getItem(position).getItemId();
@@ -179,7 +143,7 @@ public class PlaylistAdapter extends TypedListAdapter<FullItem> implements ListI
         TextView channelTitle;
         TextView itemTime;
         TextView listened;
-        ImageView playButton;
+        View fastMode;
         ImageView channelImage;
         ProgressBar progressBar;
     }

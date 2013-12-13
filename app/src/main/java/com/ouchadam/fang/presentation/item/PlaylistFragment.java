@@ -196,12 +196,6 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         return false;
     }
 
-    public void setItemPlaying(long itemId, boolean isPlaying) {
-        if (playlistAdapter != null) {
-            playlistAdapter.setPlaying(itemId, isPlaying);
-        }
-    }
-
     @Override
     public void onFastMode(FullItem what) {
         fastModeHandler.onFastMode(what, new LazyListItemWatcher((ListItemWatcher.ItemWatcher) getAdapter()));

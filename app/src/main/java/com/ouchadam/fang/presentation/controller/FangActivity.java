@@ -129,16 +129,8 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         @Override
         public void onSync(SyncEvent syncEvent) {
             slidingPanelController.sync(syncEvent);
-            updatePlaylistAdapter(syncEvent);
         }
     };
-
-    private void updatePlaylistAdapter(SyncEvent syncEvent) {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-        if (currentFragment != null && currentFragment instanceof PlaylistFragment) {
-            ((PlaylistFragment) currentFragment).setItemPlaying(syncEvent.itemId, syncEvent.isPlaying);
-        }
-    }
 
     private void initDrawer() {
         DrawerNavigator drawerNavigator = new DrawerNavigator(getSupportFragmentManager());
