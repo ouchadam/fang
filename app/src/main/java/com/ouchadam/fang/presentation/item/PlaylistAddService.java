@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.novoda.notils.caster.Classes;
+import com.ouchadam.fang.audio.ItemSourceFetcher;
+import com.ouchadam.fang.audio.Playlist;
+import com.ouchadam.fang.audio.PlaylistLoader;
 import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
+
+import java.util.List;
 
 public class PlaylistAddService extends IntentService {
 
@@ -60,5 +65,4 @@ public class PlaylistAddService extends IntentService {
     private int getPlaylistTotal() {
         return databaseCounter.getCurrentCount();
     }
-
 }

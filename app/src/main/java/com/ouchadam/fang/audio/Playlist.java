@@ -1,15 +1,18 @@
 package com.ouchadam.fang.audio;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 
 import com.novoda.notils.java.Collections;
 import com.ouchadam.fang.Log;
+import com.ouchadam.fang.domain.ItemToPlaylist;
 import com.ouchadam.fang.domain.PodcastPosition;
+import com.ouchadam.fang.persistance.AddToPlaylistPersister;
 
 import java.util.List;
 
-class Playlist {
+public class Playlist {
 
     static final long MISSING_ID = -1L;
     private static final int ZERO_INDEX_OFFSET = 1;
@@ -75,6 +78,10 @@ class Playlist {
         return (playlistPosition - ZERO_INDEX_OFFSET) < list.size() && (playlistPosition - ZERO_INDEX_OFFSET) > 0 ? playlistPosition : ZERO_INDEX_OFFSET;
     }
 
+    public void refresh(ContentResolver contentResolver) {
+        new PlaylistPositionRefresher(contentResolver, playlistLoader).refresh();
+    }
+
     public void load(OnPlaylistPrepared onPlaylistPrepared) {
         this.onPlaylistPrepared = onPlaylistPrepared;
         playlistLoader.load(onPlaylistLoad);
@@ -114,7 +121,7 @@ class Playlist {
         return list.size() >= position && position > 0;
     }
 
-    static class PlaylistItem {
+    public static class PlaylistItem {
 
         long id;
         int listPosition;
@@ -127,6 +134,10 @@ class Playlist {
 
         public boolean isDownloaded() {
             return source != null;
+        }
+
+        public void setListPosition(int listPosition) {
+            this.listPosition = listPosition;
         }
 
     }

@@ -64,6 +64,8 @@ public class PlayerEventIntentMarshaller implements IntentMarshaller<PlayerEvent
                 return factory.complete();
             case RESET:
                 return factory.reset();
+            case REFRESH:
+                return factory.refresh();
             default:
                 throw new RuntimeException("Intent has unhandled event : " + event);
         }

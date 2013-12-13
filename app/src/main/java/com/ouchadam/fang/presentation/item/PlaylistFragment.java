@@ -15,6 +15,10 @@ import com.novoda.notils.caster.Classes;
 import com.novoda.notils.caster.Views;
 import com.ouchadam.bookkeeper.watcher.ListItemWatcher;
 import com.ouchadam.fang.R;
+import com.ouchadam.fang.audio.ItemSourceFetcher;
+import com.ouchadam.fang.audio.PlaylistLoader;
+import com.ouchadam.fang.audio.event.PlayerEvent;
+import com.ouchadam.fang.audio.event.PodcastPlayerEventBroadcaster;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.persistance.FangProvider;
 import com.ouchadam.fang.persistance.Query;
@@ -171,6 +175,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
         dismissCurrent(selectedItems);
         if (selectedItems != null && !selectedItems.isEmpty()) {
             DownloadDeleter.from(getActivity()).deleteItems(selectedItems);
+            new PodcastPlayerEventBroadcaster(getActivity()).broadcast(new PlayerEvent.Factory().refresh());
         } else {
             Toast.makeText(getActivity(), "Failed to delete, couldn't find and podcasts", Toast.LENGTH_SHORT).show();
         }

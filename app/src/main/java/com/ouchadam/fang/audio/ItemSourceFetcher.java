@@ -10,7 +10,7 @@ public class ItemSourceFetcher {
 
     private final DownloadManager downloadManager;
 
-    static ItemSourceFetcher from(Context context) {
+    public static ItemSourceFetcher from(Context context) {
         return new ItemSourceFetcher((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE));
     }
 

@@ -12,7 +12,7 @@ import com.ouchadam.fang.presentation.CursorUtils;
 
 import java.util.List;
 
-class PlaylistLoader {
+public class PlaylistLoader {
 
     private final ContentResolver contentResolver;
     private final ItemSourceFetcher itemSourceFetcher;
@@ -21,7 +21,7 @@ class PlaylistLoader {
         void onPlaylistLoad(List<Playlist.PlaylistItem> playlistItems);
     }
 
-    PlaylistLoader(ContentResolver contentResolver, ItemSourceFetcher itemSourceFetcher) {
+    public PlaylistLoader(ContentResolver contentResolver, ItemSourceFetcher itemSourceFetcher) {
         this.contentResolver = contentResolver;
         this.itemSourceFetcher = itemSourceFetcher;
     }
@@ -60,7 +60,7 @@ class PlaylistLoader {
         return contentResolver.query(
                 FangProvider.getUri(Uris.FULL_ITEM),
                 null,
-                Tables.ItemPlay.DOWNLOAD_ID + "!=?",
+                Tables.Playlist.ITEM_PLAYLIST + "!=?",
                 new String[]{"0"},
                 " CAST (" + Tables.Playlist.LIST_POSITION + " AS DECIMAL)" + " ASC"
         );

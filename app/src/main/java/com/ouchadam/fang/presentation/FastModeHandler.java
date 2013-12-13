@@ -32,6 +32,7 @@ public class FastModeHandler implements ActivityCallback {
     }
 
     public void onFastMode(FullItem fullItem, LazyWatcher lazyWatcher) {
+        Log.e("Fast mode for : " + fullItem.getItem().getTitle() + " : " + fullItem.getPlaylistPosition());
         if (fullItem.isDownloaded()) {
             play(fullItem);
         } else {

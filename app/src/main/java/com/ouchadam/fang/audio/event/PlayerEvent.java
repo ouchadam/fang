@@ -43,7 +43,8 @@ public class PlayerEvent {
         PREVIOUS,
         NEW_SOURCE,
         COMPLETE,
-        RESET;
+        RESET,
+        REFRESH;
 
         public static final String ACTION_PREFIX = "com.fang.action.";
         public static final String NOTIFICATION_PREFIX = "com.fang.notification.";
@@ -137,6 +138,11 @@ public class PlayerEvent {
 
         public PlayerEvent previous() {
             playerEvent.event = Event.PREVIOUS;
+            return build();
+        }
+
+        public PlayerEvent refresh() {
+            playerEvent.event = Event.REFRESH;
             return build();
         }
 

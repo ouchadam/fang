@@ -4,6 +4,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.util.Log;
 
+import com.ouchadam.fang.audio.ItemSourceFetcher;
+import com.ouchadam.fang.audio.PlaylistLoader;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.channel.Channel;
 import com.ouchadam.fang.persistance.ContentProviderOperationExecutable;

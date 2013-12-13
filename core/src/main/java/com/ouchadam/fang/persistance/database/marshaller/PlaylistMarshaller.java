@@ -9,7 +9,7 @@ import com.ouchadam.fang.persistance.database.bridge.OperationWrapper;
 
 import java.util.List;
 
-public class PlaylistMarshaller extends BaseMarshaller<ItemToPlaylist>  {
+public class PlaylistMarshaller extends BaseMarshaller<List<ItemToPlaylist>>  {
 
     private List<ContentProviderOperationValues> operations;
 
@@ -18,9 +18,11 @@ public class PlaylistMarshaller extends BaseMarshaller<ItemToPlaylist>  {
     }
 
     @Override
-    public List<ContentProviderOperationValues> marshall(ItemToPlaylist what) {
+    public List<ContentProviderOperationValues> marshall(List<ItemToPlaylist> what) {
         operations = Collections.newArrayList();
-        insertItem(what);
+        for (ItemToPlaylist itemToPlaylist : what) {
+            insertItem(itemToPlaylist);
+        }
         return operations;
     }
 

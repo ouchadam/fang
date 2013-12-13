@@ -1,5 +1,6 @@
 package com.ouchadam.fang.audio;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 
 import com.ouchadam.fang.Log;
@@ -26,8 +27,8 @@ class AudioHandler {
     private enum MoveType {
         PREVIOUS,
         NEXT;
-    }
 
+    }
     AudioHandler(FangPlayer fangPlayer, AudioFocusManager audioFocusManager, AudioSync audioSync, Playlist playlist, AudioStateManager audioStateManager, RemoteHelper remoteHelper, PauseRewinder pauseRewinder) {
         this.fangPlayer = fangPlayer;
         this.audioFocusManager = audioFocusManager;
@@ -341,5 +342,9 @@ class AudioHandler {
         if (isPlaying) {
             onPlay();
         }
+    }
+
+    public void refresh(ContentResolver contentResolver) {
+        playlist.refresh(contentResolver);
     }
 }

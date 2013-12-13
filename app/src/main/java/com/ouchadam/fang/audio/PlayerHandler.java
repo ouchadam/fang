@@ -1,5 +1,6 @@
 package com.ouchadam.fang.audio;
 
+import android.content.ContentResolver;
 import android.content.Context;
 
 import com.ouchadam.fang.Log;
@@ -15,21 +16,23 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     private final ActivityCompletionCallback completionCallback;
     private final ServiceLocation serviceLocation;
     private final AudioHandler audioHandler;
+    private final ContentResolver contentResolver;
 
     static PlayerHandler from(Context context, AudioSync audioSync, FangMediaPlayer.OnBadSourceHandler onBadSourceHandler, ServiceManipulator serviceManipulator, RemoteHelper remoteHelper, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation) {
         AudioHandler audioHandler = new AudioHandler(FangMediaPlayer.from(context, onBadSourceHandler), AudioFocusManager.from(context), audioSync, Playlist.from(context), new AudioStateManager(), remoteHelper, PauseRewinder.from(context));
         FangNotification notification = FangNotification.from(context);
         PlayingItemStateManager itemStateManager = PlayingItemStateManager.from(context);
-        return new PlayerHandler(audioHandler, itemStateManager, notification, serviceManipulator, completionCallback, serviceLocation);
+        return new PlayerHandler(audioHandler, itemStateManager, notification, serviceManipulator, completionCallback, serviceLocation, context.getContentResolver());
     }
 
-    PlayerHandler(AudioHandler audioHandler, PlayingItemStateManager itemStateManager, FangNotification notification, ServiceManipulator serviceManipulator, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation) {
+    PlayerHandler(AudioHandler audioHandler, PlayingItemStateManager itemStateManager, FangNotification notification, ServiceManipulator serviceManipulator, ActivityCompletionCallback completionCallback, ServiceLocation serviceLocation, ContentResolver contentResolver) {
         this.audioHandler = audioHandler;
         this.itemStateManager = itemStateManager;
         this.notification = notification;
         this.serviceManipulator = serviceManipulator;
         this.completionCallback = completionCallback;
         this.serviceLocation = serviceLocation;
+        this.contentResolver = contentResolver;
     }
 
     @Override
@@ -138,6 +141,11 @@ class PlayerHandler implements PlayerEventReceiver.PlayerEventCallbacks {
     public void onReset() {
         audioHandler.onReset();
         itemStateManager.resetCurrentItem();
+    }
+
+    @Override
+    public void onRefresh() {
+        audioHandler.refresh(contentResolver);
     }
 
     public SyncEvent asSyncEvent() {
