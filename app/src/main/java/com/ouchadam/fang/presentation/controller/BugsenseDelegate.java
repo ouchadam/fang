@@ -18,13 +18,13 @@ public class BugsenseDelegate {
 
     public void init(Activity activity) {
         String bugsenseKey = getApiKey();
-        if (hasBugsenseKey(bugsenseKey)) {
+        if (hasValidBugsenseKey(bugsenseKey)) {
             BugSenseHandler.initAndStartSession(activity, bugsenseKey);
         }
     }
 
-    private boolean hasBugsenseKey(String bugsenseKey) {
-        return INVALID.equals(bugsenseKey);
+    private boolean hasValidBugsenseKey(String bugsenseKey) {
+        return !INVALID.equals(bugsenseKey);
     }
 
     private String getApiKey() {
