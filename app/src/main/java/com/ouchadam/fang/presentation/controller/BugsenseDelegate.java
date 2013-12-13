@@ -18,9 +18,13 @@ public class BugsenseDelegate {
 
     public void init(Activity activity) {
         String bugsenseKey = getApiKey();
-        if (hasValidBugsenseKey(bugsenseKey)) {
+        if (hasValidBugsenseKey(bugsenseKey) && isRelease()) {
             BugSenseHandler.initAndStartSession(activity, bugsenseKey);
         }
+    }
+
+    private boolean isRelease() {
+        return false;
     }
 
     private boolean hasValidBugsenseKey(String bugsenseKey) {

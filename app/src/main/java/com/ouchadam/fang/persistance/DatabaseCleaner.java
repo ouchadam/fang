@@ -50,7 +50,7 @@ public class DatabaseCleaner {
         List<ContentProviderOperation> operations = Collections.newArrayList();
         for (long itemId : itemIds) {
             ContentProviderOperation.Builder builder = newDelete(FangProvider.getUri(Uris.PLAYLIST));
-            builder.withSelection(Tables.Playlist.ITEM_ID + "=?", new String[]{Long.toString(itemId)});
+            builder.withSelection(Tables.Playlist.ITEM_PLAYLIST + "=?", new String[]{Long.toString(itemId)});
             operations.add(builder.build());
         }
         execute(operations);

@@ -39,8 +39,6 @@ public class ItemAdapter extends TypedListAdapter<FullItem> implements ListItemW
     }
 
     private View getItemView(int position, View view, ViewGroup viewGroup) {
-        Log.e("XXX getView");
-
         if (view == null) {
             view = createAdapterView(layoutInflater, viewGroup);
         }

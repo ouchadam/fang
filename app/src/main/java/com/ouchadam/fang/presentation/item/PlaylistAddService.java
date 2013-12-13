@@ -38,7 +38,7 @@ public class PlaylistAddService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (validIntent(intent)) {
-            this.databaseCounter = new DatabaseCounter(getContentResolver(), Uris.PLAYLIST, new String[]{Tables.Playlist.ITEM_ID.name()}, null, null);
+            this.databaseCounter = new DatabaseCounter(getContentResolver(), Uris.PLAYLIST, new String[]{Tables.Playlist.ITEM_PLAYLIST.name()}, null, null);
             addToPlaylist(getItemFromIntent(intent.getExtras()));
         }
     }

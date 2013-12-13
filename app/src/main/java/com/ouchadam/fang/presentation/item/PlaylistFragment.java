@@ -70,7 +70,7 @@ public class PlaylistFragment extends CursorBackedListFragment<FullItem> impleme
     protected Query getQueryValues() {
         return new Query.Builder()
                 .withUri(FangProvider.getUri(Uris.FULL_ITEM))
-                .withSelection(Tables.Playlist.DOWNLOAD_ID + "!=?")
+                .withSelection(Tables.Playlist.ITEM_PLAYLIST + "!=?")
                 .withSelectionArgs(new String[]{"0"})
                 .withSorter(" CAST (" + Tables.Playlist.LIST_POSITION + " AS DECIMAL)" + " ASC")
                 .build();

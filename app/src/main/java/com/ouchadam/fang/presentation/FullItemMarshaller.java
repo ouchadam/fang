@@ -2,6 +2,7 @@ package com.ouchadam.fang.presentation;
 
 import android.database.Cursor;
 
+import com.ouchadam.fang.Log;
 import com.ouchadam.fang.domain.FullItem;
 import com.ouchadam.fang.domain.PodcastPosition;
 import com.ouchadam.fang.domain.channel.Image;
@@ -17,10 +18,11 @@ public class FullItemMarshaller implements CursorMarshaller<FullItem> {
         Item item = new ItemMarshaller().marshall(cursor);
         Image image = new ImageCursorMarshaller().marshall(cursor);
         String channelTitle = cursorUtil.getString(Tables.Channel.CHANNEL_TITLE);
-        long downloadId = cursorUtil.getLong(Tables.Playlist.DOWNLOAD_ID);
-        boolean isDownloaded = cursorUtil.getBoolean(Tables.Playlist.DOWNLOADED);
-        int playPosition = cursorUtil.getInt(Tables.Playlist.PLAY_POSITION);
-        int maxDuration = cursorUtil.getInt(Tables.Playlist.MAX_DURATION);
+        long downloadId = cursorUtil.getLong(Tables.ItemPlay.DOWNLOAD_ID);
+        boolean isDownloaded = cursorUtil.getBoolean(Tables.ItemPlay.DOWNLOADED);
+
+        int playPosition = cursorUtil.getInt(Tables.ItemPlay.PLAY_POSITION);
+        int maxDuration = cursorUtil.getInt(Tables.ItemPlay.MAX_DURATION);
         int playlistPosition = cursorUtil.getInt(Tables.Playlist.LIST_POSITION);
         int newItemCount = cursorUtil.getInt(Tables.Channel.NEW_ITEM_COUNT);
 

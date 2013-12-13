@@ -25,11 +25,15 @@ public class PlaylistMarshaller extends BaseMarshaller<ItemToPlaylist>  {
     }
 
     private void insertItem(ItemToPlaylist item) {
-        ContentProviderOperationValues itemBuilder = newInsertFor(Uris.PLAYLIST);
-        itemBuilder.withValue(Tables.Playlist.ITEM_ID.name(), item.getItemId());
-        itemBuilder.withValue(Tables.Playlist.DOWNLOAD_ID.name(), item.getDownloadId());
-        itemBuilder.withValue(Tables.Playlist.LIST_POSITION.name(), item.getListPosition());
-        operations.add(itemBuilder);
+        ContentProviderOperationValues playlistBuilder = newInsertFor(Uris.PLAYLIST);
+        playlistBuilder.withValue(Tables.Playlist.ITEM_PLAYLIST.name(), item.getItemId());
+        playlistBuilder.withValue(Tables.Playlist.LIST_POSITION.name(), item.getListPosition());
+        operations.add(playlistBuilder);
+
+        ContentProviderOperationValues itemPlayBuilder = newInsertFor(Uris.ITEM_PLAY);
+        itemPlayBuilder.withValue(Tables.ItemPlay.ITEM_ID.name(), item.getItemId());
+        itemPlayBuilder.withValue(Tables.ItemPlay.DOWNLOAD_ID.name(), item.getDownloadId());
+        operations.add(itemPlayBuilder);
     }
 
 }

@@ -28,10 +28,10 @@ public class PositionMarshaller extends BaseMarshaller<PodcastPosition>  {
     }
 
     private void updatePosition(PodcastPosition position) {
-        ContentProviderOperationValues itemBuilder = newUpdateFor(Uris.PLAYLIST);
-        itemBuilder.withSelection(Tables.Playlist.ITEM_ID.name() + "=?", new String[]{String.valueOf(itemId)});
-        itemBuilder.withValue(Tables.Playlist.PLAY_POSITION.name(), position.value());
-        itemBuilder.withValue(Tables.Playlist.MAX_DURATION.name(), position.getDuration());
+        ContentProviderOperationValues itemBuilder = newUpdateFor(Uris.ITEM_PLAY);
+        itemBuilder.withSelection(Tables.ItemPlay.ITEM_ID.name() + "=?", new String[]{String.valueOf(itemId)});
+        itemBuilder.withValue(Tables.ItemPlay.PLAY_POSITION.name(), position.value());
+        itemBuilder.withValue(Tables.ItemPlay.MAX_DURATION.name(), position.getDuration());
         operations.add(itemBuilder);
     }
 

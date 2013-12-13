@@ -1,24 +1,12 @@
 package com.ouchadam.fang.presentation.panel;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.net.Uri;
 import android.support.v4.app.LoaderManager;
-import android.util.Log;
 
-import com.ouchadam.bookkeeper.Downloader;
-import com.ouchadam.bookkeeper.domain.DownloadId;
-import com.ouchadam.bookkeeper.watcher.NotificationWatcher;
-import com.ouchadam.fang.ItemDownload;
 import com.ouchadam.fang.ItemQueryer;
-import com.ouchadam.fang.audio.PlayItem;
 import com.ouchadam.fang.audio.SyncEvent;
-import com.ouchadam.fang.domain.FullItem;
-import com.ouchadam.fang.domain.ItemToPlaylist;
-import com.ouchadam.fang.domain.item.Item;
-import com.ouchadam.fang.persistance.AddToPlaylistPersister;
-import com.ouchadam.fang.audio.event.PlayerEvent;
 import com.ouchadam.fang.audio.event.PlayerEventInteractionManager;
+import com.ouchadam.fang.domain.FullItem;
 
 public class SlidingPanelController implements SlidingPanelExposer {
 

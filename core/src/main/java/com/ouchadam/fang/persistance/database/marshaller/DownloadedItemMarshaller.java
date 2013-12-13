@@ -25,9 +25,9 @@ public class DownloadedItemMarshaller extends BaseMarshaller<Long>  {
     }
 
     private void insertItem(long downloadId) {
-        ContentProviderOperationValues itemBuilder = newUpdateFor(Uris.PLAYLIST);
-        itemBuilder.withSelection(Tables.Playlist.DOWNLOAD_ID + "=?", new String[] { String.valueOf(downloadId)});
-        itemBuilder.withValue(Tables.Playlist.DOWNLOADED.name(), 1);
+        ContentProviderOperationValues itemBuilder = newUpdateFor(Uris.ITEM_PLAY);
+        itemBuilder.withSelection(Tables.ItemPlay.DOWNLOAD_ID + "=?", new String[] { String.valueOf(downloadId)});
+        itemBuilder.withValue(Tables.ItemPlay.DOWNLOADED.name(), 1);
         operations.add(itemBuilder);
     }
 

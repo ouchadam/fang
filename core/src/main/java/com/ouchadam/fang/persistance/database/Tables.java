@@ -40,12 +40,16 @@ public class Tables {
     }
 
     public enum Playlist {
+        ITEM_PLAYLIST,
+        LIST_POSITION;
+    }
+
+    public enum ItemPlay {
         ITEM_ID,
         DOWNLOADED,
         DOWNLOAD_ID,
         PLAY_POSITION,
-        MAX_DURATION,
-        LIST_POSITION;
+        MAX_DURATION;
     }
 
 }

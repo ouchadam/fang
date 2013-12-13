@@ -60,7 +60,7 @@ class PlaylistLoader {
         return contentResolver.query(
                 FangProvider.getUri(Uris.FULL_ITEM),
                 null,
-                Tables.Playlist.DOWNLOAD_ID + "!=?",
+                Tables.ItemPlay.DOWNLOAD_ID + "!=?",
                 new String[]{"0"},
                 " CAST (" + Tables.Playlist.LIST_POSITION + " AS DECIMAL)" + " ASC"
         );
@@ -70,16 +70,16 @@ class PlaylistLoader {
         Playlist.PlaylistItem playlistItem = new Playlist.PlaylistItem();
         CursorUtils cursorUtils = new CursorUtils(cursor);
 
-        playlistItem.id = cursorUtils.getLong(Tables.Playlist.ITEM_ID);
+        playlistItem.id = cursorUtils.getLong(Tables.Playlist.ITEM_PLAYLIST);
         playlistItem.listPosition = cursorUtils.getInt(Tables.Playlist.LIST_POSITION);
 
-        playlistItem.downloadId = cursorUtils.getLong(Tables.Playlist.DOWNLOAD_ID);
+        playlistItem.downloadId = cursorUtils.getLong(Tables.ItemPlay.DOWNLOAD_ID);
         playlistItem.channel = cursorUtils.getString(Tables.Item.ITEM_CHANNEL);
         playlistItem.title = cursorUtils.getString(Tables.Item.TITLE);
         playlistItem.imageUrl = getImageUrl(cursorUtils.getString(Tables.Item.HERO_IMAGE), cursorUtils.getString(Tables.ChannelImage.IMAGE_URL));
 
-        int playPosition = cursorUtils.getInt(Tables.Playlist.PLAY_POSITION);
-        int duration = cursorUtils.getInt(Tables.Playlist.MAX_DURATION);
+        int playPosition = cursorUtils.getInt(Tables.ItemPlay.PLAY_POSITION);
+        int duration = cursorUtils.getInt(Tables.ItemPlay.MAX_DURATION);
 
         playlistItem.podcastPosition = new PodcastPosition(playPosition, duration);
 
