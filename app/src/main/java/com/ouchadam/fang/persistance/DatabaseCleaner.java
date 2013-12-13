@@ -10,6 +10,7 @@ import com.ouchadam.fang.persistance.database.Uris;
 import java.util.List;
 
 import static android.content.ContentProviderOperation.newDelete;
+import static android.content.ContentProviderOperation.newUpdate;
 
 public class DatabaseCleaner {
 
@@ -51,6 +52,9 @@ public class DatabaseCleaner {
         for (long itemId : itemIds) {
             ContentProviderOperation.Builder builder = newDelete(FangProvider.getUri(Uris.PLAYLIST));
             builder.withSelection(Tables.Playlist.ITEM_PLAYLIST + "=?", new String[]{Long.toString(itemId)});
+            ContentProviderOperation.Builder itemPlayBuilder = newUpdate(FangProvider.getUri(Uris.ITEM_PLAY));
+            itemPlayBuilder.withSelection(Tables.ItemPlay.ITEM_ID + "=?", new String[]{Long.toString(itemId)});
+            itemPlayBuilder.withValue(Tables.ItemPlay.DOWNLOADED.name(), 0);
             operations.add(builder.build());
         }
         execute(operations);
