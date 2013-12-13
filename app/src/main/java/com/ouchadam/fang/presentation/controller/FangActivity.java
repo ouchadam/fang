@@ -1,7 +1,9 @@
 package com.ouchadam.fang.presentation.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.novoda.notils.caster.Views;
 import com.novoda.notils.logger.Novogger;
 import com.novoda.notils.meta.AndroidUtils;
@@ -56,6 +59,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private SlidingPanelController slidingPanelController;
     private FangBookKeeer fangBookKeeer;
     private AudioServiceBinder audioServiceBinder;
+    private BugsenseDelegate bugsense;
 
     public FangActivity() {
         fangSyncLifecycle = new FangSyncLifecycle();
@@ -75,6 +79,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bugsense.init(this);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setFangContentView();
         Novogger.enable(this);

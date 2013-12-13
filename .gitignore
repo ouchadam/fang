@@ -48,3 +48,4 @@ local.properties
 
 #Signing stuffs
 gradle.properties
+app/src/main/res/values/bugsense.xml
