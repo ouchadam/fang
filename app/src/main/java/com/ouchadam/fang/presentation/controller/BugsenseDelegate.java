@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.ouchadam.fang.BuildConfig;
 import com.ouchadam.fang.R;
 
 public class BugsenseDelegate {
@@ -24,7 +25,7 @@ public class BugsenseDelegate {
     }
 
     private boolean isRelease() {
-        return false;
+        return !BuildConfig.DEBUG;
     }
 
     private boolean hasValidBugsenseKey(String bugsenseKey) {
