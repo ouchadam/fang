@@ -62,7 +62,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     private BugsenseDelegate bugsense;
 
     public FangActivity() {
-        fangSyncLifecycle = new FangSyncLifecycle();
+        this.fangSyncLifecycle = new FangSyncLifecycle();
     }
 
     @Override
@@ -79,7 +79,7 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bugsense.init(this);
+        initBugsense();
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setFangContentView();
         Novogger.enable(this);
@@ -96,6 +96,11 @@ public abstract class FangActivity extends FragmentActivity implements ActionBar
         initSlidingPaneController();
         startAudioService();
         onFangCreate(savedInstanceState);
+    }
+
+    private void initBugsense() {
+        bugsense = new BugsenseDelegate(getResources());
+        bugsense.init(this);
     }
 
     protected boolean hasFangDrawer() {

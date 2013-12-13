@@ -20,6 +20,7 @@ public class FastModeHandler implements ActivityCallback {
     private SlidingPanelExposer panelController;
     private PodcastPlayerEventBroadcaster eventBroadcaster;
     private Downloader downloader;
+    private FastModeEnabler fastModeEnabler;
 
     @Override
     public void onAttach(Activity activity) {
@@ -27,6 +28,7 @@ public class FastModeHandler implements ActivityCallback {
         this.panelController = Classes.from(activity);
         this.downloader = Classes.from(activity);
         this.eventBroadcaster = new PodcastPlayerEventBroadcaster(activity);
+        this.fastModeEnabler = FastModeEnabler.from(context);
     }
 
     public void onFastMode(FullItem fullItem, LazyWatcher lazyWatcher) {
@@ -64,6 +66,6 @@ public class FastModeHandler implements ActivityCallback {
     }
 
     public boolean isEnabled() {
-        return true;
+        return fastModeEnabler.isEnabled();
     }
 }

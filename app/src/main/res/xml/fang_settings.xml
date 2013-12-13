@@ -12,6 +12,12 @@
             android:dialogTitle="Landing page"
             android:defaultValue="LATEST" />
 
+        <CheckBoxPreference
+            android:key="fastModeEnabled"
+            android:title="Enable fast mode"
+            android:summary="Allow item images to handle downloading and playback"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Playback">

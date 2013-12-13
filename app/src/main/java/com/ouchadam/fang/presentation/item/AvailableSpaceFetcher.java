@@ -1,8 +1,7 @@
 package com.ouchadam.fang.presentation.item;
 
-import android.util.Log;
-
-import com.ouchadam.fang.presentation.DiskUtils;
+import com.ouchadam.fang.presentation.disk.DiskLocation;
+import com.ouchadam.fang.presentation.disk.DiskUtils;
 
 import java.text.DecimalFormat;
 
@@ -19,8 +18,8 @@ class AvailableSpaceFetcher {
     }
 
     private long getFreeSpaceMb() {
-        DiskUtils.IDiskUtils diskUtils = DiskUtils.getInstance();
-        return diskUtils.freeSpace(DiskUtils.DiskLocation.EXTERNAL);
+        DiskUtils diskUtils = DiskUtils.newInstance();
+        return diskUtils.freeSpace(DiskLocation.EXTERNAL);
     }
 
     private String getAmountWithUnit(long freeSpaceMb) {
