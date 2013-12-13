@@ -20,7 +20,8 @@ class ItemProgressManager extends ListItemProgress<FullItem, ItemAdapter.ViewHol
 
     @Override
     protected void onUpdate(FullItem what, ItemAdapter.ViewHolder viewHolder, ProgressValues progressValues) {
-        // do nothing, hopefully onStart has been called
+        viewHolder.title.setText("Downloading...");
+        viewHolder.channelTitle.setText(what.getItem().getTitle());
     }
 
     @Override
