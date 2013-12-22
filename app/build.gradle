@@ -26,6 +26,26 @@ dependencies {
     compile 'com.ouchadam.bookkeeper:core:0.1.1-alpha'
     compile 'com.github.chrisbanes.actionbarpulltorefresh:library:0.9.1'
     compile "com.bugsense.trace:bugsense:3.6"
+
+    compile ('com.google.android.gms:play-services:3.2.25') {
+        exclude module: 'support-v4'
+    }
+
+    compile ('com.google.api-client:google-api-client:1.17.0-rc') {
+        exclude module: 'xpp3'
+        exclude module: 'httpclient'
+        exclude module: 'junit'
+        exclude module: 'android'
+    }
+
+    compile(group: 'com.google.api-client', name: 'google-api-client-android', version: '1.17.0-rc') {
+        exclude(group: 'com.google.android.google-play-services', module: 'google-play-services')
+    }
+
+    compile(group: 'com.google.http-client', name: 'google-http-client-android', version: '1.17.0-rc') {
+        exclude(group: 'com.google.android', module: 'android')
+    }
+    compile(group: 'com.google.guava', name: 'guava', version: '14.0.+')
 }
 
 android {
