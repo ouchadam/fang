@@ -4,7 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 
-import com.ouchadam.kanto.api.generic.KantoJsonClient;
+import com.ouchadam.fang.api.generic.KantoJsonClient;
 
 public class SignInManager implements AuthValidator {
 

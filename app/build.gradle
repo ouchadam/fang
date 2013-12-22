@@ -13,6 +13,9 @@ repositories {
     maven {
         url "http://www.bugsense.com/gradle/"
     }
+    maven {
+        url 'http://google-api-client-libraries.appspot.com/mavenrepo'
+    }
 }
 
 dependencies {
@@ -22,16 +25,22 @@ dependencies {
     compile 'com.novoda:typewriter:0.0.3-SNAPSHOT'
     compile 'com.google.android:support-v4:r13.1'
     compile 'com.squareup.picasso:picasso:2.1.1'
-    compile 'com.github.frankiesardo:icepick:1.2'
-    compile 'com.ouchadam.bookkeeper:core:0.1.1-alpha'
-    compile 'com.github.chrisbanes.actionbarpulltorefresh:library:0.9.1'
-    compile "com.bugsense.trace:bugsense:3.6"
 
-    compile ('com.google.android.gms:play-services:3.2.25') {
+    compile('com.github.frankiesardo:icepick:1.2') {
         exclude module: 'support-v4'
     }
 
-    compile ('com.google.api-client:google-api-client:1.17.0-rc') {
+    compile('com.ouchadam.bookkeeper:core:0.1.1-alpha') {
+        exclude module: 'support-v4'
+    }
+    compile 'com.github.chrisbanes.actionbarpulltorefresh:library:0.9.1'
+    compile "com.bugsense.trace:bugsense:3.6"
+
+    compile('com.google.android.gms:play-services:3.2.25') {
+        exclude module: 'support-v4'
+    }
+
+    compile('com.google.api-client:google-api-client:1.17.0-rc') {
         exclude module: 'xpp3'
         exclude module: 'httpclient'
         exclude module: 'junit'

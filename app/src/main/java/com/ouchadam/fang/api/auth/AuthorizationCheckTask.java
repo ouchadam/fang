@@ -1,12 +1,10 @@
 package com.ouchadam.fang.api.auth;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.common.base.Strings;
-import com.ouchadam.kanto.presentation.MainActivity;
 
 import java.io.IOException;
 
@@ -67,19 +65,13 @@ class AuthorizationCheckTask implements AuthResult {
         @Override
         protected Boolean doInBackground(String... emailAccounts) {
             emailAccount = validateEmail(emailAccounts[0]);
-
-            Log.d(MainActivity.LOG_TAG, "Attempting to get AuthToken for account: " + emailAccount);
-
             try {
                 credential.setSelectedAccountName(emailAccount);
                 String accessToken = credential.getToken();
-                Log.d(MainActivity.LOG_TAG, "AccessToken retrieved");
                 return true;
             } catch (GoogleAuthException unrecoverableException) {
-                Log.e(MainActivity.LOG_TAG, "Exception checking OAuth2 authentication.", unrecoverableException);
                 return false;
             } catch (IOException ioException) {
-                Log.e(MainActivity.LOG_TAG, "Exception checking OAuth2 authentication.", ioException);
                 return false;
             }
         }

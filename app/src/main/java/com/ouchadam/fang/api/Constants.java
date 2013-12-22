@@ -5,9 +5,7 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.ouchadam.kanto.api.generic.KantoJsonClient;
-
-import javax.annotation.Nullable;
+import com.ouchadam.fang.api.generic.KantoJsonClient;
 
 public class Constants {
 
@@ -27,7 +25,7 @@ public class Constants {
 
     private static final String DEV_SERVER_ADDRESS = "http://192.168.0.4:8080";
 
-    public static KantoJsonClient getApiServiceHandle(@Nullable GoogleAccountCredential credential) {
+    public static KantoJsonClient getApiServiceHandle(GoogleAccountCredential credential) {
         return (KantoJsonClient) new KantoJsonClient.Builder(Constants.HTTP_TRANSPORT, Constants.JSON_FACTORY, DEFAULT_ROOT_URL, DEFAULT_SERVICE_PATH, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .setRootUrl(DEV_SERVER_ADDRESS + "/_ah/api/") /* point to your own dev server or not at all */

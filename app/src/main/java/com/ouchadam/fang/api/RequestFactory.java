@@ -1,10 +1,10 @@
 package com.ouchadam.fang.api;
 
-import com.ouchadam.kanto.api.generic.KantoJsonClient;
-import com.ouchadam.kanto.api.generic.KantoRequest;
-import com.ouchadam.kanto.api.generic.RequestBuilder;
-import com.ouchadam.kanto.api.model.Feed;
-import com.ouchadam.kanto.api.model.FeedList;
+import com.ouchadam.fang.api.generic.KantoJsonClient;
+import com.ouchadam.fang.api.generic.KantoRequest;
+import com.ouchadam.fang.api.generic.RequestBuilder;
+import com.ouchadam.fang.api.model.Feed;
+import com.ouchadam.fang.api.model.FeedList;
 
 import java.io.IOException;
 

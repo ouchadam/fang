@@ -3,6 +3,11 @@
 
     <PreferenceCategory android:title="General">
 
+        <Preference
+            android:key="accountSelector"
+            android:title="Select account"
+            android:summary="Select the Google account associated with Fang" />
+
         <ListPreference
             android:key="defaultFragment"
             android:title="Landing page"
@@ -37,7 +42,6 @@
             android:dialogTitle="Pause rewind amount"
             android:defaultValue="5"
             android:enabled="false" />
-
 
     </PreferenceCategory>
 

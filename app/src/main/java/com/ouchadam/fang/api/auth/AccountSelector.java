@@ -3,6 +3,7 @@ package com.ouchadam.fang.api.auth;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -11,7 +12,7 @@ import com.google.android.gms.common.AccountPicker;
 public class AccountSelector {
 
     private final static int REQUEST_CODE = 2222;
-    private final Activity activity;
+    private final Fragment activity;
 
     private Account currentAccount;
 
@@ -19,7 +20,7 @@ public class AccountSelector {
         void onAccount(Account accountName);
     }
 
-    public AccountSelector(Activity activity) {
+    public AccountSelector(Fragment activity) {
         this.activity = activity;
         this.currentAccount = null;
     }

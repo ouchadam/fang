@@ -8,9 +8,8 @@ import android.util.Log;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.common.base.Strings;
-import com.ouchadam.kanto.api.Constants;
-import com.ouchadam.kanto.api.generic.KantoJsonClient;
-import com.ouchadam.kanto.presentation.MainActivity;
+import com.ouchadam.fang.api.Constants;
+import com.ouchadam.fang.api.generic.KantoJsonClient;
 
 public class AuthHandler implements AuthValidator {
 
@@ -80,8 +79,6 @@ public class AuthHandler implements AuthValidator {
     }
 
     public KantoJsonClient getServiceHandle() {
-        Log.e(MainActivity.LOG_TAG, "Getting service handle");
-        Log.i(MainActivity.LOG_TAG, "email = : " + emailAccount);
         credential.setSelectedAccountName(emailAccount);
         return Constants.getApiServiceHandle(credential);
     }
