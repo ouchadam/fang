@@ -36,7 +36,7 @@ public class ItemDownloader {
         addToPlaylist(context, item, downloadId);
         downloader.store(downloadId, item.getId());
         watchDownload(item, downloadId);
-        AsyncNotificationWatcher asyncNotificationWatcher = new AsyncNotificationWatcher(context, downloadable, downloadId);
+        AsyncNotificationWatcher asyncNotificationWatcher = new AsyncNotificationWatcher(context, downloadable, downloadId, null, null);
         asyncNotificationWatcher.startWatching();
     }
 
