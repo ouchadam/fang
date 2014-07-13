@@ -44,7 +44,7 @@ class DetailsViewManager {
         channelText.setText(item.getChannelTitle());
         itemTitleText.setText(baseItem.getTitle());
         descriptionText.setText(baseItem.getSummary());
-        durationText.setText(new DurationFormatter(resources).format(baseItem.getDuration()));
+        durationText.setText(baseItem.getDuration().isMissing() ? "" : new DurationFormatter(resources).format(baseItem.getDuration()));
         heroManager.setBackgroundImage(item);
     }
 

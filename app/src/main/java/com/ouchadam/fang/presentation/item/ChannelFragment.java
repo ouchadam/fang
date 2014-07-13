@@ -20,6 +20,7 @@ import com.ouchadam.fang.persistance.RemoveNewItemCountPersister;
 import com.ouchadam.fang.persistance.database.Tables;
 import com.ouchadam.fang.persistance.database.Uris;
 
+import java.util.Collections;
 import java.util.List;
 
 import novoda.android.typewriter.cursor.CursorMarshaller;
@@ -146,7 +147,7 @@ public class ChannelFragment extends CursorBackedListFragment<Channel> implement
             String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Tables.ChannelImage.IMAGE_URL.name()));
             int newItemCount = cursor.getInt(cursor.getColumnIndexOrThrow(Tables.Channel.NEW_ITEM_COUNT.name()));
 
-            return new Channel(title, "", new Image(imageUrl, "", "", 0, 0), "", newItemCount, null, -1);
+            return new Channel(title, "", Collections.<String>emptyList(), new Image(imageUrl, "", "", 0, 0), "", newItemCount, null, -1);
         }
     }
 }

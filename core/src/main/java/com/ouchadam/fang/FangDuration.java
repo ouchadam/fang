@@ -9,10 +9,12 @@ public class FangDuration extends NovodaCalendar {
     private static final SimpleDateFormat MSFormat = new SimpleDateFormat("mm:ss");
     private static final SimpleDateFormat SFormat = new SimpleDateFormat("ssssss");
 
+    private static final String MISSING_DURATION = "-1";
+
     private final String rawTime;
 
     public static FangDuration from(String duration) {
-        return duration == null ? missing() : new FangDuration(duration);
+        return duration == null || duration.isEmpty() ? missing() : new FangDuration(duration);
     }
 
     private FangDuration(String time) {
@@ -54,7 +56,11 @@ public class FangDuration extends NovodaCalendar {
         return get(DateInteger.MINUTE);
     }
 
+    public boolean isMissing() {
+        return MISSING_DURATION.equals(rawTime);
+    }
+
     public static FangDuration missing() {
-        return new FangDuration("10:00");
+        return new FangDuration(MISSING_DURATION);
     }
 }
