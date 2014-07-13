@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" media="screen" href="/~d/styles/rss2enclosuresfull.xsl"?><?xml-stylesheet type="text/css" media="screen" href="http://feeds.feedburner.com/~d/styles/itemcontent.css"?>
+<rss xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0"
+    xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+    xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+    <channel>
+        <title>Android Developers Backstage</title>
+        <link>http://androidbackstage.blogspot.com/</link>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom"
+            href="http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage" rel="self"
+            type="application/rss+xml" />
+        <description></description>
+        <language>en</language>
+        <managingEditor>noreply@blogger.com (Android Developers)</managingEditor>
+        <lastBuildDate>Mon, 30 Jun 2014 16:10:38 PDT</lastBuildDate>
+        <generator>Blogger http://www.blogger.com</generator>
+        <openSearch:totalResults xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/">9
+        </openSearch:totalResults>
+        <openSearch:startIndex xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/">1
+        </openSearch:startIndex>
+        <openSearch:itemsPerPage xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/">25
+        </openSearch:itemsPerPage>
+        <feedburner:info uri="blogspot/androiddevelopersbackstage" />
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom"
+            href="http://pubsubhubbub.appspot.com/" rel="hub" />
+        <media:thumbnail
+            url="http://commondatastorage.googleapis.com/androiddevelopers/PodCastCover_1.png" />
+        <media:keywords>Android</media:keywords>
+        <media:category scheme="http://www.itunes.com/dtds/podcast-1.0.dtd">Technology/Tech News
+        </media:category>
+        <itunes:owner>
+            <itunes:email>developers@android.com</itunes:email>
+            <itunes:name>Android Developers</itunes:name>
+        </itunes:owner>
+        <itunes:author>Android Developers</itunes:author>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:image
+            href="http://commondatastorage.googleapis.com/androiddevelopers/PodCastCover_1.png" />
+        <itunes:keywords>Android</itunes:keywords>
+        <itunes:subtitle>Android Backstage, a podcast by and for Android developers. Hosted by
+            developers from the Android engineering team, this show covers topics of interest to
+            Android programmers, with in-depth discussions and interviews with engineers on the
+            Android team at
+        </itunes:subtitle>
+        <itunes:summary>Android Backstage, a podcast by and for Android developers. Hosted by
+            developers from the Android engineering team, this show covers topics of interest to
+            Android programmers, with in-depth discussions and interviews with engineers on the
+            Android team at Google.
+        </itunes:summary>
+        <itunes:category text="Technology">
+            <itunes:category text="Tech News" />
+        </itunes:category>
+        <item>
+            <title>Android Developers Backstage - Episode 9: Design</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/LUu8ny4NEiU/android-developers-backstage-episode-9.html
+            </link>
+            <category>design</category>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Thu, 29 May 2014 11:46:37 PDT</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-8115143477836681165
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;Tor and Chet
+                make a startling break with ancient tradition and talk to a real, live designer in
+                this episode: Christian Robertson from the Android User Experience team. Tune in to
+                hear about the Roboto font that Christian created and about font design in general,
+                plus design tips for layout, visual rhythm, and other Android designities.&lt;br /&gt;&lt;br
+                /&gt;Design: It's the new Develop.&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Relevant links:&lt;/b&gt;&lt;br
+                /&gt;&lt;blockquote&gt;Android Design: &lt;a
+                href="https://developer.android.com/design/index.html"&gt;https://developer.android.com/design/index.html&lt;/a&gt;&lt;br
+                /&gt;Android Style Guide: &lt;a
+                href="http://developer.android.com/design/style/index.html"&gt;http://developer.android.com/design/style/index.html&lt;/a&gt;&lt;br
+                /&gt;Android Asset Studio: &lt;a
+                href="http://romannurik.github.io/AndroidAssetStudio/"&gt;http://romannurik.github.io/AndroidAssetStudio/&lt;/a&gt;&lt;br
+                /&gt;Roboto: &lt;a href="http://www.google.com/fonts/specimen/Roboto"&gt;http://www.google.com/fonts/specimen/Roboto&lt;/a&gt;&lt;br
+                /&gt;&lt;br /&gt;Christian: &lt;a
+                href="https://plus.google.com/110879635926653430880/posts"&gt;https://plus.google.com/110879635926653430880/posts&lt;/a&gt;&lt;br
+                /&gt;Tor: &lt;a href="http://google.com/+TorNorbye"&gt;google.com/+TorNorbye&lt;/a&gt;&lt;br
+                /&gt;Chet: &lt;a href="http://google.com/+ChetHaase"&gt;google.com/+ChetHaase&lt;/a&gt;&lt;br
+                /&gt;&lt;br /&gt;Subscribe to the podcast in your favorite player or at&amp;nbsp;&lt;a
+                href="http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage"
+                target="_blank"&gt;http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage&lt;/a&gt;&lt;br
+                /&gt;Or just download the mp3 directly: &lt;a
+                href="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3"&gt;http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3&lt;/a&gt;&lt;/blockquote&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/LUu8ny4NEiU"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">6</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>Tor and Chet make a startling break with ancient tradition and talk to
+                a real, live designer in this episode: Christian Robertson from the Android User
+                Experience team. Tune in to hear about the Roboto font that Christian created and
+                about font design in
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>Tor and Chet make a startling break with ancient tradition and talk to a
+                real, live designer in this episode: Christian Robertson from the Android User
+                Experience team. Tune in to hear about the Roboto font that Christian created and
+                about font design in general, plus design tips for layout, visual rhythm, and other
+                Android designities. Design: It's the new Develop. Relevant links: Android Design:
+                https://developer.android.com/design/index.html Android Style Guide:
+                http://developer.android.com/design/style/index.html Android Asset Studio:
+                http://romannurik.github.io/AndroidAssetStudio/ Roboto:
+                http://www.google.com/fonts/specimen/Roboto Christian:
+                https://plus.google.com/110879635926653430880/posts Tor: google.com/+TorNorbye Chet:
+                google.com/+ChetHaase Subscribe to the podcast in your favorite player or at&amp;nbsp;http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage
+                Or just download the mp3 directly:
+                http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/05/android-developers-backstage-episode-9.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage - Episode 8: Volley</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/UpR0tPpmNqY/android-developers-backstage-episode-8.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Thu, 29 May 2014 12:01:22 PDT</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-535385298711124597
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;br /&gt;&lt;br
+                /&gt;In this episode, the second in a bizarrely and completely unplanned series on
+                Play Store technology, Tor Norbye and Chet Haase are joined by Ficus Kirkpatrick
+                from the Play Store team (and from many other Android projects from the early days).
+                Listen in to hear what Volley is for and how you can use it to simplify your network
+                requests and bitmap download/caching code.&lt;br /&gt;&lt;br /&gt;Relevant links:&lt;br
+                /&gt;Volley: &lt;a
+                href="https://android.googlesource.com/platform/frameworks/volley/"&gt;https://android.googlesource.com/platform/frameworks/volley/&lt;/a&gt;&lt;br
+                /&gt;Volley email list: &lt;a
+                href="https://groups.google.com/forum/#!forum/volley-users"&gt;https://groups.google.com/forum/#!forum/volley-users&lt;/a&gt;&lt;br
+                /&gt;Gson adapter for Volley: &lt;a href="https://gist.github.com/ficusk/5474673"&gt;https://gist.github.com/ficusk/5474673&lt;/a&gt;&lt;br
+                /&gt;&lt;br /&gt;Subscribe to the podcast at &lt;a
+                href="http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage"&gt;http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage&lt;/a&gt;﻿.&lt;br
+                /&gt;Or download directly at &lt;a
+                href="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3"
+                target="_blank"&gt;http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3&lt;/a&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/UpR0tPpmNqY"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">6</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>In this episode, the second in a bizarrely and completely unplanned
+                series on Play Store technology, Tor Norbye and Chet Haase are joined by Ficus
+                Kirkpatrick from the Play Store team (and from many other Android projects from the
+                early days). Listen in
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>In this episode, the second in a bizarrely and completely unplanned
+                series on Play Store technology, Tor Norbye and Chet Haase are joined by Ficus
+                Kirkpatrick from the Play Store team (and from many other Android projects from the
+                early days). Listen in to hear what Volley is for and how you can use it to simplify
+                your network requests and bitmap download/caching code. Relevant links: Volley:
+                https://android.googlesource.com/platform/frameworks/volley/ Volley email list:
+                https://groups.google.com/forum/#!forum/volley-users Gson adapter for Volley:
+                https://gist.github.com/ficusk/5474673 Subscribe to the podcast at
+                http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage﻿. Or download
+                directly at
+                http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/05/android-developers-backstage-episode-8.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage - Episode 7: Making Apps That Work Everywhere
+            </title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/ytmgcVbNyXA/android-developers-backstage-episode-7.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Fri, 11 Apr 2014 10:49:36 PDT</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-4939480630787135462
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;div
+                style="margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt;"&gt;&lt;br /&gt;&lt;br
+                /&gt;In this gripping episode, Tor Norbye and Chet Haase are joined by the
+                pixel-pushing Kirill Grouchnikov from the Play Store team. Kirill works on UIs for
+                this large data-driven app that runs on a wide variety of releases, devices, and
+                form factors. We talk about what that actually entails... and talk about other stuff
+                along the way.&lt;br /&gt;&lt;br /&gt;Relevant links:&lt;br /&gt;Android resources:
+                &lt;a
+                href="http://developer.android.com/guide/topics/resources/providing-resources.html"&gt;http://developer.android.com/guide/topics/resources/providing-resources.html&lt;/a&gt;&lt;br
+                /&gt;Activities: &lt;a
+                href="http://developer.android.com/reference/android/app/Activity.html"&gt;http://developer.android.com/reference/android/app/Activity.html&lt;/a&gt;&lt;br
+                /&gt;Alpha/Beta testing and staged rollouts: &lt;a
+                href="https://support.google.com/googleplay/android-developer/answer/3131213"&gt;https://support.google.com/googleplay/android-developer/answer/3131213&lt;/a&gt;&lt;br
+                /&gt;&lt;br /&gt;Kirill: &lt;a href="http://google.com/+KirillGrouchnikov"&gt;google.com/+KirillGrouchnikov&lt;/a&gt;&lt;br
+                /&gt;Tor: &lt;a href="http://google.com/+TorNorbye"&gt;google.com/+TorNorbye&lt;/a&gt;&lt;br
+                /&gt;Chet: &lt;a href="http://google.com/+ChetHaase"&gt;google.com/+ChetHaase&lt;/a&gt;&lt;br
+                /&gt;&lt;br /&gt;Podcast feed: &lt;a
+                href="http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage"&gt;http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage&lt;/a&gt;&lt;/div&gt;&lt;div
+                style="margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt;"&gt;Episode download:
+                &lt;span style="line-height: 1.15;"&gt;&lt;a
+                href="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep7%20AppsWorkEverywhere.mp3"&gt;http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep7%20AppsWorkEverywhere.mp3&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/ytmgcVbNyXA"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep7%20AppsWorkEverywhere.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">1</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep7%20AppsWorkEverywhere.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>In this gripping episode, Tor Norbye and Chet Haase are joined by the
+                pixel-pushing Kirill Grouchnikov from the Play Store team. Kirill works on UIs for
+                this large data-driven app that runs on a wide variety of releases, devices, and
+                form factors. We tal
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>In this gripping episode, Tor Norbye and Chet Haase are joined by the
+                pixel-pushing Kirill Grouchnikov from the Play Store team. Kirill works on UIs for
+                this large data-driven app that runs on a wide variety of releases, devices, and
+                form factors. We talk about what that actually entails... and talk about other stuff
+                along the way. Relevant links: Android resources:
+                http://developer.android.com/guide/topics/resources/providing-resources.html
+                Activities: http://developer.android.com/reference/android/app/Activity.html
+                Alpha/Beta testing and staged rollouts:
+                https://support.google.com/googleplay/android-developer/answer/3131213 Kirill:
+                google.com/+KirillGrouchnikov Tor: google.com/+TorNorbye Chet: google.com/+ChetHaase
+                Podcast feed: http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstageEpisode
+                download:
+                http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep7%20AppsWorkEverywhere.mp3
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/04/android-developers-backstage-episode-7.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage - Episode 6: System UI</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/OjmldboACpg/android-developers-backstage-episode-6.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Thu, 29 May 2014 11:58:23 PDT</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-7580287269712660014
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;span
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;In this episode, we delve into the world of the Android System
+                UI, including tangents on notifications new and old, status bar icons, implementing
+                user experience designs, and Android logos.&lt;/span&gt;&lt;br /&gt;&lt;span
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style="background-color:
+                white; color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;&lt;a
+                href="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Podcast%20Ep6%20SystemUI.mp3"
+                target="_blank"&gt;Click here to download the Podcast directly!&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/OjmldboACpg"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Podcast%20Ep6%20SystemUI.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">0</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Podcast%20Ep6%20SystemUI.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>In this episode, we delve into the world of the Android System UI,
+                including tangents on notifications new and old, status bar icons, implementing user
+                experience designs, and Android logos. Click here to download the Podcast directly!
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>In this episode, we delve into the world of the Android System UI,
+                including tangents on notifications new and old, status bar icons, implementing user
+                experience designs, and Android logos. Click here to download the Podcast directly!
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/03/android-developers-backstage-episode-6.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage- Episode 5: RenderScript</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/FEPP4ctWBoU/android-developers-backstage-episode-5.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Thu, 27 Feb 2014 09:41:26 PST</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-785311021769296046
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;div
+                style="color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;&lt;span
+                class="il" style="background-color: white;"&gt;Chet&lt;/span&gt;&lt;span
+                style="background-color: white;"&gt;&amp;nbsp;Haase and Tor Norbye are joined by Tim
+                Murray from the&amp;nbsp;&lt;span style="color: #404040; font-family: Roboto, arial,
+                sans-serif; line-height: 18.200000762939453px;"&gt;RenderScript&lt;/span&gt;&amp;nbsp;team.&lt;/span&gt;&lt;/div&gt;&lt;div
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;div style="background-color: white;
+                color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;In this
+                episode, we dive into&amp;nbsp;&lt;span style="color: #404040; font-family: Roboto,
+                arial, sans-serif; line-height: 18.200000762939453px;"&gt;RenderScript&lt;/span&gt;&amp;nbsp;and
+                talk about compute, parallel processing, GPUs, and architecture-independent,&amp;nbsp;high-performance
+                pixel processing. It's intrinsically interesting.&lt;/div&gt;&lt;div
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;div style="background-color: white;
+                color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;To download the
+                podcast &lt;a
+                href="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep5%20Renderscript.mp3"
+                target="_blank"&gt;click here&lt;/a&gt;.&lt;/div&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/FEPP4ctWBoU"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep5%20Renderscript.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">1</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep5%20Renderscript.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>Chet&amp;nbsp;Haase and Tor Norbye are joined by Tim Murray from the&amp;nbsp;RenderScript&amp;nbsp;team.
+                In this episode, we dive into&amp;nbsp;RenderScript&amp;nbsp;and talk about compute,
+                parallel processing, GPUs, and architecture-independent,&amp;nbsp;high-performance
+                pixel
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>Chet&amp;nbsp;Haase and Tor Norbye are joined by Tim Murray from the&amp;nbsp;RenderScript&amp;nbsp;team.
+                In this episode, we dive into&amp;nbsp;RenderScript&amp;nbsp;and talk about compute,
+                parallel processing, GPUs, and architecture-independent,&amp;nbsp;high-performance
+                pixel processing. It's intrinsically interesting. To download the podcast click
+                here.
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/02/android-developers-backstage-episode-5.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage- Episode 4: Google Play Services</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/YbQFvwzj7R0/tor-norbye-and-chet-haase-are-joined-by.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Thu, 06 Feb 2014 13:43:09 PST</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-5975844939131582961
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;div
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;Tor Norbye and Chet Haase are joined by Jeff Hamilton from the
+                Google Play services team.&lt;/div&gt;&lt;div style="background-color: white; color:
+                #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;div
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;In this continuation of the mini-series with Tall Engineers
+                Named Jeff (starting with episode #2 with Jeff Sharkey), this episode goes in-depth
+                into the Google Play services library, which provides easier, Android-friendly
+                access to various Google APIs, such as authentication and mapping.&lt;/div&gt;&lt;div
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;div style="background-color: white;
+                color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;Download the
+                podcast at &lt;a
+                href="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%204%20Google%20Play%20Services.mp3"
+                target="_blank"&gt;this link&lt;/a&gt;.&amp;nbsp;&lt;/div&gt;&lt;div
+                style="background-color: white; color: #222222; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/YbQFvwzj7R0"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%204%20Google%20Play%20Services.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">0</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%204%20Google%20Play%20Services.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>Tor Norbye and Chet Haase are joined by Jeff Hamilton from the Google
+                Play services team. In this continuation of the mini-series with Tall Engineers
+                Named Jeff (starting with episode #2 with Jeff Sharkey), this episode goes in-depth
+                into the Google Play
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>Tor Norbye and Chet Haase are joined by Jeff Hamilton from the Google
+                Play services team. In this continuation of the mini-series with Tall Engineers
+                Named Jeff (starting with episode #2 with Jeff Sharkey), this episode goes in-depth
+                into the Google Play services library, which provides easier, Android-friendly
+                access to various Google APIs, such as authentication and mapping. Download the
+                podcast at this link.&amp;nbsp;
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/02/tor-norbye-and-chet-haase-are-joined-by.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage - Ep 3: Security</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/UuIE21an5QY/android-developers-backstage-ep-3.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Thu, 16 Jan 2014 09:21:33 PST</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-7782991620305985538
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;div
+                class="im" style="background-color: white; color: #500050; font-family: arial,
+                sans-serif; font-size: 13px;"&gt;Chet Haase, Tor Norbye, are joined by Adrian Ludwig
+                on the third episode of Android Developers Backstage.&lt;/div&gt;&lt;div class="im"
+                style="background-color: white; color: #500050; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;div style="background-color: white;
+                color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;Adrian is
+                stalwart member of the Android team focusing on all aspects of security. Learn about
+                the various ways that Adrian and his team help to make Android better for users.&lt;br
+                /&gt;&lt;br /&gt;&lt;a
+                href="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%203%20Security.mp3"&gt;Click
+                here to download the podcast&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/UuIE21an5QY"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%203%20Security.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">0</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%203%20Security.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>Chet Haase, Tor Norbye, are joined by Adrian Ludwig on the third
+                episode of Android Developers Backstage. Adrian is stalwart member of the Android
+                team focusing on all aspects of security. Learn about the various ways that Adrian
+                and his team help to make
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>Chet Haase, Tor Norbye, are joined by Adrian Ludwig on the third episode
+                of Android Developers Backstage. Adrian is stalwart member of the Android team
+                focusing on all aspects of security. Learn about the various ways that Adrian and
+                his team help to make Android better for users. Click here to download the podcast
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2014/01/android-developers-backstage-ep-3.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage - Ep2: Storage</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/2QaBJKygC8g/chet-haase-tor-norbye-are-joined-by.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Tue, 07 Jan 2014 12:30:56 PST</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-8240894590744213952
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;&lt;div
+                class="im" style="background-color: white; color: #500050; font-family: arial,
+                sans-serif; font-size: 13px;"&gt;Chet Haase, Tor Norbye, are joined by Jeff Sharkey
+                on the second episode of Android Developers Backstage.&lt;/div&gt;&lt;div class="im"
+                style="background-color: white; color: #500050; font-family: arial, sans-serif;
+                font-size: 13px;"&gt;&lt;br /&gt;&lt;/div&gt;&lt;div style="background-color: white;
+                color: #222222; font-family: arial, sans-serif; font-size: 13px;"&gt;Jeff is a
+                longtime engineer on the Android Framework team responsible in large part for one of
+                the exciting new features in Android 4.4 KitKat, the Storage Access Framework. Learn
+                about that new feature along with other random Android things that happened to come
+                up in the conversation.&lt;br /&gt;&lt;br /&gt;&lt;a
+                href="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%202%20Storage.mp3"&gt;Click
+                here to download the podcast&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/2QaBJKygC8g"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%202%20Storage.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">0</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep%202%20Storage.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>Chet Haase, Tor Norbye, are joined by Jeff Sharkey on the second
+                episode of Android Developers Backstage. Jeff is a longtime engineer on the Android
+                Framework team responsible in large part for one of the exciting new features in
+                Android 4.4 KitKat, the S
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>Chet Haase, Tor Norbye, are joined by Jeff Sharkey on the second episode
+                of Android Developers Backstage. Jeff is a longtime engineer on the Android
+                Framework team responsible in large part for one of the exciting new features in
+                Android 4.4 KitKat, the Storage Access Framework. Learn about that new feature along
+                with other random Android things that happened to come up in the conversation. Click
+                here to download the podcast
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2013/12/chet-haase-tor-norbye-are-joined-by.html
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Android Developers Backstage - Episode 1: KitKat</title>
+            <link>
+                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/aN1XP8HQyK0/android-developers-backstage-episode-1.html
+            </link>
+            <author>developers@android.com (Android Developers)</author>
+            <pubDate>Tue, 07 Jan 2014 12:31:22 PST</pubDate>
+            <guid isPermaLink="false">
+                tag:blogger.com,1999:blog-1052108547998082465.post-4531100232783047131
+            </guid>
+            <description>&lt;div dir="ltr" style="text-align: left;" trbidi="on"&gt;Get an overview
+                of the new features in Android 4.4 KitKat presented by members of the Android team.
+                Chet Haase and Tor Norbye cover many of the new features including Transitions,
+                Storage Access Framework, Immersive Mode, Printing API, and Closed Captioning.&lt;br
+                /&gt;&lt;br /&gt;&lt;a
+                href="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep1%20Kitkat.mp3"&gt;Click
+                here to download the podcast&lt;/a&gt;&lt;/div&gt;&lt;img
+                src="http://feeds.feedburner.com/~r/blogspot/AndroidDevelopersBackstage/~4/aN1XP8HQyK0"
+                height="1" width="1"/&gt;</description>
+            <enclosure length="0" type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep1%20Kitkat.mp3" />
+            <thr:total xmlns:thr="http://purl.org/syndication/thread/1.0">6</thr:total>
+            <media:content type="audio/mpeg"
+                url="http://commondatastorage.googleapis.com/androiddevelopers%2Fandroid_developers_backstage%2FAndroid%20Developers%20Backstage%20Ep1%20Kitkat.mp3" />
+            <itunes:explicit>no</itunes:explicit>
+            <itunes:subtitle>Get an overview of the new features in Android 4.4 KitKat presented by
+                members of the Android team. Chet Haase and Tor Norbye cover many of the new
+                features including Transitions, Storage Access Framework, Immersive Mode, Printing
+                API, and Closed Captioni
+            </itunes:subtitle>
+            <itunes:author>Android Developers</itunes:author>
+            <itunes:summary>Get an overview of the new features in Android 4.4 KitKat presented by
+                members of the Android team. Chet Haase and Tor Norbye cover many of the new
+                features including Transitions, Storage Access Framework, Immersive Mode, Printing
+                API, and Closed Captioning. Click here to download the podcast
+            </itunes:summary>
+            <itunes:keywords>Android</itunes:keywords>
+            <feedburner:origLink>
+                http://androidbackstage.blogspot.com/2013/11/android-developers-backstage-episode-1.html
+            </feedburner:origLink>
+        </item>
+        <media:credit role="author">Android Developers</media:credit>
+        <media:rating>nonadult</media:rating>
+    </channel>
+</rss>

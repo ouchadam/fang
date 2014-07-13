@@ -23,13 +23,7 @@ public class cnet_small implements XmlValues {
 
     @Override
     public String channelSummary() {
-        return "\n" +
-                "      Britain's best technology podcast is beamed to your auditory sensors every Friday afternoon direct from CNET UK.\n" +
-                "      The honey-toned team give you everything you need to know about the week's hottest tech news, the most\n" +
-                "      Crave-worthy new gadgets and answer your best questions and funniest comments. There's a special feature every\n" +
-                "      week, in which we tackle a burning tech topic in more detail, and lots more fun besides. Subscribe now, and let us\n" +
-                "      know what you think!\n" +
-                "    ";
+        return "Britain's best technology podcast is beamed to your auditory sensors every Friday afternoon direct from CNET UK. The honey-toned team give you everything you need to know about the week's hottest tech news, the most Crave-worthy new gadgets and answer your best questions and funniest comments. There's a special feature every week, in which we tackle a burning tech topic in more detail, and lots more fun besides. Subscribe now, and let us know what you think!";
     }
 
     @Override
@@ -44,9 +38,7 @@ public class cnet_small implements XmlValues {
 
     @Override
     public String firstItemLink() {
-        return "\n" +
-                "        http://crave.cnet.co.uk/podcast/uk-government-blocks-porn-in-podcast-349-50011796/\n" +
-                "      ";
+        return "http://crave.cnet.co.uk/podcast/uk-government-blocks-porn-in-podcast-349-50011796/";
     }
 
     @Override
@@ -66,8 +58,6 @@ public class cnet_small implements XmlValues {
 
     @Override
     public String firstItemSummary() {
-        return "\n" +
-                "        The government wants to block online porn -- but will it work? Down with this sort of thing!\n" +
-                "      ";
+        return "The government wants to block online porn -- but will it work? Down with this sort of thing!";
     }
 }

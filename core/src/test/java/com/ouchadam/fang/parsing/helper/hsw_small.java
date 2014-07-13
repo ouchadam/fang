@@ -18,17 +18,12 @@ public class hsw_small implements XmlValues {
 
     @Override
     public Image channelImage() {
-        return new Image("\n" +
-                "        http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg\n" +
-                "      ", "http://www.howstuffworks.com/", "Stuff You Should Know", 0, 0);
+        return new Image("http://podcasts.howstuffworks.com/hsw/podcasts/sysk/sysk-audio-1600.jpg", "http://www.howstuffworks.com/", "Stuff You Should Know", 0, 0);
     }
 
     @Override
     public String channelSummary() {
-        return "\n" +
-                "      Why should you never scare a vulture? How do maps work? Join Josh and Chuck as they explore the Stuff You Should\n" +
-                "      Know about everything from psychology to propellant in this podcast from HowStuffWorks.com.\n" +
-                "    ";
+        return "Why should you never scare a vulture? How do maps work? Join Josh and Chuck as they explore the Stuff You Should Know about everything from psychology to propellant in this podcast from HowStuffWorks.com.";
     }
 
     @Override
@@ -43,9 +38,7 @@ public class hsw_small implements XmlValues {
 
     @Override
     public String firstItemLink() {
-        return "\n" +
-                "        http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3\n" +
-                "      ";
+        return "http://www.podtrac.com/pts/redirect.mp3/podcasts.howstuffworks.com/hsw/podcasts/sysk/2013-07-25-sysk-maps.mp3";
     }
 
     @Override
@@ -60,15 +53,11 @@ public class hsw_small implements XmlValues {
 
     @Override
     public String firstItemSubtitle() {
-        return "\n" +
-                "        Yes, your brain may have just flash-dried from boredom at the thought of learning about maps, but it turns out\n" +
-                "        they are a lot more than just tools for navigation. Maps are two-dimensional representations of how we imagine\n" +
-                "        our world, with imagine being the operative world since every map in existence is riddled with errors.\n" +
-                "      ";
+        return "Yes, your brain may have just flash-dried from boredom at the thought of learning about maps, but it turns out they are a lot more than just tools for navigation. Maps are two-dimensional representations of how we imagine our world, with imagine being the operative world since every map in existence is riddled with errors.";
     }
 
     @Override
     public String firstItemSummary() {
-        return null;
+        return "Yes, your brain may have just flash-dried from boredom at the thought of learning about maps, but it turns out they are a lot more than just tools for navigation. Maps are two-dimensional representations of how we imagine our world, with imagine being the operative world since every map in existence is riddled with errors.";
     }
 }

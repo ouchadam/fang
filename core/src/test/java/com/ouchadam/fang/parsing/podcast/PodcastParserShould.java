@@ -7,13 +7,13 @@ import com.ouchadam.fang.parsing.InstigatorResult;
 import com.ouchadam.fang.parsing.XmlParser;
 import com.ouchadam.fang.parsing.helper.XMLHelper;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.util.Collection;
-import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -35,6 +35,7 @@ public class PodcastParserShould {
         List<Object[]> xmls = Collections.newArrayList();
         xmls.add(new Object[] {XMLHelper.get(XMLHelper.XmlResource.CNET_SMALL) });
         xmls.add(new Object[] {XMLHelper.get(XMLHelper.XmlResource.HSW_SMALL) });
+        xmls.add(new Object[] {XMLHelper.get(XMLHelper.XmlResource.ANDROID_BACKSTAGE) });
         return xmls;
     }
 

@@ -59,18 +59,11 @@ public class Item {
 
     public String getSummary() {
         if (!has(summary) && has(subtitle)) {
-            return removeWhitespace(subtitle);
+            return subtitle;
         } else {
-            return removeWhitespace(summary);
+            return summary;
         }
     }
-
-    private String removeWhitespace(String input) {
-        String output = input.replaceAll("\n","");
-        output = output.replaceAll("\t","");
-        return output.trim();
-    }
-
     private boolean has(String text) {
         return text != null && text.length() != 0;
     }
