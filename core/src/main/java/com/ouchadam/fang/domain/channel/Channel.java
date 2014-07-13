@@ -11,19 +11,21 @@ public class Channel {
 
     private final String title;
     private final String category;
+    private final List<String> categories;
     private final Image image;
     private final int newItemCount;
     private final List<Item> items;
     private final String summary;
     private final int id;
 
-    public Channel(String title, String category, Image image, String summary, List<Item> items) {
-        this(title, category, image, summary, NO_COUNT, items, INVALID_ID);
+    public Channel(String title, String category, List<String> categories, Image image, String summary, List<Item> items) {
+        this(title, category, categories, image, summary, NO_COUNT, items, INVALID_ID);
     }
 
-    public Channel(String title, String category, Image image, String summary, int newItemCount, List<Item> items, int id) {
+    public Channel(String title, String category, List<String> categories, Image image, String summary, int newItemCount, List<Item> items, int id) {
         this.title = title;
         this.category = category;
+        this.categories = categories;
         this.image = image;
         this.summary = summary;
         this.newItemCount = newItemCount;
@@ -61,5 +63,9 @@ public class Channel {
 
     public int getNewItemCount() {
         return newItemCount;
+    }
+
+    public List<String> getCategories() {
+        return categories;
     }
 }

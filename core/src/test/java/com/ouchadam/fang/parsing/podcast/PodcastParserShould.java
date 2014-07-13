@@ -57,7 +57,7 @@ public class PodcastParserShould {
     public void parse_the_correct_channel_category()  {
         podcastParser.parse(XML.toInputStream());
 
-        assertThat(podcastParser.getResult().getCategory()).isEqualTo(XML.values().channelCategory());
+        assertThat(podcastParser.getResult().getCategories()).isEqualTo(XML.values().channelCategory());
     }
 
     @Test

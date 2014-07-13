@@ -4,6 +4,8 @@ import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.domain.item.Audio;
 
+import java.util.List;
+
 public class android_backstage_small implements XmlValues {
 
     @Override
@@ -12,69 +14,52 @@ public class android_backstage_small implements XmlValues {
     }
 
     @Override
-    public String channelCategory() {
-        return "Technology/Tech News";
+    public List<String> channelCategory() {
+        return Util.categoryList("Technology", "Tech News");
     }
 
     @Override
     public Image channelImage() {
-        return new Image("http://commondatastorage.googleapis.com/androiddevelopers/PodCastCover_1.png", null, null, 0, 0);
+        return new Image("http://commondatastorage.googleapis.com/androiddevelopers/PodCastCover_1.png", "", "", 0, 0);
     }
 
     @Override
     public String channelSummary() {
-        return "Android Backstage, a podcast by and for Android developers. Hosted by\n" +
-                "            developers from the Android engineering team, this show covers topics of interest to\n" +
-                "            Android programmers, with in-depth discussions and interviews with engineers on the\n" +
-                "            Android team at Google.";
+        return "Android Backstage, a podcast by and for Android developers. Hosted by developers from the Android engineering team, this show covers topics of interest to Android programmers, with in-depth discussions and interviews with engineers on the Android team at Google.";
     }
 
     @Override
     public int itemCount() {
-        return 8;
+        return 9;
     }
 
     @Override
     public String firstItemTitle() {
-        return "Android Developers Backstage - Episode 8: Volley";
+        return "Android Developers Backstage - Episode 9: Design";
     }
 
     @Override
     public String firstItemLink() {
-        return "                http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/UpR0tPpmNqY/android-developers-backstage-episode-8.html";
+        return "http://feedproxy.google.com/~r/blogspot/AndroidDevelopersBackstage/~3/LUu8ny4NEiU/android-developers-backstage-episode-9.html";
     }
 
     @Override
     public FangCalendar firstItemPubDate() {
-        return new FangCalendar("Thu, 29 May 2014 12:01:22 PDT");
+        return new FangCalendar("Thu, 29 May 2014 11:46:37 PDT");
     }
 
     @Override
     public Audio firstItemAudio() {
-        return new Audio("http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3", "audio/mpeg");
+        return new Audio("http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3", "audio/mpeg");
     }
 
     @Override
     public String firstItemSubtitle() {
-        return "In this episode, the second in a bizarrely and completely unplanned\n" +
-                "                series on Play Store technology, Tor Norbye and Chet Haase are joined by Ficus\n" +
-                "                Kirkpatrick from the Play Store team (and from many other Android projects from the\n" +
-                "                early days). Listen in";
+        return "Tor and Chet make a startling break with ancient tradition and talk to a real, live designer in this episode: Christian Robertson from the Android User Experience team. Tune in to hear about the Roboto font that Christian created and about font design in";
     }
 
     @Override
     public String firstItemSummary() {
-        return "In this episode, the second in a bizarrely and completely unplanned\n" +
-                "                series on Play Store technology, Tor Norbye and Chet Haase are joined by Ficus\n" +
-                "                Kirkpatrick from the Play Store team (and from many other Android projects from the\n" +
-                "                early days). Listen in to hear what Volley is for and how you can use it to simplify\n" +
-                "                your network requests and bitmap download/caching code. Relevant links: Volley:\n" +
-                "                https://android.googlesource.com/platform/frameworks/volley/ Volley email list:\n" +
-                "                https://groups.google.com/forum/#!forum/volley-users Gson adapter for Volley:\n" +
-                "                https://gist.github.com/ficusk/5474673 Subscribe to the podcast at\n" +
-                "                http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage﻿. Or download\n" +
-                "                directly at\n" +
-                "                http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep%208%20Volley.mp3\n" +
-                "           ";
+        return "Tor and Chet make a startling break with ancient tradition and talk to a real, live designer in this episode: Christian Robertson from the Android User Experience team. Tune in to hear about the Roboto font that Christian created and about font design in general, plus design tips for layout, visual rhythm, and other Android designities. Design: It's the new Develop. Relevant links: Android Design: https://developer.android.com/design/index.html Android Style Guide: http://developer.android.com/design/style/index.html Android Asset Studio: http://romannurik.github.io/AndroidAssetStudio/ Roboto: http://www.google.com/fonts/specimen/Roboto Christian: https://plus.google.com/110879635926653430880/posts Tor: google.com/+TorNorbye Chet: google.com/+ChetHaase Subscribe to the podcast in your favorite player or at&nbsp;http://feeds.feedburner.com/blogspot/AndroidDevelopersBackstage Or just download the mp3 directly: http://storage.googleapis.com/androiddevelopers/android_developers_backstage/Android%20Developers%20Backstage%20Ep9%20Design.mp3";
     }
 }

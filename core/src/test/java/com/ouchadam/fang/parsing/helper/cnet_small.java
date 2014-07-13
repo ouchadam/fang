@@ -4,6 +4,8 @@ import com.ouchadam.fang.FangCalendar;
 import com.ouchadam.fang.domain.channel.Image;
 import com.ouchadam.fang.domain.item.Audio;
 
+import java.util.List;
+
 public class cnet_small implements XmlValues {
 
     @Override
@@ -12,8 +14,8 @@ public class cnet_small implements XmlValues {
     }
 
     @Override
-    public String channelCategory() {
-        return "Technology";
+    public List<String> channelCategory() {
+        return Util.categoryList("Technology", "Gadgets", "Tech News");
     }
 
     @Override

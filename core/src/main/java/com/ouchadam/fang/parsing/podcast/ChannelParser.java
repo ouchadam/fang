@@ -25,19 +25,20 @@ class ChannelParser implements Parser<Channel> {
     private static final String TAG_ITEM = "item";
     private static final String TAG_SUMMARY = "summary";
 
-
     private final ElementFinder<String> titleFinder;
     private final ElementFinder<String> categoryFinder;
     private final ElementFinder<Image> imageFinder;
     private final ElementFinder<Item> itemFinder;
     private final ElementFinder<String> imageUrlFinder;
     private final ElementFinder<String> summaryFinder;
+    private final ElementFinder<List<String>> categoriesFinder;
 
     private ParseWatcher<Channel> listener;
     private ChannelHolder channelHolder;
 
     ChannelParser(ElementFinderFactory finderFactory) {
         titleFinder = finderFactory.getStringFinder();
+        categoriesFinder = finderFactory.getTypeFinder(new CategoryParser(finderFactory));
         categoryFinder = finderFactory.getStringFinder();
         imageUrlFinder = finderFactory.getAttributeFinder(new HrefAttributeMarshaller(), HrefAttributeMarshaller.HREF_TAG);
         imageFinder = finderFactory.getTypeFinder(new ImageParser(finderFactory));
@@ -58,6 +59,7 @@ class ChannelParser implements Parser<Channel> {
         element.setElementListener(channelListener);
         titleFinder.find(element, TAG_TITLE);
         categoryFinder.find(element, TAG_CATEGORY);
+        categoriesFinder.find(element, NAMESPACE_ITUNES, TAG_CATEGORY);
         imageFinder.find(element, TAG_IMAGE);
         imageUrlFinder.find(element, NAMESPACE_ITUNES, TAG_IMAGE);
         summaryFinder.find(element, NAMESPACE_ITUNES, TAG_SUMMARY);
@@ -76,6 +78,7 @@ class ChannelParser implements Parser<Channel> {
             channelHolder.title = titleFinder.getResult();
             channelHolder.setCategory(categoryFinder.getResult());
             channelHolder.setImage(getChannelImage());
+            channelHolder.categories = categoriesFinder.getResult();
             channelHolder.setSummary(summaryFinder.getResult());
             listener.onParsed(channelHolder.asChannel());
         }
@@ -93,12 +96,13 @@ class ChannelParser implements Parser<Channel> {
     private static class ChannelHolder {
         String title = "";
         String category = "";
+        List<String> categories = Collections.newArrayList();
         Image image = Image.nullSafe();
         String summary = "";
         List<Item> items = Collections.newArrayList();
 
         Channel asChannel() {
-            return new Channel(title, category, image, summary, items);
+            return new Channel(title, category, categories, image, summary, items);
         }
 
         public void setCategory(String category) {
